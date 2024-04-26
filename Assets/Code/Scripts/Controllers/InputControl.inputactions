@@ -1,0 +1,34 @@
+{
+    "name": "InputController",
+    "maps": [
+        {
+            "name": "Main",
+            "id": "08c1043c-092c-41b9-9547-56dd04e6df98",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "136300fc-bb26-43c7-ae3b-ff28eb3ce5fb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "81a4d204-1bcf-4c74-866a-9b34e56da9d6",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
