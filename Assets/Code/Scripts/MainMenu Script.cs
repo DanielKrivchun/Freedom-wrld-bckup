@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MainMenuScript : MonoBehaviour
 {
+    public GameObject AccountFlow;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,5 +17,17 @@ public class MainMenuScript : MonoBehaviour
         // Quit the application (works in standalone builds)
         Application.Quit();
         Debug.Log("Quitting game");
+    }
+
+    public void ToggleAccountFlow()
+    {
+        if (!AccountFlow.activeInHierarchy)
+        {
+            AccountFlow.SetActive(true);
+        }
+        else
+        {
+            AccountFlow.SetActive(false);
+        }
     }
 }
