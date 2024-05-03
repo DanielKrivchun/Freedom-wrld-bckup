@@ -20,6 +20,9 @@ public class NavMeshController : MonoBehaviour
     private Vector2 velocity = Vector2.zero;
 
     #endregion
+
+
+    private Camera Camera;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,12 +35,12 @@ public class NavMeshController : MonoBehaviour
         Agent.destination = Target.transform.position;
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray.origin, ray.direction, out HitInfo))
             {
                 Debug.Log("Hit Info  " + HitInfo.point);
                 Target.transform.position = HitInfo.point;
-                Agent.SetDe stination(Target.transform.position);
+                Agent.SetDestination(Target.transform.position);
             }
         }
     }
