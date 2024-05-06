@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,22 +12,18 @@ public class PlayerController : MonoBehaviour
 
     InputControl input;
 
-    NavMeshAgent agent;
-    Animator animator;
 
-    //[Header("Movement")]
-    //[SerializeField] ParticleSystem clickEffect;
-    //[SerializeField] LayerMask clickableLayers;
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
     public PetConfigs PetConfig;
+    [Space]
+    public PetAnimation pet_anim_controller;
     [Space]
     public bool StartClicker;
     #region PUBLIC
     #endregion
     #region PRIVATE
 
-    float lookRotationSpeed = 8f;
 
     public float CPR;
     private int TotalClick = 0;
@@ -44,7 +41,6 @@ public class PlayerController : MonoBehaviour
     #region UNITY METHODS
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         ChController = GetComponent<CharacterController>();
         MainCam = Camera.main;
         //input = new InputControl();
@@ -72,15 +68,19 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region MOVEMENT
-
+    #region MOVEMENT FOR EDITOR WSAD
     private void _PlayerRotation()
     {
-        if (Input.sqrMagnitude == 0) return;
+        if (Input.sqrMagnitude == 0) 
+        {
+            pet_anim_controller._ChangeAnimationState(_AnimState.Idle);
+            return;
+        }
+
         Directions = Quaternion.Euler(0.0f, MainCam.transform.eulerAngles.y, 0.0f) * new Vector3(Input.x, 0.0f, Input.y);
         var targetRotation = Quaternion.LookRotation(Directions, Vector3.up);
-
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, PetConfig.RotationSpeed * Time.deltaTime);
+        pet_anim_controller._ChangeAnimationState(_AnimState.Run);
     }
 
     private void _ApplyMovement()

@@ -26,13 +26,15 @@ public class NavMeshController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Camera = Camera.main;
         Agent = GetComponent<NavMeshAgent>();
-       
+        Agent.SetDestination(Target.transform.position);
     }
 
     void Update()
     {
-        Agent.destination = Target.transform.position;
+      /// Agent.destination = Target.transform.position;
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
@@ -43,10 +45,5 @@ public class NavMeshController : MonoBehaviour
                 Agent.SetDestination(Target.transform.position);
             }
         }
-    }
-
-    void _Move()
-    {
-
     }
 }

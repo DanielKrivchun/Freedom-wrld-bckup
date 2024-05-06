@@ -6,11 +6,7 @@ public class PetAnimation : MonoBehaviour
 {
     public Animator Animator;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public _AnimState CurruntState;
 
     /// <summary>
     /// CHANGE ANIMATIONS HERE
@@ -21,10 +17,16 @@ public class PetAnimation : MonoBehaviour
         switch (_state)
         {
             case _AnimState.Idle:
+                Animator.SetFloat(_Strings.Velocity, 0);
+                Animator.SetBool(_Strings.Idle, true);
+                CurruntState=_AnimState.Idle;
                 break;
             case _AnimState.Wallk:
                 break;
             case _AnimState.Run:
+                Animator.SetBool(_Strings.Idle,false);
+                Animator.SetFloat(_Strings.Velocity, 1);
+                CurruntState=_AnimState.Run;
                 break;
             case _AnimState.Eating:
                 break;
