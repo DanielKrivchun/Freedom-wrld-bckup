@@ -28,22 +28,11 @@ public class NavMeshController : MonoBehaviour
     {
         Camera = Camera.main;
         Agent = GetComponent<NavMeshAgent>();
-        Agent.SetDestination(Target.transform.position);
+
     }
 
-    void Update()
+    public void _SetDestination(Vector3 _target_pos)
     {
-      /// Agent.destination = Target.transform.position;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray.origin, ray.direction, out HitInfo))
-            {
-                Debug.Log("Hit Info  " + HitInfo.point);
-                Target.transform.position = HitInfo.point;
-                Agent.SetDestination(Target.transform.position);
-            }
-        }
+        Agent.SetDestination(_target_pos);
     }
 }

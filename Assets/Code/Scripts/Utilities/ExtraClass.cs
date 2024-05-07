@@ -10,6 +10,15 @@ public enum _AnimState
     Running
 }
 
+public enum _Playertate
+{
+    None,
+    RunState,
+    SwimState,
+    ClimbState,
+    FlyState
+}
+
 public class _Strings
 {
     public static string Velocity = "Velocity";
