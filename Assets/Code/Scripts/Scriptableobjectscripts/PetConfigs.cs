@@ -6,13 +6,21 @@ using UnityEngine;
 
 public class PetConfigs : ScriptableObject
 {
-    [Header("Movement")]
+    [Header("Movement EDITOR")]
     public float Incrimental;
     public float Acceleration;
     public float RotationSpeed;
     public float Speed;
     [Space]
     [Header("NAV MESH CONFIGS")]
-    public float NavSpeed;
-    public float NavAcceleration;
+    public float BaseSpeed;
+    public float BaseAcceleration;
+    [Header("BOOSTERS Multipler")]
+    public float RunMultipler;
+    public float SwimMultiplier;
+    public float ClimbMultiplier;
+    public float FlyMultiplier;
+    [Header("Player State")]
+    public _Playertate State;
+
 }

@@ -7,12 +7,9 @@ using UnityEngine.InputSystem.XR;
 
 public class PlayerController : MonoBehaviour
 {
-    const string IDLE = "Idle";
-    const string WALK = "Walk";
-
-    InputControl input;
-
-
+    [Space]
+    public float basespeed;
+    [Space]
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
     public PetConfigs PetConfig;
@@ -21,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [Space]
     public bool StartClicker;
     #region PUBLIC
+    [Header("Script Refrence")]
+    public NavMeshController navmeshcontroller;
     #endregion
     #region PRIVATE
 
@@ -43,8 +42,6 @@ public class PlayerController : MonoBehaviour
     {
         ChController = GetComponent<CharacterController>();
         MainCam = Camera.main;
-        //input = new InputControl();
-        //AssignInputs();
     }
 
 
@@ -61,9 +58,12 @@ public class PlayerController : MonoBehaviour
             CPR = (TotalClick) / (TimeInSecond);
             Debug.Log(CPR);
         }
+        if (m_input_value.EnableInput)
+        {
 
-        _PlayerRotation();
-        _ApplyMovement();
+            _PlayerRotation();
+            _ApplyMovement();
+        }
     }
 
     #endregion
@@ -95,6 +95,26 @@ public class PlayerController : MonoBehaviour
         Input = m_input_value.Input;
         Directions = new Vector3(Input.x, 0.0f, Input.y);
     }
+
+    #endregion
+
+    //CHANGE SPEED ACORDING TO LLEVELS
+    #region SPEED CHANGE
+    public void _OnSteminaChange()
+    {
+
+    }
+
+    public void _OnLowStemina()
+    {
+
+    }
+
+    public void _SwitchToOutOfStemina()
+    {
+
+    }
+
 
     #endregion
 
