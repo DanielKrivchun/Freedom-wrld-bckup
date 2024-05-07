@@ -12,7 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e5c966c61ab8314c9dcb5694fc6ac7c, type: 3}
   m_Name: PetConfigs
   m_EditorClassIdentifier: 
-  Incrimental: 10
-  Acceleration: 10
-  RotationSpeed: 500
-  Speed: 10
+  m_incrimental: 10
+  m_acceleration: 10
+  m_rotationspeed: 500
+  m_speed: 10
+  m_base_speed: 0
+  m_base_acceleration: 0
+  m_run_multiplier: 0
+  m_swim_multiplier: 0
+  m_climb_multiplier: 0
+  m_fly_multiplier: 0
+  m_player_state: 0

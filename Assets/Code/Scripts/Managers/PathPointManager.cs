@@ -5,17 +5,20 @@ using UnityEngine;
 public class PathPointManager : MonoBehaviour
 {
 
-    public Transform m_target_pos;
+    public List<Transform> m_target_pos;
 
-    // Start is called before the first frame update
-    void Start()
+    public List<Vector3> _GetMyPath()
     {
-        
+
+        List<Vector3> v= new List<Vector3>();
+
+        foreach (Transform t in m_target_pos)
+        {
+            v.Add(t.position);
+        }
+
+        return v;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
