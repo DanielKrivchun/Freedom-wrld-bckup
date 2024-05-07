@@ -6,7 +6,7 @@ public class PetAnimation : MonoBehaviour
 {
     public Animator Animator;
 
-    public _AnimState CurruntState;
+    public _AnimState m_currunt_anim_state;
 
     /// <summary>
     /// CHANGE ANIMATIONS HERE
@@ -19,14 +19,14 @@ public class PetAnimation : MonoBehaviour
             case _AnimState.Idle:
                 Animator.SetFloat(_Strings.Velocity, 0);
                 Animator.SetBool(_Strings.Idle, true);
-                CurruntState=_AnimState.Idle;
+                m_currunt_anim_state = _AnimState.Idle;
                 break;
             case _AnimState.Wallk:
                 break;
             case _AnimState.Run:
-                Animator.SetBool(_Strings.Idle,false);
+                Animator.SetBool(_Strings.Idle, false);
                 Animator.SetFloat(_Strings.Velocity, 1);
-                CurruntState=_AnimState.Run;
+                m_currunt_anim_state = _AnimState.Run;
                 break;
             case _AnimState.Eating:
                 break;

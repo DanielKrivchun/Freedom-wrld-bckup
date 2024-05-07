@@ -7,58 +7,58 @@ using UnityEngine.InputSystem.XR;
 
 public class PlayerController : MonoBehaviour
 {
-    [Space]
-    public float basespeed;
+    #region PUBLIC
+    public float m_base_speed;
     [Space]
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
-    public PetConfigs PetConfig;
+    public PetConfigs m_pet_config;
     [Space]
-    public PetAnimation pet_anim_controller;
+    public PetAnimation m_pet_anim_controller;
     [Space]
     public bool StartClicker;
-    #region PUBLIC
-    [Header("Script Refrence")]
-    public NavMeshController navmeshcontroller;
     #endregion
+
     #region PRIVATE
 
 
     public float CPR;
-    private int TotalClick = 0;
-    private float TimeInSecond = 0f;
+    private int m_total_click = 0;
+    private float m_time_in_second = 0f;
 
-    private Vector3 Directions;
-    private Vector2 Input;
+    private Vector3 m_directions;
+    private Vector2 m_input;
 
-    private CharacterController ChController;
+    private CharacterController m_ch_controller;
 
-    private Camera MainCam;
+    private Camera m_main_Cam;
+  
+
 
     #endregion
 
     #region UNITY METHODS
     private void Awake()
     {
-        ChController = GetComponent<CharacterController>();
-        MainCam = Camera.main;
+        m_ch_controller = GetComponent<CharacterController>();
+        m_main_Cam = Camera.main;
     }
-
 
     private void Update()
     {
         if (StartClicker)
         {
-            TimeInSecond += Time.deltaTime;
+            m_time_in_second += Time.deltaTime;
         }
 
         if (UnityEngine.Input.GetMouseButtonDown(0))
         {
             Debug.Log("Worked");
-            CPR = (TotalClick) / (TimeInSecond);
+            CPR = (m_total_click) / (m_time_in_second);
             Debug.Log(CPR);
         }
-        if (m_input_value.EnableInput)
+
+        if (m_input_value.m_enable_input)
         {
 
             _PlayerRotation();
@@ -71,29 +71,29 @@ public class PlayerController : MonoBehaviour
     #region MOVEMENT FOR EDITOR WSAD
     private void _PlayerRotation()
     {
-        if (Input.sqrMagnitude == 0) 
+        if (m_input.sqrMagnitude == 0)
         {
-            pet_anim_controller._ChangeAnimationState(_AnimState.Idle);
+            m_pet_anim_controller._ChangeAnimationState(_AnimState.Idle);
             return;
         }
 
-        Directions = Quaternion.Euler(0.0f, MainCam.transform.eulerAngles.y, 0.0f) * new Vector3(Input.x, 0.0f, Input.y);
-        var targetRotation = Quaternion.LookRotation(Directions, Vector3.up);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, PetConfig.RotationSpeed * Time.deltaTime);
-        pet_anim_controller._ChangeAnimationState(_AnimState.Run);
+        m_directions = Quaternion.Euler(0.0f, m_main_Cam.transform.eulerAngles.y, 0.0f) * new Vector3(m_input.x, 0.0f, m_input.y);
+        var targetRotation = Quaternion.LookRotation(m_directions, Vector3.up);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, m_pet_config.m_rotationspeed * Time.deltaTime);
+        m_pet_anim_controller._ChangeAnimationState(_AnimState.Run);
     }
 
     private void _ApplyMovement()
     {
-        PetConfig.Speed = Mathf.MoveTowards(PetConfig.Speed, PetConfig.Incrimental, PetConfig.Acceleration * Time.deltaTime);
-        ChController.Move(Directions * PetConfig.Speed * Time.deltaTime);
+        m_pet_config.m_speed = Mathf.MoveTowards(m_pet_config.m_speed, m_pet_config.m_incrimental, m_pet_config.m_acceleration * Time.deltaTime);
+        m_ch_controller.Move(m_directions * m_pet_config.m_speed * Time.deltaTime);
         _Move();
     }
 
     public void _Move()
     {
-        Input = m_input_value.Input;
-        Directions = new Vector3(Input.x, 0.0f, Input.y);
+        m_input = m_input_value.m_input;
+        m_directions = new Vector3(m_input.x, 0.0f, m_input.y);
     }
 
     #endregion
