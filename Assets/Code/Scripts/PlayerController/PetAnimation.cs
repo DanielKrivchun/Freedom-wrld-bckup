@@ -38,18 +38,28 @@ public class PetAnimation : MonoBehaviour
                 break;
 
             case _AnimState.Eating:
+                Animator.SetTrigger(_Strings.Eat);
+                m_currunt_anim_state = _AnimState.Eating;
                 break;
 
             case _AnimState.Happy:
+                Animator.SetTrigger(_Strings.Happy);
+                m_currunt_anim_state = _AnimState.Happy;
                 break;
 
             case _AnimState.Toilet:
+                Animator.SetTrigger(_Strings.Toilet);
+                m_currunt_anim_state = _AnimState.Toilet;
                 break;
 
             case _AnimState.Bath:
+                Animator.SetTrigger(_Strings.Bath);
+                m_currunt_anim_state = _AnimState.Bath;
                 break;
 
             case _AnimState.Sleep:
+                Animator.SetTrigger(_Strings.Sleep);
+                m_currunt_anim_state = _AnimState.Sleep;
                 break;
 
             default:
