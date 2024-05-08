@@ -36,4 +36,17 @@ public class _Strings
     public static string Velocity = "Velocity";
     public static string Jumping = "Jumping";
     public static string Idle = "Idle";
+    public static string Happy = "Happy";
+    public static string Eat = "Eat";
+    public static string Toilet = "Toilet";
+    public static string Bath = "Bath";
+    public static string Sleep = "Sleep";
+}
+
+public enum PetCareState 
+{
+    Happy,
+    Eat,
+    Clean,
+    Sleep
 }
