@@ -4,21 +4,64 @@ using UnityEngine;
 
 public class PathPointManager : MonoBehaviour
 {
-
-    public List<Transform> m_target_pos;
+    public List<_WayPoints> m_way_points;
 
     public List<Vector3> _GetMyPath()
     {
 
-        List<Vector3> v= new List<Vector3>();
+        List<Vector3> v = new List<Vector3>();
 
-        foreach (Transform t in m_target_pos)
+        int m_count = m_way_points.Count;
+        int m_random_no = Random.Range(0,5);
+
+        for (int i = 0; i < m_count; i++)
         {
-            v.Add(t.position);
+            //m_random_no = Random.Range(0, m_way_points[i].m_points.Length);
+            v.Add(m_way_points[i].m_points[m_random_no].position);
         }
+#if UNITY_EDITOR
+        _GenratePathLines(v);
+#endif
 
         return v;
     }
 
+#if UNITY_EDITOR
+    public List<GameObject> m_lines;
+    public void _GenratePathLines()
+    {
+
+        List<Vector3> v = _GetMyPath();
+
+    }
+
+    public void _GenratePathLines(List<Vector3> m_v)
+    {
+        GameObject obj = new GameObject();
+        obj.AddComponent<LineRenderer>();
+        obj.transform.position = Vector3.zero;
+        obj.transform.rotation = Quaternion.identity;
+        m_lines.Add(obj);
+        LineRenderer m_line = obj.GetComponent<LineRenderer>();
+        m_line.positionCount = m_v.Count;
+        m_line.SetPositions(m_v.ToArray());
+
+    }
+
+    public void _Reset()
+    {
+        foreach (var item in m_lines)
+        {
+            if (item != null)
+            {
+
+                DestroyImmediate(item);
+            }
+        }
+
+        m_lines.Clear();
+    }
+
+#endif
 
 }
