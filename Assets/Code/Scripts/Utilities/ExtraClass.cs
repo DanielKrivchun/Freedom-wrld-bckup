@@ -1,5 +1,7 @@
 
 
+using UnityEngine;
+
 public enum _AnimState
 {
     Idle,
@@ -21,6 +23,12 @@ public enum _Playertate
     SwimState,
     ClimbState,
     FlyState
+}
+
+[System.Serializable]
+public class _WayPoints
+{
+    public Transform[] m_points;
 }
 
 public class _Strings

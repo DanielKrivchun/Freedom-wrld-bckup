@@ -7,9 +7,10 @@ using UnityEngine.AI;
 public class NavMeshController : MonoBehaviour
 {
     #region PUBLIC
-    public List<Transform> m_target_pos;
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
+    [Space]
+    public PathPointManager m_path_point;
     #endregion
 
     #region PRIVATE
@@ -57,18 +58,24 @@ public class NavMeshController : MonoBehaviour
 
         if (m_distance < 1)
         {
-            m_currunt_index++;
+
             _ChangeCurruntPoint();
         }
-        Debug.Log(m_distance);
+        //Debug.Log(m_distance);
 
     }
     #endregion
 
     private void _ChangeCurruntPoint()
     {
+        m_currunt_index++;
+        if (m_currunt_index >= m_positions.Count)
+        {
+            Debug.Log("Path Complete");
+            return;
+        }
         m_currunt_pos = m_positions[m_currunt_index];
-
+        _SetDestination(m_positions[m_currunt_index]);
     }
 
     /// <summary>
@@ -78,10 +85,7 @@ public class NavMeshController : MonoBehaviour
     {
         m_positions = new List<Vector3>();
 
-        foreach (Transform t in m_target_pos)
-        {
-            m_positions.Add(t.position);
-        }
+        m_positions = m_path_point._GetMyPath();
     }
 
     public void _SetDestination(Vector3 _target_pos)
