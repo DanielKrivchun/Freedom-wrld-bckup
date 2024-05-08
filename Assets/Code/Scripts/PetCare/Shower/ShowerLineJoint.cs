@@ -19,7 +19,7 @@ public class ShowerLineJoint : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         // Update the positions of the line renderer to follow the draggable object
         for (int i = 0; i < jointTransform.Count; i++)

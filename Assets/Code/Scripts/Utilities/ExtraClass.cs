@@ -7,7 +7,11 @@ public enum _AnimState
     Run,
     Eating,
     Jump,
-    Running
+    Running,
+    Happy,
+    Toilet,
+    Bath,
+    Sleep
 }
 
 public enum _Playertate
