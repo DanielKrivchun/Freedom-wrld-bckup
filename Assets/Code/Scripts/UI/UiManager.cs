@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class UiManager : MonoBehaviour
 {
+    public void _CalculateMapFar()
+    {
 
+    }
 }
