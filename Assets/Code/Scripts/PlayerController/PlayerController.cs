@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     private void _ApplyMovement()
     {
         m_pet_config.m_speed = Mathf.MoveTowards(m_pet_config.m_speed, m_pet_config.m_incrimental, m_pet_config.m_acceleration * Time.deltaTime);
-        m_ch_controller.Move(m_directions * m_pet_config.m_speed * Time.deltaTime);
+        m_ch_controller.Move(m_directions * m_pet_config.m_speed * Time.deltaTime); 
         _Move();
     }
 
