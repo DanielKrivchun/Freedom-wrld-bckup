@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,18 +21,36 @@ public class PetCareStateManager : MonoBehaviour
     public Button sleepBtn;
 
     [Space]
-    public Image happyFillImg;
-    public Image eatFillImg;
-    public Image cleanFillImg;
-    public Image sleepFillImg;
+    public Slider happyFillSlider;
+    public Slider eatFillSlider;
+    public Slider cleanFillSlider;
+    public Slider sleepFillSlider;
 
     [Space]
     public GameObject eatObjectHolder;
-    public GameObject toiletObjectHolder;
+    public GameObject bathObjectHolder;
 
-    public bool isReadyForToilet;
+    public bool isReadyForBath;
 
     Vector3 startPos;
+
+    public int hunger, happiness, cleanliness, energy;
+    public int foodTickRate, happinessTickRate, energyTickRate;
+    public DateTime lastTimeFeed, lastTimeHappy, lastTimeClean;
+
+    public void Initialize(int hunger, int happiness, int cleanliness, int energy, int foodTickRate, int happinessTickRate, int energyTickRate)
+    {
+        lastTimeFeed = DateTime.Now;
+        lastTimeHappy = DateTime.Now;
+        lastTimeClean = DateTime.Now;
+        this.hunger = hunger;
+        this.happiness = happiness;
+        this.energy = energy;
+        this.cleanliness = cleanliness;
+        this.foodTickRate = foodTickRate;
+        this.happinessTickRate = happinessTickRate;
+        this.energyTickRate = energyTickRate;
+    }
 
     private void Start()
     {
@@ -55,15 +74,16 @@ public class PetCareStateManager : MonoBehaviour
         if (selectedPetCareState == PetCareState.Eat)
         {
             eatObjectHolder.SetActive(true);
+            bathObjectHolder.SetActive(false);
         }
         else if(selectedPetCareState == PetCareState.Clean)
         {
-            toiletObjectHolder.SetActive(true);
+            bathObjectHolder.SetActive(true);
             eatObjectHolder.SetActive(false);
         }
         else
         {
-            toiletObjectHolder.SetActive(false);
+            bathObjectHolder.SetActive(false);
             eatObjectHolder.SetActive(false);
         }
     }
@@ -73,26 +93,35 @@ public class PetCareStateManager : MonoBehaviour
         switch (selectedPetCareState)
         {
             case PetCareState.Happy:
-                if(happyFillImg.fillAmount < 1f)
+                if(happyFillSlider.value < 1f)
                 {
-                    float totalValue = happyFillImg.fillAmount + value;
-                    happyFillImg.DOFillAmount(totalValue, 0.5f);
+                    float totalValue = happyFillSlider.value + value;
+                    happyFillSlider.DOValue(totalValue, 0.5f);
+
+                    happiness = (int)(totalValue * 100);
+                    lastTimeHappy = DateTime.Now;
                 }
                 break;
 
             case PetCareState.Eat:
-                if (eatFillImg.fillAmount < 1f)
+                if (eatFillSlider.value < 1f)
                 {
-                    float totalValue = eatFillImg.fillAmount + value;
-                    eatFillImg.DOFillAmount(totalValue, 0.5f);
+                    float totalValue = eatFillSlider.value + value;
+                    eatFillSlider.DOValue(totalValue, 0.5f);
+
+                    hunger = (int)(totalValue * 100);
+                    lastTimeFeed = DateTime.Now;
                 }
                 break;
 
             case PetCareState.Clean:
-                if (cleanFillImg.fillAmount < 1f)
+                if (cleanFillSlider.value < 1f)
                 {
-                    float totalValue = cleanFillImg.fillAmount + value;
-                    cleanFillImg.DOFillAmount(totalValue, 0.5f);
+                    float totalValue = cleanFillSlider.value + value;
+                    cleanFillSlider.DOValue(totalValue, 0.5f);
+
+                    cleanliness = (int)(totalValue * 100);
+                    lastTimeClean = DateTime.Now;
                 }
                 break;
         }

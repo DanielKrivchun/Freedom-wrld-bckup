@@ -47,11 +47,6 @@ public class PetAnimation : MonoBehaviour
                 m_currunt_anim_state = _AnimState.Happy;
                 break;
 
-            case _AnimState.Toilet:
-                Animator.SetTrigger(_Strings.Toilet);
-                m_currunt_anim_state = _AnimState.Toilet;
-                break;
-
             case _AnimState.Bath:
                 Animator.SetTrigger(_Strings.Bath);
                 m_currunt_anim_state = _AnimState.Bath;

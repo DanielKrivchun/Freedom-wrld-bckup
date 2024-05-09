@@ -9,7 +9,7 @@ public class CleanObject : MonoBehaviour
 
     private void OnMouseDown()
     {
-        petCareStateManager.isReadyForToilet = true;
-        player.transform.position = new Vector3(4.5f, 1f, 4.5f);
+        petCareStateManager.isReadyForBath = true;
+        player.transform.position = new Vector3(5.5f, 1f, 5.7f);
     }
 }
