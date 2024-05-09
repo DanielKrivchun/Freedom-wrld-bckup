@@ -9,6 +9,9 @@ public class Database
     public void SaveData<T>(string saveName, T saveData)
     {
         string jsonToSave = JsonUtility.ToJson(saveData);
+
+        Debug.Log(jsonToSave);
+
         File.WriteAllText
             (
             path + saveName + ".json",

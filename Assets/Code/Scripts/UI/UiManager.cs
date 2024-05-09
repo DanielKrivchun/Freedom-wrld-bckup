@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -26,7 +27,7 @@ public class UiManager : MonoBehaviour
     //LOW POS WILL BE ALWAYS ZERO AS ACNCOR SET
     private float m_max_y_pos = 600f;
 
-
+    private bool m_clicking;
 
     private Vector2 m_pos;
 
@@ -41,12 +42,12 @@ public class UiManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) // Check for left mouse button click
         {
+            m_clicking = true;
             m_currunt_time = Time.time;
             m_diff = m_currunt_time - m_last_time;
             m_last_time = m_currunt_time;
+            _MoveArrow();
         }
-
-        _MoveArrow();
     }
     void _MoveArrow()
     {
@@ -57,12 +58,10 @@ public class UiManager : MonoBehaviour
         }
 
         //CALCULATION HERE
-
         m_pos.y = -(m_max_y_pos) * (m_diff) / (1.5f);
 
         Debug.Log(m_diff + "               " + m_pos.y);
-
-        m_arrow.anchoredPosition = m_pos;
+        m_arrow.DOAnchorPos(m_pos, m_diff);
     }
 
 }
