@@ -1,11 +1,14 @@
 using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Pet
+[CreateAssetMenu(fileName = "PetCareData", menuName = "PetCare/PetCareData", order = 100)]
+public class PetCareData : ScriptableObject
 {
     public DateTime lastTimeHappy, lastTimeFeed, lastTimeClean;
     public int happiness, hunger, cleanliness, energy;
 
-    public Pet(DateTime lastTimeHappy, DateTime lastTimeFeed, DateTime lastTimeClean, int happiness, int cleanliness, int hunger, int energy)
+    public void SetPetCareData(DateTime lastTimeHappy, DateTime lastTimeFeed, DateTime lastTimeClean, int happiness, int hunger, int cleanliness, int energy)
     {
         this.lastTimeHappy = lastTimeHappy;
         this.lastTimeFeed = lastTimeFeed;

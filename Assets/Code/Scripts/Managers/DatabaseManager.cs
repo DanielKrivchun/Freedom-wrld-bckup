@@ -6,7 +6,7 @@ public class DatabaseManager : MonoBehaviour
 {
     public static DatabaseManager instance;
     private Database database;
-    public NeedsController needsController;
+    public PetCareStateManager petCareSateManager;
 
     private void Awake()
     {
@@ -23,23 +23,24 @@ public class DatabaseManager : MonoBehaviour
         if(TimingManager.gameHourTimer < 0)
         {
             Pet pet = new Pet
-                (needsController.lastTimeFed,
-                needsController.lastTimeHappy,
-                needsController.lastTimeGainedEnergy,
-                needsController.food,
-                needsController.happiness,
-                needsController.energy
+                (petCareSateManager.lastTimeHappy,
+                petCareSateManager.lastTimeFeed,
+                petCareSateManager.lastTimeClean,
+                petCareSateManager.happiness,
+                petCareSateManager.hunger,
+                petCareSateManager.cleanliness,
+                petCareSateManager.energy
                 );
             SavePet( pet );
         }
     }
 
-    private void Start()
+    /*private void Start()
     {
         Pet pet = LoadPet();
 
         if (pet != null) Debug.Log(LoadPet().energy);
-    }
+    }*/
 
     public void SavePet(Pet pet)
     {

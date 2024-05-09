@@ -37,7 +37,7 @@ public class ShowerMove : MonoBehaviour
             // Update the object's position
             transform.localPosition = newPosition;
 
-            petCareStateManager.SetSelectedStateFillerImage(0.01f);
+            petCareStateManager.SetSelectedStateFillerImage(5);
         }
     }
 
