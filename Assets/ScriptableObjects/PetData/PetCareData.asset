@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd9d37e63a5aa64abd97bbe105228ac, type: 3}
   m_Name: PetCareData
   m_EditorClassIdentifier: 
-  m_petdata:
-    happiness: 80
-    hunger: 10
-    cleanliness: 55
-    energy: 71
+  happiness: 20
+  hunger: 15
+  cleanliness: 30
+  energy: 50
