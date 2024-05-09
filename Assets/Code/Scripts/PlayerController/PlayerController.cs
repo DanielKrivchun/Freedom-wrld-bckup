@@ -46,17 +46,17 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (StartClicker)
-        {
-            m_time_in_second += Time.deltaTime;
-        }
+        //if (StartClicker)
+        //{
+        //    m_time_in_second += Time.deltaTime;
+        //}
 
-        if (UnityEngine.Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Worked");
-            CPR = (m_total_click) / (m_time_in_second);
-            Debug.Log(CPR);
-        }
+        //if (UnityEngine.Input.GetMouseButtonDown(0))
+        //{
+        //    Debug.Log("Worked");
+        //    CPR = (m_total_click) / (m_time_in_second);
+        //    Debug.Log(CPR);
+        //}
 
         if (m_input_value.m_enable_input)
         {
