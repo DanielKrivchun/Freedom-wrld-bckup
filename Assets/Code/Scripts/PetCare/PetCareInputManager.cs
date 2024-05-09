@@ -17,14 +17,14 @@ public class PetCareInputManager : MonoBehaviour
                 petCareStateManager.SetSelectedStateFillerImage(0.05f);
                 break;
 
-            case PetCareState.Clean:
+            /*case PetCareState.Clean:
                 //Play Clean Animation
                 if (petCareStateManager.isReadyForToilet)
                 {
                     petAnim._ChangeAnimationState(_AnimState.Toilet);
                     petCareStateManager.SetSelectedStateFillerImage(0.1f);
                 }
-                break;
+                break;*/
         }
     }
 
