@@ -29,7 +29,7 @@ public class Soap : MonoBehaviour
 
         if (petCareStateManager.isReadyForBath)
         {
-            petCareStateManager.SetSelectedStateDataFiller(15);
+            petCareStateManager.ManageCleanlinessDataFiller(15);
         }
     }
 

@@ -127,7 +127,7 @@ public class TimingManager : MonoBehaviour
 
     public void StartSleepingTimer()
     {
-        isCanSleep = true;  
+        isCanSleep = true;
     }
 
     private void SleepingTimer()
@@ -144,7 +144,7 @@ public class TimingManager : MonoBehaviour
                 Debug.Log("Time is UP!");
                 isCanSleep = false;
                 sleepTimer = totalSleepTime;
-                petCareStateManager.SetSelectedStateDataFiller(100); 
+                petCareStateManager.ManageEnergyDataFiller(100); 
             }
         }
     }

@@ -5290,10 +5290,10 @@ MonoBehaviour:
   hunger: 0
   cleanliness: 0
   energy: 0
-  happinessTickRate: 10
-  feedTickRate: 20
-  cleanTickRate: 15
-  energyTickRate: 20
+  happinessTickRate: 5
+  hungerTickRate: 10
+  cleanlinessTickRate: 5
+  energyTickRate: 10
   timingManager: {fileID: 1128614859}
 --- !u!114 &743679603
 MonoBehaviour:
