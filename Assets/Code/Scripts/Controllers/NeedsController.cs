@@ -23,7 +23,7 @@ public class NeedsController : MonoBehaviour
     private void Update()
     {
 
-        if (TimingManager.gameHourTimer < 0)
+        if (TimingManager.happyTimer < 0)
         {
             ChangeFood(-foodTickRate);
             ChangeHappiness(-happinessTickRate);

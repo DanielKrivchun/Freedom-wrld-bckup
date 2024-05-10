@@ -38,7 +38,7 @@ public class Soap : MonoBehaviour
             // Update the object's position
             transform.position = newPosition;
 
-            petCareStateManager.SetSelectedStateFillerImage(5);
+            petCareStateManager.SetSelectedStateDataFiller(5);
         }
     }
 

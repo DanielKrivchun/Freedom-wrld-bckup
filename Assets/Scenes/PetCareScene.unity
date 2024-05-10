@@ -1855,7 +1855,7 @@ LineRenderer:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 1
+    numCornerVertices: 10
     numCapVertices: 0
     alignment: 0
     textureMode: 0
@@ -3269,7 +3269,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0000006705522, y: -1.0000005, z: 0}
+  m_ConnectedAnchor: {x: 0, y: -0.9999999, z: 0}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:
@@ -4149,7 +4149,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.9999999, z: 0}
+  m_ConnectedAnchor: {x: 0.0000006705522, y: -1.0000005, z: 0}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:
@@ -5110,6 +5110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 743679604}
   - component: {fileID: 743679603}
+  - component: {fileID: 743679606}
   - component: {fileID: 743679602}
   - component: {fileID: 743679605}
   m_Layer: 0
@@ -5133,27 +5134,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   petCareData: {fileID: 11400000, guid: ae0fb9fea411d6c4d96c0045d0cf9ed7, type: 2}
   isDataFromJSON: 0
-  petCareEvent: {fileID: 11400000, guid: bd2b54c069ee59c45a83b9dc1da49fe8, type: 2}
   selectedPetCareState: 0
+  petCareUIManager: {fileID: 1334679533}
   player: {fileID: 281894563}
-  happyBtn: {fileID: 151016455}
-  eatBtn: {fileID: 1230035659}
-  cleanBtn: {fileID: 1394608930}
-  sleepBtn: {fileID: 1177074256}
-  happyFillSlider: {fileID: 136524635}
-  hungerFillSlider: {fileID: 1858055171}
-  cleanFillSlider: {fileID: 953627474}
-  energyFillSlider: {fileID: 839788417}
   eatObjectHolder: {fileID: 6881907604498136143}
   bathObjectHolder: {fileID: 2799242787086901922}
   isReadyForBath: 0
-  hunger: 0
   happiness: 0
+  hunger: 0
   cleanliness: 0
   energy: 0
-  foodTickRate: 0
-  happinessTickRate: 0
-  energyTickRate: 0
+  happinessTickRate: 50
+  feedTickRate: 50
+  cleanTickRate: 50
+  energyTickRate: 20
+  timingManager: {fileID: 1128614859}
 --- !u!114 &743679603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5210,6 +5205,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   petCareSateManager: {fileID: 743679602}
+--- !u!114 &743679606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743679601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a492d213ab2ee2f4b91bb19a62d0beca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 3c2c1a4e3b762264e95882db3052bd76, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 743679602}
+        m_TargetAssemblyTypeName: PetCareStateManager, Assembly-CSharp
+        m_MethodName: CheckForPetCareTimer
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &773588112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6666,9 +6689,9 @@ HingeJoint:
   m_ConnectedBody: {fileID: 582591251}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
-  m_Axis: {x: 0, y: 1, z: 0}
+  m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0000006705522, y: -1.0000001, z: 0}
+  m_ConnectedAnchor: {x: 0, y: -1.0000001, z: 0}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:
@@ -7827,6 +7850,55 @@ FixedJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &1128614857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1128614858}
+  - component: {fileID: 1128614859}
+  m_Layer: 0
+  m_Name: TimeManagement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1128614858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128614857}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1128614859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128614857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3e1516eff09844ebd6b74b7f0f8553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  petCareTimerEvent: {fileID: 11400000, guid: 3c2c1a4e3b762264e95882db3052bd76, type: 2}
+  petCareStateManager: {fileID: 743679602}
+  happyTimeLength: 10
+  feedTimeLength: 20
+  cleanTimeLength: 30
 --- !u!1 &1134754024
 GameObject:
   m_ObjectHideFlags: 0
@@ -9236,6 +9308,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1324113503}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1334679532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1334679534}
+  - component: {fileID: 1334679533}
+  m_Layer: 0
+  m_Name: PetCareUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1334679533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334679532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e35ec8bfca418f34aa7987e87eb215cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  petCareEvent: {fileID: 11400000, guid: bd2b54c069ee59c45a83b9dc1da49fe8, type: 2}
+  happyBtn: {fileID: 151016455}
+  eatBtn: {fileID: 1230035659}
+  cleanBtn: {fileID: 1394608930}
+  sleepBtn: {fileID: 1177074256}
+  happyFillSlider: {fileID: 136524635}
+  hungerFillSlider: {fileID: 1858055171}
+  cleanFillSlider: {fileID: 953627474}
+  energyFillSlider: {fileID: 839788417}
+--- !u!4 &1334679534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334679532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1337513596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13667,9 +13792,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 55090256}
   - {fileID: 1230040200}
+  - {fileID: 1334679534}
   - {fileID: 1964643475}
-  - {fileID: 281894568}
   - {fileID: 400696996}
+  - {fileID: 281894568}
   - {fileID: 743679604}
   - {fileID: 1164944753}
   - {fileID: 2126423498}
+  - {fileID: 1128614858}

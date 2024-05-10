@@ -8,7 +8,10 @@ public class EatObject : MonoBehaviour
 
     private void OnMouseDown()
     {
-        petInputManager.ShowPetEatingObject();
-        gameObject.SetActive(false);
+        if (petInputManager.petCareStateManager.hunger < 100)
+        {
+            petInputManager.ShowPetEatingObject();
+            gameObject.SetActive(false);
+        }
     }
 }
