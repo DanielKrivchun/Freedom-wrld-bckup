@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PetCareStateManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PetCareStateManager : MonoBehaviour
     [Space]
     public GameObject eatObjectHolder;
     public GameObject bathObjectHolder;
+    public GameObject sleepBtn;
 
     public bool isReadyForBath;
 
@@ -35,7 +37,7 @@ public class PetCareStateManager : MonoBehaviour
     public int cleanTickRate;
     public int energyTickRate;
 
-    public DateTime lastTimeFeed, lastTimeHappy, lastTimeClean;
+    public DateTime lastTimeFeed, lastTimeHappy, lastTimeClean, lastTimeSleep;
 
     public TimingManager timingManager;
 
@@ -59,20 +61,38 @@ public class PetCareStateManager : MonoBehaviour
         selectedPetCareState = state;
         player.transform.position = startPos;
 
-        if (selectedPetCareState == PetCareState.Feed)
+        switch (selectedPetCareState)
         {
-            eatObjectHolder.SetActive(true);
-            bathObjectHolder.SetActive(false);
-        }
-        else if (selectedPetCareState == PetCareState.Clean)
-        {
-            bathObjectHolder.SetActive(true);
-            eatObjectHolder.SetActive(false);
-        }
-        else
-        {
-            bathObjectHolder.SetActive(false);
-            eatObjectHolder.SetActive(false);
+            case PetCareState.Happy:
+                bathObjectHolder.SetActive(false);
+                eatObjectHolder.SetActive(false);
+                sleepBtn.SetActive(false);
+                break;
+
+            case PetCareState.Feed:
+                eatObjectHolder.SetActive(true);
+                bathObjectHolder.SetActive(false);
+                sleepBtn.SetActive(false);
+                break;
+
+            case PetCareState.Clean:
+                bathObjectHolder.SetActive(true);
+                eatObjectHolder.SetActive(false);
+                sleepBtn.SetActive(false);
+                break;
+
+            case PetCareState.Energy:
+                sleepBtn.SetActive(true);
+                sleepBtn.GetComponent<Button>().interactable = true;
+                bathObjectHolder.SetActive(false);
+                eatObjectHolder.SetActive(false);
+                break;
+
+                default:
+                bathObjectHolder.SetActive(false);
+                eatObjectHolder.SetActive(false);
+                sleepBtn.SetActive(false);
+                break;
         }
     }
 
@@ -112,6 +132,17 @@ public class PetCareStateManager : MonoBehaviour
                 petCareUIManager.cleanFillSlider.DOValue(cleanliness, 0.5f);
                 lastTimeClean = DateTime.Now;
                 break;
+
+            case PetCareState.Energy:
+                energy += value;
+                if (energy > 100)
+                {
+                    energy = 100;
+                }
+
+                petCareUIManager.energyFillSlider.DOValue(energy, 0.5f);
+                lastTimeSleep = DateTime.Now;
+                break;
         }
     }
 
@@ -125,8 +156,9 @@ public class PetCareStateManager : MonoBehaviour
                 {
                     happiness = 0;
                 }
-                petCareUIManager.happyFillSlider.DOValue(happiness, 0.5f);
 
+                petCareUIManager.happyFillSlider.DOValue(happiness, 0.5f);
+                lastTimeHappy = DateTime.Now;
                 break;
 
             case PetCareState.Feed:
@@ -135,8 +167,9 @@ public class PetCareStateManager : MonoBehaviour
                 {
                     hunger = 0;
                 }
-                petCareUIManager.hungerFillSlider.DOValue(hunger, 0.5f);
 
+                petCareUIManager.hungerFillSlider.DOValue(hunger, 0.5f);
+                lastTimeFeed = DateTime.Now;
                 break;
 
             case PetCareState.Clean:
@@ -145,7 +178,20 @@ public class PetCareStateManager : MonoBehaviour
                 {
                     cleanliness = 0;
                 }
+
                 petCareUIManager.cleanFillSlider.DOValue(cleanliness, 0.5f);
+                lastTimeClean = DateTime.Now;
+                break;
+
+            case PetCareState.Energy:
+                energy -= energyTickRate;
+                if (energy < 0)
+                {
+                    energy = 0;
+                }
+
+                petCareUIManager.energyFillSlider.DOValue(energy, 0.5f);
+                lastTimeSleep = DateTime.Now;
                 break;
         }
     }
@@ -155,12 +201,11 @@ public class PetCareStateManager : MonoBehaviour
     {
         if (!isDataFromJSON)
         {
-            Debug.Log("Setting Data");
-            petCareData.SetPetCareData(lastTimeHappy.ToString(), lastTimeFeed.ToString(), lastTimeClean.ToString(), happiness, hunger, cleanliness, energy);
+            petCareData.SetPetCareData(lastTimeHappy.ToString(), lastTimeFeed.ToString(), lastTimeClean.ToString(), lastTimeSleep.ToString(), happiness, hunger, cleanliness, energy);
         }
         else
         {
-            Pet pet = new Pet(lastTimeHappy.ToString(), lastTimeFeed.ToString(), lastTimeClean.ToString(), happiness, hunger, cleanliness, energy);
+            Pet pet = new Pet(lastTimeHappy.ToString(), lastTimeFeed.ToString(), lastTimeClean.ToString(), lastTimeSleep.ToString(), happiness, hunger, cleanliness, energy);
             DatabaseManager.instance.SavePet(pet);
         }
     }
@@ -172,16 +217,8 @@ public class PetCareStateManager : MonoBehaviour
         //Happiness
         lastTimeHappy = DateTime.Parse(petCareData.lastTimeHappy);
         Debug.Log("Happy Time Difference Seconds: " + (DateTime.Now - lastTimeHappy).TotalSeconds);
-
-        if ((DateTime.Now - lastTimeHappy).TotalSeconds > timingManager.happyTimeLength)
-        {
-            Debug.Log("Happiness => 0");
-        }
-        else
-        {
-            Debug.Log("Calculate Happiness");
-        }
-        
+        int lostHappiness = (int)((DateTime.Now - lastTimeHappy).TotalSeconds / timingManager.happyTimeLength);
+        Debug.Log("Lost Happiness - " + lostHappiness);
 
         happiness = petCareData.happiness;
         petCareUIManager.happyFillSlider.DOValue(happiness, 0.5f);
@@ -189,8 +226,9 @@ public class PetCareStateManager : MonoBehaviour
 
         //Hunger
         lastTimeFeed = DateTime.Parse(petCareData.lastTimeFeed);
-        TimeSpan feedTimeDiff = DateTime.Now - lastTimeFeed;
-        Debug.Log("Feed Time Difference: " + feedTimeDiff.Days + " D, " + feedTimeDiff.Hours + " H, " + feedTimeDiff.Minutes + " M, " + feedTimeDiff.Seconds + " S");
+        Debug.Log("Feed Time Difference Seconds: " + (DateTime.Now - lastTimeFeed).TotalSeconds);
+        int lostHunger = (int)((DateTime.Now - lastTimeFeed).TotalSeconds / timingManager.feedTimeLength);
+        Debug.Log("Lost Hunger - " + lostHunger);
 
         hunger = petCareData.hunger;
         petCareUIManager.hungerFillSlider.DOValue(hunger, 0.5f);
@@ -198,14 +236,20 @@ public class PetCareStateManager : MonoBehaviour
 
         //Cleanliness
         lastTimeClean = DateTime.Parse(petCareData.lastTimeClean);
-        TimeSpan cleanTimeDiff = DateTime.Now - lastTimeClean;
-        Debug.Log("Clean Time Difference: " + cleanTimeDiff.Days + " D, " + cleanTimeDiff.Hours + " H, " + cleanTimeDiff.Minutes + " M, " + cleanTimeDiff.Seconds + " S");
+        Debug.Log("Feed Time Difference Seconds: " + (DateTime.Now - lastTimeClean).TotalSeconds);
+        int lostCleanliness = (int)((DateTime.Now - lastTimeClean).TotalSeconds / timingManager.cleanTimeLength);
+        Debug.Log("Lost Cleanliness - " + lostCleanliness);
 
         cleanliness = petCareData.cleanliness;
         petCareUIManager.cleanFillSlider.DOValue(cleanliness, 0.5f);
 
 
         //Energy
+        lastTimeSleep = DateTime.Parse(petCareData.lastTimeSleep);
+        Debug.Log("Feed Time Difference Seconds: " + (DateTime.Now - lastTimeSleep).TotalSeconds);
+        int lostEnergy = (int)((DateTime.Now - lastTimeSleep).TotalSeconds / timingManager.energyTimeLength);
+        Debug.Log("Lost Energy - " + lostEnergy);
+
         energy = petCareData.energy;
         petCareUIManager.energyFillSlider.DOValue(energy, 0.5f);
     }
@@ -218,8 +262,9 @@ public class PetCareStateManager : MonoBehaviour
 
         //Happiness
         lastTimeHappy = DateTime.Parse(petCareData.lastTimeHappy);
-        TimeSpan happyTimeDiff = DateTime.Now - lastTimeHappy;
-        Debug.Log("Happy Time Difference: " + happyTimeDiff.Days + " D, " + happyTimeDiff.Hours + " H, " + happyTimeDiff.Minutes + " M, " + happyTimeDiff.Seconds + " S");
+        Debug.Log("Happy Time Difference Seconds: " + (DateTime.Now - lastTimeHappy).TotalSeconds);
+        int lostHappiness = (int)((DateTime.Now - lastTimeHappy).TotalSeconds / timingManager.happyTimeLength);
+        Debug.Log("Lost Happiness - " + lostHappiness);
 
         happiness = petCareData.happiness;
         petCareUIManager.happyFillSlider.DOValue(happiness, 0.5f);
@@ -227,8 +272,9 @@ public class PetCareStateManager : MonoBehaviour
 
         //Feed
         lastTimeFeed = DateTime.Parse(petCareData.lastTimeFeed);
-        TimeSpan feedTimeDiff = DateTime.Now - lastTimeFeed;
-        Debug.Log("Feed Time Difference: " + feedTimeDiff.Days + " D, " + feedTimeDiff.Hours + " H, " + feedTimeDiff.Minutes + " M, " + feedTimeDiff.Seconds + " S");
+        Debug.Log("Feed Time Difference Seconds: " + (DateTime.Now - lastTimeFeed).TotalSeconds);
+        int lostHunger = (int)((DateTime.Now - lastTimeFeed).TotalSeconds / timingManager.feedTimeLength);
+        Debug.Log("Lost Hunger - " + lostHunger);
 
         hunger = petCareData.hunger;
         petCareUIManager.hungerFillSlider.DOValue(hunger, 0.5f);
@@ -236,14 +282,20 @@ public class PetCareStateManager : MonoBehaviour
 
         //Cleanliness
         lastTimeClean = DateTime.Parse(petCareData.lastTimeClean);
-        TimeSpan cleanTimeDiff = DateTime.Now - lastTimeClean;
-        Debug.Log("Clean Time Difference: " + cleanTimeDiff.Days + " D, " + cleanTimeDiff.Hours + " H, " + cleanTimeDiff.Minutes + " M, " + cleanTimeDiff.Seconds + " S");
+        Debug.Log("Feed Time Difference Seconds: " + (DateTime.Now - lastTimeClean).TotalSeconds);
+        int lostCleanliness = (int)((DateTime.Now - lastTimeClean).TotalSeconds / timingManager.cleanTimeLength);
+        Debug.Log("Lost Cleanliness - " + lostCleanliness);
 
         cleanliness = petCareData.cleanliness;
         petCareUIManager.cleanFillSlider.DOValue(cleanliness, 0.5f);
 
 
         //Energy
+        lastTimeSleep = DateTime.Parse(petCareData.lastTimeSleep);
+        Debug.Log("Feed Time Difference Seconds: " + (DateTime.Now - lastTimeSleep).TotalSeconds);
+        int lostEnergy = (int)((DateTime.Now - lastTimeSleep).TotalSeconds / timingManager.energyTimeLength);
+        Debug.Log("Lost Energy - " + lostEnergy);
+
         energy = petCareData.energy;
         petCareUIManager.energyFillSlider.DOValue(energy, 0.5f);
     }
