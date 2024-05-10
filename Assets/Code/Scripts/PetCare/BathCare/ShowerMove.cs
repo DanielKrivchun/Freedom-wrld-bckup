@@ -21,6 +21,12 @@ public class ShowerMove : MonoBehaviour
     void OnMouseUp()
     {
         isDragging = false;
+
+        if (petCareStateManager.isReadyForBath)
+        {
+            petCareStateManager.SetSelectedStateDataFiller(25);
+            petCareStateManager.isReadyForBath = false;
+        }
     }
 
     void Update()
@@ -35,9 +41,7 @@ public class ShowerMove : MonoBehaviour
             newPosition.y = Mathf.Clamp(newPosition.y, -2, 0);
 
             // Update the object's position
-            transform.localPosition = newPosition;
-
-            petCareStateManager.SetSelectedStateDataFiller(5);
+            transform.localPosition = newPosition;            
         }
     }
 

@@ -26,6 +26,11 @@ public class Soap : MonoBehaviour
     {
         isDragging = false;
         transform.DOMove(startPos, 0.5f);
+
+        if (petCareStateManager.isReadyForBath)
+        {
+            petCareStateManager.SetSelectedStateDataFiller(15);
+        }
     }
 
     void Update()
@@ -37,8 +42,6 @@ public class Soap : MonoBehaviour
 
             // Update the object's position
             transform.position = newPosition;
-
-            petCareStateManager.SetSelectedStateDataFiller(5);
         }
     }
 
