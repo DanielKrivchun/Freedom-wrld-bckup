@@ -24,7 +24,7 @@ public class ShowerMove : MonoBehaviour
 
         if (petCareStateManager.isReadyForBath)
         {
-            petCareStateManager.SetSelectedStateDataFiller(25);
+            petCareStateManager.ManageCleanlinessDataFiller(25);
             petCareStateManager.isReadyForBath = false;
         }
     }

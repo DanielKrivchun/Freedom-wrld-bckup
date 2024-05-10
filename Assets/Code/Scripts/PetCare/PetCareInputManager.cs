@@ -17,7 +17,7 @@ public class PetCareInputManager : MonoBehaviour
                 {
                     //Play Happy Animation
                     petAnim._ChangeAnimationState(_AnimState.Happy);
-                    petCareStateManager.SetSelectedStateDataFiller(2);  
+                    petCareStateManager.ManageHappinessDataFiller(2);  
                 }
                 break;
 
@@ -35,6 +35,6 @@ public class PetCareInputManager : MonoBehaviour
     public void ShowPetEatingObject()
     {
             petAnim._ChangeAnimationState(_AnimState.Eating);
-            petCareStateManager.SetSelectedStateDataFiller(15); 
+            petCareStateManager.ManageHungerDataFiller(15); 
     }
 }
