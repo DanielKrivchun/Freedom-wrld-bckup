@@ -46,7 +46,7 @@ public class _Strings
 public enum PetCareState 
 {
     Happy,
-    Eat,
+    Feed,
     Clean,
-    Sleep
+    Energy
 }

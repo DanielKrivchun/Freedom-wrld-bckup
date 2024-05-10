@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cd9d37e63a5aa64abd97bbe105228ac, type: 3}
-  m_Name: PetCareData
+  m_Script: {fileID: 11500000, guid: 34ba7a2c4cacbeb4a864f7a3e2b49a31, type: 3}
+  m_Name: PetCareTimerState
   m_EditorClassIdentifier: 
-  lastTimeHappy: 5/10/2024 2:51:59 PM
-  lastTimeFeed: 5/10/2024 2:49:20 PM
-  lastTimeClean: 5/10/2024 2:49:28 PM
-  happiness: 20
-  hunger: 30
-  cleanliness: 40
-  energy: 50
+  listeners: []

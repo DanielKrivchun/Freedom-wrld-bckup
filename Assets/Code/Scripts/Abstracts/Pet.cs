@@ -2,10 +2,10 @@ using System;
 
 public class Pet
 {
-    public DateTime lastTimeHappy, lastTimeFeed, lastTimeClean;
+    public string lastTimeHappy, lastTimeFeed, lastTimeClean;
     public int happiness, hunger, cleanliness, energy;
 
-    public Pet(DateTime lastTimeHappy, DateTime lastTimeFeed, DateTime lastTimeClean, int happiness, int cleanliness, int hunger, int energy)
+    public Pet(string lastTimeHappy, string lastTimeFeed, string lastTimeClean, int happiness, int cleanliness, int hunger, int energy)
     {
         this.lastTimeHappy = lastTimeHappy;
         this.lastTimeFeed = lastTimeFeed;

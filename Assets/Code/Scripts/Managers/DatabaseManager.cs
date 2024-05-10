@@ -18,22 +18,16 @@ public class DatabaseManager : MonoBehaviour
         else Debug.LogWarning("More than one DatabaseManager In the Scene");
     }
 
-    private void Update()
+    /*private void Update()
     {
         if(TimingManager.gameHourTimer < 0)
         {
-            Pet pet = new Pet
-                (petCareSateManager.lastTimeHappy,
-                petCareSateManager.lastTimeFeed,
-                petCareSateManager.lastTimeClean,
-                petCareSateManager.happiness,
-                petCareSateManager.hunger,
-                petCareSateManager.cleanliness,
-                petCareSateManager.energy
-                );
-            SavePet( pet );
+            Pet petCareData = new Pet(petCareSateManager.lastTimeHappy.ToString(), petCareSateManager.lastTimeFeed.ToString(), petCareSateManager.lastTimeClean.ToString(),
+                                        petCareSateManager.happiness, petCareSateManager.hunger, petCareSateManager.cleanliness, petCareSateManager.energy);
+            
+            SavePet(petCareData);
         }
-    }
+    }*/
 
     /*private void Start()
     {
@@ -42,17 +36,17 @@ public class DatabaseManager : MonoBehaviour
         if (pet != null) Debug.Log(LoadPet().energy);
     }*/
 
-    public void SavePet(Pet pet)
+    public void SavePet(Pet petCareData)
     {
-        database.SaveData("pet", pet);
+        database.SaveData("pet", petCareData);
     }
 
     public Pet LoadPet()
     {
         Pet returnValue = null;
-        database.LoadData<Pet>("pet", (pet) =>
+        database.LoadData<Pet>("pet", (petCareData) =>
         {
-            returnValue = pet;
+            returnValue = petCareData;
         });
         return returnValue;
     }
