@@ -52,7 +52,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
@@ -72,7 +72,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
@@ -140,7 +140,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
@@ -155,11 +155,11 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         {
             if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
             {
-                _GameMode(GameMode.Host);
+                _GameMode(GameMode.AutoHostOrClient);
             }
             if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
             {
-                _GameMode(GameMode.Client);
+                _GameMode(GameMode.AutoHostOrClient);
             }
         }
     }
