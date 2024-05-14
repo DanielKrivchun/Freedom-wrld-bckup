@@ -5438,7 +5438,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 743679602}
         m_TargetAssemblyTypeName: PetCareStateManager, Assembly-CSharp
-        m_MethodName: GetAndSetAllPetCareDataJSON
+        m_MethodName: GetAndSetAllPetCareData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8111,10 +8111,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   petCareTimerEvent: {fileID: 11400000, guid: 3c2c1a4e3b762264e95882db3052bd76, type: 2}
   petCareStateManager: {fileID: 743679602}
-  happyTimeLength: 10
-  feedTimeLength: 20
-  cleanTimeLength: 30
-  energyTimeLength: 50
+  happyTimeLength: 30
+  feedTimeLength: 60
+  cleanTimeLength: 45
+  energyTimeLength: 40
 --- !u!1 &1134754024
 GameObject:
   m_ObjectHideFlags: 0

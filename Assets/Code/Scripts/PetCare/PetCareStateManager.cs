@@ -176,62 +176,19 @@ public class PetCareStateManager : MonoBehaviour
     //Store Data to Beamable
     public void StoreAllPetCareData()
     {
-        /*if (!isDataFromJSON)
-        {
-            petCareData.SetPetCareData(lastTimeHappy.ToString(), lastTimeFeed.ToString(), lastTimeClean.ToString(), lastTimeEnergy.ToString(), happiness, hunger, cleanliness, energy);
-        }
-        else
-        {
-            PetData pet = new PetData(lastTimeHappy.ToString(), lastTimeFeed.ToString(), lastTimeClean.ToString(), lastTimeEnergy.ToString(), sleepStartTime.ToString(),
-                                        happiness, hunger, cleanliness, energy);
-            DatabaseManager.instance.SavePet(pet);
-        }*/
+        PetData pet = new PetData(lastTimeHappy.ToString(), 
+                                  lastTimeFeed.ToString(), 
+                                  lastTimeClean.ToString(), 
+                                  lastTimeEnergy.ToString(), 
+                                  sleepStartTime.ToString(),
+                                  sleepManager.isCanSleep, 
+                                  happiness, 
+                                  hunger, 
+                                  cleanliness, 
+                                  energy);
 
-        PetData pet = new PetData(lastTimeHappy.ToString(), lastTimeFeed.ToString(), lastTimeClean.ToString(), lastTimeEnergy.ToString(), sleepStartTime.ToString(),
-                                        happiness, hunger, cleanliness, energy);
         BeamableCloudSaveManager.instance.SaveData(pet);
     }
-
-
-    /*//Scriptable Object Data
-    public void GetAndSetAllPetCareData()
-    {
-        //Happiness
-        lastTimeHappy = DateTime.Parse(petCareData.lastTimeHappy);
-        happiness = petCareData.happiness;
-
-        int lostHappiness = (int)((DateTime.Now - lastTimeHappy).TotalSeconds / timingManager.happyTimeLength);
-        Debug.Log("Lost Happiness - " + lostHappiness);
-        ManageHappinessDataFiller(-lostHappiness);
-
-
-        //Hunger
-        lastTimeFeed = DateTime.Parse(petCareData.lastTimeFeed);
-        hunger = petCareData.hunger;
-
-        int lostHunger = (int)((DateTime.Now - lastTimeFeed).TotalSeconds / timingManager.feedTimeLength);
-        Debug.Log("Lost Hunger - " + lostHunger);
-        ManageHungerDataFiller(-lostHunger);
-
-
-        //Cleanliness
-        lastTimeClean = DateTime.Parse(petCareData.lastTimeClean);
-        cleanliness = petCareData.cleanliness;
-
-        int lostCleanliness = (int)((DateTime.Now - lastTimeClean).TotalSeconds / timingManager.cleanTimeLength);
-        Debug.Log("Lost Cleanliness - " + lostCleanliness);
-        ManageCleanlinessDataFiller(-lostCleanliness);
-
-
-        //Energy
-        lastTimeEnergy = DateTime.Parse(petCareData.lastTimeSleep);
-        energy = petCareData.energy;
-
-        int lostEnergy = (int)((DateTime.Now - lastTimeEnergy).TotalSeconds / timingManager.energyTimeLength);
-        Debug.Log("Lost Energy - " + lostEnergy);
-        ManageEnergyDataFiller(-lostEnergy);
-    }*/
-
 
     //Get & set data from Beamable
     public void GetAndSetAllPetCareData()
@@ -264,31 +221,51 @@ public class PetCareStateManager : MonoBehaviour
         int lostCleanliness = (int)((DateTime.Now - lastTimeClean).TotalSeconds / timingManager.cleanTimeLength);
         Debug.Log("Lost Cleanliness - " + lostCleanliness);
         ManageCleanlinessDataFiller(-lostCleanliness);
-        
+
+        //Energy
+        lastTimeEnergy = DateTime.Parse(petData.lastTimeEnergy);
+        energy = petData.energy;
+
+        int lostEnergy = (int)((DateTime.Now - lastTimeEnergy).TotalSeconds / timingManager.energyTimeLength);
+        Debug.Log("Lost Energy - " + lostEnergy);
+        ManageEnergyDataFiller(-lostEnergy);
 
         //Sleep
-        sleepStartTime = DateTime.Parse(petData.sleepStartTime);
-
-        if((DateTime.Now - sleepStartTime).TotalSeconds > sleepManager.totalSleepTime)
+        if (petData.isSleeping)
         {
-            Debug.Log("Sleep time over");
-            ManageEnergyDataFiller(100);
+            sleepStartTime = DateTime.Parse(petData.sleepStartTime);
+
+            if ((DateTime.Now - sleepStartTime).TotalSeconds > sleepManager.totalSleepTime)
+            {
+                Debug.Log("Sleep time over");
+                ManageEnergyDataFiller(100);
+            }
+            else
+            {
+                Debug.Log("Sleep Time is Not over yet");
+                sleepManager.sleepTimer = sleepManager.totalSleepTime - (float)(DateTime.Now - sleepStartTime).TotalSeconds;
+                sleepManager.isCanSleep = true;
+            }
+        }  
+    }
+
+    //For Android
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        {
+            Debug.Log("Saving Data...");
+            StoreAllPetCareData();
         }
-        else
+    }
+
+    //For Editor
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus)
         {
-            Debug.Log("Sleep Time is Not over yet");
-            //Energy
-            lastTimeEnergy = DateTime.Parse(petData.lastTimeEnergy);
-            energy = petData.energy;
-
-            int lostEnergy = (int)((DateTime.Now - lastTimeEnergy).TotalSeconds / timingManager.energyTimeLength);
-            Debug.Log("Lost Energy - " + lostEnergy);
-            ManageEnergyDataFiller(-lostEnergy);
-
-            sleepManager.sleepTimer = sleepManager.totalSleepTime - (float)(DateTime.Now - sleepStartTime).TotalSeconds;
-            Debug.Log("SleepTimer - " + sleepManager.sleepTimer);
-
-            sleepManager.isCanSleep = true;
+            Debug.Log("Saving Data...");
+            StoreAllPetCareData();
         }
     }
 }

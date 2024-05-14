@@ -158,6 +158,7 @@ namespace Beamable.CloudSavingService
                     lastTimeClean = DateTime.Now.ToString(),
                     lastTimeEnergy = DateTime.Now.ToString(),
                     sleepStartTime = DateTime.Now.ToString(),
+                    isSleeping = false,
                     happiness = 100,
                     hunger = 100,
                     cleanliness = 100,
