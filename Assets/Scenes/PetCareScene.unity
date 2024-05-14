@@ -1008,6 +1008,54 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 82670127}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &98191225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 98191226}
+  - component: {fileID: 98191227}
+  m_Layer: 0
+  m_Name: BeamableCloudSave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &98191226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98191225}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &98191227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98191225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53391879834fe5148aa14639fdeec7cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnRefreshed:
+    m_PersistentCalls:
+      m_Calls: []
+  loadGameData: {fileID: 11400000, guid: 24273981e82bffb4fb57b8118cc37b6a, type: 2}
 --- !u!1001 &107458381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2898,6 +2946,7 @@ GameObject:
   - component: {fileID: 379607966}
   - component: {fileID: 379607965}
   - component: {fileID: 379607964}
+  - component: {fileID: 379607967}
   m_Layer: 5
   m_Name: StartSleepBtn
   m_TagString: Untagged
@@ -2969,21 +3018,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1128614859}
-        m_TargetAssemblyTypeName: TimingManager, Assembly-CSharp
-        m_MethodName: StartSleepingTimer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 379607964}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: set_interactable
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3031,6 +3068,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 379607962}
   m_CullTransparentMesh: 1
+--- !u!114 &379607967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379607962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728d6a3988d139e4483df9313e236983, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  petCareStateManager: {fileID: 743679602}
+  isCanSleep: 0
+  totalSleepTime: 120
+  sleepTimer: 0
+  sleepBtn: {fileID: 379607964}
+  sleepCountdownTxt: {fileID: 1836242002}
 --- !u!1 &400696993
 GameObject:
   m_ObjectHideFlags: 0
@@ -5256,8 +5311,8 @@ GameObject:
   - component: {fileID: 743679604}
   - component: {fileID: 743679603}
   - component: {fileID: 743679606}
+  - component: {fileID: 743679607}
   - component: {fileID: 743679602}
-  - component: {fileID: 743679605}
   m_Layer: 0
   m_Name: PetStateManager
   m_TagString: Untagged
@@ -5277,8 +5332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373c7fdc886683848890a010b6f6fd82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  petCareData: {fileID: 11400000, guid: ae0fb9fea411d6c4d96c0045d0cf9ed7, type: 2}
-  isDataFromJSON: 0
   selectedPetCareState: 0
   petCareUIManager: {fileID: 1334679533}
   player: {fileID: 281894563}
@@ -5294,6 +5347,7 @@ MonoBehaviour:
   hungerTickRate: 10
   cleanlinessTickRate: 5
   energyTickRate: 10
+  sleepManager: {fileID: 379607967}
   timingManager: {fileID: 1128614859}
 --- !u!114 &743679603
 MonoBehaviour:
@@ -5338,19 +5392,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &743679605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 743679601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46e097370386a354a922778bc9cc790d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  petCareSateManager: {fileID: 743679602}
 --- !u!114 &743679606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5371,6 +5412,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: PetCareStateManager, Assembly-CSharp
         m_MethodName: CheckForPetCareTimer
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &743679607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743679601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e10cd40238546048a231634c5fc79f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 24273981e82bffb4fb57b8118cc37b6a, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 743679602}
+        m_TargetAssemblyTypeName: PetCareStateManager, Assembly-CSharp
+        m_MethodName: GetAndSetAllPetCareDataJSON
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8046,10 +8115,6 @@ MonoBehaviour:
   feedTimeLength: 20
   cleanTimeLength: 30
   energyTimeLength: 50
-  isCanSleep: 0
-  totalSleepTime: 10
-  sleepTimer: 0
-  sleepCountdownTxt: {fileID: 1836242002}
 --- !u!1 &1134754024
 GameObject:
   m_ObjectHideFlags: 0
@@ -14031,3 +14096,4 @@ SceneRoots:
   - {fileID: 1164944753}
   - {fileID: 2126423498}
   - {fileID: 1128614858}
+  - {fileID: 98191226}
