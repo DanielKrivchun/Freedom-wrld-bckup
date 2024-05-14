@@ -92,12 +92,25 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        throw new NotImplementedException();
+        ColoredDebug.Log("OnPlayerJoined  IsServer", Color.green);
+        if (runner.IsServer)
+        {
+            // Create a unique position for the player
+            Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
+            NetworkObject networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
+            // Keep track of the player avatars for easy access
+            genratedplayers.Add(player, networkPlayerObject);
+        }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        throw new NotImplementedException();
+        ColoredDebug.Log("OnPlayerLeft" + player.PlayerId, Color.red);
+        if (genratedplayers.TryGetValue(player, out NetworkObject networkObject))
+        {
+            runner.Despawn(networkObject);
+            genratedplayers.Remove(player);
+        }
     }
 
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
@@ -133,6 +146,22 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
     {
         throw new NotImplementedException();
+    }
+
+
+    private void OnGUI()
+    {
+        if (networkRunner == null)
+        {
+            if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
+            {
+                _GameMode(GameMode.Host);
+            }
+            if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
+            {
+                _GameMode(GameMode.Client);
+            }
+        }
     }
 
     #endregion
