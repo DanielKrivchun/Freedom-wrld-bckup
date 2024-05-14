@@ -21,12 +21,10 @@ public class SleepManager : MonoBehaviour
     {
         if(isCanSleep)
         {
-            Debug.Log("False Called");
             sleepBtn.enabled = false;
         }
         else
         {
-            Debug.Log("True Called");
             sleepBtn.enabled = true;
         }
     }
