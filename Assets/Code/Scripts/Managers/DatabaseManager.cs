@@ -36,15 +36,15 @@ public class DatabaseManager : MonoBehaviour
         if (pet != null) Debug.Log(LoadPet().energy);
     }*/
 
-    public void SavePet(Pet petCareData)
+    public void SavePet(PetData petCareData)
     {
         database.SaveData("pet", petCareData);
     }
 
-    public Pet LoadPet()
+    public PetData LoadPet()
     {
-        Pet returnValue = null;
-        database.LoadData<Pet>("pet", (petCareData) =>
+        PetData returnValue = null;
+        database.LoadData<PetData>("pet", (petCareData) =>
         {
             returnValue = petCareData;
         });

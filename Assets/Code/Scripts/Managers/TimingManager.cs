@@ -19,21 +19,12 @@ public class TimingManager : MonoBehaviour
     public static float energyTimer;
     public float energyTimeLength;
 
-    [Space]
-    [Header("Sleep")]
-    public bool isCanSleep;
-    public float totalSleepTime;
-    public float sleepTimer;
-    public Text sleepCountdownTxt;
-
     private void Start()
     {
         happyTimer = happyTimeLength;
         feedTimer = feedTimeLength;
         cleanTimer = cleanTimeLength;
         energyTimer = energyTimeLength;
-
-        sleepTimer = totalSleepTime;
     }
 
     private void Update()
@@ -60,12 +51,6 @@ public class TimingManager : MonoBehaviour
         if (petCareStateManager.energy > 0)
         {
             SetEnergyTimer();
-        }
-
-        //Sleep
-        if (isCanSleep)
-        {
-            SleepingTimer();
         }
     }
 
@@ -124,42 +109,4 @@ public class TimingManager : MonoBehaviour
         }
         //Debug.Log("Energy - " + energyTimer);
     }
-
-    public void StartSleepingTimer()
-    {
-        isCanSleep = true;
-    }
-
-    private void SleepingTimer()
-    {
-        if (isCanSleep)
-        {
-            if (sleepTimer > 0)
-            {
-                sleepTimer -= Time.deltaTime;
-                UpdateTimer(sleepTimer);
-            }
-            else
-            {
-                Debug.Log("Time is UP!");
-                isCanSleep = false;
-                sleepTimer = totalSleepTime;
-                petCareStateManager.ManageEnergyDataFiller(100); 
-            }
-        }
-    }
-
-    void UpdateTimer(float currentTime)
-    {
-        currentTime += 1;
-
-        float hours = Mathf.FloorToInt(currentTime / 3660);
-        float minutes = Mathf.FloorToInt(currentTime / 60);
-        float seconds = Mathf.FloorToInt(currentTime % 60);
-
-        sleepCountdownTxt.text = string.Format("{0:0}:{1:00}:{2:00}", hours, minutes, seconds);
-    }
-
 }
-
-
