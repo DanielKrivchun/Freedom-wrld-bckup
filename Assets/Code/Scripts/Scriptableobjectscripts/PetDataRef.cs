@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PetDataRef", menuName = "ScriptableObject/PetDataRef", order = 100)]
 public class PetDataRef : ScriptableObject
 {
-    public PetData petData;
+    public PetData petData = new PetData();
 
-    public void SetPetAllData(string petName, int health, string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy,  
-                                int happiness, int cleanliness, int hunger, int energy,
+    public void SetPetAllData(string petName, int health, int happiness, int cleanliness, int hunger, int energy,
+                                string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy,  
                                 int running, int climbing, int flying, int swimming, int intelligence, int luck,
                                 string sleepStartTime, bool isSleeping)
     {

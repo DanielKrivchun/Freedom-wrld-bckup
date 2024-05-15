@@ -5,10 +5,11 @@ using UnityEngine;
 public class EatObject : MonoBehaviour
 {
     public PetCareInputManager petInputManager;
+    public PetCareStateManager petCareStateManager;
 
     private void OnMouseDown()
     {
-        if (petInputManager.petCareStateManager.hunger < 100)
+        if (petCareStateManager.petDataRef.petData.hunger < 100)
         {
             petInputManager.ShowPetEatingObject();
             gameObject.SetActive(false);

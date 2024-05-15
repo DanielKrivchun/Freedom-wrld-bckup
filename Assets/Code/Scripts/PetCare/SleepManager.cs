@@ -38,7 +38,8 @@ public class SleepManager : MonoBehaviour
     {
         sleepTimer = totalSleepTime;
         isCanSleep = true;
-        petCareStateManager.sleepStartTime = DateTime.Now;
+        petCareStateManager.petDataRef.petData.isSleeping = true;
+        petCareStateManager.petDataRef.petData.sleepStartTime = DateTime.Now.ToString();
     }
 
     private void Update()
@@ -67,7 +68,8 @@ public class SleepManager : MonoBehaviour
 
                 sleepCountdownTxt.text = "START";
                 sleepBtn.enabled = true;
-                
+
+                petCareStateManager.petDataRef.petData.isSleeping = false;
                 petCareStateManager.ManageEnergyDataFiller(100);
             }
         }

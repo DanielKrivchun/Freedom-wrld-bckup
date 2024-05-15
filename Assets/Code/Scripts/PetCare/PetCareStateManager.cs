@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PetCareStateManager : MonoBehaviour
 {
+    [Header("Pet Care Data Reference")]
     public PetDataRef petDataRef;
 
     [Space]
@@ -22,27 +23,29 @@ public class PetCareStateManager : MonoBehaviour
 
     public bool isReadyForBath;
 
-    Vector3 startPos;
-
-    [Space]
-    [Header("Pet Care Data")]
-    public int health;
-    public int happiness;
-    public int hunger;
-    public int cleanliness;
-    public int energy;
-
     [Space]
     public int happinessTickRate;
     public int hungerTickRate;
     public int cleanlinessTickRate;
     public int energyTickRate;
 
-    public DateTime lastTimeFeed, lastTimeHappy, lastTimeClean, lastTimeEnergy, sleepStartTime;
+    [Space]
+    public int lowHungerRate;
+    public float lowHungerTimeLimit;
+
+    [Space]
+    public int lowCleanlinessRate;
+    public float lowCleanlinessTimeLimit;
+
+    [Space]
+    public float lowSleepTimeLimit;
+    public float lowHealthTimeLimit;
 
     [Space]
     public SleepManager sleepManager;
     public TimingManager timingManager;
+
+    Vector3 startPos;
 
     private void Start()
     {
@@ -81,7 +84,7 @@ public class PetCareStateManager : MonoBehaviour
                 eatObjectHolder.SetActive(false);
                 break;
 
-                default:
+            default:
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
                 sleepBtn.SetActive(false);
@@ -113,157 +116,137 @@ public class PetCareStateManager : MonoBehaviour
 
     public void UpdateHealth()
     {
-        int totalHealth = (2 * petDataRef.petData.happiness) + (2 * petDataRef.petData.cleanliness) + (int)(1.5 * petDataRef.petData.hunger) + petDataRef.petData.energy;
-        petDataRef.petData.health = Mathf.Clamp(totalHealth, 0, 450);
+        petDataRef.petData.health = (2 * petDataRef.petData.happiness) + (2 * petDataRef.petData.cleanliness) + (int)(1.5 * petDataRef.petData.hunger) + petDataRef.petData.energy;
     }
 
     public void ManageHappinessDataFiller(int value)
     {
         petDataRef.petData.happiness += value;
-        happiness += value;
-        if (happiness > 100)
+        if (petDataRef.petData.happiness > 100)
         {
-            happiness = 100;
+            petDataRef.petData.happiness = 100;
         }
-        else if(happiness < 0)
+        else if (petDataRef.petData.happiness < 0)
         {
-            happiness = 0;
+            petDataRef.petData.happiness = 0;
         }
 
-        petCareUIManager.happyFillSlider.DOValue(happiness, 0.5f);
-        lastTimeHappy = DateTime.Now;
+        petCareUIManager.happyFillSlider.DOValue(petDataRef.petData.happiness, 0.5f);
+        petDataRef.petData.lastTimeHappy = DateTime.Now.ToString();
 
         UpdateHealth();
     }
 
     public void ManageHungerDataFiller(int value)
     {
-        hunger += value;
-        if (hunger > 100)
+        petDataRef.petData.hunger += value;
+        if (petDataRef.petData.hunger > 100)
         {
-            hunger = 100;
+            petDataRef.petData.hunger = 100;
         }
-        else if(hunger < 0)
+        else if (petDataRef.petData.hunger < 0)
         {
-            hunger = 0;
+            petDataRef.petData.hunger = 0;
         }
 
-        petCareUIManager.hungerFillSlider.DOValue(hunger, 0.5f);
-        lastTimeFeed = DateTime.Now;
+        petCareUIManager.hungerFillSlider.DOValue(petDataRef.petData.hunger, 0.5f);
+        petDataRef.petData.lastTimeFeed = DateTime.Now.ToString();
 
         UpdateHealth();
     }
 
     public void ManageCleanlinessDataFiller(int value)
     {
-        cleanliness += value;
-        if (cleanliness > 100)
+        petDataRef.petData.cleanliness += value;
+        if (petDataRef.petData.cleanliness > 100)
         {
-            cleanliness = 100;
+            petDataRef.petData.cleanliness = 100;
         }
-        else if(cleanliness < 0)
+        else if (petDataRef.petData.cleanliness < 0)
         {
-            cleanliness = 0;
+            petDataRef.petData.cleanliness = 0;
         }
 
-        petCareUIManager.cleanFillSlider.DOValue(cleanliness, 0.5f);
-        lastTimeClean = DateTime.Now;
+        petCareUIManager.cleanFillSlider.DOValue(petDataRef.petData.cleanliness, 0.5f);
+        petDataRef.petData.lastTimeClean = DateTime.Now.ToString();
 
         UpdateHealth();
     }
 
     public void ManageEnergyDataFiller(int value)
     {
-        energy += value;
-        if (energy > 100)
+        petDataRef.petData.energy += value;
+        if (petDataRef.petData.energy > 100)
         {
-            energy = 100;
+            petDataRef.petData.energy = 100;
         }
-        else if(energy < 0)
+        else if (petDataRef.petData.energy < 0)
         {
-            energy = 0;
+            petDataRef.petData.energy = 0;
         }
 
-        petCareUIManager.energyFillSlider.DOValue(energy, 0.5f);
-        lastTimeEnergy = DateTime.Now;
+        petCareUIManager.energyFillSlider.DOValue(petDataRef.petData.energy, 0.5f);
+        petDataRef.petData.lastTimeEnergy = DateTime.Now.ToString();
 
         UpdateHealth();
     }
 
-    //Store Data to Beamable
+    /*//Store Data to Beamable
     public void StoreAllPetCareData()
     {
-        /*PetData pet = new PetData(lastTimeHappy.ToString(), 
-                                  lastTimeFeed.ToString(), 
-                                  lastTimeClean.ToString(), 
-                                  lastTimeEnergy.ToString(), 
-                                  sleepStartTime.ToString(),
-                                  sleepManager.isCanSleep, 
-                                  happiness, 
-                                  hunger, 
-                                  cleanliness, 
-                                  energy);*/
-        /*petDataRef.SetPetWellbeingStatsData(health,
-                                            happiness,
-                                            hunger,
-                                            cleanliness,
-                                            energy,
-                                            lastTimeHappy.ToString(),
-                                            lastTimeFeed.ToString(),
-                                            lastTimeClean.ToString(),
-                                            lastTimeEnergy.ToString(),
-                                            sleepStartTime.ToString(),
-                                            sleepManager.isCanSleep);*/
-
         BeamableCloudSaveManager.instance.SaveData(petDataRef.petData);
-    }
+    }*/
 
     //Get & set data from Beamable
-    public void GetAndSetAllPetCareData()
+    public void SetDataOfCloudAndManageStats()
     {
-        //PetData petCareData = DatabaseManager.instance.LoadPet();
-        PetData petData = BeamableCloudSaveManager.instance.LoadData();
-
         //Happiness
-        lastTimeHappy = DateTime.Parse(petData.lastTimeHappy);
-        happiness = petData.happiness;
-
-        int lostHappiness = (int)((DateTime.Now - lastTimeHappy).TotalSeconds / timingManager.happyTimeLength);
+        int lostHappiness = ((int)((DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeHappy)).TotalSeconds / timingManager.happyTimeLength)) * happinessTickRate;
         Debug.Log("Lost Happiness - " + lostHappiness);
         ManageHappinessDataFiller(-lostHappiness);
 
 
         //Feed
-        lastTimeFeed = DateTime.Parse(petData.lastTimeFeed);
-        hunger = petData.hunger;
-
-        int lostHunger = (int)((DateTime.Now - lastTimeFeed).TotalSeconds / timingManager.feedTimeLength);
+        int lostHunger = ((int)((DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeFeed)).TotalSeconds / timingManager.feedTimeLength)) * hungerTickRate;
         Debug.Log("Lost Hunger - " + lostHunger);
+
+        //Checking Pet Death Situation
+        if (petDataRef.petData.hunger - lostHunger <= lowHungerRate)
+        {
+            CheckForPetDeathDueToHunger();
+        }
         ManageHungerDataFiller(-lostHunger);
 
 
         //Cleanliness
-        lastTimeClean = DateTime.Parse(petData.lastTimeClean);
-        cleanliness = petData.cleanliness;
-
-        int lostCleanliness = (int)((DateTime.Now - lastTimeClean).TotalSeconds / timingManager.cleanTimeLength);
+        int lostCleanliness = ((int)((DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeClean)).TotalSeconds / timingManager.cleanTimeLength)) * cleanlinessTickRate;
         Debug.Log("Lost Cleanliness - " + lostCleanliness);
+
+        //Checking Pet Death Situation
+        if (petDataRef.petData.cleanliness - lostCleanliness <= lowCleanlinessRate)
+        {
+            CheckForPetDeathDueToCleanliness();
+        }
         ManageCleanlinessDataFiller(-lostCleanliness);
 
-        //Energy
-        lastTimeEnergy = DateTime.Parse(petData.lastTimeEnergy);
-        energy = petData.energy;
+        //Checking Pet Death Situation
+        if ((float)(DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeEnergy)).TotalSeconds > lowSleepTimeLimit
+            && !petDataRef.petData.isSleeping)
+        {
+            Debug.Log("Pet die due to NO SLEEP! " + (float)(DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeEnergy)).TotalSeconds);
+            return;
+        }
 
-        int lostEnergy = (int)((DateTime.Now - lastTimeEnergy).TotalSeconds / timingManager.energyTimeLength);
+        //Energy
+        int lostEnergy = ((int)((DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeEnergy)).TotalSeconds / timingManager.energyTimeLength)) * energyTickRate;
         Debug.Log("Lost Energy - " + lostEnergy);
+
         ManageEnergyDataFiller(-lostEnergy);
 
         //Sleep
-        if (petData.isSleeping)
+        if (petDataRef.petData.isSleeping)
         {
-            sleepStartTime = DateTime.Parse(petData.sleepStartTime);
-
-            if ((DateTime.Now - sleepStartTime).TotalSeconds > sleepManager.totalSleepTime)
+            if ((DateTime.Now - DateTime.Parse(petDataRef.petData.sleepStartTime)).TotalSeconds > sleepManager.totalSleepTime)
             {
                 Debug.Log("Sleep time over");
                 ManageEnergyDataFiller(100);
@@ -271,41 +254,129 @@ public class PetCareStateManager : MonoBehaviour
             else
             {
                 Debug.Log("Sleep Time is Not over yet");
-                sleepManager.sleepTimer = sleepManager.totalSleepTime - (float)(DateTime.Now - sleepStartTime).TotalSeconds;
+                sleepManager.sleepTimer = sleepManager.totalSleepTime - (float)(DateTime.Now - DateTime.Parse(petDataRef.petData.sleepStartTime)).TotalSeconds;
                 sleepManager.isCanSleep = true;
             }
-        }  
+        }
+
+        //Checking Pet Death Situation
+        if (petDataRef.petData.happiness == 0 && petDataRef.petData.hunger == 0 && petDataRef.petData.cleanliness == 0 && petDataRef.petData.energy == 0)
+        {
+            CheckForPetDeathDueToHealth(lostHappiness, lostHunger, lostCleanliness, lostEnergy);
+        }
     }
 
-    //For Android
-    private void OnApplicationPause(bool pause)
+    public void CheckForPetDeathDueToHunger()
     {
-        if(pause)
+        int lowHunger;
+        float timeBeforeLowLevelHunger = 0f;
+
+        if (petDataRef.petData.hunger > lowHungerRate)
         {
-            Debug.Log("Saving Data on Pause...");
-            StoreAllPetCareData();
+            lowHunger = Mathf.Abs(petDataRef.petData.hunger - 10);
         }
         else
         {
-            //Fetch Data from Local / Server
+            lowHunger = 0;
         }
-    }
 
-#if UNITY_EDITOR
-    //For Editor
-    private void OnApplicationFocus(bool focus)
-    {
-        if (!focus)
+        while (lowHunger > 0)
         {
-            Debug.Log("Saving Data...");
-            StoreAllPetCareData();
+            timeBeforeLowLevelHunger += timingManager.feedTimeLength;
+            lowHunger -= hungerTickRate;
+        }
+
+        float timeOfLowHunger = (float)(DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeFeed)).TotalSeconds - timeBeforeLowLevelHunger;
+
+        if (timeOfLowHunger > lowHungerTimeLimit)
+        {
+            Debug.Log("Pet die due to NO FOOD!" + timeOfLowHunger);
         }
     }
-#endif
 
-    private void OnApplicationQuit()
+    public void CheckForPetDeathDueToCleanliness()
     {
-        Debug.Log("Saving Data on Quit...");
-        StoreAllPetCareData();
+        int lowCleanliness;
+        float timeBeforeLowerCleanliness = 0f;
+
+        if (petDataRef.petData.cleanliness > lowCleanlinessRate)
+        {
+            lowCleanliness = Mathf.Abs(petDataRef.petData.cleanliness - 10);
+        }
+        else
+        {
+            lowCleanliness = 0;
+        }
+
+        while (lowCleanliness > 0)
+        {
+            timeBeforeLowerCleanliness += timingManager.cleanTimeLength;
+            lowCleanliness -= cleanlinessTickRate;
+        }
+
+        float timeOfLowerCleanliness = (float)(DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeClean)).TotalSeconds - timeBeforeLowerCleanliness;
+
+        if (timeOfLowerCleanliness > lowCleanlinessTimeLimit)
+        {
+            Debug.Log("Pet die due to NO CLEANLINESS!" + timeOfLowerCleanliness);
+        }
+    }
+
+    public void CheckForPetDeathDueToHealth(int lostHappiness, int lostHunger, int lostCleanliness, int lostEnergy)
+    {
+        float timeOfLowerHappiness = 0f;
+        float timeOfLowerHunger = 0f;
+        float timeOfLowerCleanliness = 0f;
+        float timeOfLowerEnergy = 0f;
+
+        if ((petDataRef.petData.happiness - lostHappiness) < 0)
+        {
+            int lowerHappiness = lostHappiness - petDataRef.petData.happiness;
+
+            while (lowerHappiness > 0)
+            {
+                timeOfLowerHappiness += timingManager.happyTimeLength;
+                lowerHappiness -= happinessTickRate;
+            }
+        }
+
+        if ((petDataRef.petData.hunger - lostHunger) < 0)
+        {
+            int lowerHunger = lostHunger - petDataRef.petData.hunger;
+
+            while (lowerHunger > 0)
+            {
+                timeOfLowerHunger += timingManager.feedTimeLength;
+                lowerHunger -= hungerTickRate;
+            }
+        }
+
+        if ((petDataRef.petData.cleanliness - lostCleanliness) < 0)
+        {
+            int lowerCleanliness = lostCleanliness - petDataRef.petData.cleanliness;
+
+            while (lowerCleanliness > 0)
+            {
+                timeOfLowerCleanliness += timingManager.cleanTimeLength;
+                lowerCleanliness -= cleanlinessTickRate;
+            }
+        }
+
+        if ((petDataRef.petData.energy - lostEnergy) < 0)
+        {
+            int lowerEnergy = lostEnergy - petDataRef.petData.energy;
+
+            while (lowerEnergy > 0)
+            {
+                timeOfLowerEnergy += timingManager.energyTimeLength;
+                lowerEnergy -= energyTickRate;
+            }
+        }
+
+        if(timeOfLowerHappiness > lowHealthTimeLimit && timeOfLowerHunger > lowHealthTimeLimit
+            && timeOfLowerCleanliness > lowHealthTimeLimit && timeOfLowerEnergy > lowHealthTimeLimit)
+        {
+            Debug.Log("Pet die due to NO HEALTH!" + ", Hap-" + timeOfLowerHappiness + ", Hun-" + timeOfLowerHunger + ", Cle-" + timeOfLowerCleanliness + ", Ene-" + timeOfLowerEnergy);
+        }
     }
 }

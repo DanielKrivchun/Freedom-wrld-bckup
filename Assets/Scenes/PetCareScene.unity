@@ -574,6 +574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   petInputManager: {fileID: 281894569}
+  petCareStateManager: {fileID: 743679602}
 --- !u!1 &44446425
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +741,7 @@ Transform:
   m_GameObject: {fileID: 55090253}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.38, z: -3.62}
+  m_LocalPosition: {x: 0, y: 0.1, z: -2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1055,6 +1056,7 @@ MonoBehaviour:
   OnRefreshed:
     m_PersistentCalls:
       m_Calls: []
+  petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   loadGameData: {fileID: 11400000, guid: 24273981e82bffb4fb57b8118cc37b6a, type: 2}
 --- !u!1001 &107458381
 PrefabInstance:
@@ -2134,13 +2136,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 4
-  m_Radius: 0.8
+  m_Height: 0.5
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 2, z: 0}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!4 &281894568
 Transform:
   m_ObjectHideFlags: 0
@@ -3469,7 +3471,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.9999999, z: 0}
+  m_ConnectedAnchor: {x: 0, y: -1.0000002, z: 0}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:
@@ -4164,9 +4166,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546883143}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: -0.5}
-  m_LocalPosition: {x: 0, y: 0.485, z: -1.5}
-  m_LocalScale: {x: 0.13333334, y: 0.2, z: 0.2}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.85, y: 2, z: 2}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 270678625}
@@ -4349,7 +4351,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0000006705522, y: -1.0000005, z: 0}
+  m_ConnectedAnchor: {x: 0, y: -0.9999997, z: 0}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:
@@ -5340,15 +5342,16 @@ MonoBehaviour:
   bathObjectHolder: {fileID: 2799242787086901922}
   sleepBtn: {fileID: 379607962}
   isReadyForBath: 0
-  health: 0
-  happiness: 0
-  hunger: 0
-  cleanliness: 0
-  energy: 0
-  happinessTickRate: 5
-  hungerTickRate: 10
-  cleanlinessTickRate: 5
-  energyTickRate: 10
+  happinessTickRate: 2
+  hungerTickRate: 2
+  cleanlinessTickRate: 2
+  energyTickRate: 2
+  lowHungerRate: 10
+  lowHungerTimeLimit: 7200
+  lowCleanlinessRate: 10
+  lowCleanlinessTimeLimit: 7200
+  lowSleepTimeLimit: 3600
+  lowHealthTimeLimit: 1800
   sleepManager: {fileID: 379607967}
   timingManager: {fileID: 1128614859}
 --- !u!114 &743679603
@@ -5440,7 +5443,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 743679602}
         m_TargetAssemblyTypeName: PetCareStateManager, Assembly-CSharp
-        m_MethodName: GetAndSetAllPetCareData
+        m_MethodName: SetDataOfCloudAndManageStats
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6908,7 +6911,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -1.0000001, z: 0}
+  m_ConnectedAnchor: {x: 0, y: -0.9999999, z: 0}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:
@@ -7824,6 +7827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   petInputManager: {fileID: 281894569}
+  petCareStateManager: {fileID: 743679602}
 --- !u!1001 &1068668981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8111,8 +8115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3e1516eff09844ebd6b74b7f0f8553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   petCareTimerEvent: {fileID: 11400000, guid: 3c2c1a4e3b762264e95882db3052bd76, type: 2}
-  petCareStateManager: {fileID: 743679602}
   happyTimeLength: 30
   feedTimeLength: 60
   cleanTimeLength: 45
@@ -8771,7 +8775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1218613581
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9784,6 +9788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   petInputManager: {fileID: 281894569}
+  petCareStateManager: {fileID: 743679602}
 --- !u!1001 &1348016278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10409,6 +10414,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394608928}
   m_CullTransparentMesh: 1
+--- !u!1 &1430497542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1430497543}
+  - component: {fileID: 1430497547}
+  - component: {fileID: 1430497546}
+  m_Layer: 0
+  m_Name: BathTub
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1430497543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430497542}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: -0.5}
+  m_LocalPosition: {x: 2.77, y: 0.06, z: 2.14}
+  m_LocalScale: {x: 1.5, y: 2.25, z: 1.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 3284031050540644376}
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+--- !u!23 &1430497546
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430497542}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: fcdb7a99237c6417a9e5766d641a824c, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1430497547
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430497542}
+  m_Mesh: {fileID: -6870519172671050157, guid: 160c7c7be24134ae08522bcb8a66f852, type: 3}
 --- !u!1 &1436741475
 GameObject:
   m_ObjectHideFlags: 0
@@ -11653,9 +11741,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696214507}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.35, y: -0.116, z: -0.443}
-  m_LocalScale: {x: 0.1, y: 0.15, z: 0.1}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: -0.5}
+  m_LocalPosition: {x: 3.031, y: 0.7245, z: 1.6150001}
+  m_LocalScale: {x: 0.15, y: 0.3375, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3284031050540644376}
@@ -12511,7 +12599,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.49999964, z: 0}
+  m_ConnectedAnchor: {x: 0, y: -0.49999976, z: 0}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:
@@ -12621,8 +12709,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2ea5951c94a114c8de43408e1046ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xOffset: 3
-  yOffset: 5
+  xOffset: 2
+  yOffset: 3
   petCareStateManager: {fileID: 743679602}
 --- !u!1001 &1824538367
 PrefabInstance:
@@ -13876,14 +13964,6 @@ Transform:
   - {fileID: 504086771}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!33 &1890635816210593725
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2799242787086901922}
-  m_Mesh: {fileID: -6870519172671050157, guid: 160c7c7be24134ae08522bcb8a66f852, type: 3}
 --- !u!1 &2799242787086901922
 GameObject:
   m_ObjectHideFlags: 0
@@ -13893,9 +13973,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3284031050540644376}
-  - component: {fileID: 1890635816210593725}
-  - component: {fileID: 4456333872699540343}
-  - component: {fileID: 4456333872699540344}
+  - component: {fileID: 4456333872699540346}
   - component: {fileID: 4456333872699540345}
   m_Layer: 0
   m_Name: BathObjectsHolder
@@ -13912,58 +13990,31 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2799242787086901922}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: -0.5}
-  m_LocalPosition: {x: 8.3675, y: 0.73, z: 6}
-  m_LocalScale: {x: 5, y: 7.5, z: 5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1430497543}
   - {fileID: 1696214508}
   - {fileID: 546883144}
   m_Father: {fileID: 1164944753}
-  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
---- !u!23 &4456333872699540343
-MeshRenderer:
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4456333872699540345
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2799242787086901922}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: fcdb7a99237c6417a9e5766d641a824c, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4456333872699540344
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3e00c4de36d3a41b7478b99017f81b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 281894568}
+  petCareStateManager: {fileID: 743679602}
+--- !u!65 &4456333872699540346
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13982,22 +14033,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.545159, y: 0.773684, z: 0.6160697}
-  m_Center: {x: 0, y: 0.386842, z: 0.03545536}
---- !u!114 &4456333872699540345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2799242787086901922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3e00c4de36d3a41b7478b99017f81b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 281894568}
-  petCareStateManager: {fileID: 743679602}
+  m_Size: {x: 1.7806637, y: 0.8266129, z: 0.8486848}
+  m_Center: {x: 1.9078945, y: 0.0727773, z: 2.1394942}
 --- !u!23 &4936383833009560986
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14049,8 +14086,8 @@ Transform:
   m_GameObject: {fileID: 6881907604498136143}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.0000014603138, z: -0, w: -1}
-  m_LocalPosition: {x: -0.04, y: -0.59, z: -2.18}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: 0, y: -0.368, z: -0.73}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 44161940}
