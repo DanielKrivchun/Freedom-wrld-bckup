@@ -47,6 +47,10 @@ namespace Beamable.CloudSavingService
         private Api.CloudSaving.CloudSavingService _cloudSavingService;
         private readonly BeamableCloudSavingData beamableCloudSavingData = new BeamableCloudSavingData();
 
+        [Header("Pet Care Data Reference")]
+        public PetDataRef petDataRef;
+
+        [Space]
         public SimpleGameEvent loadGameData;
 
         /// <summary>
@@ -102,38 +106,60 @@ namespace Beamable.CloudSavingService
             // Subscribe to the OnError event to handle when the service fails
             _cloudSavingService.OnError += CloudSavingService_OnError;
 
-            // Check isInitializing, as best practice
-            if (!_cloudSavingService.isInitializing)
+            if (petDataRef.petData.petname == "")
             {
-                // Init the service, which will first download content that the server may have, that the client does not.
-                // The client will then upload any content that it has, that the server is missing
-                await _cloudSavingService.Init();
+                CreateNewPet();
+                loadGameData.Raise();
             }
             else
             {
-                throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
-            }
+                // Check isInitializing, as best practice
+                if (!_cloudSavingService.isInitializing)
+                {
+                    // Init the service, which will first download content that the server may have, that the client does not.
+                    // The client will then upload any content that it has, that the server is missing
+                    await _cloudSavingService.Init();
+                }
+                else
+                {
+                    throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
+                }
 
+                // Check isInitializing, as best practice
+                /*if (!_cloudSavingService.isInitializing)
+                {
+                    // Resets the local cloud data to match the server cloud data
+                    // IF DESIRED, UNCOMMENT THIS SECTION
+                    await _cloudSavingService.ReinitializeUserData();
+                }
+                else
+                {
+                    throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
+                }*/
 
-            // Check isInitializing, as best practice
-            /*if (!_cloudSavingService.isInitializing)
-            {
-                // Resets the local cloud data to match the server cloud data
-                // IF DESIRED, UNCOMMENT THIS SECTION
-                await _cloudSavingService.ReinitializeUserData();
-            }
-            else
-            {
-                throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
-            }*/
+                petDataRef.petData = LoadData();
+                Refresh();
 
+                loadGameData.Raise();
+            }  
+        }
 
-            loadGameData.Raise();
-            Refresh();
+        public void CreateNewPet()
+        {
+            string currentTime = DateTime.Now.ToString();
+            petDataRef.SetPetAllData("immortal", 650, 100, 100, 100, 100, 
+                                        currentTime, currentTime, currentTime, currentTime,
+                                        25, 25, 15, 15, 10, 10, 
+                                        currentTime, false);
+
+            beamableCloudSavingData.petDataLocal = petDataRef.petData;
+            SaveData(beamableCloudSavingData.petDataLocal);
+
+            Debug.Log("Created New Pet!");
         }
 
 
-        private void LoadAndSave()
+        /*private void LoadAndSave()
         {
             beamableCloudSavingData.DataState = DataState.Pending;
             beamableCloudSavingData.petDataLocal = LoadData();
@@ -167,7 +193,7 @@ namespace Beamable.CloudSavingService
                 SaveDataInternal(beamableCloudSavingData.petDataLocal);
             }
 
-        }
+        }*/
 
         public PetData LoadData()
         {
@@ -274,6 +300,40 @@ namespace Beamable.CloudSavingService
         private void CloudSavingService_OnError(CloudSavingError cloudSavingError)
         {
             Debug.Log($"CloudSavingService_OnError() Message = {cloudSavingError.Message}");
+        }
+
+
+
+        //For Android
+        private void OnApplicationPause(bool pause)
+        {
+            if (pause)
+            {
+                Debug.Log("Saving Data on Pause...");
+                SaveData(petDataRef.petData);
+            }
+            else
+            {
+                //Fetch Data from Local / Server
+            }
+        }
+
+#if UNITY_EDITOR
+        //For Editor
+        private void OnApplicationFocus(bool focus)
+        {
+            if (!focus)
+            {
+                Debug.Log("Saving Data...");
+                SaveData(petDataRef.petData);
+            }
+        }
+#endif
+
+        private void OnApplicationQuit()
+        {
+            Debug.Log("Saving Data on Quit...");
+            SaveData(petDataRef.petData);
         }
     }
 }

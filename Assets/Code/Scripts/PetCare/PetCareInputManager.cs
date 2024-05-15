@@ -13,7 +13,7 @@ public class PetCareInputManager : MonoBehaviour
         {
             case PetCareState.Happy:
 
-                if(petCareStateManager.happiness < 100)
+                if(petCareStateManager.petDataRef.petData.happiness < 100)
                 {
                     //Play Happy Animation
                     petAnim._ChangeAnimationState(_AnimState.Happy);

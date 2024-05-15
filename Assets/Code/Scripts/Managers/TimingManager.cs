@@ -3,8 +3,12 @@ using UnityEngine.UI;
 
 public class TimingManager : MonoBehaviour
 {
+    [Header("Pet Care Data Reference")]
+    public PetDataRef petDataRef;
+
+    [Space]
     public GameEventState petCareTimerEvent;
-    public PetCareStateManager petCareStateManager;
+    //public PetCareStateManager petCareStateManager;
 
     [Space]
     public float happyTimeLength;
@@ -30,25 +34,25 @@ public class TimingManager : MonoBehaviour
     private void Update()
     {
         //Happy
-        if(petCareStateManager.happiness > 0)
+        if(petDataRef.petData.happiness > 0)
         {
             SetHappyTimer();
         }
 
         //Eat
-        if(petCareStateManager.hunger > 0)
+        if(petDataRef.petData.hunger > 0)
         {
             SetFeedTimer();
         }
 
         //Clean
-        if(petCareStateManager.cleanliness > 0)
+        if(petDataRef.petData.cleanliness > 0)
         {
             SetCleanTimer();
         }
 
         //Energy
-        if (petCareStateManager.energy > 0)
+        if (petDataRef.petData.energy > 0)
         {
             SetEnergyTimer();
         }

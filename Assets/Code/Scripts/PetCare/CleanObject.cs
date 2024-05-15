@@ -9,10 +9,10 @@ public class CleanObject : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(petCareStateManager.cleanliness < 100)
+        if(petCareStateManager.petDataRef.petData.cleanliness < 100)
         {
             petCareStateManager.isReadyForBath = true;
-            player.transform.position = new Vector3(5.5f, 1f, 5.7f);
+            player.transform.position = new Vector3(1.85f, 0.4f, 1.85f);
         }
     }
 }

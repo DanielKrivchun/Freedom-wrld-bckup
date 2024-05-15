@@ -12,3 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf92654c1981dc49be74cc23e0c4b63, type: 3}
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
+  petData:
+    petname: immortal
+    health: 450
+    happiness: 92
+    hunger: 98
+    cleanliness: 94
+    energy: 94
+    lastTimeHappy: 5/15/2024 10:39:18 PM
+    lastTimeFeed: 5/15/2024 10:38:53 PM
+    lastTimeClean: 5/15/2024 10:39:33 PM
+    lastTimeEnergy: 5/15/2024 10:39:28 PM
+    sleepStartTime: 5/15/2024 10:37:19 PM
+    running: 25
+    climbing: 25
+    flying: 15
+    swimming: 15
+    intelligence: 10
+    luck: 10
+    isSleeping: 0

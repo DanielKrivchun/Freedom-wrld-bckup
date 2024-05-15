@@ -38,7 +38,7 @@ public class ShowerMove : MonoBehaviour
 
             // Clamp the new position to the specified range
             newPosition.x = Mathf.Clamp(newPosition.x, -xOffset, xOffset);
-            newPosition.y = Mathf.Clamp(newPosition.y, -2, 0);
+            newPosition.y = Mathf.Clamp(newPosition.y, -yOffset, 0);
 
             // Update the object's position
             transform.localPosition = newPosition;            
