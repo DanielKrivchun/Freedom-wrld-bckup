@@ -5332,6 +5332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373c7fdc886683848890a010b6f6fd82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   selectedPetCareState: 0
   petCareUIManager: {fileID: 1334679533}
   player: {fileID: 281894563}
@@ -5339,6 +5340,7 @@ MonoBehaviour:
   bathObjectHolder: {fileID: 2799242787086901922}
   sleepBtn: {fileID: 379607962}
   isReadyForBath: 0
+  health: 0
   happiness: 0
   hunger: 0
   cleanliness: 0
