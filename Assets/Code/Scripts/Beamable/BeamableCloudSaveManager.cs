@@ -128,7 +128,6 @@ namespace Beamable.CloudSavingService
             }*/
 
 
-            //FindObjectOfType<PetCareStateManager>().GetAndSetAllPetCareDataJSON();
             loadGameData.Raise();
             Refresh();
         }
