@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
 using Fusion.Sockets;
 using System;
@@ -14,6 +15,9 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public NetworkPrefabRef prefab;
 
     private Dictionary<PlayerRef, NetworkObject> genratedplayers = new Dictionary<PlayerRef, NetworkObject>();
+
+
+    private InputControl _playerActionMap = new InputControl();
 
 
     async void _GameMode(GameMode Mode)
@@ -70,10 +74,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         throw new NotImplementedException();
     }
 
-    public void OnInput(NetworkRunner runner, NetworkInput input)
-    {
-        //throw new NotImplementedException();
-    }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
@@ -113,6 +113,38 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    public void OnInput(NetworkRunner runner, Fusion.NetworkInput input)
+    {
+        var data = new NetworkInputData();
+
+        if (Input.GetKey(KeyCode.W))
+        {
+
+            data.direction += Vector3.forward;
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+
+            data.direction += Vector3.back;
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+
+            data.direction += Vector3.left;
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+
+            data.direction += Vector3.right;
+        }
+
+        input.Set(data);
+    }
+
+
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
     {
         throw new NotImplementedException();
@@ -140,7 +172,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-        //throw new NotImplementedException();
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
@@ -163,6 +194,8 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             }
         }
     }
+
+
 
     #endregion
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 21971105753198444}
   - component: {fileID: 7451727934095082705}
-  - component: {fileID: 5394511664651790207}
+  - component: {fileID: 4393940116571085505}
   - component: {fileID: 4457885952801009025}
   - component: {fileID: 1920933005764420817}
   - component: {fileID: 7958253094693529820}
@@ -64,7 +64,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.25, z: 0}
---- !u!114 &5394511664651790207
+--- !u!114 &4393940116571085505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,15 +73,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6701743722040084639}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80a8f2cf48af5884ea15dcc3183f47a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6de803eccd4b6da4dbbc3fecc85ff071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_base_speed: 0
-  m_input_value: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
   m_pet_config: {fileID: 11400000, guid: 2726ba940c4abc448a48f08f07cc4bb2, type: 2}
   m_pet_anim_controller: {fileID: 7175948877978410381}
-  StartClicker: 0
-  CPR: 0
 --- !u!114 &4457885952801009025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +149,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 4393940116571085505}
   - {fileID: 7958253094693529820}
 --- !u!1001 &5917110063801734488
 PrefabInstance:
