@@ -254,11 +254,16 @@ public class PetCareStateManager : MonoBehaviour
     {
         if(pause)
         {
-            Debug.Log("Saving Data...");
+            Debug.Log("Saving Data on Pause...");
             StoreAllPetCareData();
+        }
+        else
+        {
+            //Fetch Data from Local / Server
         }
     }
 
+#if UNITY_EDITOR
     //For Editor
     private void OnApplicationFocus(bool focus)
     {
@@ -267,5 +272,12 @@ public class PetCareStateManager : MonoBehaviour
             Debug.Log("Saving Data...");
             StoreAllPetCareData();
         }
+    }
+#endif
+
+    private void OnApplicationQuit()
+    {
+        Debug.Log("Saving Data on Quit...");
+        StoreAllPetCareData();
     }
 }
