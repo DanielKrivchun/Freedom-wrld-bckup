@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PetCareStateManager : MonoBehaviour
 {
+    public PetDataRef petDataRef;
+
     [Space]
     public PetCareState selectedPetCareState;
     public PetCareUIManager petCareUIManager;
@@ -24,6 +26,7 @@ public class PetCareStateManager : MonoBehaviour
 
     [Space]
     [Header("Pet Care Data")]
+    public int health;
     public int happiness;
     public int hunger;
     public int cleanliness;
@@ -40,7 +43,6 @@ public class PetCareStateManager : MonoBehaviour
     [Space]
     public SleepManager sleepManager;
     public TimingManager timingManager;
-
 
     private void Start()
     {
@@ -109,8 +111,15 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    public void UpdateHealth()
+    {
+        int totalHealth = (2 * petDataRef.petData.happiness) + (2 * petDataRef.petData.cleanliness) + (int)(1.5 * petDataRef.petData.hunger) + petDataRef.petData.energy;
+        petDataRef.petData.health = Mathf.Clamp(totalHealth, 0, 450);
+    }
+
     public void ManageHappinessDataFiller(int value)
     {
+        petDataRef.petData.happiness += value;
         happiness += value;
         if (happiness > 100)
         {
@@ -123,6 +132,8 @@ public class PetCareStateManager : MonoBehaviour
 
         petCareUIManager.happyFillSlider.DOValue(happiness, 0.5f);
         lastTimeHappy = DateTime.Now;
+
+        UpdateHealth();
     }
 
     public void ManageHungerDataFiller(int value)
@@ -139,6 +150,8 @@ public class PetCareStateManager : MonoBehaviour
 
         petCareUIManager.hungerFillSlider.DOValue(hunger, 0.5f);
         lastTimeFeed = DateTime.Now;
+
+        UpdateHealth();
     }
 
     public void ManageCleanlinessDataFiller(int value)
@@ -155,6 +168,8 @@ public class PetCareStateManager : MonoBehaviour
 
         petCareUIManager.cleanFillSlider.DOValue(cleanliness, 0.5f);
         lastTimeClean = DateTime.Now;
+
+        UpdateHealth();
     }
 
     public void ManageEnergyDataFiller(int value)
@@ -171,12 +186,14 @@ public class PetCareStateManager : MonoBehaviour
 
         petCareUIManager.energyFillSlider.DOValue(energy, 0.5f);
         lastTimeEnergy = DateTime.Now;
+
+        UpdateHealth();
     }
 
     //Store Data to Beamable
     public void StoreAllPetCareData()
     {
-        PetData pet = new PetData(lastTimeHappy.ToString(), 
+        /*PetData pet = new PetData(lastTimeHappy.ToString(), 
                                   lastTimeFeed.ToString(), 
                                   lastTimeClean.ToString(), 
                                   lastTimeEnergy.ToString(), 
@@ -185,9 +202,20 @@ public class PetCareStateManager : MonoBehaviour
                                   happiness, 
                                   hunger, 
                                   cleanliness, 
-                                  energy);
+                                  energy);*/
+        /*petDataRef.SetPetWellbeingStatsData(health,
+                                            happiness,
+                                            hunger,
+                                            cleanliness,
+                                            energy,
+                                            lastTimeHappy.ToString(),
+                                            lastTimeFeed.ToString(),
+                                            lastTimeClean.ToString(),
+                                            lastTimeEnergy.ToString(),
+                                            sleepStartTime.ToString(),
+                                            sleepManager.isCanSleep);*/
 
-        BeamableCloudSaveManager.instance.SaveData(pet);
+        BeamableCloudSaveManager.instance.SaveData(petDataRef.petData);
     }
 
     //Get & set data from Beamable

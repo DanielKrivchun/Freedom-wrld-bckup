@@ -1,11 +1,23 @@
-
 public class PetData
 {
+    //Pet
+    public string petname;
+
+    //Wellbeing Stats
+    public int health, happiness, hunger, cleanliness, energy;
+
+    //Timings
     public string lastTimeHappy, lastTimeFeed, lastTimeClean, lastTimeEnergy, sleepStartTime;
-    public int happiness, hunger, cleanliness, energy;
+
+    //Athletics Stats
+    public int running, climbing, flying, swimming;
+
+    //Chance Stats
+    public int intelligence, luck;
+
     public bool isSleeping;
 
-    public PetData(){}
+    /*public PetData(){}
 
     public PetData(string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy, string sleepStartTime, bool isSleeping, int happiness, int cleanliness, int hunger, int energy)
     {
@@ -19,5 +31,5 @@ public class PetData
         this.hunger = hunger;
         this.cleanliness = cleanliness;
         this.energy = energy;
-    }
+    }*/
 }
