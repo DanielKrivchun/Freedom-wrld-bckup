@@ -327,6 +327,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27757357}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &28181988 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1332176339475771486, guid: 1962131f01edc924a89e3d9989c9ff0a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1965236736258166270}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &30836879
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +400,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 28181988}
   m_Lens:
     FieldOfView: 60.000004
     OrthographicSize: 10
@@ -422,8 +428,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32190610}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2480164, y: 0.000000018637827, z: -0.0000000047715707, w: 0.96875584}
-  m_LocalPosition: {x: 0, y: 2, z: -3.65}
+  m_LocalRotation: {x: 0.2480164, y: 0.000000018230454, z: -0.000000004667277, w: 0.96875584}
+  m_LocalPosition: {x: 3.6, y: 10.2300005, z: -9.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4755,7 +4761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 2, z: -3.65}
+  m_FollowOffset: {x: 0, y: 10.6, z: -21}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -9278,8 +9284,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1247974827}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2480164, y: 0.000000018637827, z: -0.0000000047715707, w: 0.96875584}
-  m_LocalPosition: {x: 0, y: 2, z: -3.65}
+  m_LocalRotation: {x: 0.2480164, y: 0.000000018230454, z: -0.000000004667277, w: 0.96875584}
+  m_LocalPosition: {x: 3.6, y: 10.2300005, z: -9.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9426,6 +9432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ba7038eb7ecc2f409405d20ed9deaf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputvalue: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
   prefab:
     RawGuidValue: 8feb1dd0d1704ae45bd895ae03b22247
 --- !u!4 &1254398770
@@ -15505,7 +15512,7 @@ PrefabInstance:
     - target: {fileID: 1332176339475771486, guid: 1962131f01edc924a89e3d9989c9ff0a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.6
       objectReference: {fileID: 0}
     - target: {fileID: 1332176339475771486, guid: 1962131f01edc924a89e3d9989c9ff0a,
         type: 3}
@@ -15515,7 +15522,7 @@ PrefabInstance:
     - target: {fileID: 1332176339475771486, guid: 1962131f01edc924a89e3d9989c9ff0a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 11.1
       objectReference: {fileID: 0}
     - target: {fileID: 1332176339475771486, guid: 1962131f01edc924a89e3d9989c9ff0a,
         type: 3}
