@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 
 public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
+    public NetworkCamera networkCamera;
+    [Space]
     private InputControl _playerActionMap = new InputControl();
 
     private NetworkRunner networkRunner;
@@ -19,8 +21,8 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [Space]
     public NetworkPrefabRef prefab;
 
-    private Dictionary<PlayerRef, NetworkObject> genratedplayers = new Dictionary<PlayerRef, NetworkObject>();
-
+    public List<_AllPlayerData> genratedPlayers;
+    //private Dictionary<PlayerRef, NetworkObject> genratedplayers = new Dictionary<PlayerRef, NetworkObject>();
 
 
     async void _GameMode(GameMode Mode)
@@ -106,18 +108,31 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             Vector3 spawnPosition = Vector3.zero;
             NetworkObject networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
             // Keep track of the player avatars for easy access
-            genratedplayers.Add(player, networkPlayerObject);
+
+            _AllPlayerData d = new _AllPlayerData();
+            d.playerRef = player;
+            d.networkObject = networkPlayerObject;
+            genratedPlayers.Add(d);
+            networkCamera._SetUpCamera(networkPlayerObject.transform);
+        }
+        else
+        {
+            Debug.Log("I am not server so what i will do here");
         }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         ColoredDebug.Log("OnPlayerLeft  " + player.PlayerId, Color.red);
-        if (genratedplayers.TryGetValue(player, out NetworkObject networkObject))
+
+        _AllPlayerData p = genratedPlayers.Find(asd => asd.playerRef == player);
+
+        if (p.networkObject != null)
         {
-            runner.Despawn(networkObject);
-            genratedplayers.Remove(player);
+            runner.Despawn(p.networkObject);
+            genratedPlayers.Remove(genratedPlayers.Find(asd => asd.playerRef == player));
         }
+
     }
 
     public void OnInput(NetworkRunner runner, Fusion.NetworkInput input)

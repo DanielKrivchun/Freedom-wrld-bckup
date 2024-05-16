@@ -33,8 +33,6 @@ public class NetworkPlayerController : NetworkBehaviour
         }
     }
 
-
-
     private void _PlayerRotation()
     {
         if (m_directions.sqrMagnitude == 0)

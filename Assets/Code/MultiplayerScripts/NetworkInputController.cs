@@ -11,3 +11,10 @@ public struct NetworkInputData : INetworkInput
 {
     public Vector2 direction;
 }
+
+[System.Serializable]
+public class _AllPlayerData
+{
+    public PlayerRef playerRef;
+    public NetworkObject networkObject;
+}
