@@ -36,10 +36,15 @@ public class SleepManager : MonoBehaviour
 
     public void StartSleepingTimer()
     {
-        sleepTimer = totalSleepTime;
-        isCanSleep = true;
-        petCareStateManager.petDataRef.petData.isSleeping = true;
-        petCareStateManager.petDataRef.petData.sleepStartTime = DateTime.Now.ToString();
+        //If Cleanliness <= 10/100 && Hunger <= 10/100 , then the pet will not be able to sleep
+        if (petCareStateManager.petDataRef.petData.cleanliness > 10 &&
+            petCareStateManager.petDataRef.petData.hunger > 10)
+        {
+            sleepTimer = totalSleepTime;
+            isCanSleep = true;
+            petCareStateManager.petDataRef.petData.isSleeping = true;
+            petCareStateManager.petDataRef.petData.sleepStartTime = DateTime.Now.ToString();
+        } 
     }
 
     private void Update()

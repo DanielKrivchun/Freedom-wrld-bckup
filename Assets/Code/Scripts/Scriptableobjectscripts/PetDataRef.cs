@@ -7,7 +7,7 @@ public class PetDataRef : ScriptableObject
 {
     public PetData petData = new PetData();
 
-    public void SetPetAllData(string petName, int health, int happiness, int cleanliness, int hunger, int energy,
+    public void SetPetAllData(string petName, int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
                                 string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy,  
                                 int running, int climbing, int flying, int swimming, int intelligence, int luck,
                                 string sleepStartTime, bool isSleeping)
@@ -19,6 +19,7 @@ public class PetDataRef : ScriptableObject
         petData.hunger = hunger;
         petData.cleanliness = cleanliness;
         petData.energy = energy;
+        petData.isSick = isSick;
         
         petData.lastTimeHappy = lastTimeHappy;
         petData.lastTimeFeed = lastTimeFeed;
@@ -37,7 +38,7 @@ public class PetDataRef : ScriptableObject
         
     }
 
-    public void SetPetWellbeingStatsData(int health, int happiness, int cleanliness, int hunger, int energy, 
+    public void SetPetWellbeingStatsData(int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
                                         string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy, string sleepStartTime, bool isSleeping)
     {
         petData.health = health;
@@ -45,6 +46,7 @@ public class PetDataRef : ScriptableObject
         petData.hunger = hunger;
         petData.cleanliness = cleanliness;
         petData.energy = energy;
+        petData.isSick = isSick;
 
         petData.lastTimeHappy = lastTimeHappy;
         petData.lastTimeFeed = lastTimeFeed;

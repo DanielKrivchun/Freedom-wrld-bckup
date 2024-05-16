@@ -6,6 +6,7 @@ public class PetData
 
     //Wellbeing Stats
     public int health, happiness, hunger, cleanliness, energy;
+    public bool isSick;
 
     //Timings
     public string lastTimeHappy, lastTimeFeed, lastTimeClean, lastTimeEnergy, sleepStartTime;

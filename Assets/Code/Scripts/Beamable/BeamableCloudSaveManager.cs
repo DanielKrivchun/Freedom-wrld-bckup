@@ -108,7 +108,10 @@ namespace Beamable.CloudSavingService
 
             if (petDataRef.petData.petname == "")
             {
+                beamableCloudSavingData.DataState = DataState.Pending;
                 CreateNewPet();
+                
+                Refresh();
                 loadGameData.Raise();
             }
             else
@@ -147,7 +150,7 @@ namespace Beamable.CloudSavingService
         public void CreateNewPet()
         {
             string currentTime = DateTime.Now.ToString();
-            petDataRef.SetPetAllData("immortal", 650, 100, 100, 100, 100, 
+            petDataRef.SetPetAllData("immortal", 650, 100, 100, 100, 100, false,
                                         currentTime, currentTime, currentTime, currentTime,
                                         25, 25, 15, 15, 10, 10, 
                                         currentTime, false);
@@ -205,7 +208,6 @@ namespace Beamable.CloudSavingService
 
             Refresh();
 
-            Debug.Log("Loaded Data - " + beamableCloudSavingData.petDataCloud);
             return beamableCloudSavingData.petDataCloud;
         }
 
@@ -304,7 +306,7 @@ namespace Beamable.CloudSavingService
 
 
 
-        //For Android
+        /*//For Android
         private void OnApplicationPause(bool pause)
         {
             if (pause)
@@ -334,6 +336,6 @@ namespace Beamable.CloudSavingService
         {
             Debug.Log("Saving Data on Quit...");
             SaveData(petDataRef.petData);
-        }
+        }*/
     }
 }

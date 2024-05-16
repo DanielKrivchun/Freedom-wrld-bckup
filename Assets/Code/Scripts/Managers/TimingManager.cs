@@ -8,27 +8,22 @@ public class TimingManager : MonoBehaviour
 
     [Space]
     public GameEventState petCareTimerEvent;
-    //public PetCareStateManager petCareStateManager;
 
     [Space]
-    public float happyTimeLength;
-    public static float happyTimer;
+    public PetCareStateManager petCareStateManager;
 
-    public static float feedTimer;
-    public float feedTimeLength;
-
-    public static float cleanTimer;
-    public float cleanTimeLength;
-
-    public static float energyTimer;
-    public float energyTimeLength;
+    //Timers
+    private static float happyTimer;
+    private static float hungerTimer;
+    private static float cleanTimer;
+    private static float energyTimer;
 
     private void Start()
     {
-        happyTimer = happyTimeLength;
-        feedTimer = feedTimeLength;
-        cleanTimer = cleanTimeLength;
-        energyTimer = energyTimeLength;
+        happyTimer = petCareStateManager.happyTimeLength;
+        hungerTimer = petCareStateManager.hungerTimeLength;
+        cleanTimer = petCareStateManager.cleanTimeLength;
+        energyTimer = petCareStateManager.energyTimeLength;
     }
 
     private void Update()
@@ -62,7 +57,7 @@ public class TimingManager : MonoBehaviour
     {
         if (happyTimer <= 0)
         {
-            happyTimer = happyTimeLength;
+            happyTimer = petCareStateManager.happyTimeLength;
             petCareTimerEvent.Raise(PetCareState.Happy);
         }
         else
@@ -74,14 +69,14 @@ public class TimingManager : MonoBehaviour
 
     private void SetFeedTimer()
     {
-        if (feedTimer <= 0)
+        if (hungerTimer <= 0)
         {
-            feedTimer = feedTimeLength;
+            hungerTimer = petCareStateManager.hungerTimeLength;
             petCareTimerEvent.Raise(PetCareState.Feed);
         }
         else
         {
-            feedTimer -= Time.deltaTime;
+            hungerTimer -= Time.deltaTime;
         }
         //Debug.Log("Feed - " + feedTimer);
     }
@@ -90,7 +85,7 @@ public class TimingManager : MonoBehaviour
     { 
         if (cleanTimer <= 0)
         {
-            cleanTimer = cleanTimeLength;
+            cleanTimer = petCareStateManager.cleanTimeLength;
             petCareTimerEvent.Raise(PetCareState.Clean);
         }
         else
@@ -104,7 +99,7 @@ public class TimingManager : MonoBehaviour
     {
         if (energyTimer <= 0)
         {
-            energyTimer = energyTimeLength;
+            energyTimer = petCareStateManager.energyTimeLength;
             petCareTimerEvent.Raise(PetCareState.Energy);
         }
         else
