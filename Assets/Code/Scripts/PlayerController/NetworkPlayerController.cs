@@ -32,8 +32,6 @@ public class NetworkPlayerController : NetworkBehaviour
             _PlayerRotation();
             _ApplyMovement();
         }
-
-
     }
 
 

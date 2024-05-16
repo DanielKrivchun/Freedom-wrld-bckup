@@ -9,6 +9,10 @@ using UnityEngine.SceneManagement;
 
 public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
+    public InputValue inputvalue;
+    [Space]
+    private InputControl _playerActionMap = new InputControl();
+
     private NetworkRunner networkRunner;
 
     [Space]
@@ -16,8 +20,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private Dictionary<PlayerRef, NetworkObject> genratedplayers = new Dictionary<PlayerRef, NetworkObject>();
 
-
-    private InputControl _playerActionMap = new InputControl();
 
 
     async void _GameMode(GameMode Mode)
@@ -105,7 +107,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        ColoredDebug.Log("OnPlayerLeft" + player.PlayerId, Color.red);
+        ColoredDebug.Log("OnPlayerLeft  " + player.PlayerId, Color.red);
         if (genratedplayers.TryGetValue(player, out NetworkObject networkObject))
         {
             runner.Despawn(networkObject);
@@ -117,29 +119,28 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         var data = new NetworkInputData();
 
-        if (Input.GetKey(KeyCode.W))
-        {
+        data.direction = inputvalue.m_input;
 
-            data.direction += Vector3.forward;
-        }
+        //if (Input.GetKey(KeyCode.W))
+        //{
 
-        if (Input.GetKey(KeyCode.S))
-        {
+        //    data.direction += Vector3.forward;
+        //}
 
-            data.direction += Vector3.back;
-        }
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    data.direction += Vector3.back;
+        //}
 
-        if (Input.GetKey(KeyCode.A))
-        {
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    data.direction += Vector3.left;
+        //}
 
-            data.direction += Vector3.left;
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-
-            data.direction += Vector3.right;
-        }
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    data.direction += Vector3.right;
+        //}
 
         input.Set(data);
     }
@@ -157,7 +158,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnSceneLoadStart(NetworkRunner runner)
@@ -194,8 +195,5 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             }
         }
     }
-
-
-
     #endregion
 }

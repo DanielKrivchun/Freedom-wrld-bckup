@@ -9,5 +9,5 @@ public class NetworkInputController : MonoBehaviour
 
 public struct NetworkInputData : INetworkInput
 {
-    public Vector3 direction;
+    public Vector2 direction;
 }
