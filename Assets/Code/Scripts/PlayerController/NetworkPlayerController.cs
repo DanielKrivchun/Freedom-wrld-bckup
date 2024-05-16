@@ -12,7 +12,7 @@ public class NetworkPlayerController : NetworkBehaviour
 
     private Vector3 m_directions;
 
-    private NetworkCharacterController m_ch_controller;
+    public NetworkCharacterController m_ch_controller;
 
     private Camera m_main_Cam;
 
@@ -20,7 +20,6 @@ public class NetworkPlayerController : NetworkBehaviour
     void Start()
     {
         m_main_Cam = Camera.main;
-        m_ch_controller = GetComponent<NetworkCharacterController>();
     }
 
     public override void FixedUpdateNetwork()

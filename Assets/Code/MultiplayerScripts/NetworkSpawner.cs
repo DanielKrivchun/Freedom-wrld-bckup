@@ -5,15 +5,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
-    public InputValue inputvalue;
-    [Space]
     private InputControl _playerActionMap = new InputControl();
 
     private NetworkRunner networkRunner;
+
+    public Vector2 m_input;
 
     [Space]
     public NetworkPrefabRef prefab;
@@ -44,6 +45,10 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     }
 
+    public void _InputSet(InputAction.CallbackContext context)
+    {
+        m_input = context.ReadValue<Vector2>();
+    }
 
     #region INetworkRunnerCallbacks
     public void OnConnectedToServer(NetworkRunner runner)
@@ -98,7 +103,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.IsServer)
         {
             // Create a unique position for the player
-            Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
+            Vector3 spawnPosition = Vector3.zero;
             NetworkObject networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
             // Keep track of the player avatars for easy access
             genratedplayers.Add(player, networkPlayerObject);
@@ -119,28 +124,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         var data = new NetworkInputData();
 
-        data.direction = inputvalue.m_input;
-
-        //if (Input.GetKey(KeyCode.W))
-        //{
-
-        //    data.direction += Vector3.forward;
-        //}
-
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    data.direction += Vector3.back;
-        //}
-
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    data.direction += Vector3.left;
-        //}
-
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    data.direction += Vector3.right;
-        //}
+        data.direction = m_input;
 
         input.Set(data);
     }
