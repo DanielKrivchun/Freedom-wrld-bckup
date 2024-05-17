@@ -73,6 +73,7 @@ public class NetwrokUI : NetworkBehaviour
         countdownText.text = a.ToString();
         countdownPanel.SetActive(false);
         Debug.Log("Game Started Now");
+        spawner._StartGameForPlayers();
     }
 
 

@@ -25,7 +25,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private void Start()
     {
-        inputValue.m_enable_navmesh =false;
+        inputValue.m_enable_navmesh = false;
     }
 
     public async void _GameMode(GameMode Mode)
@@ -55,7 +55,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         {
             item.networkObject.GetComponent<NavmeshMultiplayer>()._SetPathBasedOnIndex(item.playerRef.AsIndex);
         }
-        inputValue.m_enable_navmesh= true;  
+        inputValue.m_enable_navmesh = true;
     }
 
 
