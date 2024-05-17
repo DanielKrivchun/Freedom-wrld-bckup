@@ -7,6 +7,8 @@ public class PathPointManager : MonoBehaviour
     public List<_WayPoints> m_way_points;
     public bool m_randomized;
 
+    public List<_PrePositions> prePositions;
+
     public List<Vector3> _GetMyPath()
     {
 
@@ -24,6 +26,12 @@ public class PathPointManager : MonoBehaviour
             v.Add(m_way_points[i].m_points[m_random_no].position);
         }
 #if UNITY_EDITOR
+
+        _PrePositions pre = new _PrePositions();
+        pre.m_positions = v;   
+        
+        prePositions.Add(pre);
+
         _GenratePathLines(v);
 #endif
 
@@ -36,12 +44,8 @@ public class PathPointManager : MonoBehaviour
 
     public void _GenratePathLines()
     {
-
         List<Vector3> v = _GetMyPath();
-
         float m_d = 0;
-        
-
     }
 
     public void _GenratePathLines(List<Vector3> m_v)
@@ -73,4 +77,10 @@ public class PathPointManager : MonoBehaviour
 
 #endif
 
+}
+
+[System.Serializable]
+public class _PrePositions
+{
+    public List<Vector3> m_positions;
 }

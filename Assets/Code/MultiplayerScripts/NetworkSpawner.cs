@@ -115,7 +115,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             networkCamera._SetUpCamera(networkPlayerObject.transform);
 
             //CHECK COUNT OF PLAYER HERE
-
+            networkPlayerObject.GetComponent<NavmeshMultiplayer>().myplayerNo = player.AsIndex;
             int a = genratedPlayers.Count;
             Debug.Log("TOTAL PLAYERS IN GAME " + a);
 
