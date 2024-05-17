@@ -11,8 +11,6 @@ using UnityEngine.SceneManagement;
 public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     public NetworkCamera networkCamera;
-    [Space]
-    private InputControl _playerActionMap = new InputControl();
 
     private NetworkRunner networkRunner;
 
@@ -104,6 +102,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         ColoredDebug.Log("OnPlayerJoined  IsServer", Color.green);
         if (runner.IsServer)
         {
+            Debug.Log("I am Server");
             // Create a unique position for the player
             Vector3 spawnPosition = Vector3.zero;
             NetworkObject networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
