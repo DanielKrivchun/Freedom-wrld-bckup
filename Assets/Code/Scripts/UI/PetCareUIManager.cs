@@ -105,9 +105,12 @@ public class PetCareUIManager : MonoBehaviour
 
     public void UpdatePetSickToHealthy()
     {
-        medicineBtn.interactable = false;
-        medicineCntTxt.text = (medicineCnt - 1).ToString();
-        petDataRef.petData.isSick = false;
+        if (petDataRef.petData.isSick)
+        {
+            medicineBtn.interactable = false;
+            medicineCntTxt.text = (medicineCnt - 1).ToString();
+            petDataRef.petData.isSick = false;
+        }
     }
 
     public void ShowPetCreationUI()
