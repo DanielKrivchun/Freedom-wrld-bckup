@@ -20,6 +20,8 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public NetworkPrefabRef prefab;
 
     public List<_AllPlayerData> genratedPlayers;
+    private NetworkObject networkPlayerObject;
+
     //private Dictionary<PlayerRef, NetworkObject> genratedplayers = new Dictionary<PlayerRef, NetworkObject>();
 
     private void Start()
@@ -118,14 +120,18 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             Debug.Log("I am Server");
             // Create a unique position for the player
             Vector3 spawnPosition = Vector3.zero;
-            NetworkObject networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
+            networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
             // Keep track of the player avatars for easy access
             _AllPlayerData d = new _AllPlayerData();
             d.playerRef = player;
             d.networkObject = networkPlayerObject;
             genratedPlayers.Add(d);
 
-            networkCamera._SetUpCamera(networkPlayerObject.transform);
+            if (player.IsMasterClient)
+            {
+                networkCamera._SetUpCamera(networkPlayerObject.transform);
+            }
+
 
 
             //CHECK COUNT OF PLAYER HERE
@@ -137,15 +143,15 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
                 NetwrokUI.Instance._OpenStartUI();
             }
         }
-        else
+
+        if (runner.IsClient)
         {
             _AllPlayerData d = new _AllPlayerData();
             d.playerRef = player;
             d.networkObject = null;
             genratedPlayers.Add(d);
-            NetworkObject local = runner.GetPlayerObject(runner.LocalPlayer);
-            networkCamera._SetUpCamera(local.transform);
         }
+
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
