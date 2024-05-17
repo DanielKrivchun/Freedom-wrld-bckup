@@ -1,9 +1,10 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class NetwrokUI : MonoBehaviour
+public class NetwrokUI : NetworkBehaviour
 {
     public GameObject startUI;
     public GameObject countdownPanel;
@@ -39,7 +40,7 @@ public class NetwrokUI : MonoBehaviour
     public void _StartRace()
     {
         Debug.Log("Start Race");
-        spawner._CallStartGame();
+         RPC_StartGame();
     }
 
     public void _StartCountDown()
@@ -72,5 +73,12 @@ public class NetwrokUI : MonoBehaviour
         countdownText.text = a.ToString();
 
         Debug.Log("Game Started Now");
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_StartGame()
+    {
+        Debug.Log("Started Game now");
+        NetwrokUI.Instance._StartCountDown();
     }
 }

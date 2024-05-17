@@ -152,34 +152,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         data.direction = m_input;
 
         input.Set(data);
-
-
-        var d = new netdata();
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            _TestRPCone();
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            _TestRPCTwo();
-
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-
-            _TestRPCThree();
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-
-            _testFour();
-        }
-
-        input.Set(data);
-
     }
 
 
@@ -235,17 +207,17 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     #endregion
 
     #region RPC Remote Procedure Call
-    public void _CallStartGame()
-    {
-        _StartGame();
-    }
+    //public void _CallStartGame()
+    //{
+    //    _StartGame();
+    //}
 
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void _StartGame()
-    {
-        Debug.Log("Started Game now");
-        NetwrokUI.Instance._StartCountDown();
-    }
+    //[Rpc(RpcSources.All, RpcTargets.All)]
+    //public void _StartGame()
+    //{
+    //    Debug.Log("Started Game now");
+    //    NetwrokUI.Instance._StartCountDown();
+    //}
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void _TestRPCone()
