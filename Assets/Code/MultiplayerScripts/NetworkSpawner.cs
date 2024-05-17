@@ -206,7 +206,17 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     //}
     #endregion
 
+
+
+
     #region RPC Remote Procedure Call
+
+
+    public void _CallStartGame()
+    {
+
+    }
+
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void _StartGame()
     {
