@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
 
-public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
+public class NetworkSpawner : NetworkBehaviour, INetworkRunnerCallbacks
 {
     public InputValue inputValue;
     public NetworkCamera networkCamera;
@@ -125,15 +125,14 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             _AllPlayerData d = new _AllPlayerData();
             d.playerRef = player;
             d.networkObject = networkPlayerObject;
-            genratedPlayers.Add(d);
+            //genratedPlayers.Add(d);
+
+            RPC_SetData(d);
 
             if (player.IsMasterClient)
             {
                 networkCamera._SetUpCamera(networkPlayerObject.transform);
             }
-
-
-
             //CHECK COUNT OF PLAYER HERE
             networkPlayerObject.GetComponent<NavmeshMultiplayer>().playerRef = player;
             int a = genratedPlayers.Count;
@@ -213,5 +212,11 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     #endregion
-
+    #region RPC Remote Procedure Call
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SetData(_AllPlayerData data)
+    {
+        genratedPlayers.Add(data);
+    }
+    #endregion
 }
