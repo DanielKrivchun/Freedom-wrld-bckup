@@ -43,7 +43,7 @@ public class SleepManager : MonoBehaviour
             sleepTimer = totalSleepTime;
             isCanSleep = true;
             petCareStateManager.petDataRef.petData.isSleeping = true;
-            petCareStateManager.petDataRef.petData.sleepStartTime = DateTime.Now.ToString();
+            petCareStateManager.petDataRef.petData.sleepStartTime = DateTime.UtcNow.ToString();
         } 
     }
 

@@ -1,12 +1,8 @@
 using System;
 using System.IO;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
-using Beamable;
 using Beamable.Api.CloudSaving;
-
 
 namespace Beamable.CloudSavingService
 {
@@ -52,6 +48,7 @@ namespace Beamable.CloudSavingService
 
         [Space]
         public SimpleGameEvent loadGameData;
+        public SimpleGameEvent petCreationEvent;
 
         /// <summary>
         /// Dynamically build the local storage for the Cloud Saving Data object
@@ -109,10 +106,8 @@ namespace Beamable.CloudSavingService
             if (petDataRef.petData.petname == "")
             {
                 beamableCloudSavingData.DataState = DataState.Pending;
-                CreateNewPet();
-                
-                Refresh();
-                loadGameData.Raise();
+                //CreateNewPet();
+                petCreationEvent.Raise();
             }
             else
             {
@@ -147,18 +142,20 @@ namespace Beamable.CloudSavingService
             }  
         }
 
-        public void CreateNewPet()
+        public void CreateNewPet(string petName, int running, int climbing, int flying, int swimming, int intelligence, int luck)
         {
-            string currentTime = DateTime.Now.ToString();
-            petDataRef.SetPetAllData("immortal", 650, 100, 100, 100, 100, false,
-                                        currentTime, currentTime, currentTime, currentTime,
-                                        25, 25, 15, 15, 10, 10, 
+            string currentTime = DateTime.UtcNow.ToString();
+            petDataRef.SetPetAllData(petName, 650, 100, 100, 100, 100, false,
+                                        currentTime, currentTime, currentTime, currentTime, currentTime,
+                                        running, climbing, flying, swimming, intelligence, luck, 
                                         currentTime, false);
 
             beamableCloudSavingData.petDataLocal = petDataRef.petData;
             SaveData(beamableCloudSavingData.petDataLocal);
 
             Debug.Log("Created New Pet!");
+            Refresh();
+            loadGameData.Raise();
         }
 
 
@@ -232,13 +229,11 @@ namespace Beamable.CloudSavingService
         public void SaveData(PetData myPetData)
         {
             beamableCloudSavingData.DataState = DataState.Pending;
-
             SaveDataInternal(myPetData);
-
             Refresh();
         }
 
-        private void SaveDataInternal(PetData myPetData)
+        private async void SaveDataInternal(PetData myPetData)
         {
             var json = JsonUtility.ToJson(myPetData);
 
@@ -247,11 +242,18 @@ namespace Beamable.CloudSavingService
                 Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
             }
 
-            // Once the data is written to disk, the service will
-            // automatically upload the contents to the cloud
+            // Once the data is written to disk, the service will automatically upload the contents to the cloud
             File.WriteAllText(FilePath, json);
 
             beamableCloudSavingData.petDataCloud = myPetData;
+
+            if (!_cloudSavingService.isInitializing)
+            {
+                // Init the service, which will first download content that the server may have, that the client does not.
+                // The client will then upload any content that it has, that the server is missing
+                await _cloudSavingService.Init();
+            }
+
             Debug.Log("Data Saved!");
         }
 
@@ -295,7 +297,6 @@ namespace Beamable.CloudSavingService
 
             // If the settings are changed by the server...
             // Reload the scene or something project-specific to reload your game
-            //SceneManager.LoadScene(0);
         }
 
 
@@ -306,7 +307,7 @@ namespace Beamable.CloudSavingService
 
 
 
-        /*//For Android
+        //For Android
         private void OnApplicationPause(bool pause)
         {
             if (pause)
@@ -316,7 +317,11 @@ namespace Beamable.CloudSavingService
             }
             else
             {
-                //Fetch Data from Local / Server
+                //Fetch Data
+                /*petDataRef.petData = LoadData();
+                Refresh();
+
+                loadGameData.Raise();*/
             }
         }
 
@@ -336,6 +341,6 @@ namespace Beamable.CloudSavingService
         {
             Debug.Log("Saving Data on Quit...");
             SaveData(petDataRef.petData);
-        }*/
+        }
     }
 }
