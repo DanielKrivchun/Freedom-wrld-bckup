@@ -21,18 +21,19 @@ public class NavmeshMultiplayer : NetworkBehaviour
     private Vector3 m_currunt_pos;
 
     private float m_distance;
-
+    public PlayerRef playerRef;
     public NavMeshAgent m_agent;
 
     private void Start()
     {
         PathPoint = FindObjectOfType<PathPointManager>();
+
     }
 
-    public void _SetPathBasedOnIndex(int _index)
+    public void _SetPathBasedOnIndex()
     {
-        this.gameObject.name = _index.ToString();
-        myplayerNo = _index;
+        this.gameObject.name = playerRef.AsIndex.ToString();
+        myplayerNo = playerRef.AsIndex;
         _InitilizePath();
         _SetDestination(m_positions[m_currunt_index]);
     }
