@@ -38,10 +38,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             return;
         }
-
         //FIND DISTNACE HERE
         _CalculateDistance();
-
         if (m_distance < 1)
         {
             _ChangeCurruntPoint();
