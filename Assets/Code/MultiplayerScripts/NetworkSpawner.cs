@@ -84,12 +84,12 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
@@ -211,6 +211,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void _StartGame()
     {
         Debug.Log("Started Game now");
+        NetwrokUI.Instance._StartCountDown();
     }
 
     #endregion
