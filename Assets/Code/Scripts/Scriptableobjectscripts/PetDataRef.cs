@@ -8,7 +8,7 @@ public class PetDataRef : ScriptableObject
     public PetData petData = new PetData();
 
     public void SetPetAllData(string petName, int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
-                                string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy,  
+                                string petBirthTime, string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy,  
                                 int running, int climbing, int flying, int swimming, int intelligence, int luck,
                                 string sleepStartTime, bool isSleeping)
     {
@@ -20,7 +20,8 @@ public class PetDataRef : ScriptableObject
         petData.cleanliness = cleanliness;
         petData.energy = energy;
         petData.isSick = isSick;
-        
+
+        petData.birthTime = petBirthTime;
         petData.lastTimeHappy = lastTimeHappy;
         petData.lastTimeFeed = lastTimeFeed;
         petData.lastTimeClean = lastTimeClean;

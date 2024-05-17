@@ -9,7 +9,7 @@ public class PetData
     public bool isSick;
 
     //Timings
-    public string lastTimeHappy, lastTimeFeed, lastTimeClean, lastTimeEnergy, sleepStartTime;
+    public string birthTime, lastTimeHappy, lastTimeFeed, lastTimeClean, lastTimeEnergy, sleepStartTime;
 
     //Athletics Stats
     public int running, climbing, flying, swimming;

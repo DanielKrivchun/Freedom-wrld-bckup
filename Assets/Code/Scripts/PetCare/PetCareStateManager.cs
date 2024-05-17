@@ -198,8 +198,10 @@ public class PetCareStateManager : MonoBehaviour
 
         if (petDataRef.petData.isSick)
         {
-            Mathf.Clamp(petDataRef.petData.health, 0, sickHealthThreshold);
+            petDataRef.petData.health = Mathf.Clamp(petDataRef.petData.health, 0, sickHealthThreshold);
         }
+
+        Debug.Log("Health - " + petDataRef.petData.health);
     }
 
     public void ManageHappinessDataFiller(int value)
@@ -215,7 +217,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         petCareUIManager.happyFillSlider.DOValue(petDataRef.petData.happiness, 0.5f);
-        petDataRef.petData.lastTimeHappy = DateTime.Now.ToString();
+        petDataRef.petData.lastTimeHappy = DateTime.UtcNow.ToString();
 
         UpdateHealth();
     }
@@ -233,7 +235,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         petCareUIManager.hungerFillSlider.DOValue(petDataRef.petData.hunger, 0.5f);
-        petDataRef.petData.lastTimeFeed = DateTime.Now.ToString();
+        petDataRef.petData.lastTimeFeed = DateTime.UtcNow.ToString();
 
         UpdateHealth();
     }
@@ -251,7 +253,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         petCareUIManager.cleanFillSlider.DOValue(petDataRef.petData.cleanliness, 0.5f);
-        petDataRef.petData.lastTimeClean = DateTime.Now.ToString();
+        petDataRef.petData.lastTimeClean = DateTime.UtcNow.ToString();
 
         UpdateHealth();
     }
@@ -269,7 +271,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         petCareUIManager.energyFillSlider.DOValue(petDataRef.petData.energy, 0.5f);
-        petDataRef.petData.lastTimeEnergy = DateTime.Now.ToString();
+        petDataRef.petData.lastTimeEnergy = DateTime.UtcNow.ToString();
 
         UpdateHealth();
     }
@@ -278,13 +280,13 @@ public class PetCareStateManager : MonoBehaviour
     public void SetDataOfCloudAndManageStats()
     {
         //Happiness
-        int lostHappiness = ((int)((DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeHappy)).TotalSeconds / happyTimeLength)) * happinessTickRate;
+        int lostHappiness = ((int)((DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastTimeHappy)).TotalSeconds / happyTimeLength)) * happinessTickRate;
         Debug.Log("Lost Happiness - " + lostHappiness);
         ManageHappinessDataFiller(-lostHappiness);
 
 
         //Feed
-        int lostHunger = ((int)((DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeFeed)).TotalSeconds / hungerTimeLength)) * hungerTickRate;
+        int lostHunger = ((int)((DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastTimeFeed)).TotalSeconds / hungerTimeLength)) * hungerTickRate;
         Debug.Log("Lost Hunger - " + lostHunger);
 
         //Checking Pet Death Situation
@@ -300,7 +302,7 @@ public class PetCareStateManager : MonoBehaviour
 
 
         //Cleanliness
-        int lostCleanliness = ((int)((DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeClean)).TotalSeconds / cleanTimeLength)) * cleanlinessTickRate;
+        int lostCleanliness = ((int)((DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastTimeClean)).TotalSeconds / cleanTimeLength)) * cleanlinessTickRate;
         Debug.Log("Lost Cleanliness - " + lostCleanliness);
 
         //Checking Pet Death Situation
@@ -315,7 +317,7 @@ public class PetCareStateManager : MonoBehaviour
         ManageCleanlinessDataFiller(-lostCleanliness);
 
         //Checking Pet Death Situation
-        float noSleepTime = (float)(DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeEnergy)).TotalSeconds;
+        float noSleepTime = (float)(DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastTimeEnergy)).TotalSeconds;
         if ((noSleepTime / oneDaySeconds) > lowerSleepTimeInDay
             && !petDataRef.petData.isSleeping)
         {
@@ -326,7 +328,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         //Energy
-        int lostEnergy = ((int)((DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeEnergy)).TotalSeconds / energyTimeLength)) * energyTickRate;
+        int lostEnergy = ((int)((DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastTimeEnergy)).TotalSeconds / energyTimeLength)) * energyTickRate;
         Debug.Log("Lost Energy - " + lostEnergy);
 
         ManageEnergyDataFiller(-lostEnergy);
@@ -334,7 +336,7 @@ public class PetCareStateManager : MonoBehaviour
         //Sleep
         if (petDataRef.petData.isSleeping)
         {
-            if ((DateTime.Now - DateTime.Parse(petDataRef.petData.sleepStartTime)).TotalSeconds > sleepManager.totalSleepTime)
+            if ((DateTime.UtcNow - DateTime.Parse(petDataRef.petData.sleepStartTime)).TotalSeconds > sleepManager.totalSleepTime)
             {
                 Debug.Log("Sleep time over");
                 ManageEnergyDataFiller(100);
@@ -342,7 +344,7 @@ public class PetCareStateManager : MonoBehaviour
             else
             {
                 Debug.Log("Sleep Time is Not over yet");
-                sleepManager.sleepTimer = sleepManager.totalSleepTime - (float)(DateTime.Now - DateTime.Parse(petDataRef.petData.sleepStartTime)).TotalSeconds;
+                sleepManager.sleepTimer = sleepManager.totalSleepTime - (float)(DateTime.UtcNow - DateTime.Parse(petDataRef.petData.sleepStartTime)).TotalSeconds;
                 sleepManager.isCanSleep = true;
             }
         }
@@ -379,7 +381,7 @@ public class PetCareStateManager : MonoBehaviour
             lowHunger -= hungerTickRate;
         }
 
-        float timeOfLowHunger = (float)(DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeFeed)).TotalSeconds - timeBeforeLowLevelHunger;
+        float timeOfLowHunger = (float)(DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastTimeFeed)).TotalSeconds - timeBeforeLowLevelHunger;
 
         //Checking time is passing LowerHungerTimeInDay limit
         if ((timeOfLowHunger / oneDaySeconds) > lowerHungerTimeInDay)
@@ -414,8 +416,7 @@ public class PetCareStateManager : MonoBehaviour
             lowCleanliness -= cleanlinessTickRate;
         }
 
-        float timeOfLowerCleanliness = (float)(DateTime.Now - DateTime.Parse(petDataRef.petData.lastTimeClean)).TotalSeconds - timeBeforeLowerCleanliness;
-        Debug.Log("timeOfLowerCleanliness in Day - " + TimeSpan.FromDays(timeOfLowerCleanliness));
+        float timeOfLowerCleanliness = (float)(DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastTimeClean)).TotalSeconds - timeBeforeLowerCleanliness;
 
         //Checking time is passing LowerCleanlinessTimeInDay limit
         if ((timeOfLowerCleanliness / oneDaySeconds) > lowerCleanlinessTimeInDay)
