@@ -128,17 +128,14 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             _AllPlayerData d = new _AllPlayerData();
             d.playerRef = player;
             d.networkObject = networkPlayerObject;
-            //genratedPlayers.Add(d);
+            genratedPlayers.Add(d);
             //RPC_SetData(d);
-
-            if (player.IsMasterClient)
-            {
-                networkCamera._SetUpCamera(networkPlayerObject.transform);
-            }
+            networkCamera._SetUpCamera(networkPlayerObject.transform);
             //CHECK COUNT OF PLAYER HERE
             networkPlayerObject.GetComponent<NavmeshMultiplayer>().playerRef = player;
             int a = genratedPlayers.Count;
             Debug.Log("TOTAL PLAYERS IN GAME " + a);
+
             if (a >= 2)
             {
                 NetwrokUI.Instance._OpenStartUI();
