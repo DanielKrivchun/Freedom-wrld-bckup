@@ -214,7 +214,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void _CallStartGame()
     {
-
+        _StartGame();
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
