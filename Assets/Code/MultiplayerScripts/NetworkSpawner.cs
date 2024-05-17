@@ -194,4 +194,13 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
     #endregion
+
+    #region RPC Remote Procedure Call
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void _StartGame()
+    {
+        Debug.Log("Started Game now");
+    }
+
+    #endregion
 }
