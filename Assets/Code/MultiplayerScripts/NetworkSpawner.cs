@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
 
-public class NetworkSpawner : NetworkBehaviour, INetworkRunnerCallbacks
+public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     public InputValue inputValue;
     public NetworkCamera networkCamera;
@@ -52,10 +52,13 @@ public class NetworkSpawner : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void _StartGameForPlayers()
     {
-        foreach (var item in genratedPlayers)
+        var foundCanvasObjects = FindObjectsOfType<NavmeshMultiplayer>();
+
+        foreach (var item in foundCanvasObjects)
         {
-            item.networkObject.GetComponent<NavmeshMultiplayer>()._SetPathBasedOnIndex();
+            item._SetPathBasedOnIndex();
         }
+
         inputValue.m_enable_navmesh = true;
     }
 
@@ -126,8 +129,7 @@ public class NetworkSpawner : NetworkBehaviour, INetworkRunnerCallbacks
             d.playerRef = player;
             d.networkObject = networkPlayerObject;
             //genratedPlayers.Add(d);
-
-            RPC_SetData(d);
+            //RPC_SetData(d);
 
             if (player.IsMasterClient)
             {
@@ -214,9 +216,9 @@ public class NetworkSpawner : NetworkBehaviour, INetworkRunnerCallbacks
     #endregion
     #region RPC Remote Procedure Call
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_SetData(_AllPlayerData data)
+    public void RPC_SetData()
     {
-        genratedPlayers.Add(data);
+        //genratedPlayers.Add(data);
     }
     #endregion
 }
