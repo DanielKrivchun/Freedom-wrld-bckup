@@ -40,7 +40,7 @@ public class NetwrokUI : NetworkBehaviour
     public void _StartRace()
     {
         Debug.Log("Start Race");
-         RPC_StartGame();
+        RPC_StartGame();
     }
 
     public void _StartCountDown()
@@ -71,14 +71,19 @@ public class NetwrokUI : NetworkBehaviour
         yield return new WaitForSecondsRealtime(1f);
         a--;
         countdownText.text = a.ToString();
-
+        countdownPanel.SetActive(false);
         Debug.Log("Game Started Now");
     }
 
+
+
+    #region RPC Remote Procedure Call
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_StartGame()
     {
         Debug.Log("Started Game now");
-        NetwrokUI.Instance._StartCountDown();
+        _StartCountDown();
     }
+    #endregion
+
 }

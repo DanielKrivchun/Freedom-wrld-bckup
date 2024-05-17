@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
+    public InputValue inputValue;
     public NetworkCamera networkCamera;
 
     private NetworkRunner networkRunner;
@@ -22,6 +23,10 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public List<_AllPlayerData> genratedPlayers;
     //private Dictionary<PlayerRef, NetworkObject> genratedplayers = new Dictionary<PlayerRef, NetworkObject>();
 
+    private void Start()
+    {
+        inputValue.m_enable_navmesh =false;
+    }
 
     public async void _GameMode(GameMode Mode)
     {
@@ -42,8 +47,17 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
-
     }
+
+    public void _StartGameForPlayers()
+    {
+        foreach (var item in genratedPlayers)
+        {
+            item.networkObject.GetComponent<NavmeshMultiplayer>()._SetPathBasedOnIndex(item.playerRef.AsIndex);
+        }
+        inputValue.m_enable_navmesh= true;  
+    }
+
 
     public void _InputSet(InputAction.CallbackContext context)
     {
@@ -58,7 +72,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-        throw new NotImplementedException();
+
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
@@ -68,28 +82,28 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
     {
-        throw new NotImplementedException();
+
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
-        throw new NotImplementedException();
+
     }
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
-        throw new NotImplementedException();
+
     }
 
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
-        //throw new NotImplementedException();
+
     }
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        //throw new NotImplementedException();
+
     }
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
@@ -118,7 +132,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             networkPlayerObject.GetComponent<NavmeshMultiplayer>().myplayerNo = player.AsIndex;
             int a = genratedPlayers.Count;
             Debug.Log("TOTAL PLAYERS IN GAME " + a);
-
             if (a >= 2)
             {
                 NetwrokUI.Instance._OpenStartUI();
@@ -127,7 +140,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         else
         {
             Debug.Log("I am not server so what i will do here");
-
         }
     }
 
@@ -189,60 +201,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         throw new NotImplementedException();
     }
 
-
-    //private void OnGUI()
-    //{
-    //    if (networkRunner == null)
-    //    {
-    //        if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
-    //        {
-    //            _GameMode(GameMode.AutoHostOrClient);
-    //        }
-    //        if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
-    //        {
-    //            _GameMode(GameMode.AutoHostOrClient);
-    //        }
-    //    }
-    //}
     #endregion
 
-    #region RPC Remote Procedure Call
-    //public void _CallStartGame()
-    //{
-    //    _StartGame();
-    //}
-
-    //[Rpc(RpcSources.All, RpcTargets.All)]
-    //public void _StartGame()
-    //{
-    //    Debug.Log("Started Game now");
-    //    NetwrokUI.Instance._StartCountDown();
-    //}
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void _TestRPCone()
-    {
-        Debug.Log(" [Rpc(RpcSources.All, RpcTargets.StateAuthority)]");
-    }
-
-
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void _TestRPCTwo()
-    {
-        Debug.Log("  [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]");
-    }
-
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-    public void _TestRPCThree()
-    {
-        Debug.Log("  [Rpc(RpcSources.InputAuthority, RpcTargets.All)]");
-    }
-
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-    public void _testFour()
-    {
-        Debug.Log("  [Rpc(RpcSources.InputAuthority, RpcTargets.All)] ");
-    }
-
-    #endregion
 }

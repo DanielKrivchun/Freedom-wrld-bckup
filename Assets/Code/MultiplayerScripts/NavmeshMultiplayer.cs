@@ -27,12 +27,12 @@ public class NavmeshMultiplayer : NetworkBehaviour
     private void Start()
     {
         PathPoint = FindObjectOfType<PathPointManager>();
-
-
     }
 
-    public void _SetPathasPerIndex()
+    public void _SetPathBasedOnIndex(int _index)
     {
+        this.gameObject.name = _index.ToString();
+        myplayerNo = _index;
         _InitilizePath();
         _SetDestination(m_positions[m_currunt_index]);
     }
