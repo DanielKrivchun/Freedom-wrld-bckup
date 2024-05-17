@@ -38,7 +38,7 @@ public class NetwrokUI : MonoBehaviour
 
     public void _StartRace()
     {
-        spawner._StartGame();
+        spawner._CallStartGame();
     }
 
     public void _StartCountDown()
