@@ -140,6 +140,11 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         else
         {
             Debug.Log("I am not server so what i will do here");
+            _AllPlayerData d = new _AllPlayerData();
+            d.playerRef = player;
+            d.networkObject = null;
+            genratedPlayers.Add(d);
+
         }
     }
 
