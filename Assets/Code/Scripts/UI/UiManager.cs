@@ -87,7 +87,7 @@ public class UiManager : MonoBehaviour
         //CALCULATION HERE
         m_pos.y = -(m_max_y_pos) * (m_diff) / (1.5f);
 
-        Debug.Log(m_diff + "               " + m_pos.y);
+        //Debug.Log(m_diff + "               " + m_pos.y);
         m_arrow.anchoredPosition = Vector2.Lerp(m_arrow.anchoredPosition, m_pos, m_speedd * Time.deltaTime);
         //m_arrow.DOAnchorPos(m_pos, m_diff);
     }

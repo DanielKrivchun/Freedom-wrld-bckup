@@ -119,7 +119,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             int a = genratedPlayers.Count;
             Debug.Log("TOTAL PLAYERS IN GAME " + a);
 
-            if (a>=2)
+            if (a >= 2)
             {
                 NetwrokUI.Instance._OpenStartUI();
             }
@@ -207,7 +207,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     #endregion
 
     #region RPC Remote Procedure Call
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.All, RpcTargets.All)]
     public void _StartGame()
     {
         Debug.Log("Started Game now");
