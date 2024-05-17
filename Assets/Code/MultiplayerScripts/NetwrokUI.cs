@@ -19,6 +19,8 @@ public class NetwrokUI : NetworkBehaviour
 
     public static NetwrokUI Instance;
 
+    public List<_AllPlayerData> genratedPlayers;
+
 
     private void Awake()
     {
