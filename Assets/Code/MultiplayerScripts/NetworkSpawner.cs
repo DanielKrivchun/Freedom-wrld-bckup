@@ -1,12 +1,11 @@
-using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
 using Fusion.Sockets;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms;
 
 public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -53,7 +52,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         foreach (var item in genratedPlayers)
         {
-            item.networkObject.GetComponent<NavmeshMultiplayer>()._SetPathBasedOnIndex(item.playerRef.AsIndex);
+            item.networkObject.GetComponent<NavmeshMultiplayer>()._SetPathBasedOnIndex();
         }
         inputValue.m_enable_navmesh = true;
     }
@@ -121,15 +120,16 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             Vector3 spawnPosition = Vector3.zero;
             NetworkObject networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
             // Keep track of the player avatars for easy access
-
             _AllPlayerData d = new _AllPlayerData();
             d.playerRef = player;
             d.networkObject = networkPlayerObject;
             genratedPlayers.Add(d);
+
             networkCamera._SetUpCamera(networkPlayerObject.transform);
 
+
             //CHECK COUNT OF PLAYER HERE
-            networkPlayerObject.GetComponent<NavmeshMultiplayer>().myplayerNo = player.AsIndex;
+            networkPlayerObject.GetComponent<NavmeshMultiplayer>().playerRef = player;
             int a = genratedPlayers.Count;
             Debug.Log("TOTAL PLAYERS IN GAME " + a);
             if (a >= 2)
@@ -139,12 +139,12 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         }
         else
         {
-            Debug.Log("I am not server so what i will do here");
             _AllPlayerData d = new _AllPlayerData();
             d.playerRef = player;
             d.networkObject = null;
             genratedPlayers.Add(d);
-
+            NetworkObject local = runner.GetPlayerObject(runner.LocalPlayer);
+            networkCamera._SetUpCamera(local.transform);
         }
     }
 
