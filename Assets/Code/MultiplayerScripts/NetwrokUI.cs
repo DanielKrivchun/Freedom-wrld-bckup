@@ -38,6 +38,7 @@ public class NetwrokUI : MonoBehaviour
 
     public void _StartRace()
     {
+        Debug.Log("Start Race");
         spawner._CallStartGame();
     }
 

@@ -8,6 +8,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
 {
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
+    [Space]
+    public int myplayerNo;
 
     public List<Vector3> m_positions;
 
