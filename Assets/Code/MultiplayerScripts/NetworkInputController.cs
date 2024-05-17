@@ -12,6 +12,13 @@ public struct NetworkInputData : INetworkInput
     public Vector2 direction;
 }
 
+public struct netdata: INetworkInput
+{
+    public Vector3 direction;
+}
+
+
+
 [System.Serializable]
 public class _AllPlayerData
 {

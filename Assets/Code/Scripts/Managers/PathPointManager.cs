@@ -28,8 +28,8 @@ public class PathPointManager : MonoBehaviour
 #if UNITY_EDITOR
 
         _PrePositions pre = new _PrePositions();
-        pre.m_positions = v;   
-        
+        pre.m_positions = v;
+
         prePositions.Add(pre);
 
         _GenratePathLines(v);
