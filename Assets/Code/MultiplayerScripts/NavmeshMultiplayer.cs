@@ -27,9 +27,14 @@ public class NavmeshMultiplayer : NetworkBehaviour
     private void Start()
     {
         PathPoint = FindObjectOfType<PathPointManager>();
+
+
+    }
+
+    public void _SetPathasPerIndex()
+    {
         _InitilizePath();
         _SetDestination(m_positions[m_currunt_index]);
-
     }
 
     public override void FixedUpdateNetwork()
@@ -63,7 +68,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     void _InitilizePath()
     {
         m_positions = new List<Vector3>();
-        m_positions = PathPoint._GetMyPath();
+        m_positions = PathPoint.prePositions[myplayerNo].m_positions;
     }
 
     public void _SetDestination(Vector3 _target_pos)

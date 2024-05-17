@@ -152,6 +152,34 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         data.direction = m_input;
 
         input.Set(data);
+
+
+        var d = new netdata();
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            _TestRPCone();
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            _TestRPCTwo();
+
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+
+            _TestRPCThree();
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+
+            _testFour();
+        }
+
+        input.Set(data);
+
     }
 
 
@@ -206,12 +234,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     //}
     #endregion
 
-
-
-
     #region RPC Remote Procedure Call
-
-
     public void _CallStartGame()
     {
         _StartGame();
@@ -222,6 +245,31 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log("Started Game now");
         NetwrokUI.Instance._StartCountDown();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void _TestRPCone()
+    {
+        Debug.Log(" [Rpc(RpcSources.All, RpcTargets.StateAuthority)]");
+    }
+
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void _TestRPCTwo()
+    {
+        Debug.Log("  [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]");
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void _TestRPCThree()
+    {
+        Debug.Log("  [Rpc(RpcSources.InputAuthority, RpcTargets.All)]");
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void _testFour()
+    {
+        Debug.Log("  [Rpc(RpcSources.InputAuthority, RpcTargets.All)] ");
     }
 
     #endregion
