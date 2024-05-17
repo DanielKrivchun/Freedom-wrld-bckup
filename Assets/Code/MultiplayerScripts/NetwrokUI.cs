@@ -38,16 +38,38 @@ public class NetwrokUI : MonoBehaviour
 
     public void _StartRace()
     {
-
+        spawner._StartGame();
     }
 
     public void _StartCountDown()
     {
+        connectingUI.SetActive(false);
+        startUI.SetActive(false);
+        countdownPanel.SetActive(true);
         StartCoroutine(_StartedCountDown());
     }
 
     IEnumerator _StartedCountDown()
     {
-        yield return null;
+        int a = 5;
+
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1f);
+        a--;
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1f);
+        a--;
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1f);
+        a--;
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1f);
+        a--;
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1f);
+        a--;
+        countdownText.text = a.ToString();
+
+        Debug.Log("Game Started Now");
     }
 }
