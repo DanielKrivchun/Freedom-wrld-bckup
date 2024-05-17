@@ -23,7 +23,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     //private Dictionary<PlayerRef, NetworkObject> genratedplayers = new Dictionary<PlayerRef, NetworkObject>();
 
 
-    async void _GameMode(GameMode Mode)
+    public async void _GameMode(GameMode Mode)
     {
         networkRunner = gameObject.AddComponent<NetworkRunner>();
         networkRunner.ProvideInput = true;
@@ -53,7 +53,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     #region INetworkRunnerCallbacks
     public void OnConnectedToServer(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
@@ -113,10 +113,21 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             d.networkObject = networkPlayerObject;
             genratedPlayers.Add(d);
             networkCamera._SetUpCamera(networkPlayerObject.transform);
+
+            //CHECK COUNT OF PLAYER HERE
+
+            int a = genratedPlayers.Count;
+            Debug.Log("TOTAL PLAYERS IN GAME " + a);
+
+            if (a>=2)
+            {
+                NetwrokUI.Instance._OpenStartUI();
+            }
         }
         else
         {
             Debug.Log("I am not server so what i will do here");
+
         }
     }
 
@@ -179,20 +190,20 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     }
 
 
-    private void OnGUI()
-    {
-        if (networkRunner == null)
-        {
-            if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
-            {
-                _GameMode(GameMode.AutoHostOrClient);
-            }
-            if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
-            {
-                _GameMode(GameMode.AutoHostOrClient);
-            }
-        }
-    }
+    //private void OnGUI()
+    //{
+    //    if (networkRunner == null)
+    //    {
+    //        if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
+    //        {
+    //            _GameMode(GameMode.AutoHostOrClient);
+    //        }
+    //        if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
+    //        {
+    //            _GameMode(GameMode.AutoHostOrClient);
+    //        }
+    //    }
+    //}
     #endregion
 
     #region RPC Remote Procedure Call
