@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
@@ -23,17 +23,46 @@ public class NavmeshMultiplayer : NetworkBehaviour
     private float m_distance;
     public PlayerRef playerRef;
     public NavMeshAgent m_agent;
+    public NetworkString<_8> playerName;
 
-    private void Start()
+
+    public override void Spawned() // fusionun startı
     {
+        Debug.Log("This Called");
         PathPoint = FindObjectOfType<PathPointManager>();
+        SetLocalObjects();
+    }
 
+    private void SetLocalObjects()
+    {
+        if (Utils.IsLocalPlayer(Object))
+        {
+            //cam.transform.SetParent(null);
+            //cam.SetActive(true);
+            var nickName = playerName = RaceManager.instance.LocalPlayerNickname;
+            Debug.Log("Checking name here  " + nickName);
+            RpcSetNickName(nickName);
+
+        }
+        else
+        {
+            Debug.Log("This is else");
+        }
+
+    }
+
+
+    public void _SetUpMyInitialData(PlayerRef pr)
+    {
+        playerRef = pr;
+        Debug.Log("  " + playerRef.PlayerId);
     }
 
     public void _SetPathBasedOnIndex()
     {
         this.gameObject.name = playerRef.PlayerId.ToString();
         myplayerNo = playerRef.PlayerId;
+        Debug.Log(myplayerNo);
         _InitilizePath();
         _SetDestination(m_positions[m_currunt_index]);
     }
@@ -95,5 +124,12 @@ public class NavmeshMultiplayer : NetworkBehaviour
             finalPosition = hit.position;
         }
         return finalPosition;
+    }
+
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RpcSetNickName(NetworkString<_8> nickname)
+    {
+        playerName = nickname;
+        //Debug.Log(playerName);
     }
 }

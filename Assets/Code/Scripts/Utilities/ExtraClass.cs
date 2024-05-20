@@ -1,5 +1,7 @@
 
 
+using Fusion;
+using System.Collections;
 using UnityEngine;
 
 public enum _AnimState
@@ -43,10 +45,29 @@ public class _Strings
     public static string Sleep = "Sleep";
 }
 
-public enum PetCareState 
+public enum PetCareState
 {
     Happy,
     Feed,
     Clean,
     Energy
+}
+
+
+public static class Utils  // helper class for duplication
+{
+    public static bool IsLocalPlayer(NetworkObject networkObj)
+    {
+        return networkObj.IsValid == networkObj.HasInputAuthority;
+    }
+    public static IEnumerator PlayAnimAndSetStateWhenFinished(GameObject parent, Animator animator, string clipName, bool activeStateAtTheEnd = true)
+    {
+        animator.Play(clipName);
+
+        var animationLengt = animator.GetCurrentAnimatorStateInfo(0).length;
+
+        yield return new WaitForSecondsRealtime(animationLengt);
+
+        parent.SetActive(activeStateAtTheEnd);
+    }
 }

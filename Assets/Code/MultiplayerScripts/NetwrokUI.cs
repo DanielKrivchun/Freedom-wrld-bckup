@@ -15,11 +15,10 @@ public class NetwrokUI : NetworkBehaviour
     [Space]
     public TextMeshProUGUI countdownText;
     [Space]
-    public NetworkSpawner spawner;
+    public RaceManager spawner;
 
     public static NetwrokUI Instance;
 
-    public List<_AllPlayerData> genratedPlayers;
 
 
     private void Awake()
@@ -30,7 +29,7 @@ public class NetwrokUI : NetworkBehaviour
     public void _JoinRoom()
     {
         connectingUI.SetActive(true);
-        spawner._GameMode(Fusion.GameMode.AutoHostOrClient);
+        spawner._StartGame(Fusion.GameMode.AutoHostOrClient);
     }
 
     public void _OpenStartUI()
@@ -75,7 +74,7 @@ public class NetwrokUI : NetworkBehaviour
         countdownText.text = a.ToString();
         countdownPanel.SetActive(false);
         Debug.Log("Game Started Now");
-        spawner._StartGameForPlayers();
+        //spawner._StartGameForPlayers();
     }
 
 
