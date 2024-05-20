@@ -2,6 +2,7 @@ using Fusion;
 using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,8 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public NetworkPrefabRef prefab;
 
     public List<_AllPlayerData> genratedPlayers;
+    [Space]
+    public List<NavmeshMultiplayer> m_objects;
     private NetworkObject networkPlayerObject;
 
     //private Dictionary<PlayerRef, NetworkObject> genratedplayers = new Dictionary<PlayerRef, NetworkObject>();
@@ -53,12 +56,31 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void _StartGameForPlayers()
     {
         var foundCanvasObjects = FindObjectsOfType<NavmeshMultiplayer>();
+        m_objects = foundCanvasObjects.ToList();
+        Debug.Log("m_objects.Count " + m_objects.Count);
+
+        foreach (var item in genratedPlayers)
+        {
+            Debug.Log(item.playerRef.PlayerId);
+
+            if (item.networkObject == null)
+            {
+                foreach (var i in m_objects)
+                {
+                    if (item.playerRef.PlayerId == i.playerRef.PlayerId)
+                    {
+                        item.networkObject = i.GetComponent<NetworkObject>();
+                    }
+                }
+            }
+        }
+
 
         foreach (var item in foundCanvasObjects)
         {
+            Debug.Log(item.name);
             item._SetPathBasedOnIndex();
         }
-
         inputValue.m_enable_navmesh = true;
     }
 
@@ -71,7 +93,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     #region INetworkRunnerCallbacks
     public void OnConnectedToServer(NetworkRunner runner)
     {
-
+        ColoredDebug.Log("OnConnectedToServer", Color.green);
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
@@ -96,7 +118,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
-
+        ColoredDebug.Log("OnHostMigration", Color.green);
     }
 
 
@@ -107,7 +129,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-
+        ColoredDebug.Log("OnObjectEnterAOI " + runner.name, Color.green);
     }
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
@@ -119,47 +141,44 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         ColoredDebug.Log("OnPlayerJoined  IsServer", Color.green);
 
-        Vector3 spawnPosition = Vector3.zero;
-        networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
-        // Keep track of the player avatars for easy access
-        _AllPlayerData d = new _AllPlayerData();
-        d.playerRef = player;
-        d.networkObject = networkPlayerObject;
-        genratedPlayers.Add(d);
-        networkCamera._SetUpCamera(networkPlayerObject.transform);
+
+        if (runner.IsServer)
+        {
+            Debug.Log("I am Server");
+            // Create a unique position for the player
+            Vector3 spawnPosition = Vector3.zero;
+            networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
+            networkPlayerObject.name = player.PlayerId.ToString();
+            // Keep track of the player avatars for easy access
+            _AllPlayerData d = new _AllPlayerData();
+            d.playerRef = player;
+            d.networkObject = networkPlayerObject;
+            genratedPlayers.Add(d);
+            //RPC_SetData(d);
+            networkCamera._SetUpCamera(networkPlayerObject.transform);
+            //CHECK COUNT OF PLAYER HERE
+            networkPlayerObject.GetComponent<NavmeshMultiplayer>().playerRef = player;
+            int a = genratedPlayers.Count;
+            Debug.Log("TOTAL PLAYERS IN GAME " + a);
+
+            if (a >= 2)
+            {
+                NetwrokUI.Instance._OpenStartUI();
+            }
+        }
+
+        if (runner.IsClient)
+        {
+            Debug.Log("I am Client  " + player.PlayerId);
+
+            _AllPlayerData d = new _AllPlayerData();
+            d.playerRef = player;
 
 
-        //if (runner.IsServer)
-        //{
-        //    Debug.Log("I am Server");
-        //    // Create a unique position for the player
-        //    Vector3 spawnPosition = Vector3.zero;
-        //    networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
-        //    // Keep track of the player avatars for easy access
-        //    _AllPlayerData d = new _AllPlayerData();
-        //    d.playerRef = player;
-        //    d.networkObject = networkPlayerObject;
-        //    genratedPlayers.Add(d);
-        //    //RPC_SetData(d);
-        //    networkCamera._SetUpCamera(networkPlayerObject.transform);
-        //    //CHECK COUNT OF PLAYER HERE
-        //    networkPlayerObject.GetComponent<NavmeshMultiplayer>().playerRef = player;
-        //    int a = genratedPlayers.Count;
-        //    Debug.Log("TOTAL PLAYERS IN GAME " + a);
 
-        //    if (a >= 2)
-        //    {
-        //        NetwrokUI.Instance._OpenStartUI();
-        //    }
-        //}
-
-        //if (runner.IsClient)
-        //{
-        //    _AllPlayerData d = new _AllPlayerData();
-        //    d.playerRef = player;
-        //    d.networkObject = null;
-        //    genratedPlayers.Add(d);
-        //}
+            d.networkObject = null;
+            genratedPlayers.Add(d);
+        }
 
     }
 
@@ -180,21 +199,19 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, Fusion.NetworkInput input)
     {
         var data = new NetworkInputData();
-
         data.direction = m_input;
-
         input.Set(data);
     }
 
 
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
     {
-        throw new NotImplementedException();
+
     }
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
     {
-        throw new NotImplementedException();
+
     }
 
     public void OnSceneLoadDone(NetworkRunner runner)
