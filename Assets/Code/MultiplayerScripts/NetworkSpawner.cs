@@ -55,32 +55,29 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void _StartGameForPlayers()
     {
-        var foundCanvasObjects = FindObjectsOfType<NavmeshMultiplayer>();
-        m_objects = foundCanvasObjects.ToList();
+        var foundplayers = FindObjectsOfType<NavmeshMultiplayer>();
+        m_objects = foundplayers.ToList();
         Debug.Log("m_objects.Count " + m_objects.Count);
 
-        foreach (var item in genratedPlayers)
+        foreach (_AllPlayerData item in genratedPlayers)
         {
             Debug.Log(item.playerRef.PlayerId);
 
             if (item.networkObject == null)
             {
-                foreach (var i in m_objects)
+                foreach (NavmeshMultiplayer playfabs in m_objects)
                 {
-                    if (item.playerRef.PlayerId == i.playerRef.PlayerId)
-                    {
-                        item.networkObject = i.GetComponent<NetworkObject>();
-                    }
+
                 }
             }
         }
 
-
-        foreach (var item in foundCanvasObjects)
+        foreach (var item in foundplayers)
         {
             Debug.Log(item.name);
             item._SetPathBasedOnIndex();
         }
+
         inputValue.m_enable_navmesh = true;
     }
 
@@ -157,7 +154,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             //RPC_SetData(d);
             networkCamera._SetUpCamera(networkPlayerObject.transform);
             //CHECK COUNT OF PLAYER HERE
-            networkPlayerObject.GetComponent<NavmeshMultiplayer>().playerRef = player;
+            networkPlayerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData(player);
             int a = genratedPlayers.Count;
             Debug.Log("TOTAL PLAYERS IN GAME " + a);
 
@@ -170,12 +167,8 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.IsClient)
         {
             Debug.Log("I am Client  " + player.PlayerId);
-
             _AllPlayerData d = new _AllPlayerData();
             d.playerRef = player;
-
-
-
             d.networkObject = null;
             genratedPlayers.Add(d);
         }

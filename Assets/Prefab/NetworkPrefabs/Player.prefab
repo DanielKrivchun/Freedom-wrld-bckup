@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8294929576582710564}
   - component: {fileID: 4272026022587835431}
   m_Layer: 0
-  m_Name: NetworkPlayerNavigation
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_input_value: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
+  myplayerNo: 0
   m_positions: []
   PathPoint: {fileID: 0}
   m_agent: {fileID: 1920933005764420817}
@@ -87,7 +88,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 4034343371
   ObjectInterest: 1
-  Flags: 262145
+  Flags: 786433
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 8294929576582710564}
