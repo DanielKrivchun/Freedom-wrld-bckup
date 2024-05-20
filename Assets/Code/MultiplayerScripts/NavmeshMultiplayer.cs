@@ -32,8 +32,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     public void _SetPathBasedOnIndex()
     {
-        this.gameObject.name = playerRef.AsIndex.ToString();
-        myplayerNo = playerRef.AsIndex;
+        this.gameObject.name = playerRef.PlayerId.ToString();
+        myplayerNo = playerRef.PlayerId;
         _InitilizePath();
         _SetDestination(m_positions[m_currunt_index]);
     }
