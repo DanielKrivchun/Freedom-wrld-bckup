@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using System.Xml.Serialization;
 
 public class MainMenuScript : MonoBehaviour
@@ -12,12 +13,16 @@ public class MainMenuScript : MonoBehaviour
     public GameObject settingsMenu;
     public GameObject mainMenu;
     public TMP_Dropdown graphicsDropdown;
-    public Slider masterVol, musicVol, sfxVol;
-    public AudioMixer mainAudioMixer;
+    public Scene scene;
     // Start is called before the first frame update
     void Start()
     {
         //Button button = GetComponent<Button>();
+    }
+
+    public void OpenGame(string scene)
+    {
+        SceneManager.LoadScene(scene);
     }
 
     public void QuitGame()
@@ -38,8 +43,10 @@ public class MainMenuScript : MonoBehaviour
             AccountFlow.SetActive(false);
         }
     }
-    //Settings functions
-    public void OpenSettings() 
+
+
+    /*------------------------- Settings functions ---------------------*/
+    public void OpenSettings()
     {
         if (!settingsMenu.activeInHierarchy)
         {
@@ -56,20 +63,5 @@ public class MainMenuScript : MonoBehaviour
     public void ChangeGraphicsQuality()
     {
         QualitySettings.SetQualityLevel(graphicsDropdown.value);
-    }
-
-    public void ChangeMasterVolume()
-    {
-        mainAudioMixer.SetFloat("masterVol", masterVol.value);
-    }
-
-    public void ChangeMusicVolume()
-    {
-        mainAudioMixer.SetFloat("musicVol", musicVol.value);
-    }
-
-    public void ChangeSfxVolume()
-    {
-        mainAudioMixer.SetFloat("sfxVol", sfxVol.value);
     }
 }
