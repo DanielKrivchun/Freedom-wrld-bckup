@@ -118,37 +118,48 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         ColoredDebug.Log("OnPlayerJoined  IsServer", Color.green);
-        if (runner.IsServer)
-        {
-            Debug.Log("I am Server");
-            // Create a unique position for the player
-            Vector3 spawnPosition = Vector3.zero;
-            networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
-            // Keep track of the player avatars for easy access
-            _AllPlayerData d = new _AllPlayerData();
-            d.playerRef = player;
-            d.networkObject = networkPlayerObject;
-            genratedPlayers.Add(d);
-            //RPC_SetData(d);
-            networkCamera._SetUpCamera(networkPlayerObject.transform);
-            //CHECK COUNT OF PLAYER HERE
-            networkPlayerObject.GetComponent<NavmeshMultiplayer>().playerRef = player;
-            int a = genratedPlayers.Count;
-            Debug.Log("TOTAL PLAYERS IN GAME " + a);
 
-            if (a >= 2)
-            {
-                NetwrokUI.Instance._OpenStartUI();
-            }
-        }
+        Vector3 spawnPosition = Vector3.zero;
+        networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
+        // Keep track of the player avatars for easy access
+        _AllPlayerData d = new _AllPlayerData();
+        d.playerRef = player;
+        d.networkObject = networkPlayerObject;
+        genratedPlayers.Add(d);
+        networkCamera._SetUpCamera(networkPlayerObject.transform);
 
-        if (runner.IsClient)
-        {
-            _AllPlayerData d = new _AllPlayerData();
-            d.playerRef = player;
-            d.networkObject = null;
-            genratedPlayers.Add(d);
-        }
+
+        //if (runner.IsServer)
+        //{
+        //    Debug.Log("I am Server");
+        //    // Create a unique position for the player
+        //    Vector3 spawnPosition = Vector3.zero;
+        //    networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
+        //    // Keep track of the player avatars for easy access
+        //    _AllPlayerData d = new _AllPlayerData();
+        //    d.playerRef = player;
+        //    d.networkObject = networkPlayerObject;
+        //    genratedPlayers.Add(d);
+        //    //RPC_SetData(d);
+        //    networkCamera._SetUpCamera(networkPlayerObject.transform);
+        //    //CHECK COUNT OF PLAYER HERE
+        //    networkPlayerObject.GetComponent<NavmeshMultiplayer>().playerRef = player;
+        //    int a = genratedPlayers.Count;
+        //    Debug.Log("TOTAL PLAYERS IN GAME " + a);
+
+        //    if (a >= 2)
+        //    {
+        //        NetwrokUI.Instance._OpenStartUI();
+        //    }
+        //}
+
+        //if (runner.IsClient)
+        //{
+        //    _AllPlayerData d = new _AllPlayerData();
+        //    d.playerRef = player;
+        //    d.networkObject = null;
+        //    genratedPlayers.Add(d);
+        //}
 
     }
 
