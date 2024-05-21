@@ -15,11 +15,11 @@ public class InventoryManager : MonoBehaviour
     public List<Item> Items = new List<Item>();
 
     public Transform ItemContent;
-    public GameObject InventoryItem;
+    public InventoryItemController InventoryItem;
 
     public Toggle EnableRemove;
 
-    public InventoryItemController[] InventoryItems;
+    public List<InventoryItemController> InventoryItems;
 
     private void Awake()
     {
@@ -45,25 +45,29 @@ public class InventoryManager : MonoBehaviour
 
     public void Remove(Item item)
     {
-        DeleteOneItem("items."+item.itemName, item.uniqueId);
+        DeleteOneItem("items." + item.itemName, item.uniqueId);
         Items.Remove(item);
     }
 
-    public async void DeleteOneItem(string ContentId,long ItemId)
+    public async void DeleteOneItem(string ContentId, long ItemId)
     {
         var ctx = await BeamContext.Default.Instance;
         await ctx.Inventory.Update(builder => builder.DeleteItem(ContentId, ItemId));
         Debug.Log($"Removed: {ContentId}");
     }
 
-    public void ListItems() 
-    {   foreach (Transform item in ItemContent)
+    public void ListItems()
+    {
+        foreach (Transform item in ItemContent)
         {
             Destroy(item.gameObject);
         }
+
+        InventoryItems.Clear();
+
         foreach (var item in Items)
         {
-            GameObject obj = Instantiate(InventoryItem, ItemContent);
+            InventoryItemController obj = Instantiate(InventoryItem, ItemContent);
             var itemName = obj.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
             var itemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
             var removeButton = obj.transform.Find("RemoveButton").GetComponent<Button>();
@@ -75,6 +79,9 @@ public class InventoryManager : MonoBehaviour
             {
                 removeButton.gameObject.SetActive(true);
             }
+
+            InventoryItems.Add(obj);
+
         }
 
         SetInventoryItems();
@@ -100,9 +107,9 @@ public class InventoryManager : MonoBehaviour
 
     public void SetInventoryItems()
     {
-        InventoryItems = ItemContent.GetComponentsInChildren<InventoryItemController>();
+        //InventoryItems = ItemContent.GetComponentsInChildren<InventoryItemController>();
 
-        for (int i = 0; i < Items.Count; i++)
+        for (int i = 0; i < InventoryItems.Count; i++)
         {
             InventoryItems[i].AddItem(Items[i]);
         }

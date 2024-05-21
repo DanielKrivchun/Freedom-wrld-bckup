@@ -6,24 +6,30 @@ using UnityEngine.UI;
 
 public class InventoryItemController : MonoBehaviour
 {
-    Item item;
+    public Item item;
 
     public Button RemoveButton;
 
     public void RemoveItem()
     {
         InventoryManager.Instance.Remove(item);
-
+        Debug.Log("Item Removed");
         Destroy(gameObject);
     }
 
     public void AddItem(Item newItem)
     {
+        Debug.Log("Item is added here");
         item = newItem;
     }
 
-    public void UseItem() 
+    public void UseItem()
     {
+        if (item == null)
+        {
+            Debug.Log("Item is null");
+        }
+
         switch (item.itemType)
         {
             case Item.ItemType.Consumable:
