@@ -8,27 +8,26 @@ public class GetItems : MonoBehaviour
 {
 
     public Item Item;
-    public InventoryManager inventoryManager;
+    public InventoryManager Instance;
     // Start is called before the first frame update
     void Start()
     {
-        GetInventory();
+        //GetInventory();
     }
 
     public async void GetInventory()
     {
 
-        // acquire a context
         var ctx = await BeamContext.Default.Instance;
 
-        // GetItems() allows a ItemRef to specify which type of items to get
         var playerItems = ctx.Inventory.GetItems();
 
-        // wait for the items to be updated
         await playerItems.Refresh();
+        Debug.Log($"Player items:{playerItems.Count}");
 
         // Clear the inventory before fetching new items so we dont duplicate them
-        //InventoryManager.Instance.Clear();
+        InventoryManager.Instance.Clear();
+        Debug.Log($"New Player items:{playerItems.Count}");
 
         foreach (var playerItem in playerItems)
         {
@@ -43,6 +42,8 @@ public class GetItems : MonoBehaviour
                 //Debug.Log($"Item: {playerItem}");
             }
         }
+
+        InventoryManager.Instance.ListItems();
     }
 
     private Item ConvertToItem(PlayerItem playerItem)
