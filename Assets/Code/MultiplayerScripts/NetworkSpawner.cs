@@ -154,7 +154,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             //RPC_SetData(d);
             networkCamera._SetUpCamera(networkPlayerObject.transform);
             //CHECK COUNT OF PLAYER HERE
-            networkPlayerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData(player);
+            //networkPlayerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData();
             int a = genratedPlayers.Count;
             Debug.Log("TOTAL PLAYERS IN GAME " + a);
 
@@ -192,9 +192,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, Fusion.NetworkInput input)
     {
         var data = new NetworkInputData();
-
         data.direction = m_input;
-
         input.Set(data);
     }
 

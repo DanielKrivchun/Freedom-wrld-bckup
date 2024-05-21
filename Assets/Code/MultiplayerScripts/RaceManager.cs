@@ -17,13 +17,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Header("Player Prefab")]
     public NetworkPrefabRef playerNetworkPrefab = NetworkPrefabRef.Empty;
 
-    public event Action OnStartedRunnerConnection;
-    public event Action OnPlayerJoinedSuccesfully;
+    public event Action e_get_set_go;
 
     int a = 0;
     [SerializeField] private TMP_InputField inputField;
     public Vector2 m_input;
-
+    [Networked] public int pathNumber { get; set; }
 
     public NetworkRunner networkRunnerInstance;
 
@@ -46,8 +45,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public async void _StartGame(GameMode mode)
     {
         LocalPlayerNickname = inputField.text;
-
-        OnStartedRunnerConnection?.Invoke();
 
         if (networkRunnerInstance == null)
         {
@@ -75,34 +72,51 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
     }
-
-    public override void Spawned()
+    public void _StartGameForPlayers()
     {
-        Debug.Log("This Works");
-        if (Runner.IsServer) // burası host için yapıldı bir kere olucak
+        Debug.Log("_StartGameForPlayers");
+        e_get_set_go?.Invoke();
+    }
+
+
+    #region PLAYER SPWANR
+
+    private void _SpawnPlayer(PlayerRef playerRef)
+    {
+        if (Runner.IsServer)
         {
-            foreach (var item in Runner.ActivePlayers)
+            if (pathNumber <= 0)
             {
-                SpawnPlayer(item);
+                pathNumber = 0;
+            }
+            Vector3 spawnPoint = spawnPoints[pathNumber].transform.position;
+            NetworkObject playerObject = Runner.Spawn(playerNetworkPrefab, spawnPoint, Quaternion.identity, playerRef);
+            playerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData(pathNumber);
+            //playerı serverde yaptık.
+            Runner.SetPlayerObject(playerRef, playerObject);
+            pathNumber++;
+
+            if (pathNumber >= 2)
+            {
+                NetwrokUI.Instance._OpenStartUI();
             }
         }
     }
 
-    private void SpawnPlayer(PlayerRef playerRef) // I want to instantiate the object only if I am the server in order to check if I am the server or not.
+    private void _DespawnPlayer(PlayerRef playerRef)
     {
         if (Runner.IsServer)
         {
-            var index = a;
+            if (Runner.TryGetPlayerObject(playerRef, out var playerNetworkObject))
+            {
+                Runner.Despawn(playerNetworkObject);
+            }
 
-            a++;
-
-            var spawnPoint = spawnPoints[index].transform.position;
-
-            var playerObject = Runner.Spawn(playerNetworkPrefab, spawnPoint, Quaternion.identity, playerRef);
-            //playerı serverde yaptık.
-            Runner.SetPlayerObject(playerRef, playerObject); // local machine player olucak
+            // reset player object
+            Runner.SetPlayerObject(playerRef, null);
         }
     }
+    #endregion
 
     //FOR INPUT
     public void _InputSet(InputAction.CallbackContext context)
@@ -114,22 +128,25 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         //throw new NotImplementedException();
+        ColoredDebug.Log("OnPlayerJoined", Color.green);
+        _SpawnPlayer(player);
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        _DespawnPlayer(player);
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -208,5 +225,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
 
     }
+
+
     #endregion
 }
