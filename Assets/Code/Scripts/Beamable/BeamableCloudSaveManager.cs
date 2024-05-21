@@ -148,14 +148,14 @@ namespace Beamable.CloudSavingService
             petDataRef.SetPetAllData(petName, 650, 100, 100, 100, 100, false,
                                         currentTime, currentTime, currentTime, currentTime, currentTime,
                                         running, climbing, flying, swimming, intelligence, luck, 
-                                        currentTime, false, 0, 1);
+                                        currentTime, false, 1, 0, 100);
 
             beamableCloudSavingData.petDataLocal = petDataRef.petData;
             SaveData(beamableCloudSavingData.petDataLocal);
 
             Debug.Log("Created New Pet!");
             Refresh();
-            loadGameData.Raise();
+            //loadGameData.Raise();
         }
 
 
@@ -307,7 +307,7 @@ namespace Beamable.CloudSavingService
 
 
 
-        //For Android
+        /*//For Android
         private void OnApplicationPause(bool pause)
         {
             if (pause)
@@ -318,10 +318,10 @@ namespace Beamable.CloudSavingService
             else
             {
                 //Fetch Data
-                /*petDataRef.petData = LoadData();
+                *//*petDataRef.petData = LoadData();
                 Refresh();
 
-                loadGameData.Raise();*/
+                loadGameData.Raise();*//*
             }
         }
 
@@ -341,6 +341,6 @@ namespace Beamable.CloudSavingService
         {
             Debug.Log("Saving Data on Quit...");
             SaveData(petDataRef.petData);
-        }
+        }*/
     }
 }

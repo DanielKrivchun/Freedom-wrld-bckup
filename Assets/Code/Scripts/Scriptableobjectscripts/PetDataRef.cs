@@ -11,7 +11,7 @@ public class PetDataRef : ScriptableObject
     public void SetPetAllData(string petName, int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
                                 string petBirthTime, string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy,  
                                 int running, int climbing, int flying, int swimming, int intelligence, int luck,
-                                string sleepStartTime, bool isSleeping, int xp, int rank)
+                                string sleepStartTime, bool isSleeping, int rank, float xp, int maxStamina)
     {
         petData.petname = petName;
 
@@ -39,7 +39,8 @@ public class PetDataRef : ScriptableObject
         petData.luck = luck;
 
         petData.xp = xp;
-        petData.rank = rank;        
+        petData.rank = rank;
+        petData.maxStamina = maxStamina;
     }
 
     public void SetPetWellbeingStatsData(int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,

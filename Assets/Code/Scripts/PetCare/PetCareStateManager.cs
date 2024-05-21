@@ -439,7 +439,8 @@ public class PetCareStateManager : MonoBehaviour
         float timeOfLowerEnergy = 0f;
 
         //Checking for Happiness time after Happiness = 0
-        int lowerHappiness = lostHappiness - maxHappiness;
+        int lowerHappiness = Mathf.Abs(lostHappiness - maxHappiness);
+        Debug.Log("LowerHappiness - " + lowerHappiness);
         while (lowerHappiness > 0)
         {
             timeOfLowerHappiness += happyTimeLength;
@@ -447,7 +448,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         //Checking for Hunger time after Hunger = 0
-        int lowerHunger = lostHunger - maxHunger;
+        int lowerHunger = Mathf.Abs(lostHunger - maxHunger);
         while (lowerHunger > 0)
         {
             timeOfLowerHunger += hungerTimeLength;
@@ -455,7 +456,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         //Checking for Cleanliness time after Cleanliness = 0
-        int lowerCleanliness = lostCleanliness - maxCleanliness;
+        int lowerCleanliness = Mathf.Abs(lostCleanliness - maxCleanliness);
         while (lowerCleanliness > 0)
         {
             timeOfLowerCleanliness += cleanTimeLength;
@@ -463,13 +464,13 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         //Checking for Energy time after Energy = 0
-        int lowerEnergy = lostEnergy - maxEnergy;
+        int lowerEnergy = Mathf.Abs(lostEnergy - maxEnergy);
         while (lowerEnergy > 0)
         {
             timeOfLowerEnergy += energyTimeLength;
             lowerEnergy -= energyTickRate;
         }
-
+        
         //Checking all times are passing LowerHealthTimeInHour limit
         if ((timeOfLowerHappiness / oneHourSeconds) > lowerHealthTimeInHour && (timeOfLowerHunger / oneHourSeconds) > lowerHealthTimeInHour
             && (timeOfLowerCleanliness / oneHourSeconds) > lowerHealthTimeInHour && (timeOfLowerEnergy / oneHourSeconds) > lowerHealthTimeInHour)
@@ -482,5 +483,42 @@ public class PetCareStateManager : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void IncreaseXP(float value)
+    {
+        petDataRef.petData.xp += value;
+        Debug.Log("XP - " + petDataRef.petData.xp);
+
+        if (CheckForRankUp())
+        {
+            petDataRef.petData.rank++;
+            Debug.Log("Rank - " + petDataRef.petData.rank);
+
+            //Show Rank popup
+
+            //Update Max Stamina
+            UpdateMaxStamina();
+        }
+    }
+
+    public bool CheckForRankUp()
+    {
+        float xpNeededToRankUp = 40000 * (Mathf.Pow(1.53f, petDataRef.petData.rank - 1) - 1);
+
+        if (petDataRef.petData.xp >= xpNeededToRankUp)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void UpdateMaxStamina()
+    {
+        petDataRef.petData.maxStamina = 90 + (petDataRef.petData.rank * 10);
+        Debug.Log("MaxStamin - " + petDataRef.petData.maxStamina);
     }
 }

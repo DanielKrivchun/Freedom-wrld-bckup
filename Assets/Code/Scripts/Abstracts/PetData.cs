@@ -18,7 +18,8 @@ public class PetData
     public int intelligence, luck;
 
     //XP & Rank
-    public int xp, rank;
+    public int rank, maxStamina;
+    public float xp;
 
     public bool isSleeping;
 }
