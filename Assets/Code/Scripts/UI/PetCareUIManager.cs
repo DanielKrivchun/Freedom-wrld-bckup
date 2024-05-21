@@ -19,20 +19,49 @@ public class PetCareUIManager : MonoBehaviour
     public GameObject welcomePanel;
     public GameObject setPetDetailsPanel;
 
-    [Header("Set Pet Details UI")]
-    public InputField petInput;
-    public Slider runningSliderPetCreation;
-    public Slider climbingSliderPetCreation;
-    public Slider flyingSliderPetCreation;
-    public Slider swimmingSliderPetCreation;
-    public Slider intelligenceSliderPetCreation;
-    public Slider luckSliderPetCreation;
-    public Text noticeTxt;
+    [Header("Pet Welcome Panel UI")]
+    public Image selectedEggPet;
+    public List<Sprite> petImages;
 
+    [Header("Set Pet Details Panel UI")]
+    public InputField petInput;
+
+    [Space]
+    public Text abilityStatsTxt;
     public int maxAbilityStatLimit;
+
+    [Space]
+    public Slider runningSliderPetCreation;
+    public Text runningStatTxt;
+
+    [Space]
+    public Slider climbingSliderPetCreation;
+    public Text climbingStatTxt;
+
+    [Space]
+    public Slider flyingSliderPetCreation;
+    public Text flyingStatTxt;
+
+    [Space]
+    public Slider swimmingSliderPetCreation;
+    public Text swimmingStatTxt;
+
+    [Space]
+    public Text chanceStatsTxt;
     public int maxChanceStatLimit;
 
     [Space]
+    public Slider intelligenceSliderPetCreation;
+    public Text intelligenceStatTxt;
+
+    [Space]
+    public Slider luckSliderPetCreation;
+    public Text luckStatTxt;
+
+    [Space]
+    public Text noticeTxt;
+
+    [Header("Pet Care Screen UI")]
     public Button happyBtn;
     public Button eatBtn;
     public Button cleanBtn;
@@ -45,7 +74,7 @@ public class PetCareUIManager : MonoBehaviour
     public Slider energyFillSlider;
 
     [Space]
-    [Header("Pet Stats UI")]
+    [Header("Pet Stats Panel UI")]
     public GameObject petStatPanel;
     public Text petNameTxt;
 
@@ -64,6 +93,10 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Chance Stat Slider")]
     public Slider intelligenceFillSlider;
     public Slider luckFillSlider;
+
+    [Header("Pet Care Screen UI")]
+    public GameObject petDeathPanel;
+    public Text petDeathReasonTxt;
 
     [Space]
     public Button medicineBtn;
@@ -121,15 +154,34 @@ public class PetCareUIManager : MonoBehaviour
 
     public void EggSelectedAndShowPetWelcomePanel(int index)
     {
-        Debug.Log("Selected Egg - " +  index);
         eggSelectionPanel.SetActive(false);
         welcomePanel.SetActive(true);
+
+        selectedEggPet.sprite = petImages[index];
     }
 
     public void NextFromWelcomePanel()
     {
         welcomePanel.SetActive(false);
         setPetDetailsPanel.SetActive(true);
+        UpdatePetDetailsSliderStatsText();
+    }
+
+    public void UpdatePetDetailsSliderStatsText()
+    {
+        abilityStatsTxt.text = "Total: (" + (runningSliderPetCreation.value + climbingSliderPetCreation.value
+                                + flyingSliderPetCreation.value + swimmingSliderPetCreation.value) + "/" + maxAbilityStatLimit + ")";
+
+        runningStatTxt.text = "(" + runningSliderPetCreation.value + "/50)";
+        climbingStatTxt.text = "(" + climbingSliderPetCreation.value + "/50)";
+        flyingStatTxt.text = "(" + flyingSliderPetCreation.value + "/50)";
+        swimmingStatTxt.text = "(" + swimmingSliderPetCreation.value + "/50)";
+
+        chanceStatsTxt.text = "Total: (" + (intelligenceSliderPetCreation.value + luckSliderPetCreation.value)
+                                + "/" + maxChanceStatLimit + ")";
+
+        intelligenceStatTxt.text = "(" + intelligenceSliderPetCreation.value + "/15)";
+        luckStatTxt.text = "(" + luckSliderPetCreation.value + "/15)";
     }
 
     public void SubmitPetDetails()
@@ -139,7 +191,7 @@ public class PetCareUIManager : MonoBehaviour
             StartCoroutine(ShowNoticeTxt("Please enter valid Pet name!"));
         }
         else if((runningSliderPetCreation.value + climbingSliderPetCreation.value 
-                + flyingFillSlider.value + swimmingFillSlider.value) > maxAbilityStatLimit)
+                + flyingSliderPetCreation.value + swimmingSliderPetCreation.value) > maxAbilityStatLimit)
         {
             StartCoroutine(ShowNoticeTxt("Please select Ability stats within Max limit!"));
         }
@@ -162,5 +214,11 @@ public class PetCareUIManager : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
         noticeTxt.text = "";
+    }
+
+    public void ShowPetDeathUI(string deathReason)
+    {
+        petDeathReasonTxt.text = deathReason;
+        petDeathPanel.SetActive(true);
     }
 }

@@ -192,7 +192,9 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, Fusion.NetworkInput input)
     {
         var data = new NetworkInputData();
+
         data.direction = m_input;
+
         input.Set(data);
     }
 

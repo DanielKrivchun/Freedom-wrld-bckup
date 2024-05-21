@@ -25,7 +25,7 @@ public class GameEventState : ScriptableObject
 
     public void Raise(PetCareState selectedState)
     {
-        Debug.Log("Event Raised : "+ selectedState);
+        //Debug.Log("Event Raised : "+ selectedState);
 
         foreach (GameEventListenerState item in listeners)
         {

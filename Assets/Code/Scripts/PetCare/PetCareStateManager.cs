@@ -2,6 +2,7 @@ using Beamable.CloudSavingService;
 using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PetCareStateManager : MonoBehaviour
@@ -200,8 +201,6 @@ public class PetCareStateManager : MonoBehaviour
         {
             petDataRef.petData.health = Mathf.Clamp(petDataRef.petData.health, 0, sickHealthThreshold);
         }
-
-        Debug.Log("Health - " + petDataRef.petData.health);
     }
 
     public void ManageHappinessDataFiller(int value)
@@ -322,7 +321,7 @@ public class PetCareStateManager : MonoBehaviour
             && !petDataRef.petData.isSleeping)
         {
             Debug.Log("Pet die due to NO SLEEP! " + (noSleepTime / oneDaySeconds));
-
+            petCareUIManager.ShowPetDeathUI("Pet die due to NO SLEEP more than " + lowerSleepTimeInDay + " days!");
             //Uncomment this return statement because the pet has died, so there is no need to check further anything
             //return;
         }
@@ -387,6 +386,7 @@ public class PetCareStateManager : MonoBehaviour
         if ((timeOfLowHunger / oneDaySeconds) > lowerHungerTimeInDay)
         {
             Debug.Log("Pet die due to NO FOOD!" + (timeOfLowHunger / oneDaySeconds));
+            petCareUIManager.ShowPetDeathUI("Pet die due to NO FOOD more than " + lowerHungerTimeInDay + " days!");
             return true;
         }
         else
@@ -422,6 +422,7 @@ public class PetCareStateManager : MonoBehaviour
         if ((timeOfLowerCleanliness / oneDaySeconds) > lowerCleanlinessTimeInDay)
         {
             Debug.Log("Pet die due to NO CLEANLINESS!" + (timeOfLowerCleanliness / oneDaySeconds));
+            petCareUIManager.ShowPetDeathUI("Pet die due to NO CLEANLINESS more than " + lowerCleanlinessTimeInDay + " days!");
             return true;
         }
         else
@@ -474,6 +475,7 @@ public class PetCareStateManager : MonoBehaviour
             && (timeOfLowerCleanliness / oneHourSeconds) > lowerHealthTimeInHour && (timeOfLowerEnergy / oneHourSeconds) > lowerHealthTimeInHour)
         {
             Debug.Log("Pet die due to NO HEALTH!" + ", Hap-" + (timeOfLowerHappiness / oneHourSeconds) + ", Hun-" + (timeOfLowerHunger / oneHourSeconds) + ", Cle-" + (timeOfLowerCleanliness / oneHourSeconds) + ", Ene-" + (timeOfLowerEnergy / oneHourSeconds));
+            petCareUIManager.ShowPetDeathUI("Pet die due to NO HEALTH more than " + lowerHealthTimeInHour + " hours!");
             return true;
         }
         else

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.XPath;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PetDataRef", menuName = "ScriptableObject/PetDataRef", order = 100)]
@@ -10,7 +11,7 @@ public class PetDataRef : ScriptableObject
     public void SetPetAllData(string petName, int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
                                 string petBirthTime, string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy,  
                                 int running, int climbing, int flying, int swimming, int intelligence, int luck,
-                                string sleepStartTime, bool isSleeping)
+                                string sleepStartTime, bool isSleeping, int xp, int rank)
     {
         petData.petname = petName;
 
@@ -36,7 +37,9 @@ public class PetDataRef : ScriptableObject
 
         petData.intelligence = intelligence;
         petData.luck = luck;
-        
+
+        petData.xp = xp;
+        petData.rank = rank;        
     }
 
     public void SetPetWellbeingStatsData(int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
