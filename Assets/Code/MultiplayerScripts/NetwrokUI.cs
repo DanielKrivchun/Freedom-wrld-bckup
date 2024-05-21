@@ -55,7 +55,6 @@ public class NetwrokUI : NetworkBehaviour
     IEnumerator _StartedCountDown()
     {
         int a = 5;
-
         countdownText.text = a.ToString();
         yield return new WaitForSecondsRealtime(1f);
         a--;

@@ -9,7 +9,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
-
+    public InputValue input_value;
+    [Space]
     public Transform[] spawnPoints;
     [Header("NetworkRunner Prefab")]
     public NetworkRunner networkRunnerPrefab;
@@ -76,6 +77,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log("_StartGameForPlayers");
         e_get_set_go?.Invoke();
+        input_value.m_enable_navmesh = true;
     }
 
 

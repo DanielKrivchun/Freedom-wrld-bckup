@@ -60,14 +60,13 @@ public class NavmeshMultiplayer : NetworkBehaviour
     {
         if (Utils.IsLocalPlayer(Object))
         {
-            //cam.transform.SetParent(null);
-            //cam.SetActive(true);
             playerName = RaceManager.instance.LocalPlayerNickname;
             ColoredDebug.Log("Sending RPC with Name" + playerName, Color.green);
             myName = playerName.ToString();
             RpcSetNickNameClients(playerName);
             nameText.text = playerName.ToString();
             gameObject.name = myName.ToString();
+            _SetupCamera();
         }
         else
         {
@@ -75,6 +74,11 @@ public class NavmeshMultiplayer : NetworkBehaviour
             gameObject.name = myName.ToString();
             nameText.text = myName.ToString();
         }
+    }
+
+    void _SetupCamera()
+    {
+        NetworkCamera.Instance._SetUpCamera(transform);
     }
 
 

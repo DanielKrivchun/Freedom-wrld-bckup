@@ -12278,6 +12278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e716a02f9dbdb4887e8c7fd94379ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input_value: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
   spawnPoints:
   - {fileID: 1843797508}
   - {fileID: 2008430105}
@@ -12288,6 +12289,7 @@ MonoBehaviour:
     RawGuidValue: 98791bcba3fedd3418e7d06ec2967b49
   inputField: {fileID: 1678943138}
   m_input: {x: 0, y: 0}
+  _pathNumber: 0
   networkRunnerInstance: {fileID: 0}
 --- !u!4 &1620809135
 Transform:

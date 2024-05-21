@@ -54,7 +54,7 @@ public enum PetCareState
 }
 
 
-public static class Utils  // helper class for duplication
+public static class Utils
 {
     public static bool IsLocalPlayer(NetworkObject networkObj)
     {
