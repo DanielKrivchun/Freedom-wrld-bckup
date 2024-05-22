@@ -14,14 +14,16 @@ public class NavmeshMultiplayer : NetworkBehaviour
     public TextMeshPro nameText;
     [Header("Navmesh Agent")]
     public NavMeshAgent m_agent;
+    [Header("ANIMATOR")]
+
+    public Animator animator;
+
     [Header("Script Refrence")]
     private PathPointManager path_point;
 
     public NetworkString<_8> playerName;
     public PlayerRef playerRef;
     public List<Vector3> move_positions;
-
-
 
     #region UNITY METHODS
 
