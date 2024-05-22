@@ -102,15 +102,10 @@ public class PetCareUIManager : MonoBehaviour
     public GameObject rankUpPanel;
     public Text rankUpMsgTxt;
 
-    [Space]
-    public Button medicineBtn;
-    public Text medicineCntTxt;
-    public int medicineCnt = 1;
-
     private void Start()
     {
         happyBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Happy));
-        eatBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Feed));
+        eatBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Eat));
         cleanBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Clean));
         sleepBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Energy));
     }
@@ -138,16 +133,6 @@ public class PetCareUIManager : MonoBehaviour
 
         intelligenceFillSlider.DOValue(petDataRef.petData.intelligence, 0.5f);
         luckFillSlider.DOValue(petDataRef.petData.luck, 0.5f);
-    }
-
-    public void UpdatePetSickToHealthy()
-    {
-        if (petDataRef.petData.isSick)
-        {
-            medicineBtn.interactable = false;
-            medicineCntTxt.text = (medicineCnt - 1).ToString();
-            petDataRef.petData.isSick = false;
-        }
     }
 
     public void ShowPetCreationUI()

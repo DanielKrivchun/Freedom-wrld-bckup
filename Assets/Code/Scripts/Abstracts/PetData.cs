@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 [System.Serializable]
 public class PetData
 {
@@ -22,4 +24,13 @@ public class PetData
     public float xp;
 
     public bool isSleeping;
+
+    public List<PetFoodData> foodData;
+}
+
+[System.Serializable]
+public class PetFoodData
+{
+    public string foodname;
+    public int foodCount;
 }

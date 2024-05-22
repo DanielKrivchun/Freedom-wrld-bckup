@@ -317,7 +317,7 @@ namespace Beamable.CloudSavingService
             }
         }
 
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
         //For Editor
         private void OnApplicationFocus(bool focus)
         {
@@ -327,7 +327,7 @@ namespace Beamable.CloudSavingService
                 SaveData(petDataRef.petData);
             }
         }
-#endif
+#endif*/
 
         private void OnApplicationQuit()
         {

@@ -1,6 +1,7 @@
 using Beamable.CloudSavingService;
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -24,9 +25,13 @@ public class PetCareStateManager : MonoBehaviour
     public GameObject bathObjectHolder;
     public GameObject sleepBtn;
 
+    [Space]
+    public List<FoodObjects> foodObjs;
+
+    [HideInInspector]
     public bool isReadyForBath;
 
-    [Space]
+
     [Header("Health")]
     /// <summary>
     ///  When Health < 60% (390/650), then it is in a state of "Sick"
@@ -39,7 +44,7 @@ public class PetCareStateManager : MonoBehaviour
     /// </summary> 
     public float lowerHealthTimeInHour;
 
-    [Space]
+
     [Header("Happiness")]
     public int maxHappiness;
     /// <summary>
@@ -52,7 +57,6 @@ public class PetCareStateManager : MonoBehaviour
     public int happinessTickRate;
 
 
-    [Space]
     [Header("Hunger")]
     public int maxHunger;
     /// <summary>
@@ -73,7 +77,6 @@ public class PetCareStateManager : MonoBehaviour
     public float lowerHungerTimeInDay;
 
 
-    [Space]
     [Header("Cleanliness")]
     public int maxCleanliness;
     /// <summary>
@@ -94,7 +97,6 @@ public class PetCareStateManager : MonoBehaviour
     public float lowerCleanlinessTimeInDay;
 
 
-    [Space]
     [Header("Energy & Sleep")]
     public int maxEnergy;
     /// <summary>
@@ -125,7 +127,7 @@ public class PetCareStateManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -153,7 +155,9 @@ public class PetCareStateManager : MonoBehaviour
                 sleepBtn.SetActive(false);
                 break;
 
-            case PetCareState.Feed:
+            case PetCareState.Eat:
+                SetAvailabeFoodItemOnTable();
+
                 eatObjectHolder.SetActive(true);
                 bathObjectHolder.SetActive(false);
                 sleepBtn.SetActive(false);
@@ -188,7 +192,7 @@ public class PetCareStateManager : MonoBehaviour
                 ManageHappinessDataFiller(-happinessTickRate);
                 break;
 
-            case PetCareState.Feed:
+            case PetCareState.Eat:
                 ManageHungerDataFiller(-hungerTickRate);
                 break;
 
@@ -202,11 +206,75 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    public void SetAvailabeFoodItemOnTable()
+    {
+        for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
+        {
+            if (petDataRef.petData.foodData[i].foodname == foodObjs[i].foodName)
+            {
+                for (int j = 0; j < petDataRef.petData.foodData[i].foodCount; j++)
+                {
+                    //Setting available items on table
+                    Instantiate(foodObjs[i].foodObj, eatObjectHolder.transform);
+                }
+            }   
+        }
+    }
+
+    public void GenerateFoodItemOnTable(string foodName)
+    {
+        for (int i = 0; i < foodObjs.Count; i++)
+        {
+            if (foodName == foodObjs[i].foodName)
+            {
+                //Adding items on table
+                Instantiate(foodObjs[i].foodObj, eatObjectHolder.transform);
+
+                for (int j = 0; j < petDataRef.petData.foodData.Count; j++)
+                {
+                    //Food is already available in Petdata then increasing count and returning from here 
+                    if (petDataRef.petData.foodData[j].foodname == foodName)
+                    {
+                        petDataRef.petData.foodData[j].foodCount++;
+                        return;
+                    }
+                }
+
+                //Food is not available in Petdata so adding it in Petdata
+                PetFoodData petFoodData = new PetFoodData
+                {
+                    foodname = foodName,
+                    foodCount = 1
+                };
+                petDataRef.petData.foodData.Add(petFoodData);
+            }
+        }
+    }
+
+    public void RemoveFoodFromTable(string foodName)
+    {
+        for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
+        {
+            if (foodName == petDataRef.petData.foodData[i].foodname)
+            {
+                petDataRef.petData.foodData.RemoveAt(i);
+            }
+        }
+    }
+
+    public void UpdatePetSickToHealthy()
+    {
+        if (petDataRef.petData.isSick)
+        {
+            petDataRef.petData.isSick = false;
+        }
+    }
+
     public void UpdateHealth()
     {
         petDataRef.petData.health = (2 * petDataRef.petData.happiness) + (2 * petDataRef.petData.cleanliness) + (int)(1.5 * petDataRef.petData.hunger) + petDataRef.petData.energy;
 
-        if(!petDataRef.petData.isSick && petDataRef.petData.health < sickHealthThreshold)
+        if (!petDataRef.petData.isSick && petDataRef.petData.health < sickHealthThreshold)
         {
             petDataRef.petData.isSick = true;
         }
@@ -365,7 +433,7 @@ public class PetCareStateManager : MonoBehaviour
         //Checking Pet Death Situation
         if (petDataRef.petData.happiness == 0 && petDataRef.petData.hunger == 0 && petDataRef.petData.cleanliness == 0 && petDataRef.petData.energy == 0)
         {
-            if(IsPetDeathDueToHealth(lostHappiness, lostHunger, lostCleanliness, lostEnergy))
+            if (IsPetDeathDueToHealth(lostHappiness, lostHunger, lostCleanliness, lostEnergy))
             {
                 //Uncomment this return statement because the pet has died, so there is no need to check further anything
                 //return;
@@ -485,7 +553,7 @@ public class PetCareStateManager : MonoBehaviour
             timeOfLowerEnergy += energyTimeLength;
             lowerEnergy -= energyTickRate;
         }
-        
+
         //Checking all times are passing LowerHealthTimeInHour limit
         if ((timeOfLowerHappiness / oneHourSeconds) > lowerHealthTimeInHour && (timeOfLowerHunger / oneHourSeconds) > lowerHealthTimeInHour
             && (timeOfLowerCleanliness / oneHourSeconds) > lowerHealthTimeInHour && (timeOfLowerEnergy / oneHourSeconds) > lowerHealthTimeInHour)
@@ -537,4 +605,11 @@ public class PetCareStateManager : MonoBehaviour
         petDataRef.petData.maxStamina = 90 + (petDataRef.petData.rank * 10);
         Debug.Log("MaxStamina - " + petDataRef.petData.maxStamina);
     }
+}
+
+[System.Serializable]
+public class FoodObjects
+{
+    public string foodName;
+    public GameObject foodObj;
 }

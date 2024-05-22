@@ -72,7 +72,7 @@ public class TimingManager : MonoBehaviour
         if (hungerTimer <= 0)
         {
             hungerTimer = petCareStateManager.hungerTimeLength;
-            petCareTimerEvent.Raise(PetCareState.Feed);
+            petCareTimerEvent.Raise(PetCareState.Eat);
         }
         else
         {

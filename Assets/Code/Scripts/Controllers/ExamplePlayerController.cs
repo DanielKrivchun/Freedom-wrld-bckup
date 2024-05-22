@@ -15,6 +15,17 @@ public class ExamplePlayerController : MonoBehaviour
     {
         Debug.Log("Eating food");
         Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueId}");
+
+        switch(item.itemName) 
+        {
+            case "Apple":
+                PetCareStateManager.instance.GenerateFoodItemOnTable("Apple");
+                break;
+
+            case "Mushroom":
+                PetCareStateManager.instance.GenerateFoodItemOnTable("Mushroom");
+                break;
+        }
     }
 
     public void UseInteractable(Item item)

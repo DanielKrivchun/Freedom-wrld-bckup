@@ -53,7 +53,7 @@ public struct _Tags
 public enum PetCareState
 {
     Happy,
-    Feed,
+    Eat,
     Clean,
     Energy
 }
