@@ -11,12 +11,12 @@ public class NavmeshMultiplayer : NetworkBehaviour
     #region PUBLIC VARIABLES
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
+    public PetConfigs PetConfigs;
     [Space]
     public TextMeshPro nameText;
     [Header("Navmesh Agent")]
     public NavMeshAgent m_agent;
     [Header("ANIMATOR")]
-
     public PetAnimation PetAnimation;
 
     [Header("Script Refrence")]
@@ -40,10 +40,11 @@ public class NavmeshMultiplayer : NetworkBehaviour
     }
     #endregion
 
-    #region Provate variables
+    #region Private variables
     private Vector3 m_currunt_pos;
     private float m_distance;
     private int m_currunt_index;
+    public bool IsServer;
     #endregion
 
     #region NETWORKED OBJECTS
@@ -60,6 +61,21 @@ public class NavmeshMultiplayer : NetworkBehaviour
     {
         path_point = FindObjectOfType<PathPointManager>();
         SetLocalObjects();
+        _SetupConfigs();
+
+        if (Runner.IsServer)
+        {
+            IsServer = true;
+        }
+    }
+
+    /// <summary>
+    /// Remove random on Actual Project
+    /// </summary>
+    void _SetupConfigs()
+    {
+        m_agent.speed = Random.Range(5, PetConfigs.Speed);
+        m_agent.acceleration = Random.Range(15, PetConfigs.Acceleration);
     }
 
     private void SetLocalObjects()
@@ -110,6 +126,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     #region ANIMATION CAMERA
     private void _ChangeAnimationHere(_AnimState _state)
     {
+        Debug.Log("Changed ANimation here");
         PetAnimation._ChangeAnimationState(_state);
     }
 
@@ -127,10 +144,12 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     public void _StartRun()
     {
+        if (!IsServer) return;
+
         Debug.Log(MyPathNumber);
         _InitilizePath();
         _SetDestination(move_positions[m_currunt_index]);
-        _ChangeAnimationHere(_AnimState.Running);
+        _ChangeAnimationHere(_AnimState.Run);
     }
 
     public void _SetPathBasedOnIndex()
@@ -146,6 +165,11 @@ public class NavmeshMultiplayer : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         if (!m_input_value.m_enable_navmesh)
+        {
+            return;
+        }
+
+        if (!IsServer)
         {
             return;
         }
