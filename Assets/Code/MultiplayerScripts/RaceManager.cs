@@ -31,6 +31,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public static RaceManager instance;
 
+    public List<NetworkObject> GenratedPlayers;
+
     private void Awake()
     {
         if (instance == null)
@@ -106,6 +108,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             //playerı serverde yaptık.
             Runner.SetPlayerObject(playerRef, playerObject);
             PathNumber++;
+            GenratedPlayers.Add(playerObject);
 
             if (PathNumber >= 2)
             {
@@ -116,16 +119,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void _DespawnPlayer(PlayerRef playerRef)
     {
-        if (Runner.IsServer)
+        if (Runner.TryGetPlayerObject(playerRef, out var playerNetworkObject))
         {
-            if (Runner.TryGetPlayerObject(playerRef, out var playerNetworkObject))
-            {
-                Runner.Despawn(playerNetworkObject);
-            }
-
-            // reset player object
-            Runner.SetPlayerObject(playerRef, null);
+            Runner.Despawn(playerNetworkObject);
         }
+        // reset player object
+        Runner.SetPlayerObject(playerRef, null);
     }
     #endregion
 
