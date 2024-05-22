@@ -147,7 +147,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     public void _StartRun()
     {
-        if (!IsServer)
+        if (IsServer)
         {
             Debug.Log(MyPathNumber);
             _InitilizePath();
