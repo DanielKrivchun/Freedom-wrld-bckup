@@ -45,6 +45,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     private float m_distance;
     private int m_currunt_index;
     public bool IsServer;
+    public bool IsLocalPlayer;
     #endregion
 
     #region NETWORKED OBJECTS
@@ -82,6 +83,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     {
         if (Utils.IsLocalPlayer(Object))
         {
+            IsLocalPlayer = true;
             playerName = RaceManager.instance.LocalPlayerNickname;
             ColoredDebug.Log("Sending RPC with Name" + playerName, Color.green);
             MyName = playerName.ToString();
@@ -114,6 +116,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     private void _OnWInNumberAlocated()
     {
+        Debug.Log("_OnWInNumberAlocated " + gameObject.name);
         if (Utils.IsLocalPlayer(Object))
         {
             Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
@@ -144,12 +147,17 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     public void _StartRun()
     {
-        if (!IsServer) return;
+        if (!IsServer)
+        {
+            Debug.Log(MyPathNumber);
+            _InitilizePath();
+            _SetDestination(move_positions[m_currunt_index]);
+        }
 
-        Debug.Log(MyPathNumber);
-        _InitilizePath();
-        _SetDestination(move_positions[m_currunt_index]);
-        _ChangeAnimationHere(_AnimState.Run);
+        if (IsLocalPlayer)
+        {
+            _ChangeAnimationHere(_AnimState.Run);
+        }
     }
 
     public void _SetPathBasedOnIndex()
@@ -231,7 +239,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
     #endregion
 
     #region RPC CLLAS AND RECIVERS
-
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     private void RpcSetNickNameClients(NetworkString<_32> nickname)
     {
@@ -242,8 +249,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
     void _OnRecivedRPC()
     {
         Debug.Log("Recived RPC HERE  " + Runner.IsServer);
-        nameText.text = playerName.ToString();
         MyName = playerName.ToString();
+        nameText.text = MyName.ToString();
+        gameObject.name = MyName;
     }
 
     #endregion
