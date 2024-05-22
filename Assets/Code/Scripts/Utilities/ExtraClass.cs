@@ -45,6 +45,11 @@ public class _Strings
     public static string Sleep = "Sleep";
 }
 
+public struct _Tags
+{
+    public static string WinLine = "";
+}
+
 public enum PetCareState
 {
     Happy,

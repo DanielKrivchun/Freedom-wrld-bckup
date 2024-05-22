@@ -30,7 +30,7 @@ public class PetAnimation : MonoBehaviour
                 Animator.SetFloat(_Strings.Velocity, 1);
                 m_currunt_anim_state = _AnimState.Run;
                 break;
-            
+
             case _AnimState.Jump:
                 break;
 

@@ -9,23 +9,23 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
-    public InputValue input_value;
+    public InputValue InputValue;
     [Space]
     public Transform[] spawnPoints;
     [Header("NetworkRunner Prefab")]
-    public NetworkRunner networkRunnerPrefab;
+    public NetworkRunner NetworkRunnerPrefab;
     [Space]
     [Header("Player Prefab")]
-    public NetworkPrefabRef playerNetworkPrefab = NetworkPrefabRef.Empty;
-
-    public event Action e_get_set_go;
+    public NetworkPrefabRef PlayerPrefab = NetworkPrefabRef.Empty;
 
     int a = 0;
     [SerializeField] private TMP_InputField inputField;
     public Vector2 m_input;
-    [Networked] public int pathNumber { get; set; }
+    [Networked] public int PathNumber { get; set; }
 
-    public NetworkRunner networkRunnerInstance;
+    public int CurrntWinCount;
+
+    private NetworkRunner networkRunnerInstance;
 
     public string LocalPlayerNickname { get; private set; }
 
@@ -50,7 +50,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         if (networkRunnerInstance == null)
         {
             Debug.Log("Instantiated my object  " + mode);
-            networkRunnerInstance = Instantiate(networkRunnerPrefab);
+            networkRunnerInstance = Instantiate(NetworkRunnerPrefab);
         }
 
         networkRunnerInstance.AddCallbacks(this);
@@ -76,9 +76,18 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public void _StartGameForPlayers()
     {
         Debug.Log("_StartGameForPlayers");
-        e_get_set_go?.Invoke();
-        input_value.m_enable_navmesh = true;
+        NetworkEventManager._EventStartGame();
+        InputValue.m_enable_navmesh = true;
     }
+
+    #region WIN LOGIC
+    public int _GetMyWinningNo()
+    {
+        CurrntWinCount++;
+        ColoredDebug.Log("Currunt Win Number " + CurrntWinCount);
+        return CurrntWinCount;
+    }
+    #endregion
 
 
     #region PLAYER SPWANR
@@ -87,18 +96,18 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         if (Runner.IsServer)
         {
-            if (pathNumber <= 0)
+            if (PathNumber <= 0)
             {
-                pathNumber = 0;
+                PathNumber = 0;
             }
-            Vector3 spawnPoint = spawnPoints[pathNumber].transform.position;
-            NetworkObject playerObject = Runner.Spawn(playerNetworkPrefab, spawnPoint, Quaternion.identity, playerRef);
-            playerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData(pathNumber);
+            Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
+            NetworkObject playerObject = Runner.Spawn(PlayerPrefab, spawnPoint, Quaternion.identity, playerRef);
+            playerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData(PathNumber);
             //playerı serverde yaptık.
             Runner.SetPlayerObject(playerRef, playerObject);
-            pathNumber++;
+            PathNumber++;
 
-            if (pathNumber >= 2)
+            if (PathNumber >= 2)
             {
                 NetwrokUI.Instance._OpenStartUI();
             }

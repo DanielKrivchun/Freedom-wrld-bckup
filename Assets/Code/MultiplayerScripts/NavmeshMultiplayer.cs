@@ -8,6 +8,7 @@ using TMPro;
 using System.Xml.Linq;
 public class NavmeshMultiplayer : NetworkBehaviour
 {
+    #region PUBLIC VARIABLES
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
     [Space]
@@ -16,26 +17,26 @@ public class NavmeshMultiplayer : NetworkBehaviour
     public NavMeshAgent m_agent;
     [Header("ANIMATOR")]
 
-    public Animator animator;
+    public PetAnimation PetAnimation;
 
     [Header("Script Refrence")]
     private PathPointManager path_point;
 
-    public NetworkString<_8> playerName;
+    public NetworkString<_32> playerName;
     public PlayerRef playerRef;
     public List<Vector3> move_positions;
+    #endregion
 
     #region UNITY METHODS
 
     private void OnEnable()
     {
-        RaceManager.instance.e_get_set_go += _StartRun;
+        NetworkEventManager.e_get_set_go += _StartRun;
     }
 
     private void OnDisable()
     {
-
-        RaceManager.instance.e_get_set_go -= _StartRun;
+        NetworkEventManager.e_get_set_go -= _StartRun;
     }
     #endregion
 
@@ -46,12 +47,13 @@ public class NavmeshMultiplayer : NetworkBehaviour
     #endregion
 
     #region NETWORKED OBJECTS
-    [Networked] public string myName { get; set; }
-    [Networked] public int pathNumber { get; set; }
-
+    [Networked] public string MyName { get; set; }
+    [Networked] public int MyPathNumber { get; set; }
+    [Networked] public int MyWiningNumber { get; set; }
 
     #endregion
 
+    #region NETWORK FUCTIONS
     public override void Spawned() // fusionun startı
     {
         path_point = FindObjectOfType<PathPointManager>();
@@ -64,43 +66,70 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             playerName = RaceManager.instance.LocalPlayerNickname;
             ColoredDebug.Log("Sending RPC with Name" + playerName, Color.green);
-            myName = playerName.ToString();
+            MyName = playerName.ToString();
             RpcSetNickNameClients(playerName);
             nameText.text = playerName.ToString();
-            gameObject.name = myName.ToString();
+            gameObject.name = MyName.ToString();
             _SetupCamera();
         }
         else
         {
-            Debug.Log("My Name Is " + myName);
-            gameObject.name = myName.ToString();
-            nameText.text = myName.ToString();
+            Debug.Log("My Name Is " + MyName);
+            gameObject.name = MyName.ToString();
+            nameText.text = MyName.ToString();
         }
+    }
+
+    #endregion
+
+    #region COLISION DETECTION
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (Runner.IsServer)
+        {
+            Debug.Log(other.tag + "    " + MyName);
+            MyWiningNumber = RaceManager.instance._GetMyWinningNo();
+        }
+    }
+    #endregion
+
+    #region ANIMATION CAMERA
+    private void _ChangeAnimationHere(_AnimState _state)
+    {
+        PetAnimation._ChangeAnimationState(_state);
     }
 
     void _SetupCamera()
     {
         NetworkCamera.Instance._SetUpCamera(transform);
     }
+    #endregion
 
-
+    #region RUN SETUP
     public void _SetUpMyInitialData(int pr)
     {
-        pathNumber = pr;
+        MyPathNumber = pr;
     }
 
     public void _StartRun()
     {
-        Debug.Log(pathNumber);
+        Debug.Log(MyPathNumber);
         _InitilizePath();
         _SetDestination(move_positions[m_currunt_index]);
+        _ChangeAnimationHere(_AnimState.Running);
     }
 
     public void _SetPathBasedOnIndex()
     {
-        pathNumber = playerRef.PlayerId;
+        MyPathNumber = playerRef.PlayerId;
     }
 
+    #endregion
+
+    /// <summary>
+    /// NETWORKED CALLS
+    /// </summary>
     public override void FixedUpdateNetwork()
     {
         if (!m_input_value.m_enable_navmesh)
@@ -115,6 +144,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
         }
     }
 
+    #region NAVMESH METHODS
     private void _ChangeCurruntPoint()
     {
         m_currunt_index++;
@@ -131,9 +161,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
     /// </summary>
     void _InitilizePath()
     {
-        Debug.Log("My Path No  " + pathNumber + "   " + gameObject.name);
+        Debug.Log("My Path No  " + MyPathNumber + "   " + gameObject.name);
         move_positions = new List<Vector3>();
-        move_positions = path_point.prePositions[pathNumber].m_positions;
+        move_positions = path_point.prePositions[MyPathNumber].m_positions;
     }
 
     public void _SetDestination(Vector3 _target_pos)
@@ -161,8 +191,12 @@ public class NavmeshMultiplayer : NetworkBehaviour
         return finalPosition;
     }
 
+    #endregion
+
+    #region RPC CLLAS AND RECIVERS
+
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RpcSetNickNameClients(NetworkString<_8> nickname)
+    private void RpcSetNickNameClients(NetworkString<_32> nickname)
     {
         playerName = nickname;
         _OnRecivedRPC();
@@ -172,6 +206,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
     {
         Debug.Log("Recived RPC HERE  " + Runner.IsServer);
         nameText.text = playerName.ToString();
-        myName = playerName.ToString();
+        MyName = playerName.ToString();
     }
+
+    #endregion
 }

@@ -1,4 +1,5 @@
 using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,7 @@ using UnityEngine;
 public class NetwrokUI : NetworkBehaviour
 {
     public GameObject startUI;
+    public GameObject WinUI;
     public GameObject countdownPanel;
     [Space]
     public GameObject connectingUI;
@@ -14,16 +16,32 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject starGameButton;
     [Space]
     public TextMeshProUGUI countdownText;
+    public TextMeshProUGUI wintext;
     [Space]
     public RaceManager spawner;
 
     public static NetwrokUI Instance;
 
-
-
     private void Awake()
     {
         Instance = this;
+    }
+
+
+    private void OnEnable()
+    {
+        NetworkEventManager.e_win_event += _OnGameWon;
+    }
+
+    private void OnDisable()
+    {
+        
+        NetworkEventManager.e_win_event -= _OnGameWon;
+    }
+
+    private void _OnGameWon(int _no)
+    {
+
     }
 
     public void _JoinRoom()
