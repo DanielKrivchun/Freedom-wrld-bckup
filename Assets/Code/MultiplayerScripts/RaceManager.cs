@@ -125,14 +125,18 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void _DespawnPlayer(PlayerRef playerRef)
     {
-        _AllPlayerData p = GenratedPlayers.Find(asd => asd.playerRef == playerRef);
-
-
-        if (p.networkObject != null)
+        if (Runner.IsServer)
         {
-            Runner.Despawn(p.networkObject);
-            GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
+            _AllPlayerData p = GenratedPlayers.Find(asd => asd.playerRef == playerRef);
+
+            if (p.networkObject != null)
+            {
+                Runner.Despawn(p.networkObject);
+                GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
+            }
         }
+
+
     }
     #endregion
 
