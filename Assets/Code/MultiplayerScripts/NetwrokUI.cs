@@ -35,13 +35,14 @@ public class NetwrokUI : NetworkBehaviour
 
     private void OnDisable()
     {
-        
+
         NetworkEventManager.e_win_event -= _OnGameWon;
     }
 
     private void _OnGameWon(int _no)
     {
-
+        WinUI.SetActive(true);
+        wintext.text = "Your numbe is  " + _no;
     }
 
     public void _JoinRoom()

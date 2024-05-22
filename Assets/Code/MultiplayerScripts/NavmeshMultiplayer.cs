@@ -49,7 +49,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
     #region NETWORKED OBJECTS
     [Networked] public string MyName { get; set; }
     [Networked] public int MyPathNumber { get; set; }
-    [Networked] public int MyWiningNumber { get; set; }
+
+    [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
+    public int MyWiningNumber { get; set; }
 
     #endregion
 
@@ -91,6 +93,17 @@ public class NavmeshMultiplayer : NetworkBehaviour
             Debug.Log(other.tag + "    " + MyName);
             MyWiningNumber = RaceManager.instance._GetMyWinningNo();
         }
+    }
+
+
+    private void _OnWInNumberAlocated()
+    {
+        if (Utils.IsLocalPlayer(Object))
+        {
+            Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
+            NetworkEventManager._EventWon(MyWiningNumber);
+        }
+
     }
     #endregion
 

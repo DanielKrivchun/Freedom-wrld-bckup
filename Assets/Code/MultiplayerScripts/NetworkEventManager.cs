@@ -22,11 +22,11 @@ public class NetworkEventManager : MonoBehaviour
         }
     }
 
-    public static void _EventWon()
+    public static void _EventWon(int _no)
     {
-        if (e_get_set_go != null)
+        if (e_win_event != null)
         {
-            e_get_set_go();
+            e_win_event(_no);
         }
     }
     #endregion

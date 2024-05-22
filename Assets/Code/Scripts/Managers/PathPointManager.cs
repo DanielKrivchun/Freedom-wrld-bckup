@@ -6,6 +6,7 @@ public class PathPointManager : MonoBehaviour
 {
     public List<_WayPoints> m_way_points;
     public bool m_randomized;
+    public int StraightNo;
 
     public List<_PrePositions> prePositions;
 
@@ -22,6 +23,10 @@ public class PathPointManager : MonoBehaviour
             if (m_randomized)
             {
                 m_random_no = Random.Range(0, m_way_points[i].m_points.Length);
+            }
+            else
+            {
+                m_random_no = StraightNo;
             }
             v.Add(m_way_points[i].m_points[m_random_no].position);
         }
