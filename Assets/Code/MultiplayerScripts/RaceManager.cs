@@ -7,6 +7,7 @@ using Fusion.Sockets;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
+using static Unity.Collections.Unicode;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
     public InputValue InputValue;
@@ -31,7 +32,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public static RaceManager instance;
 
-    public List<NetworkObject> GenratedPlayers;
+    public List<_AllPlayerData> GenratedPlayers;
 
     private void Awake()
     {
@@ -56,7 +57,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
 
         networkRunnerInstance.AddCallbacks(this);
-
         networkRunnerInstance.ProvideInput = true;
 
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
@@ -108,7 +108,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             //playerı serverde yaptık.
             Runner.SetPlayerObject(playerRef, playerObject);
             PathNumber++;
-            GenratedPlayers.Add(playerObject);
+
+            _AllPlayerData d = new _AllPlayerData();
+            d.playerRef = playerRef;
+            d.networkObject = playerObject;
+
+
+            GenratedPlayers.Add(d);
 
             if (PathNumber >= 2)
             {
@@ -119,12 +125,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void _DespawnPlayer(PlayerRef playerRef)
     {
-        if (Runner.TryGetPlayerObject(playerRef, out var playerNetworkObject))
+        _AllPlayerData p = GenratedPlayers.Find(asd => asd.playerRef == playerRef);
+
+
+        if (p.networkObject != null)
         {
-            Runner.Despawn(playerNetworkObject);
+            Runner.Despawn(p.networkObject);
+            GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
         }
-        // reset player object
-        Runner.SetPlayerObject(playerRef, null);
     }
     #endregion
 
