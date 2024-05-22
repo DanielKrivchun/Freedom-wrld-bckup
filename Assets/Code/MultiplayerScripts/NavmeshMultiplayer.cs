@@ -154,10 +154,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
             _SetDestination(move_positions[m_currunt_index]);
         }
 
-        if (IsLocalPlayer)
-        {
-            _ChangeAnimationHere(_AnimState.Run);
-        }
+        _ChangeAnimationHere(_AnimState.Run);
     }
 
     public void _SetPathBasedOnIndex()
