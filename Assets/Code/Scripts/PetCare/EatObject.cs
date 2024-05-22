@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class EatObject : MonoBehaviour
 {
-    public PetCareInputManager petInputManager;
-    public PetCareStateManager petCareStateManager;
+    public int decreaseHungerValue;
 
     private void OnMouseDown()
     {
-        if (petCareStateManager.petDataRef.petData.hunger < 100)
+        if (PetCareStateManager.instance.petDataRef.petData.hunger < 100)
         {
-            petInputManager.ShowPetEatingObject();
+            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Eating);
+            PetCareStateManager.instance.ManageHungerDataFiller(decreaseHungerValue);
             gameObject.SetActive(false);
         }
     }

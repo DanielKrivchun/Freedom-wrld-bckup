@@ -233,7 +233,7 @@ namespace Beamable.CloudSavingService
             Refresh();
         }
 
-        private async void SaveDataInternal(PetData myPetData)
+        private void SaveDataInternal(PetData myPetData)
         {
             var json = JsonUtility.ToJson(myPetData);
 
@@ -246,14 +246,6 @@ namespace Beamable.CloudSavingService
             File.WriteAllText(FilePath, json);
 
             beamableCloudSavingData.petDataCloud = myPetData;
-
-            if (!_cloudSavingService.isInitializing)
-            {
-                // Init the service, which will first download content that the server may have, that the client does not.
-                // The client will then upload any content that it has, that the server is missing
-                await _cloudSavingService.Init();
-            }
-
             Debug.Log("Data Saved!");
         }
 
@@ -307,7 +299,7 @@ namespace Beamable.CloudSavingService
 
 
 
-        /*//For Android
+        //For Android
         private void OnApplicationPause(bool pause)
         {
             if (pause)
@@ -318,10 +310,10 @@ namespace Beamable.CloudSavingService
             else
             {
                 //Fetch Data
-                *//*petDataRef.petData = LoadData();
+                /*petDataRef.petData = LoadData();
                 Refresh();
 
-                loadGameData.Raise();*//*
+                loadGameData.Raise();*/
             }
         }
 
@@ -341,6 +333,6 @@ namespace Beamable.CloudSavingService
         {
             Debug.Log("Saving Data on Quit...");
             SaveData(petDataRef.petData);
-        }*/
+        }
     }
 }

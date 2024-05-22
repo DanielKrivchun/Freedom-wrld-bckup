@@ -94,9 +94,13 @@ public class PetCareUIManager : MonoBehaviour
     public Slider intelligenceFillSlider;
     public Slider luckFillSlider;
 
-    [Header("Pet Care Screen UI")]
+    [Header("Pet Death Screen UI")]
     public GameObject petDeathPanel;
     public Text petDeathReasonTxt;
+
+    [Header("Rank Up UI")]
+    public GameObject rankUpPanel;
+    public Text rankUpMsgTxt;
 
     [Space]
     public Button medicineBtn;
@@ -220,5 +224,13 @@ public class PetCareUIManager : MonoBehaviour
     {
         petDeathReasonTxt.text = deathReason;
         petDeathPanel.SetActive(true);
+    }
+
+    public void ShowRankUpUI()
+    {
+        rankUpMsgTxt.text = petDataRef.petData.petname + " just moved up to Rank " + petDataRef.petData.rank +"!" +
+                            "\nYou've earned X Coins\n" +
+                            petDataRef.petData.petname + " can now compete against Rank " + petDataRef.petData.rank + " pets in Races";
+        rankUpPanel.SetActive(true);
     }
 }

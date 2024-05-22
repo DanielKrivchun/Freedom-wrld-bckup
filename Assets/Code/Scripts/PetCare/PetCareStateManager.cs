@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class PetCareStateManager : MonoBehaviour
 {
+    public static PetCareStateManager instance;
+
     [Header("Pet Care Data Reference")]
     public PetDataRef petDataRef;
 
@@ -120,6 +122,18 @@ public class PetCareStateManager : MonoBehaviour
     public static float oneDaySeconds = 86400f;
     // Total seconds of 1 hour for hours calculation
     public static float oneHourSeconds = 3600f;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            DestroyImmediate(instance);
+        }
+    }
 
     private void Start()
     {
@@ -357,6 +371,8 @@ public class PetCareStateManager : MonoBehaviour
                 //return;
             }
         }
+
+        //IncreaseXP(50000);
     }
 
     public bool IsPetDeathDueToHunger()
@@ -440,7 +456,6 @@ public class PetCareStateManager : MonoBehaviour
 
         //Checking for Happiness time after Happiness = 0
         int lowerHappiness = Mathf.Abs(lostHappiness - maxHappiness);
-        Debug.Log("LowerHappiness - " + lowerHappiness);
         while (lowerHappiness > 0)
         {
             timeOfLowerHappiness += happyTimeLength;
@@ -496,6 +511,7 @@ public class PetCareStateManager : MonoBehaviour
             Debug.Log("Rank - " + petDataRef.petData.rank);
 
             //Show Rank popup
+            petCareUIManager.ShowRankUpUI();
 
             //Update Max Stamina
             UpdateMaxStamina();
@@ -519,6 +535,6 @@ public class PetCareStateManager : MonoBehaviour
     public void UpdateMaxStamina()
     {
         petDataRef.petData.maxStamina = 90 + (petDataRef.petData.rank * 10);
-        Debug.Log("MaxStamin - " + petDataRef.petData.maxStamina);
+        Debug.Log("MaxStamina - " + petDataRef.petData.maxStamina);
     }
 }
