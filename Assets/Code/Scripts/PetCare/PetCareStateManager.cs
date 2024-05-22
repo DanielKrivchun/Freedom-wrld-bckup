@@ -1,9 +1,7 @@
-using Beamable.CloudSavingService;
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PetCareStateManager : MonoBehaviour
@@ -142,6 +140,7 @@ public class PetCareStateManager : MonoBehaviour
         startPos = player.transform.position;
     }
 
+    //Setting current pet care state and managing stat objects
     public void CheckForSelectedPetCareState(PetCareState state)
     {
         selectedPetCareState = state;
@@ -184,6 +183,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    //Update Stats value on Time length over
     public void CheckForPetCareTimer(PetCareState state)
     {
         switch (state)
@@ -206,33 +206,38 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    ////Setting food item on table
     public void SetAvailabeFoodItemOnTable()
     {
-        for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
+        //Checking if food item not available on table then set food item from Petdata
+        if(petDataRef.petData.foodData.Count > 0 && eatObjectHolder.transform.childCount == 0)
         {
-            if (petDataRef.petData.foodData[i].foodname == foodObjs[i].foodName)
+            for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
             {
-                for (int j = 0; j < petDataRef.petData.foodData[i].foodCount; j++)
+                if (petDataRef.petData.foodData[i].foodname == foodObjs[i].foodName)
                 {
-                    //Setting available items on table
-                    Instantiate(foodObjs[i].foodObj, eatObjectHolder.transform);
-                }
-            }   
+                    for (int j = 0; j < petDataRef.petData.foodData[i].foodCount; j++)
+                    {
+                        //Setting available items on table
+                        Instantiate(foodObjs[i].foodObj, eatObjectHolder.transform);
+                    }
+                }   
+            }
         }
     }
 
+    //Generating food item on table
     public void GenerateFoodItemOnTable(string foodName)
     {
         for (int i = 0; i < foodObjs.Count; i++)
         {
             if (foodName == foodObjs[i].foodName)
             {
-                //Adding items on table
                 Instantiate(foodObjs[i].foodObj, eatObjectHolder.transform);
 
                 for (int j = 0; j < petDataRef.petData.foodData.Count; j++)
                 {
-                    //Food is already available in Petdata then increasing count and returning from here 
+                    //Food item is already available in Petdata then increasing count and returning from here 
                     if (petDataRef.petData.foodData[j].foodname == foodName)
                     {
                         petDataRef.petData.foodData[j].foodCount++;
@@ -240,7 +245,7 @@ public class PetCareStateManager : MonoBehaviour
                     }
                 }
 
-                //Food is not available in Petdata so adding it in Petdata
+                //Food item is not available in Petdata so adding it in Petdata
                 PetFoodData petFoodData = new PetFoodData
                 {
                     foodname = foodName,
@@ -251,6 +256,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    //Removing used food item from Petdata
     public void RemoveFoodFromTable(string foodName)
     {
         for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
@@ -262,6 +268,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    //Update Pet from Sick to Healthy on use of Medicine
     public void UpdatePetSickToHealthy()
     {
         if (petDataRef.petData.isSick)
@@ -270,6 +277,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    //Health
     public void UpdateHealth()
     {
         petDataRef.petData.health = (2 * petDataRef.petData.happiness) + (2 * petDataRef.petData.cleanliness) + (int)(1.5 * petDataRef.petData.hunger) + petDataRef.petData.energy;
@@ -285,6 +293,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    //Happiness stat value and filler
     public void ManageHappinessDataFiller(int value)
     {
         petDataRef.petData.happiness += value;
@@ -303,6 +312,7 @@ public class PetCareStateManager : MonoBehaviour
         UpdateHealth();
     }
 
+    //Hunger stat value and filler
     public void ManageHungerDataFiller(int value)
     {
         petDataRef.petData.hunger += value;
@@ -321,6 +331,7 @@ public class PetCareStateManager : MonoBehaviour
         UpdateHealth();
     }
 
+    //Cleanliness stat value and filler
     public void ManageCleanlinessDataFiller(int value)
     {
         petDataRef.petData.cleanliness += value;
@@ -339,6 +350,7 @@ public class PetCareStateManager : MonoBehaviour
         UpdateHealth();
     }
 
+    //Energy stat value and filler
     public void ManageEnergyDataFiller(int value)
     {
         petDataRef.petData.energy += value;
@@ -568,11 +580,13 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    //Increase XP with value
     public void IncreaseXP(float value)
     {
         petDataRef.petData.xp += value;
         Debug.Log("XP - " + petDataRef.petData.xp);
 
+        //If Rank is increased then Show RankUp popup and update stamina
         if (CheckForRankUp())
         {
             petDataRef.petData.rank++;
@@ -586,6 +600,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    //Checking for Rank Up using XP
     public bool CheckForRankUp()
     {
         float xpNeededToRankUp = 40000 * (Mathf.Pow(1.53f, petDataRef.petData.rank - 1) - 1);
@@ -600,6 +615,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    //Update Max Stamina based on Rank
     public void UpdateMaxStamina()
     {
         petDataRef.petData.maxStamina = 90 + (petDataRef.petData.rank * 10);
@@ -607,7 +623,8 @@ public class PetCareStateManager : MonoBehaviour
     }
 }
 
-[System.Serializable]
+
+[Serializable]
 public class FoodObjects
 {
     public string foodName;
