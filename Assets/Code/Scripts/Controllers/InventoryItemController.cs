@@ -35,8 +35,13 @@ public class InventoryItemController : MonoBehaviour
             case Item.ItemType.Consumable:
                 ExamplePlayerController.Instance.UseFood(item);
                 break;
+
             case Item.ItemType.Interactable:
                 ExamplePlayerController.Instance.UseInteractable(item);
+                break;
+
+            case Item.ItemType.Usable:
+                ExamplePlayerController.Instance.UseMedicine(item);
                 break;
         }
 

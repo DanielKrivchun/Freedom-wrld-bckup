@@ -20,6 +20,14 @@ public class ExamplePlayerController : MonoBehaviour
         PetCareStateManager.instance.GenerateFoodItemOnTable(item.itemName);
     }
 
+    public void UseMedicine(Item item)
+    {
+        Debug.Log("Getting medicine");
+        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueId}");
+
+        PetCareStateManager.instance.UpdatePetSickToHealthy();
+    }
+
     public void UseInteractable(Item item)
     {
         Debug.Log("Using Item");

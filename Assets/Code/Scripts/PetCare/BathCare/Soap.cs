@@ -11,6 +11,8 @@ public class Soap : MonoBehaviour
     private bool isDragging = false;
     Vector3 startPos;
 
+    RaycastHit hit;
+
     private void Start()
     {
         startPos = transform.position;
@@ -20,6 +22,8 @@ public class Soap : MonoBehaviour
     {
         posOffset = transform.position - GetMouseWorldPosition();
         isDragging = true;
+
+        
     }
 
     void OnMouseUp()
@@ -27,10 +31,10 @@ public class Soap : MonoBehaviour
         isDragging = false;
         transform.DOMove(startPos, 0.5f);
 
-        if (petCareStateManager.isReadyForBath)
+        /*if (petCareStateManager.isReadyForBath)
         {
             petCareStateManager.ManageCleanlinessDataFiller(15);
-        }
+        }*/
     }
 
     void Update()
@@ -42,6 +46,12 @@ public class Soap : MonoBehaviour
 
             // Update the object's position
             transform.position = newPosition;
+
+            if (Physics.Raycast(transform.position, Vector3.forward, out hit, 100f))
+            {
+                Debug.Log("Found an object: " + hit.collider.gameObject.name);
+                Debug.DrawRay(transform.position, Vector3.forward, Color.yellow);
+            }
         }
     }
 

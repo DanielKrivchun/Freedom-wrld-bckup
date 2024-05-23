@@ -25,6 +25,7 @@ public class PetCareStateManager : MonoBehaviour
 
     [Space]
     public List<FoodObjects> foodObjs;
+    public List<Transform> foodSpawnTransforms;
 
     [HideInInspector]
     public bool isReadyForBath;
@@ -123,6 +124,9 @@ public class PetCareStateManager : MonoBehaviour
     // Total seconds of 1 hour for hours calculation
     public static float oneHourSeconds = 3600f;
 
+    private bool isFoodItemsSet = false;
+    private int foodSpawnIndex = 0;
+
     private void Awake()
     {
         if (instance == null)
@@ -210,18 +214,25 @@ public class PetCareStateManager : MonoBehaviour
     public void SetAvailabeFoodItemOnTable()
     {
         //Checking if food item not available on table then set food item from Petdata
-        if(petDataRef.petData.foodData.Count > 0 && eatObjectHolder.transform.childCount == 0)
+        if (!isFoodItemsSet)
         {
             for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
             {
-                if (petDataRef.petData.foodData[i].foodname == foodObjs[i].foodName)
+                for (int j = 0; j < foodObjs.Count; j++)
                 {
-                    for (int j = 0; j < petDataRef.petData.foodData[i].foodCount; j++)
+                    if (petDataRef.petData.foodData[i].foodname == foodObjs[j].foodName)
                     {
                         //Setting available items on table
-                        Instantiate(foodObjs[i].foodObj, eatObjectHolder.transform);
+                        Instantiate(foodObjs[j].foodObj, foodSpawnTransforms[foodSpawnIndex]);
+
+                        //Setting food spawn index and setting isFoodItemsSet bool to true
+                        foodSpawnIndex++;
+                        if (foodSpawnIndex > foodSpawnTransforms.Count)
+                        {
+                            foodSpawnIndex = 0;
+                        }
                     }
-                }   
+                }
             }
         }
     }
@@ -233,25 +244,26 @@ public class PetCareStateManager : MonoBehaviour
         {
             if (foodName == foodObjs[i].foodName)
             {
-                Instantiate(foodObjs[i].foodObj, eatObjectHolder.transform);
+                Instantiate(foodObjs[i].foodObj, foodSpawnTransforms[foodSpawnIndex]);
 
-                for (int j = 0; j < petDataRef.petData.foodData.Count; j++)
+                //Setting food spawn index and setting isFoodItemsSet bool to true
+                foodSpawnIndex++;
+                if (foodSpawnIndex > foodSpawnTransforms.Count)
                 {
-                    //Food item is already available in Petdata then increasing count and returning from here 
-                    if (petDataRef.petData.foodData[j].foodname == foodName)
-                    {
-                        petDataRef.petData.foodData[j].foodCount++;
-                        return;
-                    }
+                    foodSpawnIndex = 0;
                 }
 
-                //Food item is not available in Petdata so adding it in Petdata
+                isFoodItemsSet = true;
+
+                //Adding food item to Petdata
                 PetFoodData petFoodData = new PetFoodData
                 {
                     foodname = foodName,
                     foodCount = 1
                 };
                 petDataRef.petData.foodData.Add(petFoodData);
+
+                break;
             }
         }
     }
@@ -264,6 +276,7 @@ public class PetCareStateManager : MonoBehaviour
             if (foodName == petDataRef.petData.foodData[i].foodname)
             {
                 petDataRef.petData.foodData.RemoveAt(i);
+                break;
             }
         }
     }
@@ -275,6 +288,8 @@ public class PetCareStateManager : MonoBehaviour
         {
             petDataRef.petData.isSick = false;
         }
+
+        Debug.Log("Your pet is Healthy now!");
     }
 
     //Health
