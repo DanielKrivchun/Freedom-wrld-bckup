@@ -27,19 +27,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
     public List<Vector3> move_positions;
     #endregion
 
-    #region UNITY METHODS
-
-    private void OnEnable()
-    {
-        NetworkEventManager.e_get_set_go += _StartRun;
-    }
-
-    private void OnDisable()
-    {
-        NetworkEventManager.e_get_set_go -= _StartRun;
-    }
-    #endregion
-
     #region Private variables
     private Vector3 m_currunt_pos;
     private float m_distance;
@@ -51,6 +38,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     #region NETWORKED OBJECTS
     [Networked] public string MyName { get; set; }
     [Networked] public int MyPathNumber { get; set; }
+    [Networked] public string MyPrefabID { get; set; }
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
@@ -101,6 +89,19 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     #endregion
 
+    #region UNITY METHODS
+
+    private void OnEnable()
+    {
+        NetworkEventManager.e_get_set_go += _StartRun;
+    }
+
+    private void OnDisable()
+    {
+        NetworkEventManager.e_get_set_go -= _StartRun;
+    }
+    #endregion
+
     #region COLISION DETECTION
 
     private void OnTriggerEnter(Collider other)
@@ -111,7 +112,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
             MyWiningNumber = RaceManager.instance._GetMyWinningNo();
         }
     }
-
 
     private void _OnWInNumberAlocated()
     {
@@ -239,6 +239,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     private void RPC_SetNameAndPrefab(NetworkString<_32> nickname, string _prefabid)
     {
         playerName = nickname;
+        MyPrefabID = _prefabid;
         Debug.Log("My Prefab id is  " + _prefabid);
         _OnRecivedRPC();
     }
@@ -250,6 +251,15 @@ public class NavmeshMultiplayer : NetworkBehaviour
         MyName = playerName.ToString();
         nameText.text = MyName.ToString();
         gameObject.name = MyName;
+        _GenratePetPrefab();
+    }
+
+    private void _GenratePetPrefab()
+    {
+        Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
+        GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
     }
 
     #endregion
