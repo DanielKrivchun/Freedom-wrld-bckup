@@ -125,7 +125,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
             MyWiningNumber = RaceManager.instance._GetMyWinningNo();
             RaceComplete = true;
             m_agent.SetDestination(transform.position);
-            //m_agent.isStopped = true;
+            GetComponent<NavMeshAgent>().enabled = false;
             StartCoroutine(SetMyWinPosition());
         }
     }
