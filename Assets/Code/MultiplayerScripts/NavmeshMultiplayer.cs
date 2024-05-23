@@ -276,6 +276,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
             GenratedPet = obj.GetComponent<PetAnimation>();
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;
+            nameText.text = MyName.ToString();
+            gameObject.name = MyName;
         }
         else
         {
