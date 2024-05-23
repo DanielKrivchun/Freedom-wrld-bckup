@@ -33,6 +33,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     private int m_currunt_index;
     public bool IsServer;
     public bool IsLocalPlayer;
+    public bool RaceComplete;
     #endregion
 
     #region NETWORKED OBJECTS
@@ -122,7 +123,19 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             Debug.Log(other.tag + "    " + MyName);
             MyWiningNumber = RaceManager.instance._GetMyWinningNo();
+            RaceComplete = true;
+            m_agent.isStopped = true;
+            SetMyWinPosition();
         }
+    }
+
+
+    private void SetMyWinPosition()
+    {
+        int temp = MyWiningNumber - 1;
+        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+        transform.position = pos;
+        Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
     }
 
     private void _OnWInNumberAlocated()
@@ -185,7 +198,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
             return;
         }
 
-        if (!IsServer)
+        if (!IsServer && RaceComplete)
         {
             return;
         }

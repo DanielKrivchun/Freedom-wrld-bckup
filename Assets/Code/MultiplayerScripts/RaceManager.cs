@@ -13,6 +13,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public InputValue InputValue;
     [Space]
     public Transform[] spawnPoints;
+    [Space]
+    public Transform[] WinPoints;
     [Header("NetworkRunner Prefab")]
     public NetworkRunner NetworkRunnerPrefab;
     [Space]

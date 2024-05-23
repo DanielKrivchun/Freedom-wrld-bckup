@@ -6,6 +6,7 @@ using UnityEngine;
 public class NetworkCamera : MonoBehaviour
 {
     public CinemachineVirtualCamera MyCam;
+    public CinemachineFreeLook WinCamera;
 
 
     public static NetworkCamera Instance;
@@ -25,5 +26,12 @@ public class NetworkCamera : MonoBehaviour
     {
         MyCam.Follow = _target;
         MyCam.LookAt = _target;
+    }
+
+
+    public void _ActiveWinScene()
+    {
+        MyCam.gameObject.SetActive(false);
+        WinCamera.gameObject.SetActive(true);
     }
 }
