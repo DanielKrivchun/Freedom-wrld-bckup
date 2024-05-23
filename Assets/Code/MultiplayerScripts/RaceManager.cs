@@ -70,7 +70,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         await networkRunnerInstance.StartGame(new StartGameArgs
         {
             GameMode = mode,
-            SessionName = "Test",
+            SessionName = "TestRaceMap",
             Scene = scene,
             SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>()
         });

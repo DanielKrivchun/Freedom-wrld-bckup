@@ -17,7 +17,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     [Header("Navmesh Agent")]
     public NavMeshAgent m_agent;
     [Header("ANIMATOR")]
-    public PetAnimation PetAnimation;
+    public PetAnimation GenratedPet;
 
     [Header("Script Refrence")]
     private PathPointManager path_point;
@@ -55,6 +55,18 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             IsServer = true;
         }
+
+        StartCoroutine(_GenrateMyPrefab());
+    }
+
+    IEnumerator _GenrateMyPrefab()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+
+        Debug.Log("This Choroutine Worked " + gameObject.name);
+
+        _GenratePetPrefab();
+
     }
 
     /// <summary>
@@ -129,7 +141,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     private void _ChangeAnimationHere(_AnimState _state)
     {
         Debug.Log("Changed ANimation here");
-        PetAnimation._ChangeAnimationState(_state);
+        GenratedPet._ChangeAnimationState(_state);
     }
 
     void _SetupCamera()
@@ -256,10 +268,19 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     private void _GenratePetPrefab()
     {
-        Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
-        GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
-        obj.transform.localPosition = Vector3.zero;
-        obj.transform.localRotation = Quaternion.identity;
+        Debug.Log("This works on Server  only  " + Runner.IsServer);
+        if (GenratedPet == null)
+        {
+            Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
+            GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
+            GenratedPet = obj.GetComponent<PetAnimation>();
+            obj.transform.localPosition = Vector3.zero;
+            obj.transform.localRotation = Quaternion.identity;
+        }
+        else
+        {
+            Debug.Log("ALready Genrated");
+        }
     }
 
     #endregion
