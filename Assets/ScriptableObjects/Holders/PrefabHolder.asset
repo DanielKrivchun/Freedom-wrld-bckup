@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: PrefabHolder
   m_EditorClassIdentifier: 
   PetPrefabs:
-  - PetPrefab: {fileID: 0}
-    PrefabId: 
-  - PetPrefab: {fileID: 0}
-    PrefabId: 
+  - PetPrefab: {fileID: 2777742968758945153, guid: 05af632de9ea90b4da9df4169d2c8a95,
+      type: 3}
+    PrefabId: 1
+  - PetPrefab: {fileID: 2777742968758945153, guid: f4ea32c7128bdbc4cb01bc145aa8f0ce,
+      type: 3}
+    PrefabId: 2
   - PetPrefab: {fileID: 0}
     PrefabId: 
