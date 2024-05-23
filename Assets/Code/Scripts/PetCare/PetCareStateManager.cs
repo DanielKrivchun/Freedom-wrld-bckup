@@ -206,7 +206,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
-    ////Setting food item on table
+    //Setting food item on table
     public void SetAvailabeFoodItemOnTable()
     {
         //Checking if food item not available on table then set food item from Petdata
@@ -439,6 +439,8 @@ public class PetCareStateManager : MonoBehaviour
                 Debug.Log("Sleep Time is Not over yet");
                 sleepManager.sleepTimer = sleepManager.totalSleepTime - (float)(DateTime.UtcNow - DateTime.Parse(petDataRef.petData.sleepStartTime)).TotalSeconds;
                 sleepManager.isCanSleep = true;
+
+                PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sleep);
             }
         }
 

@@ -42,7 +42,7 @@ public class _Strings
     public static string Eat = "Eat";
     public static string Toilet = "Toilet";
     public static string Bath = "Bath";
-    public static string Sleep = "Sleep";
+    public static string IsSleeping = "IsSleeping";
 }
 
 public struct _Tags

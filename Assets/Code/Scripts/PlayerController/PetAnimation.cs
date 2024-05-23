@@ -18,6 +18,7 @@ public class PetAnimation : MonoBehaviour
         {
             case _AnimState.Idle:
                 Animator.SetFloat(_Strings.Velocity, 0);
+                Animator.SetBool(_Strings.IsSleeping, false);
                 Animator.SetBool(_Strings.Idle, true);
                 m_currunt_anim_state = _AnimState.Idle;
                 break;
@@ -53,7 +54,7 @@ public class PetAnimation : MonoBehaviour
                 break;
 
             case _AnimState.Sleep:
-                Animator.SetTrigger(_Strings.Sleep);
+                Animator.SetBool(_Strings.IsSleeping, true);
                 m_currunt_anim_state = _AnimState.Sleep;
                 break;
 

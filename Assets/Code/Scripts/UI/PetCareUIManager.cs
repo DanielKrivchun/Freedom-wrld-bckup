@@ -77,6 +77,7 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Pet Stats Panel UI")]
     public GameObject petStatPanel;
     public Text petNameTxt;
+    public Text petRankTxt;
 
     [Header("Wellbeing Stat Slider")]
     public Slider happyFillPanelSlider;
@@ -120,6 +121,7 @@ public class PetCareUIManager : MonoBehaviour
         petStatPanel.SetActive(true);
 
         petNameTxt.text = petDataRef.petData.petname;
+        petRankTxt.text = "Rank: " + petDataRef.petData.rank;
 
         happyFillPanelSlider.DOValue(petDataRef.petData.happiness, 0.5f);
         hungerFillPanelSlider.DOValue(petDataRef.petData.hunger, 0.5f);
@@ -213,9 +215,10 @@ public class PetCareUIManager : MonoBehaviour
 
     public void ShowRankUpUI()
     {
-        rankUpMsgTxt.text = petDataRef.petData.petname + " just moved up to Rank " + petDataRef.petData.rank +"!" +
-                            "\nYou've earned X Coins\n" +
-                            petDataRef.petData.petname + " can now compete against Rank " + petDataRef.petData.rank + " pets in Races";
+        rankUpMsgTxt.text = petDataRef.petData.petname + " just moved up to Rank " + petDataRef.petData.rank +"!\n" +
+                            petDataRef.petData.petname + "'s Max Stamina is now " + petDataRef.petData.maxStamina + ".\n" +
+                            "You've earned X Coins.\n" +
+                            petDataRef.petData.petname + " can now compete against Rank " + petDataRef.petData.rank + " pets in Races.";
         rankUpPanel.SetActive(true);
     }
 }

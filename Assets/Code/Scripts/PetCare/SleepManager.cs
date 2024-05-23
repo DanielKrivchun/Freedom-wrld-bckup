@@ -40,6 +40,8 @@ public class SleepManager : MonoBehaviour
         if (petCareStateManager.petDataRef.petData.cleanliness > 10 &&
             petCareStateManager.petDataRef.petData.hunger > 10)
         {
+            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sleep);
+
             sleepTimer = totalSleepTime;
             isCanSleep = true;
             petCareStateManager.petDataRef.petData.isSleeping = true;
@@ -68,6 +70,8 @@ public class SleepManager : MonoBehaviour
             else
             {
                 Debug.Log("Time is UP!");
+                PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Idle);
+
                 isCanSleep = false;
                 sleepTimer = totalSleepTime;
 
