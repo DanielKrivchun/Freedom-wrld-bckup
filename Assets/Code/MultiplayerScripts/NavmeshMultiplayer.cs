@@ -124,14 +124,16 @@ public class NavmeshMultiplayer : NetworkBehaviour
             Debug.Log(other.tag + "    " + MyName);
             MyWiningNumber = RaceManager.instance._GetMyWinningNo();
             RaceComplete = true;
-            m_agent.isStopped = true;
-            SetMyWinPosition();
+            m_agent.SetDestination(transform.position);
+            //m_agent.isStopped = true;
+            StartCoroutine(SetMyWinPosition());
         }
     }
 
 
-    private void SetMyWinPosition()
+    private IEnumerator SetMyWinPosition()
     {
+        yield return new WaitForSecondsRealtime(0.5f);
         int temp = MyWiningNumber - 1;
         Vector3 pos = RaceManager.instance.WinPoints[temp].position;
         transform.position = pos;
