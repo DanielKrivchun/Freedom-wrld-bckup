@@ -246,7 +246,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     void _OnRecivedRPC()
     {
-        Debug.Log("Recived RPC HERE  " + Runner.IsServer);
+        Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
         MyName = playerName.ToString();
         nameText.text = MyName.ToString();
         gameObject.name = MyName;
