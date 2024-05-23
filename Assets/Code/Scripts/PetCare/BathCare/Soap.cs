@@ -8,7 +8,7 @@ public class Soap : MonoBehaviour
     public PetCareStateManager petCareStateManager;
 
     private Vector3 posOffset;
-    private bool isDragging = false;
+    private bool isDragging = false, isPlayerFound = false;
     Vector3 startPos;
 
     RaycastHit hit;
@@ -31,10 +31,10 @@ public class Soap : MonoBehaviour
         isDragging = false;
         transform.DOMove(startPos, 0.5f);
 
-        /*if (petCareStateManager.isReadyForBath)
+        if (petCareStateManager.isReadyForBath && isPlayerFound)
         {
-            petCareStateManager.ManageCleanlinessDataFiller(15);
-        }*/
+            petCareStateManager.ManageCleanlinessDataFiller(25);
+        }
     }
 
     void Update()
@@ -49,8 +49,12 @@ public class Soap : MonoBehaviour
 
             if (Physics.Raycast(transform.position, Vector3.forward, out hit, 100f))
             {
-                Debug.Log("Found an object: " + hit.collider.gameObject.name);
-                Debug.DrawRay(transform.position, Vector3.forward, Color.yellow);
+                if(hit.collider.gameObject.name == "Player")
+                {
+                    Debug.Log("Found an object: " + hit.collider.gameObject.name);
+                    Debug.DrawRay(transform.position, Vector3.forward, Color.yellow);
+                    isPlayerFound = true;
+                }
             }
         }
     }

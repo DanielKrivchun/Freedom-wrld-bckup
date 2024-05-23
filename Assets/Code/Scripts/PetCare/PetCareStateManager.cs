@@ -387,6 +387,8 @@ public class PetCareStateManager : MonoBehaviour
     //Get & set data from Beamable
     public void SetDataOfCloudAndManageStats()
     {
+        timingManager.gameObject.SetActive(true);
+
         //Happiness
         int lostHappiness = ((int)((DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastTimeHappy)).TotalSeconds / happyTimeLength)) * happinessTickRate;
         Debug.Log("Lost Happiness - " + lostHappiness);

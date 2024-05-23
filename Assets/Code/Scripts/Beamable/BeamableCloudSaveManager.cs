@@ -107,6 +107,7 @@ namespace Beamable.CloudSavingService
             {
                 beamableCloudSavingData.DataState = DataState.Pending;
                 //CreateNewPet();
+                Debug.Log("Creating Pet!");
                 petCreationEvent.Raise();
             }
             else
@@ -138,6 +139,7 @@ namespace Beamable.CloudSavingService
                 petDataRef.petData = LoadData();
                 Refresh();
 
+                Debug.Log("Data Loaded!" + petDataRef.petData.petname + " ," + petDataRef.petData.rank);
                 loadGameData.Raise();
             }  
         }
@@ -205,6 +207,7 @@ namespace Beamable.CloudSavingService
 
             Refresh();
 
+            Debug.Log("Data Loading!");
             return beamableCloudSavingData.petDataCloud;
         }
 
@@ -309,13 +312,27 @@ namespace Beamable.CloudSavingService
             }
             else
             {
-                //Fetch Data
+                if (beamableCloudSavingData.petDataLocal != null)
+                {
+                    Debug.Log("Fetching Local Data after Pause...");
+                    petDataRef.petData = beamableCloudSavingData.petDataLocal;
+
+                    loadGameData.Raise();
+                }
+
                 /*petDataRef.petData = LoadData();
                 Refresh();
 
                 loadGameData.Raise();*/
             }
         }
+
+        private void OnApplicationQuit()
+        {
+            Debug.Log("Saving Data on Quit...");
+            SaveData(petDataRef.petData);
+        }
+
 
 /*#if UNITY_EDITOR
         //For Editor
@@ -328,11 +345,5 @@ namespace Beamable.CloudSavingService
             }
         }
 #endif*/
-
-        private void OnApplicationQuit()
-        {
-            Debug.Log("Saving Data on Quit...");
-            SaveData(petDataRef.petData);
-        }
     }
 }
