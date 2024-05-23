@@ -10120,12 +10120,15 @@ MonoBehaviour:
   - {fileID: 73692518}
   NetworkRunnerPrefab: {fileID: 7677309640555791243, guid: 458faa36ea130774d8c1471fb0aa473c,
     type: 3}
+  PetPrefabHolder: {fileID: 11400000, guid: 389266f003d81b448810020effc29434, type: 2}
   PlayerPrefab:
     RawGuidValue: 98791bcba3fedd3418e7d06ec2967b49
   inputField: {fileID: 1678943138}
   m_input: {x: 0, y: 0}
   _PathNumber: 0
+  PrefabID: 1
   CurrntWinCount: 0
+  GenratedPlayers: []
 --- !u!4 &1620809135
 Transform:
   m_ObjectHideFlags: 0

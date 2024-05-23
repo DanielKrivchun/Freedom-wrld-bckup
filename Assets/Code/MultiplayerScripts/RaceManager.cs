@@ -16,6 +16,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Header("NetworkRunner Prefab")]
     public NetworkRunner NetworkRunnerPrefab;
     [Space]
+    public PrefabHolder PetPrefabHolder;
+    [Space]
     [Header("Player Prefab")]
     public NetworkPrefabRef PlayerPrefab = NetworkPrefabRef.Empty;
 
@@ -23,7 +25,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [SerializeField] private TMP_InputField inputField;
     public Vector2 m_input;
     [Networked] public int PathNumber { get; set; }
-
+    public string PrefabID;
     public int CurrntWinCount;
 
     private NetworkRunner networkRunnerInstance;

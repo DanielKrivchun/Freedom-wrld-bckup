@@ -63,7 +63,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
         path_point = FindObjectOfType<PathPointManager>();
         SetLocalObjects();
         _SetupConfigs();
-
         if (Runner.IsServer)
         {
             IsServer = true;
@@ -85,9 +84,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             IsLocalPlayer = true;
             playerName = RaceManager.instance.LocalPlayerNickname;
-            ColoredDebug.Log("Sending RPC with Name" + playerName, Color.green);
+            Debug.Log("Sending RPC with Name   " + playerName);
             MyName = playerName.ToString();
-            RpcSetNickNameClients(playerName);
+            RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
             nameText.text = playerName.ToString();
             gameObject.name = MyName.ToString();
             _SetupCamera();
@@ -237,11 +236,13 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     #region RPC CLLAS AND RECIVERS
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RpcSetNickNameClients(NetworkString<_32> nickname)
+    private void RPC_SetNameAndPrefab(NetworkString<_32> nickname, string _prefabid)
     {
         playerName = nickname;
+        Debug.Log("My Prefab id is  " + _prefabid);
         _OnRecivedRPC();
     }
+
 
     void _OnRecivedRPC()
     {
