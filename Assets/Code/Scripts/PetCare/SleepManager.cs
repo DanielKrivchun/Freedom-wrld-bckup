@@ -89,7 +89,7 @@ public class SleepManager : MonoBehaviour
     {
         currentTime += 1;
 
-        float hours = Mathf.FloorToInt(currentTime / 3660);
+        float hours = Mathf.FloorToInt(currentTime / 3600);
         float minutes = Mathf.FloorToInt(currentTime / 60);
         float seconds = Mathf.FloorToInt(currentTime % 60);
 

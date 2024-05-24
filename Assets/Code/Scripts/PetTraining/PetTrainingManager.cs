@@ -167,7 +167,7 @@ public class PetTrainingManager : MonoBehaviour
     {
         currentTime += 1;
 
-        float hours = Mathf.FloorToInt(currentTime / 3660);
+        float hours = Mathf.FloorToInt(currentTime / 3600);
         float minutes = Mathf.FloorToInt(currentTime / 60);
         float seconds = Mathf.FloorToInt(currentTime % 60);
 
@@ -179,7 +179,11 @@ public class PetTrainingManager : MonoBehaviour
         ongoingTrainingPopup.SetActive(false);
         completedTrainingPanel.SetActive(true);
 
-        string trainingTime = "";
+        float hours = Mathf.FloorToInt(currentTrainingData.trainingTime / 3600);
+        float minutes = Mathf.FloorToInt(currentTrainingData.trainingTime / 60);
+        float seconds = Mathf.FloorToInt(currentTrainingData.trainingTime % 60);
+
+        /*string trainingTime = "";
         //If time is in hours
         if (currentTrainingData.trainingTime >= oneHourSeconds)
         {
@@ -190,9 +194,11 @@ public class PetTrainingManager : MonoBehaviour
         {
             //trainingTime = string.Format("{0:0.00}", currentTrainingData.trainingTime / oneMinuteSeconds) + " minutes";
             trainingTime = (currentTrainingData.trainingTime / oneMinuteSeconds).ToString() + " minutes";
-        }
+        }*/
 
-        completedTrainingMsgTxt.text = petDataRef.petData.petname + " spent " + trainingTime + "\ntraining their " + selectedTraining.ToString() + " skills!";
+        completedTrainingMsgTxt.text = petDataRef.petData.petname + " spent " + hours + " hours " + minutes + " minutes " + seconds + " seconds " 
+                                        + "\ntraining their " + selectedTraining.ToString() + " skills!";
+
         earnedStatsTxt.text = "• " + currentTrainingData.xP.ToString() + " XP\n"
                             + "• " + currentTrainingData.coins.ToString() + " Coins\n"
                             + "• " + currentTrainingData.trainingStatValue.ToString() + " " + selectedTraining.ToString() + "\n"
@@ -200,8 +206,11 @@ public class PetTrainingManager : MonoBehaviour
                             + "• " + currentTrainingData.cleanlinessStatValue.ToString() + " Cleanliness\n"
                             + "• " + currentTrainingData.hungerStatValue.ToString() + " Hunger\n"
                             + "• " + currentTrainingData.energyStatValue.ToString() + " Energy\n";
+
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
 
         currentTrainingData = null;
     }
+
+
 }

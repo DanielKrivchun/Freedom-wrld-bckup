@@ -120,12 +120,14 @@ public class PetCareStateManager : MonoBehaviour
     Vector3 startPos;
 
     // Total seconds of 1 day for days calculation
-    public static float oneDaySeconds = 86400f;
+    static float oneDaySeconds = 86400f;
     // Total seconds of 1 hour for hours calculation
-    public static float oneHourSeconds = 3600f;
+    static float oneHourSeconds = 3600f;
 
     private bool isFoodItemsSet = false;
     private int foodSpawnIndex = 0;
+
+    private List<GameObject> generatedFoodItems = new List<GameObject>();
 
     private void Awake()
     {
@@ -223,11 +225,12 @@ public class PetCareStateManager : MonoBehaviour
                     if (petDataRef.petData.foodData[i].foodname == foodObjs[j].foodName)
                     {
                         //Setting available items on table
-                        Instantiate(foodObjs[j].foodObj, foodSpawnTransforms[foodSpawnIndex]);
+                        GameObject food = Instantiate(foodObjs[j].foodObj, foodSpawnTransforms[foodSpawnIndex]);
+                        generatedFoodItems.Add(food);
 
                         //Setting food spawn index and setting isFoodItemsSet bool to true
                         foodSpawnIndex++;
-                        if (foodSpawnIndex > foodSpawnTransforms.Count)
+                        if (foodSpawnIndex >= foodSpawnTransforms.Count)
                         {
                             foodSpawnIndex = 0;
                         }
@@ -244,11 +247,12 @@ public class PetCareStateManager : MonoBehaviour
         {
             if (foodName == foodObjs[i].foodName)
             {
-                Instantiate(foodObjs[i].foodObj, foodSpawnTransforms[foodSpawnIndex]);
+                GameObject food = Instantiate(foodObjs[i].foodObj, foodSpawnTransforms[foodSpawnIndex]);
+                generatedFoodItems.Add(food);
 
                 //Setting food spawn index and setting isFoodItemsSet bool to true
                 foodSpawnIndex++;
-                if (foodSpawnIndex > foodSpawnTransforms.Count)
+                if (foodSpawnIndex >= foodSpawnTransforms.Count)
                 {
                     foodSpawnIndex = 0;
                 }
@@ -276,10 +280,39 @@ public class PetCareStateManager : MonoBehaviour
             if (foodName == petDataRef.petData.foodData[i].foodname)
             {
                 petDataRef.petData.foodData.RemoveAt(i);
+                generatedFoodItems.RemoveAt(i);
                 break;
             }
         }
+
+        foodSpawnIndex = 0;
+        for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
+        {
+            generatedFoodItems[i].transform.SetParent(foodSpawnTransforms[foodSpawnIndex]);
+            generatedFoodItems[i].transform.localPosition = Vector3.zero;
+
+            //Setting food spawn index and setting isFoodItemsSet bool to true
+            foodSpawnIndex++;
+            if (foodSpawnIndex >= foodSpawnTransforms.Count)
+            {
+                foodSpawnIndex = 0;
+            }
+        }        
     }
+
+    /*void RearrangeFoodObjectsOnTable()
+    {
+        List<PetFoodData> tempList = new List<PetFoodData>(petDataRef.petData.foodData);
+        petDataRef.petData.foodData.Clear();
+        for (int i = 0; i < tempList.Count; i++)
+        {
+            if (tempList[i] != null)
+            {
+                tempList[i]..transform.SetParent(foodSpawnTransforms[i]);
+                petDataRef.petData.foodData.Add(tempList[i]);
+            }
+        }
+    }*/
 
     //Update Pet from Sick to Healthy on use of Medicine
     public void UpdatePetSickToHealthy()
