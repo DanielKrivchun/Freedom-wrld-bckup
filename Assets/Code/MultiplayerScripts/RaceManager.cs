@@ -9,9 +9,13 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using static Unity.Collections.Unicode;
 using System.Linq;
+using Fusion.Photon.Realtime;
+using UnityEngine.UI;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
     public InputValue InputValue;
+    [Space]
+    public TMP_Dropdown dropdown;
     [Space]
     public Transform[] spawnPoints;
     [Space]
@@ -42,6 +46,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public List<_AllPlayerData> GenratedPlayers;
 
+    private string selected_region;
+
     private void Awake()
     {
         if (instance == null)
@@ -53,6 +59,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             Destroy(this.gameObject);
         }
     }
+
 
 
     #region AFK KICKING
@@ -89,10 +96,63 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
+
+    public const string ELO_PROP_KEY = "C0";
+    public const string MAP_PROP_KEY = "C1";
+
     #region GAME START AND MATCHMAKING
+
+    public void _SelectRegion(int typedText)
+    {
+        Debug.Log(typedText);
+        Debug.Log(dropdown.options[typedText].text);
+        selected_region = dropdown.options[typedText].text;
+    }
+
+    /// <summary>
+    /// SET"S regioun
+    /// </summary>
+    /// <param name="region"></param>
+    /// <param name="customAppID"></param>
+    /// <param name="appVersion"></param>
+    /// <returns></returns>
+    private FusionAppSettings BuildCustomAppSetting(string region, string customAppID = null, string appVersion = "1.0.0")
+    {
+
+        var appSettings = PhotonAppSettings.Global.AppSettings.GetCopy(); ;
+
+        appSettings.UseNameServer = true;
+        appSettings.AppVersion = appVersion;
+
+        if (string.IsNullOrEmpty(customAppID) == false)
+        {
+            appSettings.AppIdFusion = customAppID;
+        }
+
+        if (string.IsNullOrEmpty(region) == false)
+        {
+            appSettings.FixedRegion = region.ToLower();
+        }
+
+        // If the Region is set to China (CN),
+        // the Name Server will be automatically changed to the right one
+        // appSettings.Server = "ns.photonengine.cn";
+
+        return appSettings;
+    }
+
+
     public async void _StartGame(GameMode mode)
     {
         LocalPlayerNickname = inputField.text;
+
+        if (selected_region.Length <= 0)
+        {
+            Debug.LogError("SELECT REGION");
+            return;
+        }
+
+        var appSettings = BuildCustomAppSetting(selected_region);
 
         if (networkRunnerInstance == null)
         {
@@ -103,18 +163,32 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         networkRunnerInstance.AddCallbacks(this);
         networkRunnerInstance.ProvideInput = true;
 
+
+
+
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
         var scenenetwork = new NetworkSceneInfo();
         if (scene.IsValid)
         {
             scenenetwork.AddSceneRef(scene, LoadSceneMode.Additive);
         }
+
+
+        var customProps = new Dictionary<string, SessionProperty>();
+
+        string sqlLobbyFilter = "C0 BETWEEN 345 AND 475 AND C1";
+        customProps["RANK"] = sqlLobbyFilter;
+
+
         await networkRunnerInstance.StartGame(new StartGameArgs
         {
             GameMode = mode,
+            CustomLobbyName = "MyLobby",
             SessionName = "TestRaceMap",
+            PlayerCount = 5,
             Scene = scene,
-            SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>()
+            SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>(),
+            SessionProperties = customProps,
         });
 
 
