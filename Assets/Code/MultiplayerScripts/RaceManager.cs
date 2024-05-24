@@ -189,6 +189,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             Scene = scene,
             SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>(),
             SessionProperties = customProps,
+            CustomPhotonAppSettings = appSettings
         });
 
 
