@@ -22,7 +22,7 @@ public class ExamplePlayerController : MonoBehaviour
 
     public void UseMedicine(Item item)
     {
-        Debug.Log("Getting medicine");
+        Debug.Log("Using medicine");
         Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueId}");
 
         PetCareStateManager.instance.UpdatePetSickToHealthy();

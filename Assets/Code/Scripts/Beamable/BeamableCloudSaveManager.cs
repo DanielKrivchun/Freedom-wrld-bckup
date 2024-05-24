@@ -107,7 +107,6 @@ namespace Beamable.CloudSavingService
             {
                 beamableCloudSavingData.DataState = DataState.Pending;
                 //CreateNewPet();
-                Debug.Log("Creating Pet!");
                 petCreationEvent.Raise();
             }
             else
@@ -139,7 +138,6 @@ namespace Beamable.CloudSavingService
                 petDataRef.petData = LoadData();
                 Refresh();
 
-                Debug.Log("Data Loaded!" + petDataRef.petData.petname + " ," + petDataRef.petData.rank);
                 loadGameData.Raise();
             }  
         }
@@ -207,7 +205,6 @@ namespace Beamable.CloudSavingService
 
             Refresh();
 
-            Debug.Log("Data Loading!");
             return beamableCloudSavingData.petDataCloud;
         }
 

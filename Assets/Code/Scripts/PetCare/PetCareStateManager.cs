@@ -287,9 +287,8 @@ public class PetCareStateManager : MonoBehaviour
         if (petDataRef.petData.isSick)
         {
             petDataRef.petData.isSick = false;
+            petCareUIManager.ShowNotificationUI("Nice job! \nYour pet is all better");
         }
-
-        Debug.Log("Your pet is Healthy now!");
     }
 
     //Health

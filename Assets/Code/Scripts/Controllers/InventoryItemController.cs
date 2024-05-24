@@ -30,16 +30,33 @@ public class InventoryItemController : MonoBehaviour
         switch (item.itemType)
         {
             case Item.ItemType.Consumable:
-                ExamplePlayerController.Instance.UseFood(item);
-                break;
+                if (PetCareStateManager.instance.petDataRef.petData.foodData.Count < 3)
+                {
+                    ExamplePlayerController.Instance.UseFood(item);
+                    break;
+                }
+                else
+                {
+                    PetCareUIManager.instance.ShowNotificationUI("Can't use food item as there are already 3 food items on table!");
+                    return;
+                }
 
             case Item.ItemType.Interactable:
                 ExamplePlayerController.Instance.UseInteractable(item);
                 break;
 
             case Item.ItemType.Usable:
-                ExamplePlayerController.Instance.UseMedicine(item);
-                break;
+                if (PetCareStateManager.instance.petDataRef.petData.isSick)
+                {
+                    ExamplePlayerController.Instance.UseMedicine(item);
+                    break;
+                }
+                else
+                {
+                    PetCareUIManager.instance.ShowNotificationUI("Can't use medicine as Pet isn't Sick!");
+                    return;
+                }
+                
         }
 
         RemoveItem();

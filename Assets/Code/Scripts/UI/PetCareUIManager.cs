@@ -7,6 +7,8 @@ using Beamable.CloudSavingService;
 
 public class PetCareUIManager : MonoBehaviour
 {
+    public static PetCareUIManager instance;
+
     [Header("Pet Care Data Reference")]
     public PetDataRef petDataRef;
 
@@ -32,19 +34,19 @@ public class PetCareUIManager : MonoBehaviour
 
     [Space]
     public Slider runningSliderPetCreation;
-    public Text runningStatTxt;
+    public Text runningPetCreationStatTxt;
 
     [Space]
     public Slider climbingSliderPetCreation;
-    public Text climbingStatTxt;
+    public Text climbingPetCreationStatTxt;
 
     [Space]
     public Slider flyingSliderPetCreation;
-    public Text flyingStatTxt;
+    public Text flyingPetCreationStatTxt;
 
     [Space]
     public Slider swimmingSliderPetCreation;
-    public Text swimmingStatTxt;
+    public Text swimmingPetCreationStatTxt;
 
     [Space]
     public Text chanceStatsTxt;
@@ -52,11 +54,11 @@ public class PetCareUIManager : MonoBehaviour
 
     [Space]
     public Slider intelligenceSliderPetCreation;
-    public Text intelligenceStatTxt;
+    public Text intelligencePetCreationStatTxt;
 
     [Space]
     public Slider luckSliderPetCreation;
-    public Text luckStatTxt;
+    public Text luckPetCreationStatTxt;
 
     [Space]
     public Text noticeTxt;
@@ -73,7 +75,6 @@ public class PetCareUIManager : MonoBehaviour
     public Slider cleanFillSlider;
     public Slider energyFillSlider;
 
-    [Space]
     [Header("Pet Stats Panel UI")]
     public GameObject petStatPanel;
     public Text petNameTxt;
@@ -85,15 +86,19 @@ public class PetCareUIManager : MonoBehaviour
     public Slider cleanFillPanelSlider;
     public Slider energyFillPanelSlider;
 
-    [Header("Athletics Stat Slider")]
-    public Slider runningFillSlider;
-    public Slider climbingFillSlider;
-    public Slider flyingFillSlider;
-    public Slider swimmingFillSlider;
+    [Header("Athletics Stat Text")]
+    public Text runningStatTxt;
+    public Text climbingStatTxt;
+    public Text flyingStatTxt;
+    public Text swimmingStatTxt;
 
-    [Header("Chance Stat Slider")]
-    public Slider intelligenceFillSlider;
-    public Slider luckFillSlider;
+    [Header("Chance Stat Text")]
+    public Text intelligenceStatTxt;
+    public Text luckStatTxt;
+
+    [Header("Notification UI")]
+    public GameObject notificationPopup;
+    public Text notificationMsgTxt;
 
     [Header("Pet Death Screen UI")]
     public GameObject petDeathPanel;
@@ -102,6 +107,18 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Rank Up UI")]
     public GameObject rankUpPanel;
     public Text rankUpMsgTxt;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            DestroyImmediate(instance);
+        }
+    }
 
     private void Start()
     {
@@ -128,13 +145,13 @@ public class PetCareUIManager : MonoBehaviour
         cleanFillPanelSlider.DOValue(petDataRef.petData.cleanliness, 0.5f);
         energyFillPanelSlider.DOValue(petDataRef.petData.energy, 0.5f);
 
-        runningFillSlider.DOValue(petDataRef.petData.running, 0.5f);
-        climbingFillSlider.DOValue(petDataRef.petData.climbing, 0.5f);
-        flyingFillSlider.DOValue(petDataRef.petData.flying, 0.5f);
-        swimmingFillSlider.DOValue(petDataRef.petData.swimming, 0.5f);
+        runningStatTxt.text = "Running: " + petDataRef.petData.running;
+        climbingStatTxt.text = "Climbing: " + petDataRef.petData.climbing;
+        flyingStatTxt.text = "Flying: " + petDataRef.petData.flying;
+        swimmingStatTxt.text = "Swimming: " + petDataRef.petData.swimming;
 
-        intelligenceFillSlider.DOValue(petDataRef.petData.intelligence, 0.5f);
-        luckFillSlider.DOValue(petDataRef.petData.luck, 0.5f);
+        intelligenceStatTxt.text = "Intelligence: " + petDataRef.petData.intelligence;
+        luckStatTxt.text = "Luck: " + petDataRef.petData.luck;
     }
 
     public void ShowPetCreationUI()
@@ -205,6 +222,12 @@ public class PetCareUIManager : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
         noticeTxt.text = "";
+    }
+
+    public void ShowNotificationUI(string msg)
+    {
+        notificationMsgTxt.text = msg;
+        notificationPopup.SetActive(true);
     }
 
     public void ShowPetDeathUI(string deathReason)
