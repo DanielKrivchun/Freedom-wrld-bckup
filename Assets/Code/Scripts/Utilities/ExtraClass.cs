@@ -58,6 +58,15 @@ public enum PetCareState
     Energy
 }
 
+public enum PetTraining
+{
+    NotSelected,
+    Running,
+    Climbing,
+    Swimming,
+    Flying,
+    Intelligence
+}
 
 public static class Utils
 {

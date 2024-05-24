@@ -11,6 +11,7 @@ public class SleepManager : MonoBehaviour
     [Space]
     public bool isCanSleep;
     public float totalSleepTime;
+    [HideInInspector]
     public float sleepTimer;
 
     [Space]

@@ -13,21 +13,34 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: immortal
-    health: 450
-    happiness: 92
-    hunger: 98
-    cleanliness: 94
-    energy: 94
-    lastTimeHappy: 5/15/2024 10:39:18 PM
-    lastTimeFeed: 5/15/2024 10:38:53 PM
-    lastTimeClean: 5/15/2024 10:39:33 PM
-    lastTimeEnergy: 5/15/2024 10:39:28 PM
-    sleepStartTime: 5/15/2024 10:37:19 PM
-    running: 25
-    climbing: 25
-    flying: 15
-    swimming: 15
-    intelligence: 10
-    luck: 10
+    petname: Rod
+    health: 648
+    happiness: 100
+    hunger: 99
+    cleanliness: 100
+    energy: 100
+    isSick: 0
+    birthTime: 5/24/2024 1:14:02 PM
+    lastTimeHappy: 5/24/2024 1:20:53 PM
+    lastTimeFeed: 5/24/2024 1:20:53 PM
+    lastTimeClean: 5/24/2024 1:20:53 PM
+    lastTimeEnergy: 5/24/2024 1:20:53 PM
+    sleepStartTime: 5/24/2024 1:14:02 PM
+    running: 18
+    climbing: 23
+    flying: 22
+    swimming: 17
+    intelligence: 11
+    luck: 9
+    coins: 100
+    rank: 1
+    maxStamina: 100
+    xp: 0
     isSleeping: 0
+    foodData:
+    - foodname: Apple
+      foodCount: 1
+    - foodname: Mushroom
+      foodCount: 1
+    - foodname: Mushroom
+      foodCount: 1

@@ -645,6 +645,82 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 17237059}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &27975318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 27975319}
+  - component: {fileID: 27975321}
+  - component: {fileID: 27975320}
+  m_Layer: 5
+  m_Name: OngoingTrainigPopup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &27975319
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27975318}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 923613946}
+  m_Father: {fileID: 673390566}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &27975320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27975318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &27975321
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27975318}
+  m_CullTransparentMesh: 1
 --- !u!1 &28625311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1754,27 +1830,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb0b0381980d7e49a1001b26e1c8bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   petTrainPanel: {fileID: 1290140182}
-  trainingSelectBtns:
-  - {fileID: 1582497151}
-  - {fileID: 1133352968}
-  - {fileID: 1307396592}
-  - {fileID: 147641258}
-  - {fileID: 1209462351}
-  notSelectedTrainingMain: {fileID: 1867456194}
+  runningTrainingSelectBtn: {fileID: 1582497153}
+  climbingTrainingSelectBtn: {fileID: 1133352970}
+  swimmingTrainingSelectBtn: {fileID: 1307396594}
+  flyingTrainingSelectBtn: {fileID: 147641260}
+  intelligenceTrainingSelectBtn: {fileID: 1209462353}
+  trainingSelectBtnImg:
+  - {fileID: 1582497154}
+  - {fileID: 1133352971}
+  - {fileID: 1307396595}
+  - {fileID: 147641261}
+  - {fileID: 1209462354}
+  trainingSelectBtnTxt:
+  - {fileID: 1004420402}
+  - {fileID: 1916785272}
+  - {fileID: 2051205341}
+  - {fileID: 971763808}
+  - {fileID: 1873066319}
   trainingStatsMain:
   - {fileID: 666622708}
   - {fileID: 743202231}
   - {fileID: 199501773}
   - {fileID: 1761722337}
   - {fileID: 1785090939}
+  notSelectedTrainingMain: {fileID: 1867456194}
   startTrainingBtn: {fileID: 1204486372}
-  ongoingTrainingPopup: {fileID: 923613945}
-  ongoingTrainingMsgTxt: {fileID: 0}
+  ongoingTrainingPopup: {fileID: 27975318}
+  ongoingTrainingMsgTxt: {fileID: 1085016105}
+  ongoingTrainingTimerTxt: {fileID: 493290449}
   completedTrainingPanel: {fileID: 1182563165}
-  completedTrainingMsgTxt: {fileID: 0}
-  earnedStatsTxt: {fileID: 0}
-  niceWorkTxt: {fileID: 0}
+  completedTrainingMsgTxt: {fileID: 562256702}
+  earnedStatsTxt: {fileID: 487470092}
+  niceWorkTxt: {fileID: 1409730989}
+  runningTrainingData: {fileID: 11400000, guid: 850298e630b1a674c8c3d3282e4bfa1b,
+    type: 2}
+  climbingTrainingData: {fileID: 11400000, guid: c4b3392a42fa8ab4f84f07266b1f4463,
+    type: 2}
+  swimmingTrainingData: {fileID: 11400000, guid: 389e44778ce8f014f8f217d51c8dd341,
+    type: 2}
+  flyingTrainingData: {fileID: 11400000, guid: 4ef3756b624ba1e459851f167a6326fd, type: 2}
+  inteligenceTrainingData: {fileID: 11400000, guid: 18ebbeb7dd9ed0e42810793006dc29d5,
+    type: 2}
+  selectedTraining: 0
+  startTimer: 0
+  trainingTimer: 0
 --- !u!1001 &72087699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2525,7 +2626,7 @@ GameObject:
   - component: {fileID: 95664125}
   - component: {fileID: 95664124}
   m_Layer: 5
-  m_Name: BuyBtn
+  m_Name: RunningBuyBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2736,7 +2837,7 @@ GameObject:
   - component: {fileID: 98953146}
   - component: {fileID: 98953145}
   m_Layer: 5
-  m_Name: BuyBtn
+  m_Name: FlyingBuyBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4558,7 +4659,7 @@ GameObject:
   - component: {fileID: 147641261}
   - component: {fileID: 147641260}
   m_Layer: 5
-  m_Name: SelectBtn
+  m_Name: FlyingSelectBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4582,7 +4683,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: -40, y: 40}
+  m_SizeDelta: {x: -40, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &147641260
 MonoBehaviour:
@@ -16523,6 +16624,87 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491346149}
   m_CullTransparentMesh: 1
+--- !u!1 &493290447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 493290448}
+  - component: {fileID: 493290450}
+  - component: {fileID: 493290449}
+  m_Layer: 5
+  m_Name: TimerTxt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &493290448
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493290447}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 923613946}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -75}
+  m_SizeDelta: {x: -100, y: -250}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &493290449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493290447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b587a998c6994e4a9a7e724729f140e, type: 3}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 2
+    m_MaxSize: 35
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Time Remaining:
+
+    <b>00:00:00</b>'
+--- !u!222 &493290450
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493290447}
+  m_CullTransparentMesh: 1
 --- !u!1001 &493860675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23089,7 +23271,7 @@ RectTransform:
   - {fileID: 1123750583}
   - {fileID: 1771055723}
   - {fileID: 1290140183}
-  - {fileID: 923613946}
+  - {fileID: 27975319}
   - {fileID: 1182563166}
   - {fileID: 1580259732}
   m_Father: {fileID: 181945385}
@@ -31781,12 +31963,12 @@ GameObject:
   - component: {fileID: 923613948}
   - component: {fileID: 923613947}
   m_Layer: 5
-  m_Name: OngoingTrainingPopup
+  m_Name: PopupBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &923613946
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31800,7 +31982,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1085016104}
-  m_Father: {fileID: 673390566}
+  - {fileID: 493290448}
+  m_Father: {fileID: 27975319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -33629,7 +33812,7 @@ GameObject:
   - component: {fileID: 970294338}
   - component: {fileID: 970294337}
   m_Layer: 5
-  m_Name: BuyBtn
+  m_Name: SwimmingBuyBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33915,7 +34098,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: d9d6a85f7c05f99439d73c334199cb58, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -35332,7 +35515,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: d9d6a85f7c05f99439d73c334199cb58, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -38368,8 +38551,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -100, y: -100}
+  m_AnchoredPosition: {x: 0, y: 50}
+  m_SizeDelta: {x: -100, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1085016105
 MonoBehaviour:
@@ -38393,27 +38576,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 5b587a998c6994e4a9a7e724729f140e, type: 3}
-    m_FontSize: 60
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 60
+    m_MinSize: 2
+    m_MaxSize: 35
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '<b>Tommy
-
-    Running Training</b>
-
-    In session
-
-
-    Time Remaining:
-
-    <b>00:00:00</b>'
+  m_Text: 
 --- !u!222 &1085016106
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -40024,7 +40198,7 @@ GameObject:
   - component: {fileID: 1133352971}
   - component: {fileID: 1133352970}
   m_Layer: 5
-  m_Name: SelectBtn
+  m_Name: ClimbingSelectBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40048,7 +40222,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: -40, y: 40}
+  m_SizeDelta: {x: -40, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1133352970
 MonoBehaviour:
@@ -41998,7 +42172,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1204486375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 66716814}
+        m_TargetAssemblyTypeName: PetTrainingManager, Assembly-CSharp
+        m_MethodName: OnClickOfStartTraining
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1204486375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42117,7 +42303,7 @@ GameObject:
   - component: {fileID: 1209462354}
   - component: {fileID: 1209462353}
   m_Layer: 5
-  m_Name: SelectBtn
+  m_Name: IntelligenceSelectBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42141,7 +42327,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: -40, y: 40}
+  m_SizeDelta: {x: -40, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1209462353
 MonoBehaviour:
@@ -46047,7 +46233,7 @@ GameObject:
   - component: {fileID: 1307396595}
   - component: {fileID: 1307396594}
   m_Layer: 5
-  m_Name: SelectBtn
+  m_Name: SwimmingSelectBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46071,7 +46257,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: -40, y: 40}
+  m_SizeDelta: {x: -40, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1307396594
 MonoBehaviour:
@@ -52647,7 +52833,7 @@ GameObject:
   - component: {fileID: 1424052078}
   - component: {fileID: 1424052077}
   m_Layer: 5
-  m_Name: BuyBtn
+  m_Name: IntelligenceBuyBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56692,7 +56878,7 @@ GameObject:
   - component: {fileID: 1582497154}
   - component: {fileID: 1582497153}
   m_Layer: 5
-  m_Name: SelectBtn
+  m_Name: RunningSelectBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56716,7 +56902,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: -40, y: 40}
+  m_SizeDelta: {x: -40, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1582497153
 MonoBehaviour:
@@ -62176,7 +62362,7 @@ GameObject:
   - component: {fileID: 1808145619}
   - component: {fileID: 1808145618}
   m_Layer: 5
-  m_Name: BuyBtn
+  m_Name: ClimbingBuyBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64395,7 +64581,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1867456195}
   m_Layer: 5
-  m_Name: NotSelectedMain
+  m_Name: NotSelectedTrainingMain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64581,7 +64767,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: d9d6a85f7c05f99439d73c334199cb58, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -65585,7 +65771,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: d9d6a85f7c05f99439d73c334199cb58, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -69860,7 +70046,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: d9d6a85f7c05f99439d73c334199cb58, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0

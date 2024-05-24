@@ -180,16 +180,16 @@ public class PetCareUIManager : MonoBehaviour
         abilityStatsTxt.text = "Total: (" + (runningSliderPetCreation.value + climbingSliderPetCreation.value
                                 + flyingSliderPetCreation.value + swimmingSliderPetCreation.value) + "/" + maxAbilityStatLimit + ")";
 
-        runningStatTxt.text = "(" + runningSliderPetCreation.value + "/50)";
-        climbingStatTxt.text = "(" + climbingSliderPetCreation.value + "/50)";
-        flyingStatTxt.text = "(" + flyingSliderPetCreation.value + "/50)";
-        swimmingStatTxt.text = "(" + swimmingSliderPetCreation.value + "/50)";
+        runningPetCreationStatTxt.text = "(" + runningSliderPetCreation.value + "/50)";
+        climbingPetCreationStatTxt.text = "(" + climbingSliderPetCreation.value + "/50)";
+        flyingPetCreationStatTxt.text = "(" + flyingSliderPetCreation.value + "/50)";
+        swimmingPetCreationStatTxt.text = "(" + swimmingSliderPetCreation.value + "/50)";
 
         chanceStatsTxt.text = "Total: (" + (intelligenceSliderPetCreation.value + luckSliderPetCreation.value)
                                 + "/" + maxChanceStatLimit + ")";
 
-        intelligenceStatTxt.text = "(" + intelligenceSliderPetCreation.value + "/15)";
-        luckStatTxt.text = "(" + luckSliderPetCreation.value + "/15)";
+        intelligencePetCreationStatTxt.text = "(" + intelligenceSliderPetCreation.value + "/15)";
+        luckPetCreationStatTxt.text = "(" + luckSliderPetCreation.value + "/15)";
     }
 
     public void SubmitPetDetails()

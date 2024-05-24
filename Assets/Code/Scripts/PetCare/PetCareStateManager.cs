@@ -8,7 +8,7 @@ public class PetCareStateManager : MonoBehaviour
 {
     public static PetCareStateManager instance;
 
-    [Header("Pet Care Data Reference")]
+    [Header("Pet Data Reference")]
     public PetDataRef petDataRef;
 
     [Space]
