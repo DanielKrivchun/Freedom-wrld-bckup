@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
 using static Unity.Collections.Unicode;
+using System.Linq;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
     public InputValue InputValue;
@@ -30,6 +31,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public string PrefabID;
     public int CurrntWinCount;
 
+    private bool AFKCheck;
+    private float Timer;
+
     private NetworkRunner networkRunnerInstance;
 
     public string LocalPlayerNickname { get; private set; }
@@ -50,6 +54,42 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
 
+
+    #region AFK KICKING
+
+
+    void Update()
+    {
+        if (AFKCheck)
+        {
+            _CheckForAFK();
+        }
+    }
+
+    void _CheckForAFK()
+    {
+        if (Input.touchCount > 0)
+        {
+            Timer = 0f;
+        }
+
+        Timer += Time.deltaTime;
+
+        if (Timer > 20f)
+        {
+            Debug.LogError("I AM  AFK KICK ME  NOW ");
+        }
+    }
+
+    void _CheckHowManyPlayersAreInGame()
+    {
+        int a = networkRunnerInstance.ActivePlayers.Count();
+        Debug.Log("Total Players" + a);
+    }
+
+    #endregion
+
+    #region GAME START AND MATCHMAKING
     public async void _StartGame(GameMode mode)
     {
         LocalPlayerNickname = inputField.text;
@@ -79,6 +119,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
     }
+
+    #endregion
+
+
     public void _StartGameForPlayers()
     {
         Debug.Log("_StartGameForPlayers");
@@ -116,7 +160,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             _AllPlayerData d = new _AllPlayerData();
             d.playerRef = playerRef;
             d.networkObject = playerObject;
-
 
             GenratedPlayers.Add(d);
 
@@ -167,12 +210,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         //throw new NotImplementedException();
         ColoredDebug.Log("OnPlayerJoined", Color.green);
         _SpawnPlayer(player);
+        _CheckHowManyPlayersAreInGame();
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         //throw new NotImplementedException();
         _DespawnPlayer(player);
+        _CheckHowManyPlayersAreInGame();
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
