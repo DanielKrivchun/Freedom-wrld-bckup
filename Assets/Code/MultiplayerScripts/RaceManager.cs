@@ -37,6 +37,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private bool AFKCheck;
     private float Timer;
+    [Space]
+    public int Min;
+    public int Max;
 
     private NetworkRunner networkRunnerInstance;
 
@@ -58,6 +61,15 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             Destroy(this.gameObject);
         }
+
+
+        string s1 = "C0 BETWEEN";
+        string s2 = "AND C1";
+
+        string final = s1 + " " + Min.ToString() + " AND " + Max.ToString() + s2;
+
+        Debug.Log(final);
+        Debug.Log("C0 BETWEEN 345 AND 475 AND C1");
     }
 
 
@@ -175,6 +187,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
         var customProps = new Dictionary<string, SessionProperty>();
+
+        string s1 = "C0 BETWEEN";
+        string s2 = "AND C1";
+
+        string final = s1 + " " + Min.ToString() + " AND " + Max.ToString() + s2;
+
+        Debug.Log(final);
 
         string sqlLobbyFilter = "C0 BETWEEN 345 AND 475 AND C1";
         customProps["RANK"] = sqlLobbyFilter;
