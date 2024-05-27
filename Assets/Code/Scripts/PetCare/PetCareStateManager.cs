@@ -69,6 +69,7 @@ public class PetCareStateManager : MonoBehaviour
         foodObjectHolder.ResetFoodObjects();
     }
 
+    #region PET CARE EVENTS
     //Setting current pet care state and managing stat objects
     public void CheckForSelectedPetCareState(PetCareState state)
     {
@@ -100,7 +101,9 @@ public class PetCareStateManager : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
+    #region PET FOOD ITEMS MANAGEMENT
     //Setting food item on table
     public void SetAvailabeFoodItemOnTable()
     {
@@ -172,7 +175,9 @@ public class PetCareStateManager : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region PET HEALTH
     //Update Pet from Sick to Healthy on use of Medicine
     public void UpdatePetSickToHealthy()
     {
@@ -198,7 +203,9 @@ public class PetCareStateManager : MonoBehaviour
             petDataRef.petData.health = Mathf.Clamp(petDataRef.petData.health, 0, petStatData.sickHealthThreshold);
         }
     }
+    #endregion
 
+    #region WELLBEING STAT AND FILLER UPDATE
     //Happiness stat value and filler
     public void ManageHappinessDataFiller(int value)
     {
@@ -274,8 +281,9 @@ public class PetCareStateManager : MonoBehaviour
 
         UpdateHealth();
     }
+    #endregion
 
-
+    #region CHECKING LOST VALUE OF STATS
     //Get & set data from Beamable
     public void SetDataOfCloudAndManageStats()
     {
@@ -375,7 +383,9 @@ public class PetCareStateManager : MonoBehaviour
     {
         return (float)(DateTime.UtcNow - DateTime.Parse(lastTime)).TotalSeconds;
     }
+    #endregion
 
+    #region CHECKING FOR PET DEATH
     public bool IsPetDeathDueToHunger()
     {
         int lowHunger;
@@ -500,7 +510,9 @@ public class PetCareStateManager : MonoBehaviour
             return false;
         }
     }
+    #endregion
 
+    #region XP, RANK AND MAX STAMINA
     //Increase XP with value
     public void IncreaseXP(float value)
     {
@@ -539,4 +551,5 @@ public class PetCareStateManager : MonoBehaviour
     {
         petDataRef.petData.maxStamina = 90 + (petDataRef.petData.rank * 10);
     }
+    #endregion
 }

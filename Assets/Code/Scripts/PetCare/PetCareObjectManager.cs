@@ -21,7 +21,7 @@ public class PetCareObjectManager : MonoBehaviour
                 break;
 
             case PetCareState.Eat:
-                GetComponent<PetCareStateManager>().SetAvailabeFoodItemOnTable();
+                PetCareStateManager.instance.SetAvailabeFoodItemOnTable();
 
                 eatObjectHolder.SetActive(true);
                 bathObjectHolder.SetActive(false);

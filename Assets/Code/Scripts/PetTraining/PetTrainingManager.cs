@@ -65,6 +65,7 @@ public class PetTrainingManager : MonoBehaviour
         intelligenceTrainingSelectBtn.onClick.AddListener(() => OnClickOfTrainingSelectBtn(4, PetTraining.Intelligence));
     }
 
+    #region TRAINING SELECTION UI
     public void ShowPetTrainPanel()
     {
         //If any training going on then can't open Pet Train Panel
@@ -133,7 +134,9 @@ public class PetTrainingManager : MonoBehaviour
         ShowOngoingTrainingUIWithTime();
         SetTrainingTimer(currentTrainingData.trainingTime);
     }
+    #endregion
 
+    #region ONGOING TRAINING UI
     void ShowOngoingTrainingUIWithTime()
     {
         ongoingTrainingMsgTxt.text = "<b>" + petDataRef.petData.petname + "\n" + selectedTraining.ToString() + " Training</b> \nIn Session";
@@ -146,7 +149,9 @@ public class PetTrainingManager : MonoBehaviour
         trainingTimer = totalTime;
         startTimer = true;
     }
+    #endregion
 
+    #region TRAINING TIMER
     private void Update()
     {
         //Sleep
@@ -185,7 +190,9 @@ public class PetTrainingManager : MonoBehaviour
 
         ongoingTrainingTimerTxt.text = "Time Remaining:\n<b>" + string.Format("{0:0}:{1:00}:{2:00}", hours, minutes, seconds) + "</b>";
     }
+    #endregion
 
+    #region TRAINING COMPLETION UI AND EARNED STATS
     void ShowTrainingCompletedUI()
     {
         ongoingTrainingPopup.SetActive(false);
@@ -252,8 +259,9 @@ public class PetTrainingManager : MonoBehaviour
         petDataRef.petData.ongoingTrainingData.ongoingTraining = PetTraining.NotSelected;
         currentTrainingData = null;
     }
+    #endregion
 
-
+    #region Check For Any Ongoing Training
     public void CheckForAnyOngoingTraining()
     {
         Debug.Log("Checking For Any Ongoing Training");
@@ -303,4 +311,5 @@ public class PetTrainingManager : MonoBehaviour
     {
         return (float)(DateTime.UtcNow - DateTime.Parse(lastTime)).TotalSeconds;
     }
+    #endregion
 }

@@ -131,6 +131,7 @@ public class PetCareUIManager : MonoBehaviour
         sleepBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Energy));
     }
 
+    #region BUTTON CLICK EVENTS
     public void OnClickOfPetCareStateBtn(PetCareState selectedState)
     {
         if (!petDataRef.petData.ongoingTrainingData.isTraining)
@@ -166,7 +167,9 @@ public class PetCareUIManager : MonoBehaviour
             ShowNotificationUI("Sorry, you can't access this while your pet is training");
         }
     }
+    #endregion
 
+    #region PETS PROFILE UI
     public void ShowPetStatPanel()
     {
         petStatPanel.SetActive(true);
@@ -187,7 +190,9 @@ public class PetCareUIManager : MonoBehaviour
         intelligenceStatTxt.text = "Intelligence: " + petDataRef.petData.intelligence;
         luckStatTxt.text = "Luck: " + petDataRef.petData.luck;
     }
+    #endregion
 
+    #region PET CREATION UI
     public void ShowPetCreationUI()
     {
         petCreationPanelMain.SetActive(true);
@@ -257,6 +262,7 @@ public class PetCareUIManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         noticeTxt.text = "";
     }
+    #endregion
 
     public void ShowNotificationUI(string msg)
     {

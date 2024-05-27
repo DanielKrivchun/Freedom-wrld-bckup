@@ -142,6 +142,7 @@ namespace Beamable.CloudSavingService
             }  
         }
 
+        #region NEW PET CREATION DATA
         public void CreateNewPet(string petName, int running, int climbing, int flying, int swimming, int intelligence, int luck)
         {
             string currentTime = DateTime.UtcNow.ToString();
@@ -157,44 +158,9 @@ namespace Beamable.CloudSavingService
             Refresh();
             loadGameData.Raise();
         }
+        #endregion
 
-
-        /*private void LoadAndSave()
-        {
-            beamableCloudSavingData.DataState = DataState.Pending;
-            beamableCloudSavingData.petDataLocal = LoadData();
-
-            // Determines if the data was found on the very first checking of the scene
-            // Useful for demonstration purposes only
-            if (beamableCloudSavingData.IsFirstFrame == true)
-            {
-                beamableCloudSavingData.IsFirstFrame = false;
-                beamableCloudSavingData.IsDataFoundFirstFrame =
-                    beamableCloudSavingData.petDataLocal != null;
-            }
-
-            if (beamableCloudSavingData.petDataLocal == null)
-            {
-                // Create Data - Default
-                beamableCloudSavingData.petDataLocal = new PetData
-                {
-                    lastTimeHappy = DateTime.Now.ToString(),
-                    lastTimeFeed = DateTime.Now.ToString(),
-                    lastTimeClean = DateTime.Now.ToString(),
-                    lastTimeEnergy = DateTime.Now.ToString(),
-                    sleepStartTime = DateTime.Now.ToString(),
-                    isSleeping = false,
-                    happiness = 100,
-                    hunger = 100,
-                    cleanliness = 100,
-                    energy = 100
-                };
-
-                SaveDataInternal(beamableCloudSavingData.petDataLocal);
-            }
-
-        }*/
-
+        #region LOAD DATA
         public PetData LoadData()
         {
             beamableCloudSavingData.DataState = DataState.Pending;
@@ -225,7 +191,9 @@ namespace Beamable.CloudSavingService
 
             return myPetData;
         }
+        #endregion
 
+        #region SAVE DATA
         public void SaveData(PetData myPetData)
         {
             beamableCloudSavingData.DataState = DataState.Pending;
@@ -248,7 +216,9 @@ namespace Beamable.CloudSavingService
             beamableCloudSavingData.petDataCloud = myPetData;
             Debug.Log("Data Saved!");
         }
+        #endregion
 
+        #region DATA SYNC
         public void Refresh()
         {
             // Use DataState to display info to the user via UI
@@ -296,10 +266,10 @@ namespace Beamable.CloudSavingService
         {
             Debug.Log($"CloudSavingService_OnError() Message = {cloudSavingError.Message}");
         }
+        #endregion
 
 
-
-        //For Android
+        #region SAVING DATA ON APPLICATION STATE
         private void OnApplicationPause(bool pause)
         {
             if (pause)
@@ -316,11 +286,6 @@ namespace Beamable.CloudSavingService
 
                     loadGameData.Raise();
                 }
-
-                /*petDataRef.petData = LoadData();
-                Refresh();
-
-                loadGameData.Raise();*/
             }
         }
 
@@ -329,18 +294,6 @@ namespace Beamable.CloudSavingService
             Debug.Log("Saving Data on Quit...");
             SaveData(petDataRef.petData);
         }
-
-
-/*#if UNITY_EDITOR
-        //For Editor
-        private void OnApplicationFocus(bool focus)
-        {
-            if (!focus)
-            {
-                Debug.Log("Saving Data...");
-                SaveData(petDataRef.petData);
-            }
-        }
-#endif*/
+        #endregion
     }
 }
