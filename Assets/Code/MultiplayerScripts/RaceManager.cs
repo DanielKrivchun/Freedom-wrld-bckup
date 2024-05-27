@@ -40,6 +40,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public int Min;
     public int Max;
+    public int MyRank;
 
     private NetworkRunner networkRunnerInstance;
 
@@ -63,10 +64,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
 
 
-        string s1 = "C0 BETWEEN";
-        string s2 = "AND C1";
+        string s1 = "C0 BETWEEN ";
+        string s2 = " AND C1";
 
-        string final = s1 + " " + Min.ToString() + " AND " + Max.ToString() + s2;
+        Min = MyRank - 50;
+        Max = MyRank + 50;
+
+        string final = s1 + Min.ToString() + " AND " + Max.ToString() + s2;
 
         Debug.Log(final);
         Debug.Log("C0 BETWEEN 345 AND 475 AND C1");
@@ -188,14 +192,18 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         var customProps = new Dictionary<string, SessionProperty>();
 
-        string s1 = "C0 BETWEEN";
-        string s2 = "AND C1";
+        string s1 = "C0 BETWEEN ";
+        string s2 = " AND C1";
 
-        string final = s1 + " " + Min.ToString() + " AND " + Max.ToString() + s2;
+        Min = MyRank - 50;
+        Max = MyRank + 50;
 
-        Debug.Log(final);
+        string final = s1 + Min.ToString() + " AND " + Max.ToString() + s2;
 
-        string sqlLobbyFilter = "C0 BETWEEN 345 AND 475 AND C1";
+        string sqlLobbyFilter = final;
+
+        Debug.Log(sqlLobbyFilter);
+
         customProps["RANK"] = sqlLobbyFilter;
 
 

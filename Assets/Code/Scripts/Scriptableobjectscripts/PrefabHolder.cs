@@ -10,10 +10,8 @@ public class PrefabHolder : ScriptableObject
 
     public GameObject _GetMyPrefab(string _pet_id)
     {
-
         return PetPrefabs.Find(asd => asd.PrefabId == _pet_id).PetPrefab;
     }
-
 }
 
 [System.Serializable]
