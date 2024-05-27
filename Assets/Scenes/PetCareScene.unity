@@ -697,7 +697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1831,6 +1831,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
+  petCareStateManager: {fileID: 743679602}
+  petCareUIManager: {fileID: 1334679533}
   petTrainPanel: {fileID: 1290140182}
   runningTrainingSelectBtn: {fileID: 1582497153}
   climbingTrainingSelectBtn: {fileID: 1133352970}
@@ -9226,13 +9228,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 277769819}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 903024415}
-  m_Father: {fileID: 1964643475}
+  m_Father: {fileID: 673390566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -19114,7 +19116,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571229393}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -19122,7 +19124,7 @@ RectTransform:
   - {fileID: 532915354}
   - {fileID: 2015461203}
   - {fileID: 993691258}
-  m_Father: {fileID: 1964643475}
+  m_Father: {fileID: 673390566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -23267,11 +23269,15 @@ RectTransform:
   m_Children:
   - {fileID: 184226670}
   - {fileID: 1123750583}
-  - {fileID: 1771055723}
+  - {fileID: 277769820}
   - {fileID: 1290140183}
   - {fileID: 27975319}
+  - {fileID: 1771055723}
+  - {fileID: 965642638}
   - {fileID: 1182563166}
   - {fileID: 1580259732}
+  - {fileID: 571229394}
+  - {fileID: 1779820735}
   m_Father: {fileID: 181945385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -27107,6 +27113,7 @@ GameObject:
   - component: {fileID: 743679606}
   - component: {fileID: 743679607}
   - component: {fileID: 743679602}
+  - component: {fileID: 743679608}
   m_Layer: 0
   m_Name: PetStateManager
   m_TagString: Untagged
@@ -27130,43 +27137,17 @@ MonoBehaviour:
   selectedPetCareState: 0
   petCareUIManager: {fileID: 1334679533}
   player: {fileID: 281894563}
-  eatObjectHolder: {fileID: 6881907604498136143}
-  bathObjectHolder: {fileID: 2799242787086901922}
-  sleepBtn: {fileID: 379607962}
+  petCareObjectManager: {fileID: 743679608}
   foodObjectHolder: {fileID: 11400000, guid: 68fe1a465c92ecb4cb96b482cecab90e, type: 2}
-  foodObjs:
-  - foodName: Apple
-    foodObj: {fileID: 4925982584511589750, guid: 8c8d437b7573c3445a3099b400a31abe,
-      type: 3}
-  - foodName: Mushroom
-    foodObj: {fileID: 4925982584511589750, guid: 35cc57e1d88661845a3ca3f6052503c2,
-      type: 3}
   foodSpawnTransforms:
   - {fileID: 1063918843}
   - {fileID: 651584851}
   - {fileID: 1385649638}
   isReadyForBath: 0
-  sickHealthThreshold: 390
-  lowerHealthTimeInHour: 8
-  maxHappiness: 100
-  happyTimeLength: 576
-  happinessTickRate: 1
-  maxHunger: 100
-  hungerTimeLength: 288
-  hungerTickRate: 1
-  lowHungerThreshold: 10
-  lowerHungerTimeInDay: 7
-  maxCleanliness: 100
-  cleanTimeLength: 864
-  cleanlinessTickRate: 1
-  lowCleanlinessThreshold: 10
-  lowerCleanlinessTimeInDay: 21
-  maxEnergy: 100
-  energyTimeLength: 432
-  energyTickRate: 1
-  lowerSleepTimeInDay: 10
+  petStatData: {fileID: 11400000, guid: 15cc588ed9ddbac498fe093020d80735, type: 2}
   sleepManager: {fileID: 379607967}
   timingManager: {fileID: 1128614859}
+  petTrainingManager: {fileID: 66716814}
 --- !u!114 &743679603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27266,6 +27247,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &743679608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743679601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40134c2647af04743ab4de2cb3faf4d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatObjectHolder: {fileID: 6881907604498136143}
+  bathObjectHolder: {fileID: 2799242787086901922}
+  sleepBtn: {fileID: 379607962}
 --- !u!1 &751665986
 GameObject:
   m_ObjectHideFlags: 0
@@ -27518,7 +27514,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 758632827}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1334679533}
+        m_TargetAssemblyTypeName: PetCareUIManager, Assembly-CSharp
+        m_MethodName: OnClickOfHomeBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &758632827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33507,7 +33515,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 965642637}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33518,7 +33526,7 @@ RectTransform:
   - {fileID: 96144642}
   - {fileID: 805462788}
   - {fileID: 1565885463}
-  m_Father: {fileID: 1964643475}
+  m_Father: {fileID: 673390566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -33748,17 +33756,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1054978427}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1334679533}
+        m_TargetAssemblyTypeName: PetCareUIManager, Assembly-CSharp
+        m_MethodName: OnClickOfShopBtn
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &969107251
 MonoBehaviour:
@@ -40104,7 +40112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   petCareTimerEvent: {fileID: 11400000, guid: 3c2c1a4e3b762264e95882db3052bd76, type: 2}
-  petCareStateManager: {fileID: 743679602}
+  petStateData: {fileID: 11400000, guid: 15cc588ed9ddbac498fe093020d80735, type: 2}
 --- !u!1 &1129932436
 GameObject:
   m_ObjectHideFlags: 0
@@ -41699,7 +41707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -44304,7 +44312,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 150}
-  m_SizeDelta: {x: -400, y: 200}
+  m_SizeDelta: {x: -600, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1255737854
 MonoBehaviour:
@@ -48241,6 +48249,7 @@ MonoBehaviour:
   petDeathReasonTxt: {fileID: 1865022492}
   rankUpPanel: {fileID: 277769819}
   rankUpMsgTxt: {fileID: 1031999346}
+  storeflowPanel: {fileID: 0}
 --- !u!4 &1334679534
 Transform:
   m_ObjectHideFlags: 0
@@ -61469,13 +61478,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1779820734}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2038183710}
-  m_Father: {fileID: 1964643475}
+  m_Father: {fileID: 673390566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -67191,10 +67200,6 @@ RectTransform:
   - {fileID: 1255737853}
   - {fileID: 658771963}
   - {fileID: 379607963}
-  - {fileID: 965642638}
-  - {fileID: 571229394}
-  - {fileID: 1779820735}
-  - {fileID: 277769820}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

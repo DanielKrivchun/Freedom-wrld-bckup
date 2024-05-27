@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,10 @@ public class PetTrainingManager : MonoBehaviour
 {
     [Header("Pet Data Reference")]
     public PetDataRef petDataRef;
+
+    [Space]
+    public PetCareStateManager petCareStateManager;
+    public PetCareUIManager petCareUIManager;
 
     [Header("Pet Train Panel UI")]
     public GameObject petTrainPanel;
@@ -50,11 +55,6 @@ public class PetTrainingManager : MonoBehaviour
     public bool startTimer;
     public float trainingTimer;
 
-    // Total seconds of 1 hour for hours calculation
-    static float oneHourSeconds = 3600f;
-    // Total seconds of 1 minute for minutes calculation
-    static float oneMinuteSeconds = 60f;
-
 
     private void Start()
     {
@@ -68,9 +68,13 @@ public class PetTrainingManager : MonoBehaviour
     public void ShowPetTrainPanel()
     {
         //If any training going on then can't open Pet Train Panel
-        if(!ongoingTrainingPopup.activeInHierarchy)
+        if(!ongoingTrainingPopup.activeInHierarchy || !petDataRef.petData.ongoingTrainingData.isTraining)
         {
             petTrainPanel.SetActive(true);
+        }
+        else
+        {
+            petCareUIManager.ShowNotificationUI("Sorry, you can't access this while your pet is training");
         }
     }
 
@@ -99,39 +103,47 @@ public class PetTrainingManager : MonoBehaviour
 
     public void OnClickOfStartTraining()
     {
-        SetSelectedTrainingData();
-
-        ongoingTrainingMsgTxt.text = "<b>" + petDataRef.petData.petname + "\n" + selectedTraining.ToString() + " Training</b> \nIn Session";
-        petTrainPanel.SetActive(false);
-        ongoingTrainingPopup.SetActive(true);
-    }
-
-    private void SetSelectedTrainingData()
-    {
-        switch(selectedTraining)
+        switch (selectedTraining)
         {
             case PetTraining.Running:
                 currentTrainingData = runningTrainingData;
                 break;
 
-                case PetTraining.Climbing:
+            case PetTraining.Climbing:
                 currentTrainingData = climbingTrainingData;
                 break;
 
-                case PetTraining.Swimming:
+            case PetTraining.Swimming:
                 currentTrainingData = swimmingTrainingData;
                 break;
 
-                case PetTraining.Flying:
+            case PetTraining.Flying:
                 currentTrainingData = flyingTrainingData;
                 break;
 
-                case PetTraining.Intelligence:
+            case PetTraining.Intelligence:
                 currentTrainingData = inteligenceTrainingData;
                 break;
         }
 
-        trainingTimer = currentTrainingData.trainingTime;
+        petDataRef.petData.ongoingTrainingData.isTraining = true;
+        petDataRef.petData.ongoingTrainingData.ongoingTraining = selectedTraining;
+        petDataRef.petData.ongoingTrainingData.trainingStartTime = DateTime.UtcNow.ToString();
+
+        ShowOngoingTrainingUIWithTime();
+        SetTrainingTimer(currentTrainingData.trainingTime);
+    }
+
+    void ShowOngoingTrainingUIWithTime()
+    {
+        ongoingTrainingMsgTxt.text = "<b>" + petDataRef.petData.petname + "\n" + selectedTraining.ToString() + " Training</b> \nIn Session";
+        petTrainPanel.SetActive(false);
+        ongoingTrainingPopup.SetActive(true);
+    }
+
+    void SetTrainingTimer(float totalTime)
+    {
+        trainingTimer = totalTime;
         startTimer = true;
     }
 
@@ -183,19 +195,6 @@ public class PetTrainingManager : MonoBehaviour
         float minutes = Mathf.FloorToInt(currentTrainingData.trainingTime / 60);
         float seconds = Mathf.FloorToInt(currentTrainingData.trainingTime % 60);
 
-        /*string trainingTime = "";
-        //If time is in hours
-        if (currentTrainingData.trainingTime >= oneHourSeconds)
-        {
-            trainingTime = string.Format("{0:0.00}", currentTrainingData.trainingTime / oneHourSeconds) + " hours";
-        }
-        //Or time is in minutes
-        else
-        {
-            //trainingTime = string.Format("{0:0.00}", currentTrainingData.trainingTime / oneMinuteSeconds) + " minutes";
-            trainingTime = (currentTrainingData.trainingTime / oneMinuteSeconds).ToString() + " minutes";
-        }*/
-
         completedTrainingMsgTxt.text = petDataRef.petData.petname + " spent " + hours + " hours " + minutes + " minutes " + seconds + " seconds " 
                                         + "\ntraining their " + selectedTraining.ToString() + " skills!";
 
@@ -209,10 +208,99 @@ public class PetTrainingManager : MonoBehaviour
 
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
 
-        //NEED TO SET DATA
+        SetTrainigEarnedStats();
+    }
 
+    public void SetTrainigEarnedStats()
+    {
+        //XP
+        petCareStateManager.IncreaseXP(currentTrainingData.xP);
+
+        //Coins
+        //Needs add coins of Current Training Data
+
+        //Training Stats
+        if(currentTrainingData == runningTrainingData)
+        {
+            petDataRef.petData.running += currentTrainingData.trainingStatValue;
+        }
+        else if(currentTrainingData == climbingTrainingData)
+        {
+            petDataRef.petData.climbing += currentTrainingData.trainingStatValue;
+        }
+        else if(currentTrainingData == swimmingTrainingData)
+        {
+            petDataRef.petData.swimming += currentTrainingData.trainingStatValue;
+        }
+        else if (currentTrainingData == flyingTrainingData)
+        {
+            petDataRef.petData.flying += currentTrainingData.trainingStatValue;
+        }
+        else if (currentTrainingData == inteligenceTrainingData)
+        {
+            petDataRef.petData.intelligence += currentTrainingData.trainingStatValue;
+        }
+
+        //Wellbeing Stats
+        petCareStateManager.ManageHappinessDataFiller(currentTrainingData.happinessStatValue);
+        petCareStateManager.ManageCleanlinessDataFiller(currentTrainingData.cleanlinessStatValue);
+        petCareStateManager.ManageHungerDataFiller(currentTrainingData.hungerStatValue);
+        petCareStateManager.ManageEnergyDataFiller(currentTrainingData.energyStatValue);
+
+        //Reset all data
+        petDataRef.petData.ongoingTrainingData.isTraining = false;
+        petDataRef.petData.ongoingTrainingData.ongoingTraining = PetTraining.NotSelected;
         currentTrainingData = null;
     }
 
 
+    public void CheckForAnyOngoingTraining()
+    {
+        Debug.Log("Checking For Any Ongoing Training");
+        switch (petDataRef.petData.ongoingTrainingData.ongoingTraining)
+        {
+            case PetTraining.Running:
+                selectedTraining = PetTraining.Running;
+                currentTrainingData = runningTrainingData;
+                break;
+
+                case PetTraining.Climbing:
+                selectedTraining = PetTraining.Climbing;
+                currentTrainingData = climbingTrainingData;
+                break;
+
+                case PetTraining.Swimming:
+                selectedTraining = PetTraining.Swimming;
+                currentTrainingData = swimmingTrainingData;
+                break;
+
+            case PetTraining.Flying:
+                selectedTraining = PetTraining.Flying;
+                currentTrainingData = flyingTrainingData;
+                break;
+
+            case PetTraining.Intelligence:
+                selectedTraining = PetTraining.Intelligence;
+                currentTrainingData = inteligenceTrainingData;
+                break;
+        }
+
+        if (CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime) > currentTrainingData.trainingTime)
+        {
+            Debug.Log("Training completed!");
+            ShowTrainingCompletedUI();
+        }
+        else
+        {
+            Debug.Log("Training Time is Not over yet!");
+            ShowOngoingTrainingUIWithTime();
+            trainingTimer = currentTrainingData.trainingTime - CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime);
+            startTimer = true;
+        }
+    }
+
+    public float CheckTimeDiffWithCurrentTimeInSec(string lastTime)
+    {
+        return (float)(DateTime.UtcNow - DateTime.Parse(lastTime)).TotalSeconds;
+    }
 }

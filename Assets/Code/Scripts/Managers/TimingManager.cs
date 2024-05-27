@@ -10,7 +10,7 @@ public class TimingManager : MonoBehaviour
     public GameEventState petCareTimerEvent;
 
     [Space]
-    public PetCareStateManager petCareStateManager;
+    public PetCareStatData petStateData;
 
     //Timers
     private static float happyTimer;
@@ -20,10 +20,10 @@ public class TimingManager : MonoBehaviour
 
     private void Start()
     {
-        happyTimer = petCareStateManager.happyTimeLength;
-        hungerTimer = petCareStateManager.hungerTimeLength;
-        cleanTimer = petCareStateManager.cleanTimeLength;
-        energyTimer = petCareStateManager.energyTimeLength;
+        happyTimer = petStateData.happyTimeLength;
+        hungerTimer = petStateData.hungerTimeLength;
+        cleanTimer = petStateData.cleanTimeLength;
+        energyTimer = petStateData.energyTimeLength;
     }
 
     private void Update()
@@ -57,7 +57,7 @@ public class TimingManager : MonoBehaviour
     {
         if (happyTimer <= 0)
         {
-            happyTimer = petCareStateManager.happyTimeLength;
+            happyTimer = petStateData.happyTimeLength;
             petCareTimerEvent.Raise(PetCareState.Happy);
         }
         else
@@ -71,7 +71,7 @@ public class TimingManager : MonoBehaviour
     {
         if (hungerTimer <= 0)
         {
-            hungerTimer = petCareStateManager.hungerTimeLength;
+            hungerTimer = petStateData.hungerTimeLength;
             petCareTimerEvent.Raise(PetCareState.Eat);
         }
         else
@@ -85,7 +85,7 @@ public class TimingManager : MonoBehaviour
     { 
         if (cleanTimer <= 0)
         {
-            cleanTimer = petCareStateManager.cleanTimeLength;
+            cleanTimer = petStateData.cleanTimeLength;
             petCareTimerEvent.Raise(PetCareState.Clean);
         }
         else
@@ -99,7 +99,7 @@ public class TimingManager : MonoBehaviour
     {
         if (energyTimer <= 0)
         {
-            energyTimer = petCareStateManager.energyTimeLength;
+            energyTimer = petStateData.energyTimeLength;
             petCareTimerEvent.Raise(PetCareState.Energy);
         }
         else

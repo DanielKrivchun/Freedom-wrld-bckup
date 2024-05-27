@@ -27,7 +27,7 @@ public class PetCareInputManager : MonoBehaviour
                 {
                     //Play Happy Animation
                     petAnim._ChangeAnimationState(_AnimState.Happy);
-                    petCareStateManager.ManageHappinessDataFiller(petCareStateManager.happinessTickRate);  
+                    petCareStateManager.ManageHappinessDataFiller(petCareStateManager.petStatData.happinessTickRate);  
                 }
                 break;
 

@@ -108,6 +108,9 @@ public class PetCareUIManager : MonoBehaviour
     public GameObject rankUpPanel;
     public Text rankUpMsgTxt;
 
+    [Header("Shop UI")]
+    public GameObject storeflowPanel;
+
     private void Awake()
     {
         if (instance == null)
@@ -130,7 +133,38 @@ public class PetCareUIManager : MonoBehaviour
 
     public void OnClickOfPetCareStateBtn(PetCareState selectedState)
     {
-        petCareEvent.Raise(selectedState);
+        if (!petDataRef.petData.ongoingTrainingData.isTraining)
+        {
+            petCareEvent.Raise(selectedState);
+        }
+        else
+        {
+            ShowNotificationUI("Sorry, you can't access this while your pet is training");
+        }
+    }
+
+    public void OnClickOfHomeBtn()
+    {
+        if (!petDataRef.petData.ongoingTrainingData.isTraining)
+        {
+            //Do Button Click Event
+        }
+        else
+        {
+            ShowNotificationUI("Sorry, you can't access this while your pet is training");
+        }
+    }
+
+    public void OnClickOfShopBtn()
+    {
+        if (!petDataRef.petData.ongoingTrainingData.isTraining)
+        {
+            storeflowPanel.SetActive(true);
+        }
+        else
+        {
+            ShowNotificationUI("Sorry, you can't access this while your pet is training");
+        }
     }
 
     public void ShowPetStatPanel()

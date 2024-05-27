@@ -26,11 +26,21 @@ public class PetData
     public bool isSleeping;
 
     public List<PetFoodData> foodData;
+
+    public PetOngoingTrainingData ongoingTrainingData;
 }
 
 [System.Serializable]
 public class PetFoodData
 {
-    public FoodItems foodname;
+    public FoodItems foodName;
     public int foodCount;
+}
+
+[System.Serializable]
+public class PetOngoingTrainingData
+{
+    public bool isTraining;
+    public PetTraining ongoingTraining;
+    public string trainingStartTime;
 }

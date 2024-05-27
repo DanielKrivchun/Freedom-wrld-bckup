@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 214856ac1ed141a439a81bddbbe7ddb1, type: 3}
+  m_Name: PetCareStatData
+  m_EditorClassIdentifier: 
+  sickHealthThreshold: 390
+  lowerHealthTimeInHour: 8
+  maxHappiness: 100
+  happyTimeLength: 576
+  happinessTickRate: 1
+  maxHunger: 100
+  hungerTimeLength: 288
+  hungerTickRate: 1
+  lowHungerThreshold: 10
+  lowerHungerTimeInDay: 7
+  maxCleanliness: 100
+  cleanTimeLength: 864
+  cleanlinessTickRate: 1
+  lowCleanlinessThreshold: 10
+  lowerCleanlinessTimeInDay: 21
+  maxEnergy: 100
+  energyTimeLength: 432
+  energyTickRate: 1
+  lowerSleepTimeInDay: 10
