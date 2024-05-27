@@ -266,7 +266,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
             GenratedPlayers.Add(d);
 
-            if (PathNumber >= 2)
+            if (PathNumber >= 0)
             {
                 NetwrokUI.Instance._OpenStartUI();
             }
