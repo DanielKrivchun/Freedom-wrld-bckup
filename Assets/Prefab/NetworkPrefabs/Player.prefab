@@ -254,7 +254,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.47, y: 0.5, z: 0.24}
   m_Center: {x: 0, y: 0.31, z: 0}
@@ -350,7 +350,7 @@ MonoBehaviour:
   PetConfigs: {fileID: 11400000, guid: 2726ba940c4abc448a48f08f07cc4bb2, type: 2}
   nameText: {fileID: 1881986423725643747}
   m_agent: {fileID: 1920933005764420817}
-  PetAnimation: {fileID: 0}
+  GenratedPet: {fileID: 0}
   playerName:
     _length: 0
     _data:
@@ -358,6 +358,8 @@ MonoBehaviour:
   move_positions: []
   IsServer: 0
   IsLocalPlayer: 0
+  RaceComplete: 0
   _MyName: 
   _MyPathNumber: 0
+  _MyPrefabID: 
   _MyWiningNumber: 0

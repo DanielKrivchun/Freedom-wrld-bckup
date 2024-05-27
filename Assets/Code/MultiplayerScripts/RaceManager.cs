@@ -50,7 +50,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public List<_AllPlayerData> GenratedPlayers;
 
-    private string selected_region;
+    private string selected_region = "";
 
     private void Awake()
     {
@@ -62,18 +62,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             Destroy(this.gameObject);
         }
-
-
-        string s1 = "C0 BETWEEN ";
-        string s2 = " AND C1";
-
-        Min = MyRank - 50;
-        Max = MyRank + 50;
-
-        string final = s1 + Min.ToString() + " AND " + Max.ToString() + s2;
-
-        Debug.Log(final);
-        Debug.Log("C0 BETWEEN 345 AND 475 AND C1");
     }
 
 
@@ -165,7 +153,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         if (selected_region.Length <= 0)
         {
             Debug.LogError("SELECT REGION");
-            return;
+            //return;
+            selected_region = "asia";
         }
 
         var appSettings = BuildCustomAppSetting(selected_region);
@@ -190,7 +179,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
 
 
-        var customProps = new Dictionary<string, SessionProperty>();
 
         string s1 = "C0 BETWEEN ";
         string s2 = " AND C1";
@@ -198,27 +186,40 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         Min = MyRank - 50;
         Max = MyRank + 50;
 
-        string final = s1 + Min.ToString() + " AND " + Max.ToString() + s2;
+        //string matchmakingstring = "C0 BETWEEN " + Min + " AND " + Max;
+        //string matchmakingstring = _GetMyRank();
 
-        string sqlLobbyFilter = final;
 
-        Debug.Log(sqlLobbyFilter);
+        //Debug.Log(matchmakingstring);
 
-        customProps["RANK"] = sqlLobbyFilter;
+        var customProps = new Dictionary<string, SessionProperty>();
 
+        customProps["RANK"] = _GetMyRank();
+        Debug.Log("MY RANK " + MyRank);
 
         await networkRunnerInstance.StartGame(new StartGameArgs
         {
             GameMode = mode,
             CustomLobbyName = "MyLobby",
-            SessionName = "TestRaceMap",
             PlayerCount = 5,
             Scene = scene,
             SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>(),
             SessionProperties = customProps,
             CustomPhotonAppSettings = appSettings
+
         });
 
+
+    }
+
+    string _GetMyRank()
+    {
+        if (MyRank < 50)
+        {
+            return "A";
+        }
+
+        return "B";
 
     }
 
