@@ -1,8 +1,10 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.ResourceManagement.ResourceProviders.AssetBundleResource;
 
 public class PetCareStateManager : MonoBehaviour
 {
@@ -24,7 +26,8 @@ public class PetCareStateManager : MonoBehaviour
     public GameObject sleepBtn;
 
     [Space]
-    public List<FoodObjects> foodObjs;
+    public FoodObjectHolder foodObjectHolder;
+    /*public List<FoodObjects> foodObjs;*/
     public List<Transform> foodSpawnTransforms;
 
     [HideInInspector]
@@ -127,6 +130,7 @@ public class PetCareStateManager : MonoBehaviour
     private bool isFoodItemsSet = false;
     private int foodSpawnIndex = 0;
 
+    private GameObject generatedFood;
     private List<GameObject> generatedFoodItems = new List<GameObject>();
 
     private void Awake()
@@ -144,6 +148,8 @@ public class PetCareStateManager : MonoBehaviour
     private void Start()
     {
         startPos = player.transform.position;
+
+        foodObjectHolder.ResetFoodObjects();
     }
 
     //Setting current pet care state and managing stat objects
@@ -220,73 +226,57 @@ public class PetCareStateManager : MonoBehaviour
         {
             for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
             {
-                for (int j = 0; j < foodObjs.Count; j++)
-                {
-                    if (petDataRef.petData.foodData[i].foodname == foodObjs[j].foodName)
-                    {
-                        //Setting available items on table
-                        GameObject food = Instantiate(foodObjs[j].foodObj, foodSpawnTransforms[foodSpawnIndex]);
-                        generatedFoodItems.Add(food);
-
-                        //Setting food spawn index and setting isFoodItemsSet bool to true
-                        foodSpawnIndex++;
-                        if (foodSpawnIndex >= foodSpawnTransforms.Count)
-                        {
-                            foodSpawnIndex = 0;
-                        }
-                    }
-                }
+                GenerateFoodAndSetTransformWithSpawnIndex(petDataRef.petData.foodData[i].foodname);
+                isFoodItemsSet = true;
             }
         }
     }
 
     //Generating food item on table
-    public void GenerateFoodItemOnTable(string foodName)
+    public void GenerateFoodItemOnTable(FoodItems foodType)
     {
-        for (int i = 0; i < foodObjs.Count; i++)
+        GenerateFoodAndSetTransformWithSpawnIndex(foodType);
+        isFoodItemsSet = true;
+
+        //Adding food item to Petdata
+        PetFoodData petFoodData = new PetFoodData
         {
-            if (foodName == foodObjs[i].foodName)
-            {
-                GameObject food = Instantiate(foodObjs[i].foodObj, foodSpawnTransforms[foodSpawnIndex]);
-                generatedFoodItems.Add(food);
+            foodname = foodType,
+            foodCount = 1
+        };
+        petDataRef.petData.foodData.Add(petFoodData);
+    }
 
-                //Setting food spawn index and setting isFoodItemsSet bool to true
-                foodSpawnIndex++;
-                if (foodSpawnIndex >= foodSpawnTransforms.Count)
-                {
-                    foodSpawnIndex = 0;
-                }
+    void GenerateFoodAndSetTransformWithSpawnIndex(FoodItems foodType)
+    {
+        generatedFood = foodObjectHolder.GetMyFood(foodType);
+        generatedFood.transform.SetParent(foodSpawnTransforms[foodSpawnIndex]);
+        generatedFood.transform.localPosition = Vector3.zero;
+        generatedFoodItems.Add(generatedFood);
+        generatedFood.GetComponent<EatObject>().foodSpawnIndex = foodSpawnIndex;
 
-                isFoodItemsSet = true;
-
-                //Adding food item to Petdata
-                PetFoodData petFoodData = new PetFoodData
-                {
-                    foodname = foodName,
-                    foodCount = 1
-                };
-                petDataRef.petData.foodData.Add(petFoodData);
-
-                break;
-            }
+        //Setting food spawn index and setting isFoodItemsSet bool to true
+        foodSpawnIndex++;
+        if (foodSpawnIndex >= foodSpawnTransforms.Count)
+        {
+            foodSpawnIndex = 0;
         }
     }
 
     //Removing used food item from Petdata
-    public void RemoveFoodFromTable(string foodName)
+    public void RemoveFoodFromTable(int foodSpawnIndex)
     {
-        for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
-        {
-            if (foodName == petDataRef.petData.foodData[i].foodname)
-            {
-                petDataRef.petData.foodData.RemoveAt(i);
-                generatedFoodItems.RemoveAt(i);
-                break;
-            }
-        }
+        petDataRef.petData.foodData.RemoveAt(foodSpawnIndex);
+        generatedFoodItems.RemoveAt(foodSpawnIndex);
+        StartCoroutine(RearrangeFoodObjectsOnTable(foodSpawnIndex));
+    }
 
-        foodSpawnIndex = 0;
-        for (int i = 0; i < petDataRef.petData.foodData.Count; i++)
+    IEnumerator RearrangeFoodObjectsOnTable(int removedIndex)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        foodSpawnIndex = removedIndex;
+        for (int i = removedIndex; i < petDataRef.petData.foodData.Count; i++)
         {
             generatedFoodItems[i].transform.SetParent(foodSpawnTransforms[foodSpawnIndex]);
             generatedFoodItems[i].transform.localPosition = Vector3.zero;
@@ -297,22 +287,8 @@ public class PetCareStateManager : MonoBehaviour
             {
                 foodSpawnIndex = 0;
             }
-        }        
-    }
-
-    /*void RearrangeFoodObjectsOnTable()
-    {
-        List<PetFoodData> tempList = new List<PetFoodData>(petDataRef.petData.foodData);
-        petDataRef.petData.foodData.Clear();
-        for (int i = 0; i < tempList.Count; i++)
-        {
-            if (tempList[i] != null)
-            {
-                tempList[i]..transform.SetParent(foodSpawnTransforms[i]);
-                petDataRef.petData.foodData.Add(tempList[i]);
-            }
         }
-    }*/
+    }
 
     //Update Pet from Sick to Healthy on use of Medicine
     public void UpdatePetSickToHealthy()
@@ -672,12 +648,4 @@ public class PetCareStateManager : MonoBehaviour
         petDataRef.petData.maxStamina = 90 + (petDataRef.petData.rank * 10);
         Debug.Log("MaxStamina - " + petDataRef.petData.maxStamina);
     }
-}
-
-
-[Serializable]
-public class FoodObjects
-{
-    public string foodName;
-    public GameObject foodObj;
 }

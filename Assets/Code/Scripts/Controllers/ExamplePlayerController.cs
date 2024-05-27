@@ -17,7 +17,7 @@ public class ExamplePlayerController : MonoBehaviour
         Debug.Log("Eating food");
         Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueId}");
 
-        PetCareStateManager.instance.GenerateFoodItemOnTable(item.itemName);
+        PetCareStateManager.instance.GenerateFoodItemOnTable(Utils.IdentifyMyFoodType(item.itemName));
     }
 
     public void UseMedicine(Item item)

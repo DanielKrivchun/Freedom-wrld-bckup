@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EatObject : MonoBehaviour
 {
-    public string foodName;
+    public FoodItems foodName;
+    public int foodSpawnIndex;
     public int decreaseHungerValue;
 
     private void OnMouseDown()
@@ -14,7 +15,7 @@ public class EatObject : MonoBehaviour
             PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Eating);
             PetCareStateManager.instance.ManageHungerDataFiller(decreaseHungerValue);
 
-            PetCareStateManager.instance.RemoveFoodFromTable(foodName);
+            PetCareStateManager.instance.RemoveFoodFromTable(foodSpawnIndex);
             gameObject.SetActive(false);
         //}
     }

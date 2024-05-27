@@ -74,6 +74,7 @@ public static class Utils
     {
         return networkObj.IsValid == networkObj.HasInputAuthority;
     }
+
     public static IEnumerator PlayAnimAndSetStateWhenFinished(GameObject parent, Animator animator, string clipName, bool activeStateAtTheEnd = true)
     {
         animator.Play(clipName);
@@ -83,5 +84,19 @@ public static class Utils
         yield return new WaitForSecondsRealtime(animationLengt);
 
         parent.SetActive(activeStateAtTheEnd);
+    }
+
+    public static FoodItems IdentifyMyFoodType(string foodName)
+    {
+        switch (foodName)
+        {
+            case "Apple":
+                return FoodItems.Apple;
+
+            case "Mushroom":
+                return FoodItems.Mushroom;
+        }
+
+        return FoodItems.None;
     }
 }

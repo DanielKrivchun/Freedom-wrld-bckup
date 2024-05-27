@@ -31,6 +31,6 @@ public class PetData
 [System.Serializable]
 public class PetFoodData
 {
-    public string foodname;
+    public FoodItems foodname;
     public int foodCount;
 }

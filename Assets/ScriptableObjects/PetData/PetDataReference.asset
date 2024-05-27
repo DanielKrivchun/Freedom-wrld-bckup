@@ -13,31 +13,31 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: Rod
-    health: 599
-    happiness: 89
-    hunger: 96
-    cleanliness: 95
-    energy: 87
+    petname: Max
+    health: 650
+    happiness: 100
+    hunger: 100
+    cleanliness: 100
+    energy: 100
     isSick: 0
-    birthTime: 5/24/2024 1:14:02 PM
-    lastTimeHappy: 5/24/2024 3:21:18 PM
-    lastTimeFeed: 5/24/2024 3:21:18 PM
-    lastTimeClean: 5/24/2024 3:16:30 PM
-    lastTimeEnergy: 5/24/2024 3:16:30 PM
-    sleepStartTime: 5/24/2024 1:14:02 PM
-    running: 18
-    climbing: 23
-    flying: 22
+    birthTime: 5/27/2024 9:28:12 AM
+    lastTimeHappy: 5/27/2024 9:29:24 AM
+    lastTimeFeed: 5/27/2024 9:29:36 AM
+    lastTimeClean: 5/27/2024 9:29:24 AM
+    lastTimeEnergy: 5/27/2024 9:29:24 AM
+    sleepStartTime: 5/27/2024 9:28:12 AM
+    running: 22
+    climbing: 22
+    flying: 19
     swimming: 17
-    intelligence: 11
-    luck: 9
+    intelligence: 10
+    luck: 10
     rank: 1
     maxStamina: 100
     xp: 0
     isSleeping: 0
     foodData:
-    - foodname: Apple
+    - foodname: 1
       foodCount: 1
-    - foodname: Mushroom
+    - foodname: 2
       foodCount: 1
