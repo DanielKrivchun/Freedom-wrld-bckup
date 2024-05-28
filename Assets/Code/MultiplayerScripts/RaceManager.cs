@@ -254,7 +254,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 PathNumber = 0;
             }
             Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
+            Debug.Log(spawnPoint);
             NetworkObject playerObject = Runner.Spawn(PlayerPrefab, spawnPoint, Quaternion.identity, playerRef);
+            playerObject.GetComponent<NetworkTransform>().transform.position = spawnPoint;
+            Debug.Log(playerObject.transform.position);
             playerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData(PathNumber);
             //playerı serverde yaptık.
             Runner.SetPlayerObject(playerRef, playerObject);
@@ -285,8 +288,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
             }
         }
-
-
     }
     #endregion
 
