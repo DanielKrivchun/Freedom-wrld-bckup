@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Beamable.CloudSavingService;
+using System;
 
 public class PetCareUIManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Pet Welcome Panel UI")]
     public Image selectedEggPet;
     public List<Sprite> petImages;
+    public PrefabHolder petPrefabs;
+    public Transform player;
 
     [Header("Set Pet Details Panel UI")]
     public InputField petInput;
@@ -108,9 +111,10 @@ public class PetCareUIManager : MonoBehaviour
     public GameObject rankUpPanel;
     public Text rankUpMsgTxt;
 
-    [Header("Shop UI")]
-    public GameObject storeflowPanel;
-    private int tempint;
+    [Header("Inventory UI")]
+    public GameObject inventoryPanel;
+
+    private int msgIndex;
     private List<string> msgList;
 
     private void Awake()
@@ -125,7 +129,7 @@ public class PetCareUIManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         happyBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Happy));
         eatBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Eat));
@@ -158,11 +162,12 @@ public class PetCareUIManager : MonoBehaviour
         }
     }
 
-    public void OnClickOfShopBtn()
+    public void OnClickOfInventoryBtn()
     {
         if (!petDataRef.petData.ongoingTrainingData.isTraining)
         {
-            storeflowPanel.SetActive(true);
+            inventoryPanel.SetActive(true);
+            
         }
         else
         {
@@ -206,7 +211,15 @@ public class PetCareUIManager : MonoBehaviour
         eggSelectionPanel.SetActive(false);
         welcomePanel.SetActive(true);
 
-        selectedEggPet.sprite = petImages[index];
+        selectedEggPet.sprite = petImages[index - 1];
+
+        SpawnPetPrefab(index);
+    }
+
+    public void SpawnPetPrefab(int petIndex)
+    {
+        petDataRef.petLocalData.petID = petIndex.ToString();
+        Instantiate(petPrefabs._GetMyPrefab(petIndex.ToString()), player);
     }
 
     public void NextFromWelcomePanel()
@@ -274,20 +287,24 @@ public class PetCareUIManager : MonoBehaviour
 
     public void ManageNotificationMsg(List<string> msgs)
     {
-        tempint = 0;
         msgList = msgs;
-        ShowNotificationUI(msgList[tempint]);
-        tempint++;
+        msgIndex = 0;
+
+        ShowNotificationUI(msgList[msgIndex]);
+        msgIndex++;
     }
 
     public void CheckAndCloseNotificationUI()
     {
-        if (msgList.Count > tempint)
+        if (msgList.Count > msgIndex)
         {
-            ShowNotificationUI(msgList[tempint]);
-            tempint++;
+            ShowNotificationUI(msgList[msgIndex]);
+            msgIndex++;
         }
-
+        else
+        {
+            notificationPopup.SetActive(false);
+        }
     }
 
     public void ShowPetDeathUI(string deathReason)

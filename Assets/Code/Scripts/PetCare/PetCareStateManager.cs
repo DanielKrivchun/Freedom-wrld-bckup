@@ -1,11 +1,9 @@
 using DG.Tweening;
-using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Reflection;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PetCareStateManager : MonoBehaviour
 {
@@ -258,13 +256,13 @@ public class PetCareStateManager : MonoBehaviour
         timingManager.gameObject.SetActive(true);
 
         //Happiness
-        int lostHappiness = ((int)(CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.lastTimeHappy) / petStatData.happyTimeLength)) * petStatData.happinessTickRate;
+        int lostHappiness = CalculateLostStatValue(petDataRef.petData.lastTimeHappy, petStatData.happyTimeLength, petStatData.happinessTickRate);
         Debug.Log("Lost Happiness - " + lostHappiness);
         ManageHappinessDataFiller(-lostHappiness);
 
 
         //Feed
-        int lostHunger = ((int)(CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.lastTimeFeed) / petStatData.hungerTimeLength)) * petStatData.hungerTickRate;
+        int lostHunger = CalculateLostStatValue(petDataRef.petData.lastTimeFeed, petStatData.hungerTimeLength, petStatData.hungerTickRate);
         Debug.Log("Lost Hunger - " + lostHunger);
 
         //Checking Pet Death Situation
@@ -279,7 +277,7 @@ public class PetCareStateManager : MonoBehaviour
 
 
         //Cleanliness
-        int lostCleanliness = ((int)(CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.lastTimeClean) / petStatData.cleanTimeLength)) * petStatData.cleanlinessTickRate;
+        int lostCleanliness = CalculateLostStatValue(petDataRef.petData.lastTimeClean, petStatData.cleanTimeLength, petStatData.cleanlinessTickRate);
         Debug.Log("Lost Cleanliness - " + lostCleanliness);
 
         //Checking Pet Death Situation
@@ -302,7 +300,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         //Energy
-        int lostEnergy = ((int)(CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.lastTimeEnergy) / petStatData.energyTimeLength)) * petStatData.energyTickRate;
+        int lostEnergy = CalculateLostStatValue(petDataRef.petData.lastTimeEnergy, petStatData.energyTimeLength, petStatData.energyTickRate);
         Debug.Log("Lost Energy - " + lostEnergy);
 
         ManageEnergyDataFiller(-lostEnergy);
@@ -334,21 +332,26 @@ public class PetCareStateManager : MonoBehaviour
             }
         }
 
-        List<string> templist = new List<string>();
+        //If there is no death of Pet then Spawn pet prefab
+        //petCareUIManager.SpawnPetPrefab(int.Parse(petDataRef.petLocalData.petID));
 
         //Check for last login
         if (IsUserLoginNewDay())
         {
             Debug.Log("UserLogin New Day!");
+            List<string> tempMsglist = new List<string>();
 
             if (!petDataRef.petData.isSick)
             {
-                templist.Add(PetGettingSickWithFluChance());
+                //Flu
+                tempMsglist.Add(PetGettingSickWithFluChance());
             }
 
-            templist.Add(PetGettingCoinsWithTreasureHuntChance());
+            //Treasure Hunt
+            tempMsglist.Add(PetGettingCoinsWithTreasureHuntChance());
 
-            petCareUIManager.ManageNotificationMsg(templist);
+            petCareUIManager.ManageNotificationMsg(tempMsglist);
+
             //Set Last Login Time to current
             //petDataRef.petData.lastLoginTime = DateTime.UtcNow.ToString();
         }
@@ -360,10 +363,18 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
+    //Calculating Lost Stat Vale
+    int CalculateLostStatValue(string lastTime, float timeLength, int tickRate)
+    {
+        return (int)(CheckTimeDiffWithCurrentTimeInSec(lastTime) / timeLength) * tickRate;
+    }
+
+    //Calculating Time diff with current time in seconds
     public float CheckTimeDiffWithCurrentTimeInSec(string lastTime)
     {
         return (float)(DateTime.UtcNow - DateTime.Parse(lastTime)).TotalSeconds;
     }
+
     #endregion
 
     #region CHECKING FOR PET DEATH
@@ -470,6 +481,7 @@ public class PetCareStateManager : MonoBehaviour
     }
     #endregion
 
+
     #region RANDOM EVENTS
     //Checking if user is login on new day
     public bool IsUserLoginNewDay()
@@ -504,17 +516,18 @@ public class PetCareStateManager : MonoBehaviour
         if (UnityEngine.Random.Range(0, 100) <= petStatData.treasureHuntChance)
         {
             int coins = (int)(1f / petDataRef.petData.rank * 100f);
-            //petCareUIManager.ShowNotificationUI(petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness");
 
             //Coins needs to be added
-            ManageCleanlinessDataFiller(-petStatData.cleanlinessTreasureHuntValue);
+            ManageCleanlinessDataFiller(petStatData.cleanlinessTreasureHuntValue);
 
+            //petCareUIManager.ShowNotificationUI(petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness");
             return petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness";
         }
 
         return null;
     }
     #endregion
+
 
     #region XP, RANK AND MAX STAMINA
     //Increase XP with value

@@ -2243,7 +2243,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -149.17734}
+  m_SizeDelta: {x: 0, y: -149.1514}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &76142900
 MonoBehaviour:
@@ -29977,8 +29977,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 367.8538, y: 0}
-  m_SizeDelta: {x: 735.7076, y: 84.71}
+  m_AnchoredPosition: {x: 367.8768, y: 0}
+  m_SizeDelta: {x: 735.7536, y: 84.71}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &835766058
 MonoBehaviour:
@@ -33761,17 +33761,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1334679533}
-        m_TargetAssemblyTypeName: PetCareUIManager, Assembly-CSharp
-        m_MethodName: OnClickOfShopBtn
-        m_Mode: 1
+      - m_Target: {fileID: 1054978427}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &969107251
 MonoBehaviour:
@@ -34298,17 +34298,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1771055722}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1334679533}
+        m_TargetAssemblyTypeName: PetCareUIManager, Assembly-CSharp
+        m_MethodName: OnClickOfInventoryBtn
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 434127437}
         m_TargetAssemblyTypeName: GetItems, Assembly-CSharp
@@ -35017,7 +35017,7 @@ PrefabInstance:
     - target: {fileID: 2994370629541192048, guid: 112e55a71f90a46e0bb52e8331703ff3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 735.7076
+      value: 735.7536
       objectReference: {fileID: 0}
     - target: {fileID: 2994370629541192048, guid: 112e55a71f90a46e0bb52e8331703ff3,
         type: 3}
@@ -42287,8 +42287,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 367.8538, y: -249.29868}
-  m_SizeDelta: {x: 735.7076, y: 329.17734}
+  m_AnchoredPosition: {x: 367.8768, y: -249.2857}
+  m_SizeDelta: {x: 735.7536, y: 329.1514}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1205162252
 MonoBehaviour:
@@ -42488,7 +42488,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -555.7076, y: 0}
+  m_SizeDelta: {x: -555.7536, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1210105394
 MonoBehaviour:
@@ -44729,10 +44729,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1580259731}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1334679533}
+        m_TargetAssemblyTypeName: PetCareUIManager, Assembly-CSharp
+        m_MethodName: CheckAndCloseNotificationUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -48225,6 +48225,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e3e8a399e5ae9544c820e25d9af98b26, type: 3}
   - {fileID: 21300000, guid: df74a1b742133ab4080ea4ae0b223030, type: 3}
   - {fileID: 21300000, guid: 259cd4e8f5827d84f96b783d5ad6c8bc, type: 3}
+  petPrefabs: {fileID: 11400000, guid: 389266f003d81b448810020effc29434, type: 2}
+  player: {fileID: 281894568}
   petInput: {fileID: 11014039}
   abilityStatsTxt: {fileID: 175199326}
   maxAbilityStatLimit: 80
@@ -48270,7 +48272,7 @@ MonoBehaviour:
   petDeathReasonTxt: {fileID: 1865022492}
   rankUpPanel: {fileID: 277769819}
   rankUpMsgTxt: {fileID: 1031999346}
-  storeflowPanel: {fileID: 0}
+  inventoryPanel: {fileID: 0}
 --- !u!4 &1334679534
 Transform:
   m_ObjectHideFlags: 0
@@ -57545,7 +57547,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -61860,7 +61862,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -68473,7 +68475,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -70830,7 +70832,7 @@ PrefabInstance:
     - target: {fileID: 1953933317121552194, guid: 8fb4cbc029dc6404093cea3a309ca187,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 635.7076
+      value: 635.7536
       objectReference: {fileID: 0}
     - target: {fileID: 1953933317121552194, guid: 8fb4cbc029dc6404093cea3a309ca187,
         type: 3}
@@ -70875,7 +70877,7 @@ PrefabInstance:
     - target: {fileID: 1953933317121552194, guid: 8fb4cbc029dc6404093cea3a309ca187,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 367.8538
+      value: 367.8768
       objectReference: {fileID: 0}
     - target: {fileID: 1953933317121552194, guid: 8fb4cbc029dc6404093cea3a309ca187,
         type: 3}
@@ -74893,6 +74895,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777742968758945153, guid: 05af632de9ea90b4da9df4169d2c8a95,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
