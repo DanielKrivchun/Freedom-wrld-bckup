@@ -110,7 +110,7 @@ public class PetCareUIManager : MonoBehaviour
 
     [Header("Shop UI")]
     public GameObject storeflowPanel;
-
+    private int tempint;
     private List<string> msgList;
 
     private void Awake()
@@ -235,22 +235,22 @@ public class PetCareUIManager : MonoBehaviour
 
     public void SubmitPetDetails()
     {
-        if(petInput.text == "")
+        if (petInput.text == "")
         {
             StartCoroutine(ShowNoticeTxt("Please enter valid Pet name!"));
         }
-        else if((runningSliderPetCreation.value + climbingSliderPetCreation.value 
+        else if ((runningSliderPetCreation.value + climbingSliderPetCreation.value
                 + flyingSliderPetCreation.value + swimmingSliderPetCreation.value) > maxAbilityStatLimit)
         {
             StartCoroutine(ShowNoticeTxt("Please select Ability stats within Max limit!"));
         }
-        else if((intelligenceSliderPetCreation.value + luckSliderPetCreation.value) > maxChanceStatLimit)
+        else if ((intelligenceSliderPetCreation.value + luckSliderPetCreation.value) > maxChanceStatLimit)
         {
             StartCoroutine(ShowNoticeTxt("Please select Chance stats within Max limit!"));
         }
         else
         {
-            BeamableCloudSaveManager.instance.CreateNewPet(petInput.text, (int)runningSliderPetCreation.value, (int)climbingSliderPetCreation.value, (int)flyingSliderPetCreation.value, 
+            BeamableCloudSaveManager.instance.CreateNewPet(petInput.text, (int)runningSliderPetCreation.value, (int)climbingSliderPetCreation.value, (int)flyingSliderPetCreation.value,
                                                             (int)swimmingSliderPetCreation.value, (int)intelligenceSliderPetCreation.value, (int)luckSliderPetCreation.value);
             setPetDetailsPanel.SetActive(false);
             petCreationPanelMain.SetActive(false);
@@ -272,18 +272,22 @@ public class PetCareUIManager : MonoBehaviour
         notificationPopup.SetActive(true);
     }
 
-    void ManageNotificationMsg(List<string> msgs)
+    public void ManageNotificationMsg(List<string> msgs)
     {
+        tempint = 0;
         msgList = msgs;
+        ShowNotificationUI(msgList[tempint]);
+        tempint++;
     }
 
     public void CheckAndCloseNotificationUI()
     {
-        msgList.RemoveAt(0);
-        if (msgList.Count >= 1)
+        if (msgList.Count > tempint)
         {
-            ShowNotificationUI(msgList[0]);
+            ShowNotificationUI(msgList[tempint]);
+            tempint++;
         }
+
     }
 
     public void ShowPetDeathUI(string deathReason)
@@ -294,7 +298,7 @@ public class PetCareUIManager : MonoBehaviour
 
     public void ShowRankUpUI()
     {
-        rankUpMsgTxt.text = petDataRef.petData.petname + " just moved up to Rank " + petDataRef.petData.rank +"!\n" +
+        rankUpMsgTxt.text = petDataRef.petData.petname + " just moved up to Rank " + petDataRef.petData.rank + "!\n" +
                             petDataRef.petData.petname + "'s Max Stamina is now " + petDataRef.petData.maxStamina + ".\n" +
                             "You've earned X Coins.\n" +
                             petDataRef.petData.petname + " can now compete against Rank " + petDataRef.petData.rank + " pets in Races.";

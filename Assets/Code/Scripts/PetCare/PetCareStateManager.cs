@@ -334,6 +334,8 @@ public class PetCareStateManager : MonoBehaviour
             }
         }
 
+        List<string> templist = new List<string>();
+
         //Check for last login
         if (IsUserLoginNewDay())
         {
@@ -341,11 +343,12 @@ public class PetCareStateManager : MonoBehaviour
 
             if (!petDataRef.petData.isSick)
             {
-                PetGettingSickWithFluChance();
+                templist.Add(PetGettingSickWithFluChance());
             }
 
-            PetGettingCoinsWithTreasureHuntChance();
+            templist.Add(PetGettingCoinsWithTreasureHuntChance());
 
+            petCareUIManager.ManageNotificationMsg(templist);
             //Set Last Login Time to current
             //petDataRef.petData.lastLoginTime = DateTime.UtcNow.ToString();
         }
@@ -367,7 +370,7 @@ public class PetCareStateManager : MonoBehaviour
     public bool IsPetDeathDueToHunger()
     {
         int lowHunger;
-        
+
         //Checking for Hunger time after Hunger <= 10
         if (petDataRef.petData.hunger > petStatData.lowHungerThreshold)
         {
@@ -482,27 +485,34 @@ public class PetCareStateManager : MonoBehaviour
     }
 
     //Flu (Random Event)
-    public void PetGettingSickWithFluChance()
+    public string PetGettingSickWithFluChance()
     {
-        if(UnityEngine.Random.Range(0, 100) <= petStatData.fluChance)
+        if (UnityEngine.Random.Range(0, 100) <= petStatData.fluChance)
         {
             petDataRef.petData.isSick = true;
 
-            petCareUIManager.ShowNotificationUI("Oh no, " + petDataRef.petData.petname + " caught a flu! \nBuy / Use a Medicine bottle for them to make them all better!");
+            return "Oh no, " + petDataRef.petData.petname + " caught a flu! \nBuy / Use a Medicine bottle for them to make them all better!";
+            //petCareUIManager.ShowNotificationUI("Oh no, " + petDataRef.petData.petname + " caught a flu! \nBuy / Use a Medicine bottle for them to make them all better!");
         }
+
+        return null;
     }
 
     //Treasure Hunt (Random Event)
-    public void PetGettingCoinsWithTreasureHuntChance()
+    public string PetGettingCoinsWithTreasureHuntChance()
     {
         if (UnityEngine.Random.Range(0, 100) <= petStatData.treasureHuntChance)
         {
             int coins = (int)(1f / petDataRef.petData.rank * 100f);
-            petCareUIManager.ShowNotificationUI(petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness");
+            //petCareUIManager.ShowNotificationUI(petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness");
 
             //Coins needs to be added
             ManageCleanlinessDataFiller(-petStatData.cleanlinessTreasureHuntValue);
+
+            return petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness";
         }
+
+        return null;
     }
     #endregion
 
