@@ -147,9 +147,9 @@ namespace Beamable.CloudSavingService
         {
             string currentTime = DateTime.UtcNow.ToString();
             petDataRef.SetPetAllData(petName, 650, 100, 100, 100, 100, false,
-                                        currentTime, currentTime, currentTime, currentTime, currentTime,
+                                        currentTime, currentTime, currentTime, currentTime, currentTime, currentTime,
                                         running, climbing, flying, swimming, intelligence, luck, 
-                                        currentTime, false, 1, 0, 100);
+                                        1, 0, 100);
 
             beamableCloudSavingData.petDataLocal = petDataRef.petData;
             SaveData(beamableCloudSavingData.petDataLocal);

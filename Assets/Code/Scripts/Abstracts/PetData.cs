@@ -11,7 +11,7 @@ public class PetData
     public bool isSick;
 
     //Timings
-    public string birthTime, lastTimeHappy, lastTimeFeed, lastTimeClean, lastTimeEnergy, sleepStartTime;
+    public string birthTime, lastTimeHappy, lastTimeFeed, lastTimeClean, lastTimeEnergy, lastLoginTime;
 
     //Athletics Stats
     public int running, climbing, flying, swimming;
@@ -23,11 +23,21 @@ public class PetData
     public int rank, maxStamina;
     public float xp;
 
-    public bool isSleeping;
+    //Sleep Data
+    public PetSleepData sleepData;
 
+    //Food Data
     public List<PetFoodData> foodData;
 
+    //Training Data
     public PetOngoingTrainingData ongoingTrainingData;
+}
+
+[System.Serializable]
+public class PetSleepData
+{
+    public bool isSleeping;
+    public string sleepStartTime;
 }
 
 [System.Serializable]
@@ -42,5 +52,6 @@ public class PetOngoingTrainingData
 {
     public bool isTraining;
     public PetTraining ongoingTraining;
+    public string ongoingTrainingName;
     public string trainingStartTime;
 }

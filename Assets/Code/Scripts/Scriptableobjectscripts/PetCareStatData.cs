@@ -87,4 +87,21 @@ public class PetCareStatData : ScriptableObject
     ///  lowerSleepTimeInDay = 10
     /// </summary> 
     public float lowerSleepTimeInDay;
+
+    [Header("Flu (Random Event)")]
+    /// <summary>
+    ///  Pet has a 3% chance getting sick / flu
+    ///  fluChance = 3
+    /// </summary> 
+    public int fluChance;
+
+    [Header("Treasure Hunt (Random Event)")]
+    /// <summary>
+    ///  Pet has a 50% chance of getting ([1/Rank] * 100) number of coins & -20 cleanliness
+    ///  treasureHuntChance = 50
+    ///  coins = [1/Rank] * 100
+    ///  cleanlinessTreasureHuntValue = -20
+    /// </summary> 
+    public int treasureHuntChance;
+    public int cleanlinessTreasureHuntValue;
 }

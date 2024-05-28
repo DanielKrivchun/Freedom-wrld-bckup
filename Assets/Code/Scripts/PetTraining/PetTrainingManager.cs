@@ -108,22 +108,27 @@ public class PetTrainingManager : MonoBehaviour
         {
             case PetTraining.Running:
                 currentTrainingData = runningTrainingData;
+                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Running";
                 break;
 
             case PetTraining.Climbing:
                 currentTrainingData = climbingTrainingData;
+                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Climbing";
                 break;
 
             case PetTraining.Swimming:
                 currentTrainingData = swimmingTrainingData;
+                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Swimming";
                 break;
 
             case PetTraining.Flying:
                 currentTrainingData = flyingTrainingData;
+                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Flying";
                 break;
 
             case PetTraining.Intelligence:
                 currentTrainingData = inteligenceTrainingData;
+                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Intelligence";
                 break;
         }
 
@@ -257,14 +262,14 @@ public class PetTrainingManager : MonoBehaviour
         //Reset all data
         petDataRef.petData.ongoingTrainingData.isTraining = false;
         petDataRef.petData.ongoingTrainingData.ongoingTraining = PetTraining.NotSelected;
+        petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "None";
         currentTrainingData = null;
     }
     #endregion
 
-    #region Check For Any Ongoing Training
+    #region CHECK FOR ONGOING TRAINING
     public void CheckForAnyOngoingTraining()
     {
-        Debug.Log("Checking For Any Ongoing Training");
         switch (petDataRef.petData.ongoingTrainingData.ongoingTraining)
         {
             case PetTraining.Running:
