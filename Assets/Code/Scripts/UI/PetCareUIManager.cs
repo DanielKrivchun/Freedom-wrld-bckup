@@ -111,6 +111,8 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Shop UI")]
     public GameObject storeflowPanel;
 
+    private List<string> msgList;
+
     private void Awake()
     {
         if (instance == null)
@@ -268,6 +270,20 @@ public class PetCareUIManager : MonoBehaviour
     {
         notificationMsgTxt.text = msg;
         notificationPopup.SetActive(true);
+    }
+
+    void ManageNotificationMsg(List<string> msgs)
+    {
+        msgList = msgs;
+    }
+
+    public void CheckAndCloseNotificationUI()
+    {
+        msgList.RemoveAt(0);
+        if (msgList.Count >= 1)
+        {
+            ShowNotificationUI(msgList[0]);
+        }
     }
 
     public void ShowPetDeathUI(string deathReason)

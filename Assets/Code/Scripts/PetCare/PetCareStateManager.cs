@@ -345,11 +345,10 @@ public class PetCareStateManager : MonoBehaviour
             }
 
             PetGettingCoinsWithTreasureHuntChance();
-        }
 
-        //Set Last Login Time to current
-        //petDataRef.petData.lastLoginTime = DateTime.UtcNow.ToString();
-        
+            //Set Last Login Time to current
+            //petDataRef.petData.lastLoginTime = DateTime.UtcNow.ToString();
+        }
 
         //Check for any ongoing Training
         if (petDataRef.petData.ongoingTrainingData.isTraining)
@@ -472,11 +471,6 @@ public class PetCareStateManager : MonoBehaviour
     //Checking if user is login on new day
     public bool IsUserLoginNewDay()
     {
-        DateTime lastLogin = DateTime.Parse(petDataRef.petData.lastLoginTime);
-        Debug.Log("LastLoginDate" + lastLogin.Date);
-        DateTime currentDate = DateTime.Now.Date;
-        Debug.Log("CurrentLoginDate" + currentDate);
-
         if ((DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastLoginTime)).TotalDays >= 1)
         {
             return true;
@@ -493,6 +487,7 @@ public class PetCareStateManager : MonoBehaviour
         if(UnityEngine.Random.Range(0, 100) <= petStatData.fluChance)
         {
             petDataRef.petData.isSick = true;
+
             petCareUIManager.ShowNotificationUI("Oh no, " + petDataRef.petData.petname + " caught a flu! \nBuy / Use a Medicine bottle for them to make them all better!");
         }
     }
