@@ -22,7 +22,7 @@ public class NavMeshController : MonoBehaviour
 
     private List<Vector3> m_positions;
     private float m_distance;
-
+    public PetAnimation GenratedPet;
     #endregion
 
 
@@ -37,12 +37,19 @@ public class NavMeshController : MonoBehaviour
     {
         m_camera = Camera.main;
         m_agent = GetComponent<NavMeshAgent>();
-
+        m_currunt_index = 0;
         if (m_input_value.m_enable_navmesh)
         {
             _InitilizePath();
             _SetDestination(m_positions[m_currunt_index]);
+            _ChangeAnimationHere(_AnimState.Run);
         }
+    }
+
+    private void _ChangeAnimationHere(_AnimState _state)
+    {
+        Debug.Log("Changed ANimation here");
+        GenratedPet._ChangeAnimationState(_state);
     }
 
 
@@ -84,7 +91,7 @@ public class NavMeshController : MonoBehaviour
     void _InitilizePath()
     {
         m_positions = new List<Vector3>();
-        m_positions = m_path_point._GetMyPath();
+        m_positions = m_path_point.prePositions[0].m_positions;
     }
 
     public void _SetDestination(Vector3 _target_pos)

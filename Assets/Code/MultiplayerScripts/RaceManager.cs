@@ -301,7 +301,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        //throw new NotImplementedException();
+        //throw new NotImplementedException();x
     }
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
