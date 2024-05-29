@@ -95,6 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_input_value: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
   m_path_point: {fileID: 0}
+  GenratedPet: {fileID: 0}
 --- !u!195 &7708139451570835108
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -104,7 +105,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5705056805687535909}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
@@ -113,7 +114,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 0.61
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
