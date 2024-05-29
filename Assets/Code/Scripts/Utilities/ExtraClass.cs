@@ -11,11 +11,12 @@ public enum _AnimState
     Run,
     Eating,
     Jump,
-    Running,
+    Flying,
+    Swimming,
     Happy,
-    Toilet,
     Bath,
-    Sleep
+    Sleep,
+    Sick
 }
 
 public enum _Playertate
@@ -43,6 +44,7 @@ public class _Strings
     public static string Toilet = "Toilet";
     public static string Bath = "Bath";
     public static string IsSleeping = "IsSleeping";
+    public static string IsSick = "IsSick";
 }
 
 public struct _Tags

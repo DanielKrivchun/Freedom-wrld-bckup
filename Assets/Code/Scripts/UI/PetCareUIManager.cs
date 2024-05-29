@@ -99,6 +99,10 @@ public class PetCareUIManager : MonoBehaviour
     public Text intelligenceStatTxt;
     public Text luckStatTxt;
 
+    [Header("Pet Sick Label UI")]
+    public GameObject sickLabel;
+    public Text sickLabelTxt;
+
     [Header("Notification UI")]
     public GameObject notificationPopup;
     public Text notificationMsgTxt;
@@ -135,6 +139,11 @@ public class PetCareUIManager : MonoBehaviour
         eatBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Eat));
         cleanBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Clean));
         sleepBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Energy));
+    }
+
+    private void Start()
+    {
+        msgList = new List<string>();
     }
 
     #region BUTTON CLICK EVENTS
@@ -279,6 +288,27 @@ public class PetCareUIManager : MonoBehaviour
     }
     #endregion
 
+    #region PET SICK LABEL UI
+    public void ShowPetSickLabel()
+    {
+        if(!sickLabel.activeInHierarchy)
+        {
+            sickLabelTxt.text = petDataRef.petData.petname + " is sick! \nThey need medicine.";
+            sickLabel.SetActive(true);
+            
+            StartCoroutine(ClosePetSickLabel(5f));
+        }
+    }
+
+    public IEnumerator ClosePetSickLabel(float timeInSec)
+    {
+        yield return new WaitForSeconds(timeInSec);
+        sickLabel.SetActive(false);
+    }
+
+    #endregion
+
+    #region NOTIFICATION POPUP UI
     public void ShowNotificationUI(string msg)
     {
         notificationMsgTxt.text = msg;
@@ -296,7 +326,7 @@ public class PetCareUIManager : MonoBehaviour
 
     public void CheckAndCloseNotificationUI()
     {
-        if (msgList.Count > msgIndex)
+        if (msgList.Count != 0 && msgList.Count > msgIndex)
         {
             ShowNotificationUI(msgList[msgIndex]);
             msgIndex++;
@@ -306,13 +336,17 @@ public class PetCareUIManager : MonoBehaviour
             notificationPopup.SetActive(false);
         }
     }
+    #endregion
 
+    #region PET DEATH UI
     public void ShowPetDeathUI(string deathReason)
     {
         petDeathReasonTxt.text = deathReason;
         petDeathPanel.SetActive(true);
     }
+    #endregion
 
+    #region RANK UP UI
     public void ShowRankUpUI()
     {
         rankUpMsgTxt.text = petDataRef.petData.petname + " just moved up to Rank " + petDataRef.petData.rank + "!\n" +
@@ -321,4 +355,5 @@ public class PetCareUIManager : MonoBehaviour
                             petDataRef.petData.petname + " can now compete against Rank " + petDataRef.petData.rank + " pets in Races.";
         rankUpPanel.SetActive(true);
     }
+    #endregion
 }

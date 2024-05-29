@@ -184,6 +184,7 @@ public class PetCareStateManager : MonoBehaviour
         if (petDataRef.petData.isSick)
         {
             petDataRef.petData.isSick = false;
+            StartCoroutine(petCareUIManager.ClosePetSickLabel(0.5f));
             petCareUIManager.ShowNotificationUI("Nice job! \nYour pet is all better");
         }
     }
@@ -197,11 +198,13 @@ public class PetCareStateManager : MonoBehaviour
         if (!petDataRef.petData.isSick && petDataRef.petData.health < petStatData.sickHealthThreshold)
         {
             petDataRef.petData.isSick = true;
+            petCareUIManager.ShowPetSickLabel();
         }
 
         //Pet is sick so clamp health to sick thresold
         if (petDataRef.petData.isSick)
         {
+            petCareUIManager.ShowPetSickLabel();
             petDataRef.petData.health = Mathf.Clamp(petDataRef.petData.health, 0, petStatData.sickHealthThreshold);
         }
     }
@@ -353,7 +356,7 @@ public class PetCareStateManager : MonoBehaviour
             petCareUIManager.ManageNotificationMsg(tempMsglist);
 
             //Set Last Login Time to current
-            //petDataRef.petData.lastLoginTime = DateTime.UtcNow.ToString();
+            petDataRef.petData.lastLoginTime = DateTime.UtcNow.ToString();
         }
 
         //Check for any ongoing Training
@@ -502,9 +505,8 @@ public class PetCareStateManager : MonoBehaviour
         if (UnityEngine.Random.Range(0, 100) <= petStatData.fluChance)
         {
             petDataRef.petData.isSick = true;
-
+            petCareUIManager.ShowPetSickLabel();
             return "Oh no, " + petDataRef.petData.petname + " caught a flu! \nBuy / Use a Medicine bottle for them to make them all better!";
-            //petCareUIManager.ShowNotificationUI("Oh no, " + petDataRef.petData.petname + " caught a flu! \nBuy / Use a Medicine bottle for them to make them all better!");
         }
 
         return null;
@@ -520,7 +522,6 @@ public class PetCareStateManager : MonoBehaviour
             //Coins needs to be added
             ManageCleanlinessDataFiller(petStatData.cleanlinessTreasureHuntValue);
 
-            //petCareUIManager.ShowNotificationUI(petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness");
             return petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness";
         }
 
