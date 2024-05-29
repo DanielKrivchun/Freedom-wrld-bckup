@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     private Vector3 _currentVelocity = Vector3.zero;
 
 
+
     // Start is called before the first frame update
     void Awake()
     {
