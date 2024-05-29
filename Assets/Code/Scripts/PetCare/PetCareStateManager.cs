@@ -336,7 +336,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         //If there is no death of Pet then Spawn pet prefab
-        //petCareUIManager.SpawnPetPrefab(int.Parse(petDataRef.petLocalData.petID));
+        petCareUIManager.SpawnPetPrefab(int.Parse(petDataRef.petLocalData.petID));
 
         //Check for last login
         if (IsUserLoginNewDay())

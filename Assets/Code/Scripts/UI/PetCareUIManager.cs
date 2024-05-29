@@ -228,7 +228,8 @@ public class PetCareUIManager : MonoBehaviour
     public void SpawnPetPrefab(int petIndex)
     {
         petDataRef.petLocalData.petID = petIndex.ToString();
-        Instantiate(petPrefabs._GetMyPrefab(petIndex.ToString()), player);
+        GameObject pet = Instantiate(petPrefabs._GetMyPrefab(petIndex.ToString()), player);
+        PetCareInputManager.instance.petAnim = pet.GetComponent<PetAnimation>();
     }
 
     public void NextFromWelcomePanel()

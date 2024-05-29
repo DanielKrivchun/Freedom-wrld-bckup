@@ -6,9 +6,11 @@ public class PetCareInputManager : MonoBehaviour
 {
     public static PetCareInputManager instance;
 
-    public PetAnimation petAnim;
     public PetCareStateManager petCareStateManager;
 
+    [HideInInspector]
+    public PetAnimation petAnim;
+    
     private void Awake()
     {
         if (instance == null)
