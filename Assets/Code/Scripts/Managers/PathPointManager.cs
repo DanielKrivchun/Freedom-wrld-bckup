@@ -1,35 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PathPointManager : MonoBehaviour
 {
-    public List<_WayPoints> m_way_points;
+
+    public List<_PrePositions> prePositions;
+
+
     public bool m_randomized;
     public int StraightNo;
 
-    public List<_PrePositions> prePositions;
+    [Space]
+    public AnimationCurve LineCurve;
 
     public List<Vector3> _GetMyPath()
     {
 
         List<Vector3> v = new List<Vector3>();
 
-        int m_count = m_way_points.Count;
+        int m_count = WayPoints.Count;
         int m_random_no = Random.Range(0, 5);
 
-        for (int i = 0; i < m_count; i++)
+
+        foreach (Transform child in PathParents[StraightNo].transform)
         {
-            if (m_randomized)
-            {
-                m_random_no = Random.Range(0, m_way_points[i].m_points.Length);
-            }
-            else
-            {
-                m_random_no = StraightNo;
-            }
-            v.Add(m_way_points[i].m_points[m_random_no].position);
+            Debug.Log(child.gameObject.name);
+            v.Add(child.position);
         }
+
 #if UNITY_EDITOR
 
         _PrePositions pre = new _PrePositions();
@@ -44,8 +42,11 @@ public class PathPointManager : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    public List<GameObject> m_lines;
-
+    public List<GameObject> Lines;
+    public List<Transform> Transforms;
+    public List<_WayPoints> WayPoints;
+    [Space]
+    public List<Transform> PathParents;
 
     public void _GenratePathLines()
     {
@@ -57,9 +58,10 @@ public class PathPointManager : MonoBehaviour
     {
         GameObject obj = new GameObject();
         obj.AddComponent<LineRenderer>();
+        obj.GetComponent<LineRenderer>().widthCurve = LineCurve;
         obj.transform.position = Vector3.zero;
         obj.transform.rotation = Quaternion.identity;
-        m_lines.Add(obj);
+        Lines.Add(obj);
         LineRenderer m_line = obj.GetComponent<LineRenderer>();
         m_line.positionCount = m_v.Count;
         m_line.SetPositions(m_v.ToArray());
@@ -68,16 +70,52 @@ public class PathPointManager : MonoBehaviour
 
     public void _Reset()
     {
-        foreach (var item in m_lines)
+        foreach (var item in Lines)
         {
             if (item != null)
             {
-
                 DestroyImmediate(item);
             }
         }
 
-        m_lines.Clear();
+        Lines.Clear();
+    }
+
+    public void _GenratePathPoints()
+    {
+        WayPoints = new List<_WayPoints>();
+
+        _WayPoints W = new _WayPoints();
+
+        int a = 0;
+        int b = 0;
+        foreach (var item in Transforms)
+        {
+            item.name = a.ToString();
+
+            W = new _WayPoints();
+            W.m_points = new List<Transform>();
+
+
+            foreach (Transform i in item.transform)
+            {
+                Debug.Log(b + "  " + i.name);
+
+                W.m_points.Add(i);
+            }
+            WayPoints.Add(W);
+
+            b = 0;
+            foreach (var e in W.m_points)
+            {
+                e.SetParent(PathParents[b]);
+                b++;
+            }
+
+            a++;
+        }
+
+
     }
 
 #endif

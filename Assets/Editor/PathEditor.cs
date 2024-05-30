@@ -15,6 +15,11 @@ public class PathEditor : Editor
 
         GUILayout.Space(10);
 
+        if (GUILayout.Button("GetAll Path Objects"))
+        {
+            Target._GenratePathPoints();
+        }
+        GUILayout.Space(10);
         if (GUILayout.Button("Genrate Path"))
         {
             Target._GenratePathLines();

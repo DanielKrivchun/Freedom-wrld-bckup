@@ -2,6 +2,7 @@
 
 using Fusion;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum _AnimState
@@ -31,7 +32,7 @@ public enum _Playertate
 [System.Serializable]
 public class _WayPoints
 {
-    public Transform[] m_points;
+    public List<Transform> m_points;
 }
 
 public class _Strings

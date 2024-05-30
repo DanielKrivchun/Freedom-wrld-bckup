@@ -10,6 +10,8 @@ public class NavMeshController : MonoBehaviour
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
     [Space]
+    public int CUrrntPathNo;
+    [Space]
     public PathPointManager m_path_point;
     #endregion
 
@@ -91,7 +93,7 @@ public class NavMeshController : MonoBehaviour
     void _InitilizePath()
     {
         m_positions = new List<Vector3>();
-        m_positions = m_path_point.prePositions[0].m_positions;
+        m_positions = m_path_point.prePositions[CUrrntPathNo].m_positions;
     }
 
     public void _SetDestination(Vector3 _target_pos)
