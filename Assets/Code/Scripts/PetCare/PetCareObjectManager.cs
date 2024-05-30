@@ -8,7 +8,7 @@ public class PetCareObjectManager : MonoBehaviour
     [Space]
     public GameObject eatObjectHolder;
     public GameObject bathObjectHolder;
-    public GameObject sleepBtn;
+    public GameObject sleepCanvas;
 
     public void ManagePetCareObjects(PetCareState state)
     {
@@ -17,7 +17,7 @@ public class PetCareObjectManager : MonoBehaviour
             case PetCareState.Happy:
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
-                sleepBtn.SetActive(false);
+                sleepCanvas.SetActive(false);
                 break;
 
             case PetCareState.Eat:
@@ -25,18 +25,17 @@ public class PetCareObjectManager : MonoBehaviour
 
                 eatObjectHolder.SetActive(true);
                 bathObjectHolder.SetActive(false);
-                sleepBtn.SetActive(false);
+                sleepCanvas.SetActive(false);
                 break;
 
             case PetCareState.Clean:
                 bathObjectHolder.SetActive(true);
                 eatObjectHolder.SetActive(false);
-                sleepBtn.SetActive(false);
+                sleepCanvas.SetActive(false);
                 break;
 
             case PetCareState.Energy:
-                sleepBtn.SetActive(true);
-                sleepBtn.GetComponent<Button>().interactable = true;
+                sleepCanvas.SetActive(true);
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
                 break;
@@ -44,7 +43,7 @@ public class PetCareObjectManager : MonoBehaviour
             default:
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
-                sleepBtn.SetActive(false);
+                sleepCanvas.SetActive(false);
                 break;
         }
     }

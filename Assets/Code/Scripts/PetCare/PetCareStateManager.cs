@@ -25,9 +25,6 @@ public class PetCareStateManager : MonoBehaviour
     public FoodObjectHolder foodObjectHolder;
     public List<Transform> foodSpawnTransforms;
 
-    [HideInInspector]
-    public bool isReadyForBath;
-
     [Header("Pet Stat Data")]
     public PetCareStatData petStatData;
 
@@ -311,6 +308,18 @@ public class PetCareStateManager : MonoBehaviour
 
         ManageEnergyDataFiller(-lostEnergy);
 
+        //Checking Pet Death Situation
+        if (petDataRef.petData.happiness == 0 && petDataRef.petData.hunger == 0 && petDataRef.petData.cleanliness == 0 && petDataRef.petData.energy == 0)
+        {
+            if (IsPetDeathDueToHealth(lostHappiness, lostHunger, lostCleanliness, lostEnergy))
+            {
+                return;
+            }
+        }
+
+        //If there is no death of Pet then Spawn pet prefab
+        petCareUIManager.SpawnPetPrefab();
+
         //Sleep
         if (petDataRef.petData.sleepData.isSleeping)
         {
@@ -329,18 +338,6 @@ public class PetCareStateManager : MonoBehaviour
                 PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sleep);
             }
         }
-
-        //Checking Pet Death Situation
-        if (petDataRef.petData.happiness == 0 && petDataRef.petData.hunger == 0 && petDataRef.petData.cleanliness == 0 && petDataRef.petData.energy == 0)
-        {
-            if (IsPetDeathDueToHealth(lostHappiness, lostHunger, lostCleanliness, lostEnergy))
-            {
-                return;
-            }
-        }
-
-        //If there is no death of Pet then Spawn pet prefab
-        petCareUIManager.SpawnPetPrefab();
 
         //Check for last login
         if (IsUserLoginNewDay())

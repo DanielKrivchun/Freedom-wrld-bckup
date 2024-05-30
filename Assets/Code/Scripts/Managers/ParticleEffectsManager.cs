@@ -13,6 +13,8 @@ public class ParticleEffectsManager : MonoBehaviour
     [SerializeField]
     List<ParticleSystem> foamBubbleEffects;
 
+    public int numOfFoamBubbles = 0;
+
     public void PlayHappyEffect()
     {
         if(!happyEffect.isPlaying)
@@ -31,25 +33,42 @@ public class ParticleEffectsManager : MonoBehaviour
         sleepEffect.Stop();
     }
     
-    public void CheckAndStartFoamBubbleEffect(Transform foamBubbleEffect)
+    public void CheckAndStartFoamBubbleEffect(ParticleSystem foamBubbleEffect)
     {
         foreach(ParticleSystem particle in foamBubbleEffects)
         {
             if(particle == foamBubbleEffect && !particle.isPlaying)
             {
                 particle.Play();
+                numOfFoamBubbles++;
             }
         }
     }
 
-    public void CheckAndStopFoamBubbleEffect(Transform foamBubbleEffect)
+    public void CheckAndStopFoamBubbleEffect(ParticleSystem foamBubbleEffect)
     {
         foreach (ParticleSystem particle in foamBubbleEffects)
         {
-            if (particle == foamBubbleEffect && !particle.isPlaying)
+            if (particle == foamBubbleEffect && particle.isPlaying)
             {
                 particle.Stop();
+                particle.gameObject.SetActive(false);
+                numOfFoamBubbles--;
             }
         }
+    }
+
+    public bool IsAllFoamCleared()
+    {
+        foreach (ParticleSystem particle in foamBubbleEffects)
+        {
+            if (particle.gameObject.activeInHierarchy)
+            {
+                return false;
+            }
+        }
+
+        numOfFoamBubbles = 0;
+        return true;
     }
 }

@@ -11,10 +11,13 @@ public class ShowerMove : MonoBehaviour
     public ParticleSystem waterShowerEffect;
 
     [Space]
-    public PetCareStateManager petCareStateManager;
+    public CleanObject cleanObject;
+    public ParticleEffectsManager particleEffectsManager;
 
     private Vector3 posOffset;
     private bool isDragging = false;
+
+    RaycastHit hit;
 
     void OnMouseDown()
     {
@@ -25,18 +28,19 @@ public class ShowerMove : MonoBehaviour
     void OnMouseUp()
     {
         isDragging = false;
+        waterShowerEffect.Stop();
 
-        if (petCareStateManager.isReadyForBath)
+        if (cleanObject.isSoapUsed && !cleanObject.isShowerUsed && particleEffectsManager.IsAllFoamCleared())
         {
-            waterShowerEffect.Stop();
-            petCareStateManager.ManageCleanlinessDataFiller(15);
-            petCareStateManager.isReadyForBath = false;
+            cleanObject.isShowerUsed = true;
+            Debug.Log("All FoamBubbles Cleared!");
+            //PetCareStateManager.instance.ManageCleanlinessDataFiller(15);
         }
     }
 
     void Update()
     {
-        if (isDragging && petCareStateManager.isReadyForBath)
+        if (isDragging && cleanObject.isSoapUsed && !cleanObject.isShowerUsed)
         {
             // Calculate the new position based on mouse movement
             Vector3 newPosition = GetMouseWorldPosition() + posOffset;
@@ -48,12 +52,25 @@ public class ShowerMove : MonoBehaviour
             // Update the object's position
             transform.localPosition = newPosition;
 
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1000f))
+            {
+                if (hit.collider.CompareTag("FoamBubble"))
+                {
+                    Debug.Log("Found an object: " + hit.collider.gameObject.name);
+                    Debug.DrawRay(transform.position, Vector3.down, Color.red);
+
+                    particleEffectsManager.CheckAndStopFoamBubbleEffect(hit.collider.gameObject.GetComponent<ParticleSystem>());
+                    //isPlayerFound = true;
+                }
+            }
+
             if (!waterShowerEffect.isPlaying)
             {
                 waterShowerEffect.Play();
             }
         }
     }
+
 
     //Get mouse position in world
     Vector3 GetMouseWorldPosition()

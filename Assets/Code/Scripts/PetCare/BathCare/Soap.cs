@@ -5,10 +5,14 @@ using DG.Tweening;
 
 public class Soap : MonoBehaviour
 {
-    public PetCareStateManager petCareStateManager;
+    public CleanObject cleanObject;
+    public ParticleEffectsManager particleEffectsManager;
+
+    [Space]
+    public int cleanlinessMultiplier;
 
     private Vector3 posOffset;
-    private bool isDragging = false, isPlayerFound = false;
+    private bool isDragging = false;
     Vector3 startPos;
 
     RaycastHit hit;
@@ -31,15 +35,17 @@ public class Soap : MonoBehaviour
         isDragging = false;
         transform.DOMove(startPos, 0.5f);
 
-        if (petCareStateManager.isReadyForBath && isPlayerFound)
+        if (cleanObject.isReadyForBath && !cleanObject.isSoapUsed)
         {
-            petCareStateManager.ManageCleanlinessDataFiller(25);
+            cleanObject.isReadyForBath = false;
+            cleanObject.isSoapUsed = true;
+            //PetCareStateManager.instance.ManageCleanlinessDataFiller(particleEffectsManager.numOfFoamBubbles * cleanlinessMultiplier);
         }
     }
 
     void Update()
     {
-        if (isDragging && petCareStateManager.isReadyForBath)
+        if (isDragging && cleanObject.isReadyForBath && !cleanObject.isSoapUsed)
         {
             // Calculate the new position based on mouse movement
             Vector3 newPosition = GetMouseWorldPosition() + posOffset;
@@ -49,11 +55,11 @@ public class Soap : MonoBehaviour
 
             if (Physics.Raycast(transform.position, Vector3.forward, out hit, 100f))
             {
-                if(hit.collider.gameObject.name == "Player")
+                if(hit.collider.CompareTag("FoamBubble"))
                 {
                     Debug.Log("Found an object: " + hit.collider.gameObject.name);
                     Debug.DrawRay(transform.position, Vector3.forward, Color.yellow);
-                    isPlayerFound = true;
+                    particleEffectsManager.CheckAndStartFoamBubbleEffect(hit.collider.gameObject.GetComponent<ParticleSystem>());
                 }
             }
         }
