@@ -9,6 +9,9 @@ public class PetCareStateManager : MonoBehaviour
 {
     public static PetCareStateManager instance;
 
+    [Space]
+    public SimpleGameEvent offLoadingCanvasEvent;
+
     [Header("Pet Data Reference")]
     public PetDataRef petDataRef;
 
@@ -184,7 +187,7 @@ public class PetCareStateManager : MonoBehaviour
         if (petDataRef.petData.isSick)
         {
             petDataRef.petData.isSick = false;
-            StartCoroutine(petCareUIManager.ClosePetSickLabel(0.5f));
+            petCareUIManager.ClosePetSickLabel();
             petCareUIManager.ShowNotificationUI("Nice job! \nYour pet is all better");
         }
     }
@@ -336,7 +339,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         //If there is no death of Pet then Spawn pet prefab
-        petCareUIManager.SpawnPetPrefab(int.Parse(petDataRef.petLocalData.petID));
+        petCareUIManager.SpawnPetPrefab();
 
         //Check for last login
         if (IsUserLoginNewDay())
@@ -364,6 +367,8 @@ public class PetCareStateManager : MonoBehaviour
         {
             petTrainingManager.CheckForAnyOngoingTraining();
         }
+
+        offLoadingCanvasEvent.Raise();
     }
 
     //Calculating Lost Stat Vale

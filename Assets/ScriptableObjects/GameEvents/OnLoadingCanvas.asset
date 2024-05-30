@@ -9,14 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e2d72aee0663974e81f3a855fc7373a, type: 3}
-  m_Name: IntelligenceTrainingData
+  m_Script: {fileID: 11500000, guid: befd314b41eb77a4ea510634f6dc1f84, type: 3}
+  m_Name: OnLoadingCanvas
   m_EditorClassIdentifier: 
-  trainingTime: 10800
-  xP: 5400
-  coins: 40
-  trainingStatValue: 3
-  happinessStatValue: 5
-  cleanlinessStatValue: 0
-  hungerStatValue: -2
-  energyStatValue: -5
+  listeners: []

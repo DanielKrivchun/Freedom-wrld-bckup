@@ -48,6 +48,8 @@ namespace Beamable.CloudSavingService
 
         [Space]
         public SimpleGameEvent loadGameData;
+
+        [Space]
         public SimpleGameEvent petCreationEvent;
 
         /// <summary>

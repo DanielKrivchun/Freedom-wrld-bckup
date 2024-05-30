@@ -39,12 +39,15 @@ public class PetDataRef : ScriptableObject
         petData.flying = flying;
         petData.swimming = swimming;
 
+
         petData.intelligence = intelligence;
         petData.luck = luck;
 
         petData.xp = xp;
         petData.rank = rank;
         petData.maxStamina = maxStamina;
+
+        petData.foodData = new List<PetFoodData>();
     }
 
     public void SetPetWellbeingStatsData(int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,

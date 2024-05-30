@@ -16,6 +16,9 @@ public class PetCareUIManager : MonoBehaviour
     [Space]
     public GameEventState petCareEvent;
 
+    [Header("Loading UI")]
+    public GameObject loadingCanvas;
+
     [Header("Pet Creation UI")]
     public GameObject petCreationPanelMain;
     public GameObject eggSelectionPanel;
@@ -185,6 +188,18 @@ public class PetCareUIManager : MonoBehaviour
     }
     #endregion
 
+    #region LOADING UI
+    public void ShowLoadingCanvas()
+    {
+        loadingCanvas.SetActive(true);
+    }
+
+    public void OffLoadingCanvas()
+    {
+        loadingCanvas.SetActive(false);
+    }
+    #endregion
+
     #region PETS PROFILE UI
     public void ShowPetStatPanel()
     {
@@ -222,13 +237,13 @@ public class PetCareUIManager : MonoBehaviour
 
         selectedEggPet.sprite = petImages[index - 1];
 
-        SpawnPetPrefab(index);
+        //Setting Pet prefab index for spawning pet
+        petDataRef.petLocalData.petID = index.ToString();
     }
 
-    public void SpawnPetPrefab(int petIndex)
+    public void SpawnPetPrefab()
     {
-        petDataRef.petLocalData.petID = petIndex.ToString();
-        GameObject pet = Instantiate(petPrefabs._GetMyPrefab(petIndex.ToString()), player);
+        GameObject pet = Instantiate(petPrefabs._GetMyPrefab(petDataRef.petLocalData.petID), player);
         PetCareInputManager.instance.petAnim = pet.GetComponent<PetAnimation>();
     }
 
@@ -296,14 +311,11 @@ public class PetCareUIManager : MonoBehaviour
         {
             sickLabelTxt.text = petDataRef.petData.petname + " is sick! \nThey need medicine.";
             sickLabel.SetActive(true);
-            
-            StartCoroutine(ClosePetSickLabel(5f));
         }
     }
 
-    public IEnumerator ClosePetSickLabel(float timeInSec)
+    public void ClosePetSickLabel()
     {
-        yield return new WaitForSeconds(timeInSec);
         sickLabel.SetActive(false);
     }
 
