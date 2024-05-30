@@ -7,6 +7,10 @@ public class ShowerMove : MonoBehaviour
     public float xOffset = 5f;
     public float yOffset = 5f;
 
+    [Space]
+    public ParticleSystem waterShowerEffect;
+
+    [Space]
     public PetCareStateManager petCareStateManager;
 
     private Vector3 posOffset;
@@ -24,6 +28,7 @@ public class ShowerMove : MonoBehaviour
 
         if (petCareStateManager.isReadyForBath)
         {
+            waterShowerEffect.Stop();
             petCareStateManager.ManageCleanlinessDataFiller(15);
             petCareStateManager.isReadyForBath = false;
         }
@@ -41,7 +46,12 @@ public class ShowerMove : MonoBehaviour
             newPosition.y = Mathf.Clamp(newPosition.y, -yOffset, 0);
 
             // Update the object's position
-            transform.localPosition = newPosition;            
+            transform.localPosition = newPosition;
+
+            if (!waterShowerEffect.isPlaying)
+            {
+                waterShowerEffect.Play();
+            }
         }
     }
 

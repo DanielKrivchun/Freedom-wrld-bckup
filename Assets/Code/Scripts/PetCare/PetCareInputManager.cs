@@ -7,6 +7,7 @@ public class PetCareInputManager : MonoBehaviour
     public static PetCareInputManager instance;
 
     public PetCareStateManager petCareStateManager;
+    public ParticleEffectsManager particleEffectsManager;
 
     [HideInInspector]
     public PetAnimation petAnim;
@@ -28,19 +29,11 @@ public class PetCareInputManager : MonoBehaviour
                 if(petCareStateManager.petDataRef.petData.happiness < 100)
                 {
                     //Play Happy Animation
+                    particleEffectsManager.PlayHappyEffect();
                     petAnim._ChangeAnimationState(_AnimState.Happy);
                     petCareStateManager.ManageHappinessDataFiller(petCareStateManager.petStatData.happinessTickRate);  
                 }
                 break;
-
-                /*case PetCareState.Clean:
-                    //Play Clean Animation
-                    if (petCareStateManager.isReadyForToilet)
-                    {
-                        petAnim._ChangeAnimationState(_AnimState.Toilet);
-                        petCareStateManager.SetSelectedStateFillerImage(0.1f);
-                    }
-                    break;*/
         }
     }
 }

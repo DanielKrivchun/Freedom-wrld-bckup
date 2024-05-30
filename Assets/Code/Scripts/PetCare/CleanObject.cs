@@ -5,7 +5,20 @@ using UnityEngine;
 public class CleanObject : MonoBehaviour
 {
     public Transform player;
+    public GameObject foamBubblesHolder;
+
+    [Space]
     public PetCareStateManager petCareStateManager;
+
+    private void OnEnable()
+    {
+        foamBubblesHolder.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        foamBubblesHolder.SetActive(false);
+    }
 
     private void OnMouseDown()
     {

@@ -17,13 +17,9 @@ public class PetCareStateManager : MonoBehaviour
 
     [Space]
     public PetCareState selectedPetCareState;
-    public PetCareUIManager petCareUIManager;
 
     [Space]
     public GameObject player;
-
-    [Space]
-    public PetCareObjectManager petCareObjectManager;
 
     [Space]
     public FoodObjectHolder foodObjectHolder;
@@ -36,6 +32,10 @@ public class PetCareStateManager : MonoBehaviour
     public PetCareStatData petStatData;
 
     [Space(25)]
+    [Header("Script References")]
+    public PetCareUIManager petCareUIManager;
+    public ParticleEffectsManager particleEffectsManager;
+    public PetCareObjectManager petCareObjectManager;
     public SleepManager sleepManager;
     public TimingManager timingManager;
     public PetTrainingManager petTrainingManager;
@@ -325,6 +325,7 @@ public class PetCareStateManager : MonoBehaviour
                 sleepManager.sleepTimer = sleepManager.totalSleepTime - CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.sleepData.sleepStartTime);
                 sleepManager.isCanSleep = true;
 
+                particleEffectsManager.StartSleepEffect();
                 PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sleep);
             }
         }

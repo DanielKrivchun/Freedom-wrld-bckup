@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class SleepManager : MonoBehaviour
 {
     public PetCareStateManager petCareStateManager;
+    public ParticleEffectsManager particleEffectsManager;
 
     [Space]
     public bool isCanSleep;
@@ -41,6 +42,7 @@ public class SleepManager : MonoBehaviour
         if (petCareStateManager.petDataRef.petData.cleanliness > 10 &&
             petCareStateManager.petDataRef.petData.hunger > 10)
         {
+            particleEffectsManager.StartSleepEffect();
             PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sleep);
 
             sleepTimer = totalSleepTime;
@@ -71,6 +73,7 @@ public class SleepManager : MonoBehaviour
             else
             {
                 Debug.Log("Time is UP!");
+                particleEffectsManager.StopSleepEffect();
                 PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Idle);
 
                 isCanSleep = false;
