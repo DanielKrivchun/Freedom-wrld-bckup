@@ -46,6 +46,8 @@ public class _Strings
     public static string Bath = "Bath";
     public static string IsSleeping = "IsSleeping";
     public static string IsSick = "IsSick";
+
+    public static string FoamBubble = "FoamBubble";
 }
 
 public struct _Tags

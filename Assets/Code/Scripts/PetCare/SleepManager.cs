@@ -36,7 +36,7 @@ public class SleepManager : MonoBehaviour
         sleepBtn.onClick.AddListener(()=> StartSleepingTimer());  
     }
 
-    public void StartSleepingTimer()
+    private void StartSleepingTimer()
     {
         //If Cleanliness <= 10/100 && Hunger <= 10/100 , then the pet will not be able to sleep
         if (petCareStateManager.petDataRef.petData.cleanliness > 10 &&
@@ -50,6 +50,14 @@ public class SleepManager : MonoBehaviour
             petCareStateManager.petDataRef.petData.sleepData.isSleeping = true;
             petCareStateManager.petDataRef.petData.sleepData.sleepStartTime = DateTime.UtcNow.ToString();
         } 
+    }
+
+    public void SetSleepingTimer(float sleepTimeTillNow)
+    {
+        sleepTimer = totalSleepTime - sleepTimeTillNow;
+        isCanSleep = true;
+
+        gameObject.SetActive(true);
     }
 
     private void Update()

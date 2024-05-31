@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CleanObject : MonoBehaviour
+public class BathObject : MonoBehaviour
 {
     public Transform player;
     public GameObject foamBubblesHolder;
 
     [Space]
-    public PetCareStateManager petCareStateManager;
+    public int cleanlinessMultiplier;
 
     [HideInInspector]
     public bool isReadyForBath, isSoapUsed, isShowerUsed;
+
+    Vector3 startPos;
 
     private void OnEnable()
     {
@@ -24,11 +26,13 @@ public class CleanObject : MonoBehaviour
                 foamBubblesHolder.transform.GetChild(i).gameObject.SetActive(true);
             }
         }
+
+        startPos = player.transform.position;
     }
 
     private void OnDisable()
     {
-        if( foamBubblesHolder != null )
+        if (foamBubblesHolder != null)
         {
             foamBubblesHolder.SetActive(false);
         }
@@ -36,12 +40,20 @@ public class CleanObject : MonoBehaviour
 
     private void OnMouseDown()
     {
-        /*if(petCareStateManager.petDataRef.petData.cleanliness < 100)
-        {*/
+        if (PetCareStateManager.instance.petDataRef.petData.cleanliness < 100)
+        {
             isReadyForBath = true;
-        isSoapUsed = false;
-        isShowerUsed = false;
-        player.transform.position = new Vector3(1.85f, 0.4f, 2f);
-        //}
+            isSoapUsed = false;
+            isShowerUsed = false;
+            player.transform.position = new Vector3(1.85f, 0.4f, 2f);
+            player.GetComponent<CharacterController>().enabled = false;
+        }
+    }
+
+    public IEnumerator ResetPlayerToMainPosition()
+    {
+        yield return new WaitForSeconds(2f);
+        player.transform.position = startPos;
+        player.GetComponent<CharacterController>().enabled = true;
     }
 }

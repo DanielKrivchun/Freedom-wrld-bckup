@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   petData:
     petname: NP
-    health: 530
-    happiness: 84
-    hunger: 43
-    cleanliness: 99
-    energy: 100
+    health: 524
+    happiness: 88
+    hunger: 70
+    cleanliness: 80
+    energy: 83
     isSick: 0
     birthTime: 5/30/2024 9:15:53 AM
-    lastTimeHappy: 5/30/2024 2:37:22 PM
-    lastTimeFeed: 5/30/2024 2:37:22 PM
-    lastTimeClean: 5/30/2024 2:37:22 PM
-    lastTimeEnergy: 5/30/2024 2:37:22 PM
-    lastLoginTime: 5/30/2024 9:15:53 AM
+    lastTimeHappy: 5/31/2024 9:19:17 AM
+    lastTimeFeed: 5/31/2024 9:19:17 AM
+    lastTimeClean: 5/31/2024 9:19:17 AM
+    lastTimeEnergy: 5/31/2024 9:19:17 AM
+    lastLoginTime: 5/30/2024 9:19:17 AM
     running: 21
     climbing: 22
     flying: 18
@@ -36,8 +36,8 @@ MonoBehaviour:
     maxStamina: 100
     xp: 0
     sleepData:
-      isSleeping: 1
-      sleepStartTime: 5/30/2024 1:30:17 PM
+      isSleeping: 0
+      sleepStartTime: 5/30/2024 3:02:49 PM
     foodData: []
     ongoingTrainingData:
       isTraining: 0

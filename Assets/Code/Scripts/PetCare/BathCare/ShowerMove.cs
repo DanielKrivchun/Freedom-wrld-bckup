@@ -11,7 +11,7 @@ public class ShowerMove : MonoBehaviour
     public ParticleSystem waterShowerEffect;
 
     [Space]
-    public CleanObject cleanObject;
+    public BathObject bathObject;
     public ParticleEffectsManager particleEffectsManager;
 
     private Vector3 posOffset;
@@ -30,17 +30,21 @@ public class ShowerMove : MonoBehaviour
         isDragging = false;
         waterShowerEffect.Stop();
 
-        if (cleanObject.isSoapUsed && !cleanObject.isShowerUsed && particleEffectsManager.IsAllFoamCleared())
+        //Checking for Soap used and all foam bubble cleared or not
+        if (bathObject.isSoapUsed && !bathObject.isShowerUsed && particleEffectsManager.IsAllFoamCleared())
         {
-            cleanObject.isShowerUsed = true;
-            Debug.Log("All FoamBubbles Cleared!");
-            //PetCareStateManager.instance.ManageCleanlinessDataFiller(15);
+            bathObject.isShowerUsed = true;
+            PetCareStateManager.instance.ManageCleanlinessDataFiller(particleEffectsManager.numOfFoamBubbles * bathObject.cleanlinessMultiplier);
+            particleEffectsManager.numOfFoamBubbles = 0;
+
+            //Reset player position
+            StartCoroutine(bathObject.ResetPlayerToMainPosition());
         }
     }
 
     void Update()
     {
-        if (isDragging && cleanObject.isSoapUsed && !cleanObject.isShowerUsed)
+        if (isDragging && bathObject.isSoapUsed && !bathObject.isShowerUsed)
         {
             // Calculate the new position based on mouse movement
             Vector3 newPosition = GetMouseWorldPosition() + posOffset;
@@ -52,18 +56,16 @@ public class ShowerMove : MonoBehaviour
             // Update the object's position
             transform.localPosition = newPosition;
 
+            //Off foam bubble particles using raycast
             if (Physics.Raycast(transform.position, Vector3.down, out hit, 1000f))
             {
-                if (hit.collider.CompareTag("FoamBubble"))
+                if (hit.collider.CompareTag(_Strings.FoamBubble))
                 {
-                    Debug.Log("Found an object: " + hit.collider.gameObject.name);
-                    Debug.DrawRay(transform.position, Vector3.down, Color.red);
-
                     particleEffectsManager.CheckAndStopFoamBubbleEffect(hit.collider.gameObject.GetComponent<ParticleSystem>());
-                    //isPlayerFound = true;
                 }
             }
 
+            //Play shower water effect
             if (!waterShowerEffect.isPlaying)
             {
                 waterShowerEffect.Play();

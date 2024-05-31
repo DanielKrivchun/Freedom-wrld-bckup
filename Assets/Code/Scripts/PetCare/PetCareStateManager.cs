@@ -37,7 +37,6 @@ public class PetCareStateManager : MonoBehaviour
     public TimingManager timingManager;
     public PetTrainingManager petTrainingManager;
 
-    Vector3 startPos;
 
     // Total seconds of 1 day for days calculation
     static float oneDaySeconds = 86400f;
@@ -64,8 +63,6 @@ public class PetCareStateManager : MonoBehaviour
 
     private void Start()
     {
-        startPos = player.transform.position;
-
         foodObjectHolder.ResetFoodObjects();
     }
 
@@ -74,7 +71,7 @@ public class PetCareStateManager : MonoBehaviour
     public void CheckForSelectedPetCareState(PetCareState state)
     {
         selectedPetCareState = state;
-        player.transform.position = startPos;
+        //player.transform.position = startPos;
 
         petCareObjectManager.ManagePetCareObjects(selectedPetCareState);
     }
@@ -331,9 +328,7 @@ public class PetCareStateManager : MonoBehaviour
             else
             {
                 Debug.Log("Sleep Time is Not over yet");
-                sleepManager.sleepTimer = sleepManager.totalSleepTime - CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.sleepData.sleepStartTime);
-                sleepManager.isCanSleep = true;
-
+                sleepManager.SetSleepingTimer(CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.sleepData.sleepStartTime));
                 particleEffectsManager.StartSleepEffect();
                 PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sleep);
             }
@@ -343,18 +338,7 @@ public class PetCareStateManager : MonoBehaviour
         if (IsUserLoginNewDay())
         {
             Debug.Log("UserLogin New Day!");
-            List<string> tempMsglist = new List<string>();
-
-            if (!petDataRef.petData.isSick)
-            {
-                //Flu
-                tempMsglist.Add(PetGettingSickWithFluChance());
-            }
-
-            //Treasure Hunt
-            tempMsglist.Add(PetGettingCoinsWithTreasureHuntChance());
-
-            petCareUIManager.ManageNotificationMsg(tempMsglist);
+            ManageAndSetRandomEventsMsg();
 
             //Set Last Login Time to current
             petDataRef.petData.lastLoginTime = DateTime.UtcNow.ToString();
@@ -512,7 +496,7 @@ public class PetCareStateManager : MonoBehaviour
             return "Oh no, " + petDataRef.petData.petname + " caught a flu! \nBuy / Use a Medicine bottle for them to make them all better!";
         }
 
-        return null;
+        return "";
     }
 
     //Treasure Hunt (Random Event)
@@ -528,7 +512,35 @@ public class PetCareStateManager : MonoBehaviour
             return petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness";
         }
 
-        return null;
+        return "";
+    }
+
+    void ManageAndSetRandomEventsMsg()
+    {
+        List<string> tempMsglist = new List<string>();
+        string gotMsg;
+
+        if (!petDataRef.petData.isSick)
+        {
+            //Flu
+            gotMsg = PetGettingSickWithFluChance();
+            if (gotMsg.Length > 0)
+            {
+                tempMsglist.Add(gotMsg);
+            }
+        }
+
+        //Treasure Hunt
+        gotMsg = PetGettingCoinsWithTreasureHuntChance();
+        if (gotMsg.Length > 0)
+        {
+            tempMsglist.Add(gotMsg);
+        }
+
+        if (tempMsglist.Count > 0)
+        {
+            petCareUIManager.ManageNotificationMsg(tempMsglist);
+        }
     }
     #endregion
 

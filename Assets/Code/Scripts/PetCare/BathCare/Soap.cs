@@ -5,11 +5,8 @@ using DG.Tweening;
 
 public class Soap : MonoBehaviour
 {
-    public CleanObject cleanObject;
+    public BathObject bathObject;
     public ParticleEffectsManager particleEffectsManager;
-
-    [Space]
-    public int cleanlinessMultiplier;
 
     private Vector3 posOffset;
     private bool isDragging = false;
@@ -25,9 +22,7 @@ public class Soap : MonoBehaviour
     void OnMouseDown()
     {
         posOffset = transform.position - GetMouseWorldPosition();
-        isDragging = true;
-
-        
+        isDragging = true; 
     }
 
     void OnMouseUp()
@@ -35,17 +30,17 @@ public class Soap : MonoBehaviour
         isDragging = false;
         transform.DOMove(startPos, 0.5f);
 
-        if (cleanObject.isReadyForBath && !cleanObject.isSoapUsed)
+        if (bathObject.isReadyForBath && !bathObject.isSoapUsed)
         {
-            cleanObject.isReadyForBath = false;
-            cleanObject.isSoapUsed = true;
-            //PetCareStateManager.instance.ManageCleanlinessDataFiller(particleEffectsManager.numOfFoamBubbles * cleanlinessMultiplier);
+            bathObject.isReadyForBath = false;
+            bathObject.isSoapUsed = true;
+            PetCareStateManager.instance.ManageCleanlinessDataFiller(particleEffectsManager.numOfFoamBubbles * bathObject.cleanlinessMultiplier);
         }
     }
 
     void Update()
     {
-        if (isDragging && cleanObject.isReadyForBath && !cleanObject.isSoapUsed)
+        if (isDragging && bathObject.isReadyForBath && !bathObject.isSoapUsed)
         {
             // Calculate the new position based on mouse movement
             Vector3 newPosition = GetMouseWorldPosition() + posOffset;
@@ -53,12 +48,11 @@ public class Soap : MonoBehaviour
             // Update the object's position
             transform.position = newPosition;
 
+            //On foam bubble particles using raycast
             if (Physics.Raycast(transform.position, Vector3.forward, out hit, 100f))
             {
-                if(hit.collider.CompareTag("FoamBubble"))
+                if(hit.collider.CompareTag(_Strings.FoamBubble))
                 {
-                    Debug.Log("Found an object: " + hit.collider.gameObject.name);
-                    Debug.DrawRay(transform.position, Vector3.forward, Color.yellow);
                     particleEffectsManager.CheckAndStartFoamBubbleEffect(hit.collider.gameObject.GetComponent<ParticleSystem>());
                 }
             }

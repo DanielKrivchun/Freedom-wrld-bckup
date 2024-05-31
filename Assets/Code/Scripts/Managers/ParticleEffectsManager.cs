@@ -10,11 +10,13 @@ public class ParticleEffectsManager : MonoBehaviour
     [SerializeField]
     ParticleSystem sleepEffect;
 
+    [Space]
     [SerializeField]
     List<ParticleSystem> foamBubbleEffects;
 
     public int numOfFoamBubbles = 0;
 
+    //Happy particle effect
     public void PlayHappyEffect()
     {
         if(!happyEffect.isPlaying)
@@ -23,6 +25,7 @@ public class ParticleEffectsManager : MonoBehaviour
         }
     }
 
+    //Sleep particle effect
     public void StartSleepEffect() 
     { 
         sleepEffect.Play();
@@ -33,6 +36,7 @@ public class ParticleEffectsManager : MonoBehaviour
         sleepEffect.Stop();
     }
     
+    //Foam Bubble particle effect
     public void CheckAndStartFoamBubbleEffect(ParticleSystem foamBubbleEffect)
     {
         foreach(ParticleSystem particle in foamBubbleEffects)
@@ -51,11 +55,16 @@ public class ParticleEffectsManager : MonoBehaviour
         {
             if (particle == foamBubbleEffect && particle.isPlaying)
             {
-                particle.Stop();
-                particle.gameObject.SetActive(false);
-                numOfFoamBubbles--;
+                StartCoroutine(StopParticleEffect(particle));
             }
         }
+    }
+
+    IEnumerator StopParticleEffect(ParticleSystem particle)
+    {
+        yield return new WaitForSeconds(1f);
+        particle.Stop();
+        particle.gameObject.SetActive(false);
     }
 
     public bool IsAllFoamCleared()
@@ -68,7 +77,6 @@ public class ParticleEffectsManager : MonoBehaviour
             }
         }
 
-        numOfFoamBubbles = 0;
         return true;
     }
 }
