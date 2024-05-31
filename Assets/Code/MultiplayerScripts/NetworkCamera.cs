@@ -6,7 +6,9 @@ using UnityEngine;
 public class NetworkCamera : MonoBehaviour
 {
     public CinemachineVirtualCamera MyCam;
-    public CinemachineFreeLook WinCamera;
+    public GameObject WinCamera;
+    [Space]
+    public GameObject Confetti;
 
 
     public static NetworkCamera Instance;
@@ -33,5 +35,6 @@ public class NetworkCamera : MonoBehaviour
     {
         MyCam.gameObject.SetActive(false);
         WinCamera.gameObject.SetActive(true);
+        Confetti.gameObject.SetActive(true);
     }
 }
