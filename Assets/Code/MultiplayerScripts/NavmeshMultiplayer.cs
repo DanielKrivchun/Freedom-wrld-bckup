@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine.AI;
 using TMPro;
 using System.Xml.Linq;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 public class NavmeshMultiplayer : NetworkBehaviour
 {
     #region PUBLIC VARIABLES
@@ -136,8 +137,12 @@ public class NavmeshMultiplayer : NetworkBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         int temp = MyWiningNumber - 1;
         Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+        transform.eulerAngles = new Vector3(0f, 90f, 0f);
         transform.position = pos;
+        yield return new WaitForSecondsRealtime(0.5f);
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
+        NetwrokUI.Instance.WinUI.SetActive(false);
+        NetworkCamera.Instance._ActiveWinScene();
     }
 
     private void _OnWInNumberAlocated()
