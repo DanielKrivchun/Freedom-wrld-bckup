@@ -118,8 +118,12 @@ public class PetCareStateManager : MonoBehaviour
     //Generating food item on table
     public void GenerateFoodItemOnTable(FoodItems foodType)
     {
-        GenerateFoodAndSetTransformWithSpawnIndex(foodType);
-        isFoodItemsSet = true;
+        //If Eat table is on then generate food on table 
+        if(selectedPetCareState == PetCareState.Eat)
+        {
+            GenerateFoodAndSetTransformWithSpawnIndex(foodType);
+            isFoodItemsSet = true;
+        }
 
         //Adding food item to Petdata
         PetFoodData petFoodData = new PetFoodData
@@ -163,6 +167,7 @@ public class PetCareStateManager : MonoBehaviour
         {
             generatedFoodItems[i].transform.SetParent(foodSpawnTransforms[foodSpawnIndex]);
             generatedFoodItems[i].transform.localPosition = Vector3.zero;
+            generatedFoodItems[i].GetComponent<EatObject>().foodSpawnIndex--;
 
             //Setting food spawn index and setting isFoodItemsSet bool to true
             foodSpawnIndex++;
