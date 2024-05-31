@@ -10,6 +10,8 @@ public class NavMeshController : MonoBehaviour
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
     [Space]
+    public GameObject m_obj;
+    [Space]
     public int CUrrntPathNo;
     [Space]
     public PathPointManager m_path_point;
@@ -46,6 +48,7 @@ public class NavMeshController : MonoBehaviour
         {
             _InitilizePath();
             transform.position = m_positions[m_currunt_index];
+            m_obj.transform.position = m_positions[m_currunt_index];
             _SetDestination(m_positions[m_currunt_index]);
             _ChangeAnimationHere(_AnimState.Run);
         }
@@ -88,6 +91,7 @@ public class NavMeshController : MonoBehaviour
 
 
         m_currunt_pos = m_positions[m_currunt_index];
+        m_obj.transform.position=m_currunt_pos;
         Debug.Log(m_currunt_pos);
         _SetDestination(m_positions[m_currunt_index]);
     }
