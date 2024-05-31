@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
-using System.Xml.Serialization;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -14,6 +13,7 @@ public class MainMenuScript : MonoBehaviour
     public GameObject mainMenu;
     public TMP_Dropdown graphicsDropdown;
     public Scene scene;
+
     // Start is called before the first frame update
     void Start()
     {
