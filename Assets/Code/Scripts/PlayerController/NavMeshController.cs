@@ -22,14 +22,14 @@ public class NavMeshController : MonoBehaviour
     private Vector2 m_smooth_delta_pos = Vector2.zero;
     private Vector2 m_velocity = Vector2.zero;
 
-    private List<Vector3> m_positions;
+    public List<Vector3> m_positions;
     private float m_distance;
     public PetAnimation GenratedPet;
     #endregion
 
 
     private Camera m_camera;
-    private int m_currunt_index;
+    public int m_currunt_index;
     private Vector3 m_currunt_pos;
 
     #region UNITY METHODS
@@ -39,10 +39,13 @@ public class NavMeshController : MonoBehaviour
     {
         m_camera = Camera.main;
         m_agent = GetComponent<NavMeshAgent>();
-        m_currunt_index = 0;
+
+
+        //m_currunt_index = 0;
         if (m_input_value.m_enable_navmesh)
         {
             _InitilizePath();
+            transform.position = m_positions[m_currunt_index];
             _SetDestination(m_positions[m_currunt_index]);
             _ChangeAnimationHere(_AnimState.Run);
         }
@@ -65,9 +68,8 @@ public class NavMeshController : MonoBehaviour
         //FIND DISTNACE HERE
         _CalculateDistance();
 
-        if (m_distance < 1)
+        if (m_distance < 0.3f)
         {
-
             _ChangeCurruntPoint();
         }
         //Debug.Log(m_distance);
@@ -83,7 +85,10 @@ public class NavMeshController : MonoBehaviour
             Debug.Log("Path Complete");
             return;
         }
+
+
         m_currunt_pos = m_positions[m_currunt_index];
+        Debug.Log(m_currunt_pos);
         _SetDestination(m_positions[m_currunt_index]);
     }
 

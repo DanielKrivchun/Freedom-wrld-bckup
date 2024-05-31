@@ -21,11 +21,13 @@ public class PathPointManager : MonoBehaviour
         int m_count = WayPoints.Count;
         int m_random_no = Random.Range(0, 5);
 
-
+        int a = 0;
         foreach (Transform child in PathParents[StraightNo].transform)
         {
+            child.name = a.ToString();
             Debug.Log(child.gameObject.name);
             v.Add(child.position);
+            a++;
         }
 
 #if UNITY_EDITOR
@@ -33,7 +35,8 @@ public class PathPointManager : MonoBehaviour
         _PrePositions pre = new _PrePositions();
         pre.m_positions = v;
 
-        prePositions.Add(pre);
+        prePositions[StraightNo].m_positions = new List<Vector3>();
+        prePositions[StraightNo].m_positions = v;
 
         _GenratePathLines(v);
 #endif
