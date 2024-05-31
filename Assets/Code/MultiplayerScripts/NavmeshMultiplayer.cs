@@ -140,6 +140,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
         yield return new WaitForSecondsRealtime(0.5f);
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
         transform.eulerAngles = new Vector3(0f, 90f, 0f);
         transform.position = pos;
         NetwrokUI.Instance.WinUI.SetActive(false);
