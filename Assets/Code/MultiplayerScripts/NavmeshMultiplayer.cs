@@ -140,8 +140,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
         yield return new WaitForSecondsRealtime(0.5f);
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        //Rigidbody rb = GetComponent<Rigidbody>();
+        //rb.freezeRotation = true;
         transform.eulerAngles = new Vector3(0f, 90f, 0f);
         transform.position = pos;
         NetwrokUI.Instance.WinUI.SetActive(false);
@@ -155,6 +155,10 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
             NetworkEventManager._EventWon(MyWiningNumber);
+            //if (Runner.IsClient)
+            //{
+            //    StartCoroutine(SetMyWinPosition());
+            //}
         }
 
     }
