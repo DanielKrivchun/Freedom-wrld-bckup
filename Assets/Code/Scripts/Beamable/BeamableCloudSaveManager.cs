@@ -52,6 +52,9 @@ namespace Beamable.CloudSavingService
         [Space]
         public SimpleGameEvent petCreationEvent;
 
+        [Space]
+        public GetServerTime getServerTime;
+
         /// <summary>
         /// Dynamically build the local storage for the Cloud Saving Data object
         /// </summary>
@@ -147,7 +150,9 @@ namespace Beamable.CloudSavingService
         #region NEW PET CREATION DATA
         public void CreateNewPet(string petName, int running, int climbing, int flying, int swimming, int intelligence, int luck)
         {
-            string currentTime = DateTime.UtcNow.ToString();
+            string currentTime = "";
+            getServerTime.GetCurrentTime(timeNow => { currentTime = timeNow.ToString(); });
+
             petDataRef.SetPetAllData(petName, 650, 100, 100, 100, 100, false,
                                         currentTime, currentTime, currentTime, currentTime, currentTime, currentTime,
                                         running, climbing, flying, swimming, intelligence, luck, 

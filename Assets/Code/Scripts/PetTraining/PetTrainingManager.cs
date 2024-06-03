@@ -12,6 +12,7 @@ public class PetTrainingManager : MonoBehaviour
     [Space]
     public PetCareStateManager petCareStateManager;
     public PetCareUIManager petCareUIManager;
+    public GetServerTime getServerTime;
 
     [Header("Pet Train Panel UI")]
     public GameObject petTrainPanel;
@@ -47,7 +48,6 @@ public class PetTrainingManager : MonoBehaviour
     [SerializeField] private PetTrainingData flyingTrainingData;
     [SerializeField] private PetTrainingData inteligenceTrainingData;
 
-    private PetTrainingData currentTrainingData;
 
     [Space]
     public PetTraining selectedTraining;
@@ -55,6 +55,8 @@ public class PetTrainingManager : MonoBehaviour
     public bool startTimer;
     public float trainingTimer;
 
+    private DateTime serverTimeNow;
+    private PetTrainingData currentTrainingData;
 
     private void Start()
     {
@@ -134,7 +136,7 @@ public class PetTrainingManager : MonoBehaviour
 
         petDataRef.petData.ongoingTrainingData.isTraining = true;
         petDataRef.petData.ongoingTrainingData.ongoingTraining = selectedTraining;
-        petDataRef.petData.ongoingTrainingData.trainingStartTime = DateTime.UtcNow.ToString();
+        getServerTime.GetCurrentTime(timeNow => { petDataRef.petData.ongoingTrainingData.trainingStartTime = timeNow.ToString(); });
 
         ShowOngoingTrainingUIWithTime();
         SetTrainingTimer(currentTrainingData.trainingTime);
@@ -314,7 +316,8 @@ public class PetTrainingManager : MonoBehaviour
 
     public float CheckTimeDiffWithCurrentTimeInSec(string lastTime)
     {
-        return (float)(DateTime.UtcNow - DateTime.Parse(lastTime)).TotalSeconds;
+        getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
+        return (float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds;
     }
     #endregion
 }

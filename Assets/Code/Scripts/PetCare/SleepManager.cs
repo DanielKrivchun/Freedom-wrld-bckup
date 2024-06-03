@@ -8,6 +8,7 @@ public class SleepManager : MonoBehaviour
 {
     public PetCareStateManager petCareStateManager;
     public ParticleEffectsManager particleEffectsManager;
+    public GetServerTime getServerTime;
 
     [Space]
     public bool isCanSleep;
@@ -47,8 +48,9 @@ public class SleepManager : MonoBehaviour
 
             sleepTimer = totalSleepTime;
             isCanSleep = true;
+
             petCareStateManager.petDataRef.petData.sleepData.isSleeping = true;
-            petCareStateManager.petDataRef.petData.sleepData.sleepStartTime = DateTime.UtcNow.ToString();
+            getServerTime.GetCurrentTime(timeNow => { petCareStateManager.petDataRef.petData.sleepData.sleepStartTime = timeNow.ToString(); });
         } 
     }
 

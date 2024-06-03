@@ -1,8 +1,10 @@
 using DG.Tweening;
+using PlayFab;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PetCareStateManager : MonoBehaviour
@@ -31,12 +33,14 @@ public class PetCareStateManager : MonoBehaviour
     [Space(25)]
     [Header("Script References")]
     public PetCareUIManager petCareUIManager;
+    public GetServerTime getServerTime;
     public ParticleEffectsManager particleEffectsManager;
     public PetCareObjectManager petCareObjectManager;
     public SleepManager sleepManager;
     public TimingManager timingManager;
     public PetTrainingManager petTrainingManager;
 
+    private DateTime serverTimeNow;
 
     // Total seconds of 1 day for days calculation
     static float oneDaySeconds = 86400f;
@@ -218,7 +222,7 @@ public class PetCareStateManager : MonoBehaviour
     {
         petDataRef.petData.happiness = Mathf.Clamp(petDataRef.petData.happiness + value, 0, 100);
         petCareUIManager.happyFillSlider.DOValue(petDataRef.petData.happiness, 0.5f);
-        petDataRef.petData.lastTimeHappy = DateTime.UtcNow.ToString();
+        getServerTime.GetCurrentTime(timeNow => { petDataRef.petData.lastTimeHappy = timeNow.ToString(); });
 
         UpdateHealth();
     }
@@ -228,7 +232,7 @@ public class PetCareStateManager : MonoBehaviour
     {
         petDataRef.petData.hunger = Mathf.Clamp(petDataRef.petData.hunger + value, 0, 100);
         petCareUIManager.hungerFillSlider.DOValue(petDataRef.petData.hunger, 0.5f);
-        petDataRef.petData.lastTimeFeed = DateTime.UtcNow.ToString();
+        getServerTime.GetCurrentTime(timeNow => { petDataRef.petData.lastTimeFeed = timeNow.ToString(); });
 
         UpdateHealth();
     }
@@ -238,7 +242,7 @@ public class PetCareStateManager : MonoBehaviour
     {
         petDataRef.petData.cleanliness = Mathf.Clamp(petDataRef.petData.cleanliness + value, 0, 100);
         petCareUIManager.cleanFillSlider.DOValue(petDataRef.petData.cleanliness, 0.5f);
-        petDataRef.petData.lastTimeClean = DateTime.UtcNow.ToString();
+        getServerTime.GetCurrentTime(timeNow => { petDataRef.petData.lastTimeClean = timeNow.ToString(); });
 
         UpdateHealth();
     }
@@ -248,7 +252,7 @@ public class PetCareStateManager : MonoBehaviour
     {
         petDataRef.petData.energy = Mathf.Clamp(petDataRef.petData.energy + value, 0, 100);
         petCareUIManager.energyFillSlider.DOValue(petDataRef.petData.energy, 0.5f);
-        petDataRef.petData.lastTimeEnergy = DateTime.UtcNow.ToString();
+        getServerTime.GetCurrentTime(timeNow => { petDataRef.petData.lastTimeEnergy = timeNow.ToString(); });
 
         UpdateHealth();
     }
@@ -346,7 +350,7 @@ public class PetCareStateManager : MonoBehaviour
             ManageAndSetRandomEventsMsg();
 
             //Set Last Login Time to current
-            petDataRef.petData.lastLoginTime = DateTime.UtcNow.ToString();
+            getServerTime.GetCurrentTime(timeNow => { petDataRef.petData.lastLoginTime = timeNow.ToString(); });
         }
 
         //Check for any ongoing Training
@@ -367,7 +371,27 @@ public class PetCareStateManager : MonoBehaviour
     //Calculating Time diff with current time in seconds
     public float CheckTimeDiffWithCurrentTimeInSec(string lastTime)
     {
-        return (float)(DateTime.UtcNow - DateTime.Parse(lastTime)).TotalSeconds;
+        /*getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
+        Debug.Log("Server Time - " + serverTimeNow);
+        return (float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds;*/
+
+        return 0;
+    }
+
+    IEnumerator CheckTimeDiffWithCurrentTimeInSecMain(string lastTime, Action<float> getTime)
+    {
+        bool isTimeSet = false;
+        getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; isTimeSet = true; });
+
+        while (!isTimeSet)
+        {
+            yield return null;
+        }
+
+        Debug.Log("Server Time - " + serverTimeNow);
+
+        getTime((float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds);
+
     }
 
     #endregion
@@ -481,7 +505,9 @@ public class PetCareStateManager : MonoBehaviour
     //Checking if user is login on new day
     public bool IsUserLoginNewDay()
     {
-        if ((DateTime.UtcNow - DateTime.Parse(petDataRef.petData.lastLoginTime)).TotalDays >= 1)
+        getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
+
+        if ((serverTimeNow - DateTime.Parse(petDataRef.petData.lastLoginTime)).TotalDays >= 1)
         {
             return true;
         }

@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogColor: {r: 0.34362757, g: 0.52311933, b: 0.764151, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
@@ -1839,6 +1839,7 @@ MonoBehaviour:
   petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   petCareStateManager: {fileID: 743679602}
   petCareUIManager: {fileID: 1334679533}
+  getServerTime: {fileID: 1128614860}
   petTrainPanel: {fileID: 1290140182}
   runningTrainingSelectBtn: {fileID: 1582497153}
   climbingTrainingSelectBtn: {fileID: 1133352970}
@@ -2832,6 +2833,7 @@ MonoBehaviour:
   petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   loadGameData: {fileID: 11400000, guid: 24273981e82bffb4fb57b8118cc37b6a, type: 2}
   petCreationEvent: {fileID: 11400000, guid: deecddf30aa5c714fbe8acc04a10a3f6, type: 2}
+  getServerTime: {fileID: 1128614860}
 --- !u!1 &98953143
 GameObject:
   m_ObjectHideFlags: 0
@@ -17438,6 +17440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   petCareStateManager: {fileID: 743679602}
   particleEffectsManager: {fileID: 281894570}
+  getServerTime: {fileID: 1128614860}
   isCanSleep: 0
   totalSleepTime: 30
   sleepTimer: 0
@@ -28895,6 +28898,7 @@ MonoBehaviour:
   - {fileID: 1385649638}
   petStatData: {fileID: 11400000, guid: 15cc588ed9ddbac498fe093020d80735, type: 2}
   petCareUIManager: {fileID: 1334679533}
+  getServerTime: {fileID: 1128614860}
   particleEffectsManager: {fileID: 281894570}
   petCareObjectManager: {fileID: 1164944754}
   sleepManager: {fileID: 487682068}
@@ -29187,7 +29191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &756163873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42792,6 +42796,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1128614858}
   - component: {fileID: 1128614859}
+  - component: {fileID: 1128614860}
   m_Layer: 0
   m_Name: TimeManagement
   m_TagString: Untagged
@@ -42829,6 +42834,18 @@ MonoBehaviour:
   petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   petCareTimerEvent: {fileID: 11400000, guid: 3c2c1a4e3b762264e95882db3052bd76, type: 2}
   petStateData: {fileID: 11400000, guid: 15cc588ed9ddbac498fe093020d80735, type: 2}
+--- !u!114 &1128614860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128614857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba394efe40fbbf42a76aa965e7f6607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1129932436
 GameObject:
   m_ObjectHideFlags: 0

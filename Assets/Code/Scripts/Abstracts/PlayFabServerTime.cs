@@ -2,10 +2,35 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using PlayFab;
+using PlayFab.ServerModels;
 
-public class PlayFabAPIExample : MonoBehaviour
+public class PlayFabServerTime : MonoBehaviour
 {
-    private string playFabTitleId = "825DE";
+
+    public void GetCurrentTime(Action<DateTime> nowTime)
+    {
+        PlayFabServerAPI.GetTime(new GetTimeRequest(),
+            (response) =>
+            {
+                nowTime.Invoke(response.Time);
+            },
+            LogFailure);
+
+    }
+
+    void OnGetTimeSuccess(GetTimeResult result)
+    {
+        Debug.Log("The time is: " + result.Time);
+
+    }
+
+    void LogFailure(PlayFabError error)
+    {
+        Debug.Log("There was a problem getting the time. Error: " + error.GenerateErrorReport());
+    }
+
+    /*private string playFabTitleId = "825DE";
     private string playFabLoginUrl = "https://{0}.playfabapi.com/Client/LoginWithCustomID";
     private string playFabGetTimeUrl = "https://{0}.playfabapi.com/Client/GetTime";
     private string sessionTicket;
@@ -69,10 +94,10 @@ public class PlayFabAPIExample : MonoBehaviour
             var timeResponse = JsonUtility.FromJson<PlayFabTimeResponse>(responseJson);
             Debug.Log("Current server time (UTC): " + timeResponse.Time);
         }
-    }
+    }*/
 }
 
-[Serializable]
+/*[Serializable]
 public class PlayFabLoginResponse
 {
     public string SessionTicket;
@@ -82,4 +107,4 @@ public class PlayFabLoginResponse
 public class PlayFabTimeResponse
 {
     public DateTime Time;
-}
+}*/
