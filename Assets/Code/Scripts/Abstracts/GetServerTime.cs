@@ -4,6 +4,7 @@ using UnityEngine;
 using PlayFab;
 using PlayFab.ServerModels;
 using System;
+using System.Threading.Tasks;
 
 public class GetServerTime : MonoBehaviour
 {
@@ -16,6 +17,27 @@ public class GetServerTime : MonoBehaviour
             },
             LogFailure);
 
+    }
+
+
+    public async Task<DateTime> GetCurrntTimeTask()
+    {
+        bool gettingTime = false;
+        DateTime T = new DateTime();
+
+        PlayFabServerAPI.GetTime(new GetTimeRequest(),
+           (response) =>
+           {
+               T = response.Time;
+           },
+           LogFailure);
+
+        while (!gettingTime)
+        {
+            await Task.Delay(10);
+        }
+
+        return T;
     }
 
     void OnGetTimeSuccess(GetTimeResult result)

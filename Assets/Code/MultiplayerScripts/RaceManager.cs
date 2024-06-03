@@ -25,6 +25,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public PrefabHolder PetPrefabHolder;
     [Space]
+    public NetworkPrefabRef AIPlayer;
+    [Space]
     [Header("Player Prefab")]
     public NetworkPrefabRef PlayerPrefab = NetworkPrefabRef.Empty;
 
@@ -41,6 +43,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public int Min;
     public int Max;
     public int MyRank;
+    [Space]
+    public List<_AIData> GenratedAIDetails;
 
     private NetworkRunner networkRunnerInstance;
 
@@ -63,8 +67,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             Destroy(this.gameObject);
         }
     }
-
-
 
     #region AFK KICKING
 
@@ -99,7 +101,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
 
     #endregion
-
 
     public const string ELO_PROP_KEY = "C0";
     public const string MAP_PROP_KEY = "C1";
@@ -226,6 +227,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     #endregion
 
 
+
     public void _StartGameForPlayers()
     {
         Debug.Log("_StartGameForPlayers");
@@ -244,7 +246,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
     #region PLAYER SPWANR
-
     private void _SpawnPlayer(PlayerRef playerRef)
     {
         if (Runner.IsServer)
@@ -273,6 +274,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             {
                 NetwrokUI.Instance._OpenStartUI();
             }
+        }
+
+        if (Runner.IsClient)
+        {
+            Debug.Log("I am client so checking for AI player");
+            _CheckForAIPlayers();
         }
     }
 
@@ -315,6 +322,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         ColoredDebug.Log("OnPlayerJoined", Color.green);
         _SpawnPlayer(player);
         _CheckHowManyPlayersAreInGame();
+        //CHECKING FOR AI PLAYER COUNT
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -403,4 +411,36 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
     #endregion
+
+    #region AI PLAYER
+    void _CheckForAIPlayers()
+    {
+        Debug.Log("Checking For AI Players");
+    }
+
+    public void _GenrateAIPlayer()
+    {
+        Debug.Log("AI player genration");
+    }
+
+    void _SendAIDetails()
+    {
+        Debug.Log("I am Sedning AI Details");
+    }
+
+    #endregion
+
+    #region RPC CALLS
+    [Rpc(RpcSources.InputAuthority, RpcTargets.InputAuthority)]
+    public void RPC_GetAIDetails()
+    {
+        _SendAIDetails();
+    }
+    #endregion
+}
+
+[System.Serializable]
+public class _AIData
+{
+    public string AIName;
 }

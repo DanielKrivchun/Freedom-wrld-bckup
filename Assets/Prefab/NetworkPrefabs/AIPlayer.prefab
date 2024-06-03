@@ -299,6 +299,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 7213845569490787930}
   - {fileID: 4941761075465396904}
+  - {fileID: 6839858103335164569}
 --- !u!114 &7213845569490787930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,3 +346,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c83d7f0daf8a74478f366357689c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_input_value: {fileID: 0}
+  PetConfigs: {fileID: 0}
+  nameText: {fileID: 0}
+  m_agent: {fileID: 0}
+  GenratedPet: {fileID: 0}
+  playerName:
+    _length: 0
+    _data:
+      Data: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  move_positions: []
+  IsServer: 0
+  IsLocalPlayer: 0
+  RaceComplete: 0
+  _MyName: 
+  _MyPathNumber: 0
+  _MyPrefabID: 
+  _MyWiningNumber: 0

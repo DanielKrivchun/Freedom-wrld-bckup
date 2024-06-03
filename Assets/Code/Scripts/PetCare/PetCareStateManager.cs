@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -53,6 +54,8 @@ public class PetCareStateManager : MonoBehaviour
     private GameObject generatedFood;
     private List<GameObject> generatedFoodItems = new List<GameObject>();
 
+
+    private bool waitringfortime;
     private void Awake()
     {
         if (instance == null)
@@ -123,7 +126,7 @@ public class PetCareStateManager : MonoBehaviour
     public void GenerateFoodItemOnTable(FoodItems foodType)
     {
         //If Eat table is on then generate food on table 
-        if(selectedPetCareState == PetCareState.Eat)
+        if (selectedPetCareState == PetCareState.Eat)
         {
             GenerateFoodAndSetTransformWithSpawnIndex(foodType);
             isFoodItemsSet = true;
@@ -371,12 +374,27 @@ public class PetCareStateManager : MonoBehaviour
     //Calculating Time diff with current time in seconds
     public float CheckTimeDiffWithCurrentTimeInSec(string lastTime)
     {
-        /*getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
+        getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
         Debug.Log("Server Time - " + serverTimeNow);
-        return (float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds;*/
 
-        return 0;
+        return (float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds;
+
     }
+
+
+    public void TT()
+    {
+
+    }
+
+    public async void _CheckT(string lastTime)
+    {
+        var task = getServerTime.GetCurrntTimeTask();
+        // do something  else
+        var result = await task;
+        serverTimeNow = result;
+    }
+
 
     IEnumerator CheckTimeDiffWithCurrentTimeInSecMain(string lastTime, Action<float> getTime)
     {
@@ -387,9 +405,7 @@ public class PetCareStateManager : MonoBehaviour
         {
             yield return null;
         }
-
         Debug.Log("Server Time - " + serverTimeNow);
-
         getTime((float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds);
 
     }
