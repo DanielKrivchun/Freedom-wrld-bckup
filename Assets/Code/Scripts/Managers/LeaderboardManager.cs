@@ -20,9 +20,9 @@ public class LeaderboardServiceTest : MonoBehaviour
     //  Fields  ---------------------------------------
     [SerializeField] private LeaderboardRef _leaderboardRef = null;
     [SerializeField] private double _score = 100;
-    [SerializeField] public TextMeshProUGUI TxtAlias;
+    /*[SerializeField] public TextMeshProUGUI TxtAlias;*/
     /*[SerializeField] public TextMeshProUGUI TxtScore;*/
-    private RankEntry _rankEntry;
+    /*private RankEntry _rankEntry;*/
 
     //  Unity Methods  --------------------------------
 
