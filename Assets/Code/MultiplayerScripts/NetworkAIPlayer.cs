@@ -82,23 +82,16 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     private void SetLocalObjects()
     {
-        if (Utils.IsLocalPlayer(Object))
-        {
-            IsLocalPlayer = true;
-            playerName = RaceManager.instance.LocalPlayerNickname;
-            Debug.Log("Sending RPC with Name   " + playerName);
-            MyName = playerName.ToString();
-            RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
-            nameText.text = playerName.ToString();
-            gameObject.name = MyName.ToString();
-            _SetupCamera();
-        }
-        else
-        {
-            Debug.Log("My Name Is " + MyName);
-            gameObject.name = MyName.ToString();
-            nameText.text = MyName.ToString();
-        }
+        Debug.Log("I am Local Player");
+        IsLocalPlayer = true;
+        playerName = RaceManager.instance.LocalPlayerNickname;
+        Debug.Log("Sending RPC with Name   " + playerName);
+        int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
+        MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
+        MyName = Random.Range(0, 10).ToString();
+        RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
+        nameText.text = playerName.ToString();
+        gameObject.name = MyName.ToString();
     }
 
     #endregion

@@ -52,7 +52,10 @@ public class _Strings
 
 public struct _Tags
 {
-    public static string WinLine = "";
+    public const string WinLine = "WinLine";
+    public const string Water = "Water";
+    public const string Flying = "Flyng";
+    public const string Land = "Land";
 }
 
 public enum PetCareState

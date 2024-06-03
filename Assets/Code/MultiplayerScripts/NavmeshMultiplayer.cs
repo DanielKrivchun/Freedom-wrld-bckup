@@ -122,15 +122,34 @@ public class NavmeshMultiplayer : NetworkBehaviour
     {
         if (Runner.IsServer)
         {
-            Debug.Log(other.tag + "    " + MyName);
-            MyWiningNumber = RaceManager.instance._GetMyWinningNo();
-            RaceComplete = true;
-            m_agent.SetDestination(transform.position);
-            GetComponent<NavMeshAgent>().enabled = false;
-            StartCoroutine(SetMyWinPosition());
+            switch (other.tag)
+            {
+                case _Tags.WinLine:
+                    Debug.Log(other.tag + "    " + MyName);
+                    MyWiningNumber = RaceManager.instance._GetMyWinningNo();
+                    RaceComplete = true;
+                    m_agent.SetDestination(transform.position);
+                    GetComponent<NavMeshAgent>().enabled = false;
+                    break;
+                case _Tags.Water:
+                    _ChangeAnimationHere(_AnimState.Swimming);
+                    break;
+                case _Tags.Flying:
+                    _ChangeAnimationHere(_AnimState.Flying);
+                    break;
+
+                case _Tags.Land:
+                    _ChangeAnimationHere(_AnimState.Run);
+                    break;
+
+            }
+
+
         }
     }
+    #endregion
 
+    #region WIN LOGC 
 
     private IEnumerator SetMyWinPosition()
     {
@@ -155,14 +174,13 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
             NetworkEventManager._EventWon(MyWiningNumber);
-            //if (Runner.IsClient)
-            //{
-            //    StartCoroutine(SetMyWinPosition());
-            //}
+            StartCoroutine(SetMyWinPosition());
         }
 
     }
+
     #endregion
+
 
     #region ANIMATION CAMERA
     private void _ChangeAnimationHere(_AnimState _state)

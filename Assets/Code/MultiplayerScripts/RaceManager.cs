@@ -416,11 +416,34 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     void _CheckForAIPlayers()
     {
         Debug.Log("Checking For AI Players");
+        RPC_GetAIDetails();
     }
 
     public void _GenrateAIPlayer()
     {
         Debug.Log("AI player genration");
+
+        if (PathNumber <= 0)
+        {
+            PathNumber = 0;
+        }
+        Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
+        Debug.Log(spawnPoint);
+        NetworkObject playerObject = Runner.Spawn(AIPlayer, spawnPoint, Quaternion.identity);
+        playerObject.GetComponent<NetworkTransform>().transform.position = spawnPoint;
+        Debug.Log(playerObject.transform.position);
+        playerObject.GetComponent<NetworkAIPlayer>()._SetUpMyInitialData(PathNumber);
+        //playerı serverde yaptık.
+        PathNumber++;
+
+
+        if (PathNumber >= 0)
+        {
+            NetwrokUI.Instance._OpenStartUI();
+        }
+
+
+        RPC_GetAIDetails();
     }
 
     void _SendAIDetails()

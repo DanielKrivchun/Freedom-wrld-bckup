@@ -95,8 +95,6 @@ public class NetwrokUI : NetworkBehaviour
         spawner._StartGameForPlayers();
     }
 
-
-
     #region RPC Remote Procedure Call
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_StartGame()
