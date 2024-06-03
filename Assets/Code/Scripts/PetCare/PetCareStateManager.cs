@@ -1,11 +1,9 @@
 using DG.Tweening;
-using PlayFab;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PetCareStateManager : MonoBehaviour
@@ -18,11 +16,14 @@ public class PetCareStateManager : MonoBehaviour
     [Header("Pet Data Reference")]
     public PetDataRef petDataRef;
 
+    [Header("Pet Prefabs Holder")]
+    public PrefabHolder petPrefabs;
+
     [Space]
     public PetCareState selectedPetCareState;
 
     [Space]
-    public GameObject player;
+    public Transform player;
 
     [Space]
     public FoodObjectHolder foodObjectHolder;
@@ -195,6 +196,8 @@ public class PetCareStateManager : MonoBehaviour
             petDataRef.petData.isSick = false;
             petCareUIManager.ClosePetSickLabel();
             petCareUIManager.ShowNotificationUI("Nice job! \nYour pet is all better");
+
+            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Idle);
         }
     }
 
@@ -208,13 +211,17 @@ public class PetCareStateManager : MonoBehaviour
         {
             petDataRef.petData.isSick = true;
             petCareUIManager.ShowPetSickLabel();
+
+            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sick);
         }
 
         //Pet is sick so clamp health to sick thresold
         if (petDataRef.petData.isSick)
         {
-            petCareUIManager.ShowPetSickLabel();
             petDataRef.petData.health = Mathf.Clamp(petDataRef.petData.health, 0, petStatData.sickHealthThreshold);
+            petCareUIManager.ShowPetSickLabel();
+
+            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sick);
         }
     }
     #endregion
@@ -261,11 +268,30 @@ public class PetCareStateManager : MonoBehaviour
     }
     #endregion
 
+    #region SPAWN AND DESTROY PET PREFAB
+    public void SpawnPetPrefab()
+    {
+        GameObject pet = Instantiate(petPrefabs._GetMyPrefab(petDataRef.petLocalData.petID), player);
+        PetCareInputManager.instance.petAnim = pet.GetComponent<PetAnimation>();
+    }
+
+    public void DestroyPetPrefab()
+    {
+        petPrefabs._GetMyPrefab(petDataRef.petLocalData.petID).SetActive(false);
+    }
+    #endregion
+
     #region CHECKING LOST VALUE OF STATS
     //Get & set data from Beamable
-    public void SetDataOfCloudAndManageStats()
+    public async void SetDataOfCloudAndManageStats()
     {
         timingManager.gameObject.SetActive(true);
+
+        //Spawn pet prefab
+        SpawnPetPrefab();
+
+        serverTimeNow = await getServerTime.GetCurrentTimeTask();
+        Debug.Log("Server Time Now - " + serverTimeNow);
 
         //Happiness
         int lostHappiness = CalculateLostStatValue(petDataRef.petData.lastTimeHappy, petStatData.happyTimeLength, petStatData.happinessTickRate);
@@ -307,6 +333,7 @@ public class PetCareStateManager : MonoBehaviour
 
         if ((noSleepTime / oneDaySeconds) > petStatData.lowerSleepTimeInDay && !petDataRef.petData.sleepData.isSleeping)
         {
+            DestroyPetPrefab();
             petCareUIManager.ShowPetDeathUI("Pet die due to NO SLEEP more than " + petStatData.lowerSleepTimeInDay + " days!");
             return;
         }
@@ -316,18 +343,6 @@ public class PetCareStateManager : MonoBehaviour
         Debug.Log("Lost Energy - " + lostEnergy);
 
         ManageEnergyDataFiller(-lostEnergy);
-
-        //Checking Pet Death Situation
-        if (petDataRef.petData.happiness == 0 && petDataRef.petData.hunger == 0 && petDataRef.petData.cleanliness == 0 && petDataRef.petData.energy == 0)
-        {
-            if (IsPetDeathDueToHealth(lostHappiness, lostHunger, lostCleanliness, lostEnergy))
-            {
-                return;
-            }
-        }
-
-        //If there is no death of Pet then Spawn pet prefab
-        petCareUIManager.SpawnPetPrefab();
 
         //Sleep
         if (petDataRef.petData.sleepData.isSleeping)
@@ -345,6 +360,17 @@ public class PetCareStateManager : MonoBehaviour
                 PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sleep);
             }
         }
+
+        //Checking Pet Death Situation
+        if (petDataRef.petData.happiness == 0 && petDataRef.petData.hunger == 0 && petDataRef.petData.cleanliness == 0 && petDataRef.petData.energy == 0)
+        {
+            if (IsPetDeathDueToHealth(lostHappiness, lostHunger, lostCleanliness, lostEnergy))
+            {
+                return;
+            }
+        }        
+
+        
 
         //Check for last login
         if (IsUserLoginNewDay())
@@ -372,48 +398,15 @@ public class PetCareStateManager : MonoBehaviour
     }
 
     //Calculating Time diff with current time in seconds
-    public float CheckTimeDiffWithCurrentTimeInSec(string lastTime)
+    float CheckTimeDiffWithCurrentTimeInSec(string lastTime)
     {
-        getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
-        Debug.Log("Server Time - " + serverTimeNow);
-
         return (float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds;
 
     }
-
-
-    public void TT()
-    {
-
-    }
-
-    public async void _CheckT(string lastTime)
-    {
-        var task = getServerTime.GetCurrntTimeTask();
-        // do something  else
-        var result = await task;
-        serverTimeNow = result;
-    }
-
-
-    IEnumerator CheckTimeDiffWithCurrentTimeInSecMain(string lastTime, Action<float> getTime)
-    {
-        bool isTimeSet = false;
-        getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; isTimeSet = true; });
-
-        while (!isTimeSet)
-        {
-            yield return null;
-        }
-        Debug.Log("Server Time - " + serverTimeNow);
-        getTime((float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds);
-
-    }
-
     #endregion
 
     #region CHECKING FOR PET DEATH
-    public bool IsPetDeathDueToHunger()
+    bool IsPetDeathDueToHunger()
     {
         int lowHunger;
 
@@ -433,6 +426,7 @@ public class PetCareStateManager : MonoBehaviour
         //Checking time is passing LowerHungerTimeInDay limit
         if ((timeOfLowHunger / oneDaySeconds) > petStatData.lowerHungerTimeInDay)
         {
+            DestroyPetPrefab();
             petCareUIManager.ShowPetDeathUI("Pet die due to NO FOOD more than " + petStatData.lowerHungerTimeInDay + " days!");
             return true;
         }
@@ -442,7 +436,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
-    public bool IsPetDeathDueToCleanliness()
+    bool IsPetDeathDueToCleanliness()
     {
         int lowCleanliness;
 
@@ -462,6 +456,7 @@ public class PetCareStateManager : MonoBehaviour
         //Checking time is passing LowerCleanlinessTimeInDay limit
         if ((timeOfLowerCleanliness / oneDaySeconds) > petStatData.lowerCleanlinessTimeInDay)
         {
+            DestroyPetPrefab();
             petCareUIManager.ShowPetDeathUI("Pet die due to NO CLEANLINESS more than " + petStatData.lowerCleanlinessTimeInDay + " days!");
             return true;
         }
@@ -471,7 +466,7 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
 
-    public bool IsPetDeathDueToHealth(int lostHappiness, int lostHunger, int lostCleanliness, int lostEnergy)
+    bool IsPetDeathDueToHealth(int lostHappiness, int lostHunger, int lostCleanliness, int lostEnergy)
     {
         //Checking for Happiness time after Happiness = 0
         int lowerHappiness = Mathf.Abs(lostHappiness - petStatData.maxHappiness);
@@ -493,6 +488,7 @@ public class PetCareStateManager : MonoBehaviour
         if ((timeOfLowerHappiness / oneHourSeconds) > petStatData.lowerHealthTimeInHour && (timeOfLowerHunger / oneHourSeconds) > petStatData.lowerHealthTimeInHour
             && (timeOfLowerCleanliness / oneHourSeconds) > petStatData.lowerHealthTimeInHour && (timeOfLowerEnergy / oneHourSeconds) > petStatData.lowerHealthTimeInHour)
         {
+            DestroyPetPrefab();
             petCareUIManager.ShowPetDeathUI("Pet die due to NO HEALTH more than " + petStatData.lowerHealthTimeInHour + " hours!");
             return true;
         }

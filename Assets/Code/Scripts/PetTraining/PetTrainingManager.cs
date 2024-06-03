@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -270,7 +271,7 @@ public class PetTrainingManager : MonoBehaviour
     #endregion
 
     #region CHECK FOR ONGOING TRAINING
-    public void CheckForAnyOngoingTraining()
+    public async void CheckForAnyOngoingTraining()
     {
         switch (petDataRef.petData.ongoingTrainingData.ongoingTraining)
         {
@@ -300,7 +301,7 @@ public class PetTrainingManager : MonoBehaviour
                 break;
         }
 
-        if (CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime) > currentTrainingData.trainingTime)
+        if (await CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime) > currentTrainingData.trainingTime)
         {
             Debug.Log("Training completed!");
             ShowTrainingCompletedUI();
@@ -309,14 +310,15 @@ public class PetTrainingManager : MonoBehaviour
         {
             Debug.Log("Training Time is Not over yet!");
             ShowOngoingTrainingUIWithTime();
-            trainingTimer = currentTrainingData.trainingTime - CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime);
+            trainingTimer = currentTrainingData.trainingTime - await CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime);
             startTimer = true;
         }
     }
 
-    public float CheckTimeDiffWithCurrentTimeInSec(string lastTime)
+    async Task<float> CheckTimeDiffWithCurrentTimeInSec(string lastTime)
     {
-        getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
+        serverTimeNow = await getServerTime.GetCurrentTimeTask();
+        Debug.Log("Server Time Now - " + serverTimeNow);
         return (float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds;
     }
     #endregion

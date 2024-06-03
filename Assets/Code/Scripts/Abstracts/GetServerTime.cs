@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using PlayFab;
 using PlayFab.ServerModels;
 using System;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class GetServerTime : MonoBehaviour
 {
@@ -20,21 +18,22 @@ public class GetServerTime : MonoBehaviour
     }
 
 
-    public async Task<DateTime> GetCurrntTimeTask()
+    public async Task<DateTime> GetCurrentTimeTask()
     {
-        bool gettingTime = false;
-        DateTime T = new DateTime();
+        bool isTimeSet = false;
+        DateTime T = new();
 
         PlayFabServerAPI.GetTime(new GetTimeRequest(),
            (response) =>
            {
                T = response.Time;
+               isTimeSet = true;
            },
            LogFailure);
 
-        while (!gettingTime)
+        while (!isTimeSet)
         {
-            await Task.Delay(10);
+            await Task.Delay(500);
         }
 
         return T;

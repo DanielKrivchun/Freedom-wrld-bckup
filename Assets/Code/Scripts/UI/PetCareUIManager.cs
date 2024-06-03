@@ -28,8 +28,6 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Pet Welcome Panel UI")]
     public Image selectedEggPet;
     public List<Sprite> petImages;
-    public PrefabHolder petPrefabs;
-    public Transform player;
 
     [Header("Set Pet Details Panel UI")]
     public InputField petInput;
@@ -239,12 +237,6 @@ public class PetCareUIManager : MonoBehaviour
 
         //Setting Pet prefab index for spawning pet
         petDataRef.petLocalData.petID = index.ToString();
-    }
-
-    public void SpawnPetPrefab()
-    {
-        GameObject pet = Instantiate(petPrefabs._GetMyPrefab(petDataRef.petLocalData.petID), player);
-        PetCareInputManager.instance.petAnim = pet.GetComponent<PetAnimation>();
     }
 
     public void NextFromWelcomePanel()
