@@ -20,132 +20,40 @@ public class LeaderboardServiceTest : MonoBehaviour
     //  Fields  ---------------------------------------
     [SerializeField] private LeaderboardRef _leaderboardRef = null;
     [SerializeField] private double _score = 100;
-
-    private BeamContext _beamContext;
+    [SerializeField] public TextMeshProUGUI TxtAlias;
+    /*[SerializeField] public TextMeshProUGUI TxtScore;*/
+    private RankEntry _rankEntry;
 
     //  Unity Methods  --------------------------------
-
-    private RankEntry _rankEntry;
 
     protected void Start()
     {
         Debug.Log($"Start()");
 
-        /*LeaderboardServiceSetScore(_leaderboardRef.Id, _score);*/
-        SetupBeamable();
+        LeaderboardServiceSetScore(_leaderboardRef.Id, _score);
     }
 
     public void Update()
     {
-
-        // Custom Leaderboard
-        long scoreTimestamp = 0;
-        long scoreVelocity = 0;
-        long testValue = 0;
-
-        try
-        {
-            //try/catch in case the stats do not exist
-            scoreTimestamp = long.Parse(_rankEntry.GetStat("leaderboard_score_timestamp"));
-            scoreVelocity = long.Parse(_rankEntry.GetStat("leaderboard_score_velocity"));
-            testValue = long.Parse(_rankEntry.GetStat("test_value"));
-        }
-        catch (Exception e)
-        {
-            Debug.LogWarning(e.Message);
-        }
-
-        long currentTimestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
-        long millisecondsSinceSubmission = currentTimestamp - scoreTimestamp;
-        long scoreSinceSubmission = (millisecondsSinceSubmission * scoreVelocity) / 1000;
-        
-        double score = _rankEntry.score + scoreSinceSubmission;
-        Debug.Log($"Test: {testValue}");
-        Debug.Log($"Current score: {score:00000}");
-        /*TxtScore.text = $"{score:00000}";*/
+        // Render value
+        /*TxtScore.text = $"{_score:00000}";*/
+        /*TxtAlias.text = $"{_leaderboardRef.Id:ALIAS}";*/
     }
 
 
 
     //  Methods  --------------------------------------
-    private async void SetupBeamable()
-    {
-        _beamContext = BeamContext.Default;
-        await _beamContext.OnReady;
-        Debug.Log($"_beamContext.PlayerId = {_beamContext.PlayerId}");
-
-        Debug.Log($"PopulateLeaderboard Starting. Wait < 30 seconds... ");
-
-        /*LeaderboardContent leaderboardContent =
-        await _leaderboardMainMenuCustom.LeaderboardBehavior.Leaderboard.Resolve();
-
-        int leaderboardRowCountMin = 10;
-        int leaderboardScoreMin = 99;
-        int leaderboardScoreMax = 99999;*/
-
-        // Populate with custom values 
-        Dictionary<string, object> leaderboardStats = new Dictionary<string, object>();
-        leaderboardStats.Add("leaderboard_score_timestamp", new
-        DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds());
-        leaderboardStats.Add("leaderboard_score_velocity", 99); // 99 score delta per second
-
-        // add custom test_value
-        leaderboardStats.Add("test_value", 100);
-
-        // add custom stats
-        /*await _beamContext.Api.LeaderboardService.SetScore(_leaderboardRef.Id, _score, leaderboardStats);*/
-
-        // --------------------------------------- Needs fixing, can't access "MockDataCreator" ----------------------------------------------------------------
-        // Populates mock "alias" and "score" for each leaderboard row
-
-        /*string loggingResult = await MockDataCreator.PopulateLeaderboardWithMockData(
-        _beamContext,
-        leaderboardContent,
-        leaderboardRowCountMin,
-        leaderboardScoreMin,
-        leaderboardScoreMax,
-        leaderboardStats);
-
-        Debug.Log($"PopulateLeaderboard Finish. Result = {loggingResult}");*/
-    }
-
     private async void LeaderboardServiceSetScore(string id, double score)
     {
         var beamContext = BeamContext.Default;
         await beamContext.OnReady;
 
-        /*Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");*/
+        Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");
 
 
         await beamContext.Api.LeaderboardService.SetScore(id, score);
 
         Debug.Log($"LeaderboardService.SetScore({id},{score})");
-    }
-
-    private async Task<List<RankEntry>> LeaderboardServiceGetBoard(string id, long userId)
-    {
-        LeaderBoardView leaderBoardView = await _beamContext.Api.LeaderboardService.GetBoard(id, 0, 100,
-        userId);
-
-        foreach (RankEntry rankEntry in leaderBoardView.rankings)
-        {
-            // Get alias for userId of rankEntry
-            long nextUserId = rankEntry.gt;
-            var stats =
-                    await _beamContext.Api.StatsService.GetStats("client", "public", "player", nextUserId);
-
-            string alias = "";
-            stats.TryGetValue(alias, out alias);
-            if (string.IsNullOrEmpty(alias))
-            {
-                alias = "Unknown Alias";
-            }
-
-            // Log
-            Debug.Log($"Rank = {rankEntry.rank}, Alias = {alias}, Score = {rankEntry.score}");
-        }
-
-        return leaderBoardView.rankings;
     }
 
 }
