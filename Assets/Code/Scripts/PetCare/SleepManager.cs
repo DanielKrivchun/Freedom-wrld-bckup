@@ -20,6 +20,9 @@ public class SleepManager : MonoBehaviour
     public Button sleepBtn;
     public Text sleepCountdownTxt;
 
+    [Space]
+    public GameObject petCareBtnHolder;
+
     private void OnEnable()
     {
         if(isCanSleep)
@@ -43,6 +46,7 @@ public class SleepManager : MonoBehaviour
         if (petCareStateManager.petDataRef.petData.cleanliness > 10 &&
             petCareStateManager.petDataRef.petData.hunger > 10)
         {
+            petCareBtnHolder.SetActive(false);
             particleEffectsManager.StartSleepEffect();
             PetCareInputManager.instance.SetPetToInsideHomeOnSleepStart();
 
@@ -56,6 +60,7 @@ public class SleepManager : MonoBehaviour
 
     public void SetSleepingTimer(float sleepTimeTillNow)
     {
+        petCareBtnHolder.SetActive(false);
         sleepTimer = totalSleepTime - sleepTimeTillNow;
         isCanSleep = true;
         gameObject.SetActive(true);
@@ -77,6 +82,8 @@ public class SleepManager : MonoBehaviour
 
         petCareStateManager.petDataRef.petData.sleepData.isSleeping = false;
         petCareStateManager.ManageEnergyDataFiller(100);
+
+        petCareBtnHolder.SetActive(true);
     }
 
     private void Update()

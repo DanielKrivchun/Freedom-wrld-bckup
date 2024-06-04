@@ -77,7 +77,6 @@ public class PetCareInputManager : MonoBehaviour
                     playerReachedEvent.Raise();
 
                     isCheckForPathCompletion = false;
-                    //transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 }
             }
         }
@@ -93,12 +92,10 @@ public class PetCareInputManager : MonoBehaviour
     public void SetPetToInsideHomeOnSleepStart()
     {
         petAnim.transform.gameObject.SetActive(false);
-        transform.DOMove(playerPosInSleep, 1f);
     }
 
     public void SetPetToOutsideHomeOnSleepComplete()
     {
-        transform.DOMove(playerPosOutSleep.position, 1f);
         petAnim.transform.gameObject.SetActive(true);
     }
 }

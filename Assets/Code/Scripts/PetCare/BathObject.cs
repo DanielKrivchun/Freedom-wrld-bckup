@@ -8,6 +8,9 @@ public class BathObject : MonoBehaviour
     public GameObject foamBubblesHolder;
 
     [Space]
+    public GameObject petCareBtnHolder;
+
+    [Space]
     public int cleanlinessMultiplier;
 
     [HideInInspector]
@@ -36,18 +39,21 @@ public class BathObject : MonoBehaviour
 
     public void MakePetReadyForBath()
     {
-        /*if (PetCareStateManager.instance.petDataRef.petData.cleanliness < 100)
-        {*/
+        if (PetCareStateManager.instance.petDataRef.petData.cleanliness < 100)
+        {
             isReadyForBath = true;
             isSoapUsed = false;
             isShowerUsed = false;
+            
             characterController.enabled = false;
-        //}
+            petCareBtnHolder.SetActive(false);
+        }
     }
 
     public IEnumerator ResetPlayerProperties()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         characterController.enabled = true;
+        petCareBtnHolder.SetActive(true);
     }
 }

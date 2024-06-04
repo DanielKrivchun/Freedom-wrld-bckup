@@ -77,12 +77,6 @@ public class PetCareObjectManager : MonoBehaviour
             case PetCareState.Energy:
                 sleepCanvas.SetActive(true);
                 break;
-
-            default:
-                bathObjectHolder.SetActive(false);
-                eatObjectHolder.SetActive(false);
-                sleepCanvas.SetActive(false);
-                break;
         }
     }
 }

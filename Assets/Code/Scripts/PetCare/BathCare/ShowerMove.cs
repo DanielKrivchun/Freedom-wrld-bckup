@@ -31,15 +31,15 @@ public class ShowerMove : MonoBehaviour
         waterShowerEffect.Stop();
 
         //Checking for Soap used and all foam bubble cleared or not
-        /*if (bathObject.isSoapUsed && !bathObject.isShowerUsed && particleEffectsManager.IsAllFoamCleared())
+        if (bathObject.isSoapUsed && !bathObject.isShowerUsed && particleEffectsManager.IsAllFoamCleared())
         {
             bathObject.isShowerUsed = true;
             PetCareStateManager.instance.ManageCleanlinessDataFiller(particleEffectsManager.numOfFoamBubbles * bathObject.cleanlinessMultiplier);
             particleEffectsManager.numOfFoamBubbles = 0;
 
             //Reset player position
-            StartCoroutine(bathObject.ResetPlayerToMainPosition());
-        }*/
+            StartCoroutine(bathObject.ResetPlayerProperties());
+        }
     }
 
     void Update()
@@ -78,7 +78,7 @@ public class ShowerMove : MonoBehaviour
     Vector3 GetMouseWorldPosition()
     {
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = -Camera.main.transform.position.z;
+        mousePosition.z = Camera.main.WorldToScreenPoint(transform.localPosition).z;
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
 }
