@@ -13,8 +13,13 @@ public class PathPointManager : MonoBehaviour
     [Space]
     public AnimationCurve LineCurve;
 
+#if UNITY_EDITOR
     public List<Vector3> _GetMyPath()
     {
+
+
+
+
 
         List<Vector3> v = new List<Vector3>();
 
@@ -30,8 +35,6 @@ public class PathPointManager : MonoBehaviour
             a++;
         }
 
-#if UNITY_EDITOR
-
         _PrePositions pre = new _PrePositions();
         pre.m_positions = v;
 
@@ -39,10 +42,13 @@ public class PathPointManager : MonoBehaviour
         prePositions[StraightNo].m_positions = v;
 
         _GenratePathLines(v);
-#endif
 
         return v;
+
+
     }
+
+#endif
 
 #if UNITY_EDITOR
     public List<GameObject> Lines;

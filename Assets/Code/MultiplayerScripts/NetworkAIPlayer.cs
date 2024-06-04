@@ -64,9 +64,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     IEnumerator _GenrateMyPrefab()
     {
         yield return new WaitForSecondsRealtime(1f);
-
         Debug.Log("This Choroutine Worked " + gameObject.name);
-
         _GenratePetPrefab();
 
     }
@@ -84,11 +82,11 @@ public class NetworkAIPlayer : NetworkBehaviour
     {
         Debug.Log("I am Local Player");
         IsLocalPlayer = true;
-        playerName = RaceManager.instance.LocalPlayerNickname;
+        MyName = Random.Range(0, 10).ToString();
+        playerName = MyName;
         Debug.Log("Sending RPC with Name   " + playerName);
         int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
         MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
-        MyName = Random.Range(0, 10).ToString();
         RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
         nameText.text = playerName.ToString();
         gameObject.name = MyName.ToString();
@@ -115,40 +113,34 @@ public class NetworkAIPlayer : NetworkBehaviour
     {
         if (Runner.IsServer)
         {
-            Debug.Log(other.tag + "    " + MyName);
-            MyWiningNumber = RaceManager.instance._GetMyWinningNo();
-            RaceComplete = true;
-            m_agent.SetDestination(transform.position);
-            GetComponent<NavMeshAgent>().enabled = false;
-            StartCoroutine(SetMyWinPosition());
+            switch (other.tag)
+            {
+                case _Tags.WinLine:
+                    Debug.Log("WINLINE COLIDED" + other.tag + "    " + MyName);
+                    MyWiningNumber = RaceManager.instance._GetMyWinningNo();
+                    RaceComplete = true;
+                    GetComponent<NavMeshAgent>().enabled = false;
+                    GetComponent<Collider>().enabled = false;
+                    break;
+                case _Tags.Water:
+                    _ChangeAnimationHere(_AnimState.Swimming);
+                    break;
+                case _Tags.Flying:
+                    _ChangeAnimationHere(_AnimState.Flying);
+                    break;
+
+                case _Tags.Land:
+                    _ChangeAnimationHere(_AnimState.Run);
+                    break;
+
+            }
         }
-    }
-
-
-    private IEnumerator SetMyWinPosition()
-    {
-        yield return new WaitForSecondsRealtime(0.5f);
-        int temp = MyWiningNumber - 1;
-        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-
-        yield return new WaitForSecondsRealtime(0.5f);
-        Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
-        //Rigidbody rb = GetComponent<Rigidbody>();
-        //rb.freezeRotation = true;
-        transform.eulerAngles = new Vector3(0f, 90f, 0f);
-        transform.position = pos;
-        NetwrokUI.Instance.WinUI.SetActive(false);
-        NetworkCamera.Instance._ActiveWinScene();
     }
 
     private void _OnWInNumberAlocated()
     {
         Debug.Log("_OnWInNumberAlocated " + gameObject.name);
-        if (Utils.IsLocalPlayer(Object))
-        {
-            Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
-            NetworkEventManager._EventWon(MyWiningNumber);
-        }
+        Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
 
     }
     #endregion
