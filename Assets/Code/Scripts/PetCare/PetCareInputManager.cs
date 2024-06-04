@@ -15,8 +15,7 @@ public class PetCareInputManager : MonoBehaviour
     public ParticleEffectsManager particleEffectsManager;
 
     [Space]
-    public Vector3 playerPosInSleep;
-    public Transform playerPosOutSleep;
+    public float navmeshSpawnOffset;
 
     [HideInInspector]
     public PetAnimation petAnim;
@@ -34,8 +33,9 @@ public class PetCareInputManager : MonoBehaviour
 
     private void Start()
     {
-
         agent = GetComponent<NavMeshAgent>();
+
+        transform.position = GetRandomPointOnNavMesh(transform.position, navmeshSpawnOffset);
     }
 
     private void OnMouseDown()
@@ -87,6 +87,17 @@ public class PetCareInputManager : MonoBehaviour
         isCheckForPathCompletion = true;
         petAnim._ChangeAnimationState(_AnimState.Run);
         agent.SetDestination(point);
+    }
+
+    Vector3 GetRandomPointOnNavMesh(Vector3 center, float range)
+    {
+        Vector3 randomPoint = center + Random.insideUnitSphere * range;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, range, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+        return Vector3.zero; // Return zero if no valid NavMesh point is found
     }
 
     public void SetPetToInsideHomeOnSleepStart()

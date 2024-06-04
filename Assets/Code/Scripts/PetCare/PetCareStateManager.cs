@@ -285,8 +285,6 @@ public class PetCareStateManager : MonoBehaviour
     //Get & set data from Beamable
     public async void SetDataOfCloudAndManageStats()
     {
-        timingManager.gameObject.SetActive(true);
-
         //Spawn pet prefab
         SpawnPetPrefab();
 
@@ -387,6 +385,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         offLoadingCanvasEvent.Raise();
+        timingManager.gameObject.SetActive(true);
     }
 
     //Calculating Lost Stat Vale
@@ -399,7 +398,6 @@ public class PetCareStateManager : MonoBehaviour
     float CheckTimeDiffWithCurrentTimeInSec(string lastTime)
     {
         return (float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds;
-
     }
     #endregion
 
