@@ -36,6 +36,8 @@ public class PetAnimation : MonoBehaviour
                 break;
 
             case _AnimState.Jump:
+                Animator.SetBool(_Strings.Jumping, true);
+                m_currunt_anim_state = _AnimState.Jump;
                 break;
 
             case _AnimState.Flying:

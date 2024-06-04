@@ -416,7 +416,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     void _CheckForAIPlayers()
     {
         Debug.Log("Checking For AI Players");
-        RPC_GetAIDetails();
+        //RPC_GetAIDetails();
     }
 
     public void _GenrateAIPlayer()
@@ -443,7 +443,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
 
 
-        RPC_GetAIDetails();
+        //RPC_GetAIDetails();
     }
 
     void _SendAIDetails()

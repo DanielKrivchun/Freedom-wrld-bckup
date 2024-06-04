@@ -91,9 +91,20 @@ public class NavMeshController : MonoBehaviour
 
 
         m_currunt_pos = m_positions[m_currunt_index];
-        m_obj.transform.position=m_currunt_pos;
-        Debug.Log(m_currunt_pos);
-        _SetDestination(m_positions[m_currunt_index]);
+        m_obj.transform.position = m_currunt_pos;
+
+        NavMeshHit myNavHit;
+        if (NavMesh.SamplePosition(m_currunt_pos, out myNavHit, 100, -1))
+        {
+            _SetDestination(myNavHit.position);
+        }
+        else
+        {
+            _SetDestination(m_currunt_pos);
+        }
+
+        //Debug.Log(m_currunt_pos);
+        //_SetDestination(m_positions[m_currunt_index]);
     }
 
     /// <summary>

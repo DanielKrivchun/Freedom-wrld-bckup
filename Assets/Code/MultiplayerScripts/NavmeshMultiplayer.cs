@@ -35,6 +35,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
     public bool IsServer;
     public bool IsLocalPlayer;
     public bool RaceComplete;
+
+    private NavMeshHit hit;
+    private Vector3 finalPosition;
     #endregion
 
     #region NETWORKED OBJECTS
@@ -76,7 +79,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     /// </summary>
     void _SetupConfigs()
     {
-        m_agent.speed = Random.Range(5, PetConfigs.Speed);
+        m_agent.speed = Random.Range(3, PetConfigs.Speed);
         m_agent.acceleration = Random.Range(15, PetConfigs.Acceleration);
     }
 
@@ -125,11 +128,12 @@ public class NavmeshMultiplayer : NetworkBehaviour
             switch (other.tag)
             {
                 case _Tags.WinLine:
-                    Debug.Log(other.tag + "    " + MyName);
+                    Debug.Log("WINLINE COLIDED" + other.tag + "    " + MyName);
                     MyWiningNumber = RaceManager.instance._GetMyWinningNo();
                     RaceComplete = true;
-                    m_agent.SetDestination(transform.position);
                     GetComponent<NavMeshAgent>().enabled = false;
+                    GetComponent<Collider>().enabled = false;
+                    StartCoroutine(SetMyWinPosition());
                     break;
                 case _Tags.Water:
                     _ChangeAnimationHere(_AnimState.Swimming);
@@ -143,8 +147,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
                     break;
 
             }
-
-
         }
     }
     #endregion
@@ -153,34 +155,36 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     private IEnumerator SetMyWinPosition()
     {
+        Debug.Log("SetMyWinPosition");
         yield return new WaitForSecondsRealtime(0.5f);
         int temp = MyWiningNumber - 1;
         Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
         yield return new WaitForSecondsRealtime(0.5f);
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
-        //Rigidbody rb = GetComponent<Rigidbody>();
-        //rb.freezeRotation = true;
         transform.eulerAngles = new Vector3(0f, 90f, 0f);
         transform.position = pos;
+        _ChangeAnimationHere(_AnimState.Jump);
         NetwrokUI.Instance.WinUI.SetActive(false);
         NetworkCamera.Instance._ActiveWinScene();
     }
 
     private void _OnWInNumberAlocated()
     {
-        Debug.Log("_OnWInNumberAlocated " + gameObject.name);
         if (Utils.IsLocalPlayer(Object))
         {
             Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
             NetworkEventManager._EventWon(MyWiningNumber);
-            StartCoroutine(SetMyWinPosition());
+            //CHECK HERE FOR CLIENT AND THEN SHOW CAMERA ANIMATION
+            Debug.Log("I am client so i need to change camera here");
+            NetwrokUI.Instance.WinUI.SetActive(false);
+            NetworkCamera.Instance._ActiveWinScene();
         }
 
     }
 
     #endregion
-
 
     #region ANIMATION CAMERA
     private void _ChangeAnimationHere(_AnimState _state)
@@ -207,7 +211,11 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             Debug.Log(MyPathNumber);
             _InitilizePath();
-            _SetDestination(move_positions[m_currunt_index]);
+            _SetDestination(_GetNextPos(move_positions[m_currunt_index]));
+        }
+        else
+        {
+            m_agent.enabled = false;
         }
 
         _ChangeAnimationHere(_AnimState.Run);
@@ -230,13 +238,16 @@ public class NavmeshMultiplayer : NetworkBehaviour
             return;
         }
 
-        if (!IsServer && RaceComplete)
+        if (!IsServer || RaceComplete)
         {
             return;
         }
+
+        //Debug.Log("Calculating");
+
         //FIND DISTNACE HERE
         _CalculateDistance();
-        if (m_distance < 1)
+        if (m_distance < 0.1)
         {
             _ChangeCurruntPoint();
         }
@@ -251,8 +262,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
             //Debug.Log("Path Complete");
             return;
         }
+
         m_currunt_pos = move_positions[m_currunt_index];
-        _SetDestination(move_positions[m_currunt_index]);
+        _SetDestination(_GetNextPos(m_currunt_pos));
     }
     /// <summary>
     /// Initilize path
@@ -273,18 +285,19 @@ public class NavmeshMultiplayer : NetworkBehaviour
     void _CalculateDistance()
     {
         m_distance = Vector3.Distance(m_currunt_pos, transform.position);
-        //Debug.Log(m_distance);
     }
 
-    public Vector3 RandomNavmeshLocation(float radius)
+    public Vector3 _GetNextPos(Vector3 _pos)
     {
-        Vector3 randomDirection = Random.insideUnitSphere * radius;
-        randomDirection += transform.position;
-        NavMeshHit hit;
-        Vector3 finalPosition = Vector3.zero;
-        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        hit = new NavMeshHit();
+        finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(_pos, out hit, 10, 1))
         {
             finalPosition = hit.position;
+        }
+        else
+        {
+            finalPosition = _pos;
         }
         return finalPosition;
     }
