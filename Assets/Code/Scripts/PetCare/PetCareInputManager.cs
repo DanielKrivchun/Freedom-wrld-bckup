@@ -1,6 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PetCareInputManager : MonoBehaviour
 {
@@ -9,8 +11,13 @@ public class PetCareInputManager : MonoBehaviour
     public PetCareStateManager petCareStateManager;
     public ParticleEffectsManager particleEffectsManager;
 
+    public Transform destinationPoint1;
+
     [HideInInspector]
     public PetAnimation petAnim;
+
+    NavMeshAgent agent;
+    bool isCheckForPathCompletion = false;
     
     private void Awake()
     {
@@ -18,6 +25,11 @@ public class PetCareInputManager : MonoBehaviour
         {
             instance = this;
         }
+    }
+
+    private void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
     }
 
     private void OnMouseDown()
@@ -35,5 +47,39 @@ public class PetCareInputManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void Update()
+    {
+        // Check if we've reached the destination
+        if (!agent.pathPending && isCheckForPathCompletion)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    // Done
+                    if (petCareStateManager.petDataRef.petData.isSick)
+                    {
+                        petAnim._ChangeAnimationState(_AnimState.Sick);
+                    }
+                    else
+                    {
+                        petAnim._ChangeAnimationState(_AnimState.Idle);
+                    }
+                    transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 2f);
+
+                    isCheckForPathCompletion = false;
+                    //transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                }
+            }
+        }
+    }
+
+    public void SetDestinationPoint(Vector3 point)
+    {
+        isCheckForPathCompletion = true;
+        petAnim._ChangeAnimationState(_AnimState.Run);
+        agent.SetDestination(point);
     }
 }

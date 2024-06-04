@@ -50,6 +50,8 @@ public class PetAnimation : MonoBehaviour
 
             case _AnimState.Sick:
                 Animator.SetBool(_Strings.IsSick, true);
+                Animator.SetFloat(_Strings.Velocity, 0);
+                Animator.SetBool(_Strings.Idle, false);
                 m_currunt_anim_state = _AnimState.Sick;
                 break;
 
