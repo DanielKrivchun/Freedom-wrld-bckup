@@ -331,6 +331,10 @@ public class NavmeshMultiplayer : NetworkBehaviour
             Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
+
+            GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
+            GetComponent<NetworkMecanimAnimator>().enabled = true;
+
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;
             nameText.text = MyName.ToString();
