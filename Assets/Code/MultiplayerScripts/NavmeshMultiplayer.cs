@@ -193,9 +193,14 @@ public class NavmeshMultiplayer : NetworkBehaviour
             NetworkEventManager._EventWon(MyWiningNumber);
             //CHECK HERE FOR CLIENT AND THEN SHOW CAMERA ANIMATION
             Debug.Log("I am client so i need to change camera here");
-            NetwrokUI.Instance.WinUI.SetActive(false);
-            NetworkCamera.Instance._ActiveWinScene();
-            _ChangeAnimationHere(_AnimState.Jump);
+
+
+            if (Runner.IsClient)
+            {
+                NetwrokUI.Instance.WinUI.SetActive(true);
+                NetworkCamera.Instance._ActiveWinScene();
+                _ChangeAnimationHere(_AnimState.Jump);
+            }
         }
 
     }
