@@ -185,7 +185,6 @@ GameObject:
   - component: {fileID: 1920933005764420817}
   - component: {fileID: 4272026022587835431}
   - component: {fileID: 7213845569490787930}
-  - component: {fileID: 4941761075465396904}
   - component: {fileID: 8294929576582710564}
   m_Layer: 6
   m_Name: Player
@@ -298,7 +297,6 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 7213845569490787930}
-  - {fileID: 4941761075465396904}
   - {fileID: 8294929576582710564}
 --- !u!114 &7213845569490787930
 MonoBehaviour:
@@ -316,24 +314,6 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
---- !u!114 &4941761075465396904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6701743722040084639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Animator: {fileID: 0}
-  TotalWords: 0
-  ApplyTiming: 2
-  SyncSettings: 127
-  StateHashes: 000000002b1a167c79406955a1f7ab0dbb6691e728a981077af3fe2eb269b6ab364a6044
-  TriggerHashes: 00000000
 --- !u!114 &8294929576582710564
 MonoBehaviour:
   m_ObjectHideFlags: 0
