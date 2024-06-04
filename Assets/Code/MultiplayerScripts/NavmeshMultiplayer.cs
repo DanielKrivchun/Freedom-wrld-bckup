@@ -349,9 +349,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
 
-            GenratedPet.AddComponent<NetworkMecanimAnimator>();
-            GenratedPet.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
-            GenratedPet.GetComponent<NetworkMecanimAnimator>().enabled = true;
+            //GenratedPet.AddComponent<NetworkMecanimAnimator>();
+            //GenratedPet.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
+            //GenratedPet.GetComponent<NetworkMecanimAnimator>().enabled = true;
 
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;
