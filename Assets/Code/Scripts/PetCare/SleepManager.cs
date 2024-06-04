@@ -44,7 +44,7 @@ public class SleepManager : MonoBehaviour
             petCareStateManager.petDataRef.petData.hunger > 10)
         {
             particleEffectsManager.StartSleepEffect();
-            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sleep);
+            PetCareInputManager.instance.SetPetToInsideHomeOnSleepStart();
 
             sleepTimer = totalSleepTime;
             isCanSleep = true;
@@ -58,8 +58,25 @@ public class SleepManager : MonoBehaviour
     {
         sleepTimer = totalSleepTime - sleepTimeTillNow;
         isCanSleep = true;
-
         gameObject.SetActive(true);
+
+        particleEffectsManager.StartSleepEffect();
+        PetCareInputManager.instance.SetPetToInsideHomeOnSleepStart();
+    }
+
+    void ResetTimerAndSetPetStatData()
+    {
+        particleEffectsManager.StopSleepEffect();
+        PetCareInputManager.instance.SetPetToOutsideHomeOnSleepComplete();
+
+        isCanSleep = false;
+        sleepTimer = totalSleepTime;
+
+        sleepCountdownTxt.text = "START";
+        sleepBtn.enabled = true;
+
+        petCareStateManager.petDataRef.petData.sleepData.isSleeping = false;
+        petCareStateManager.ManageEnergyDataFiller(100);
     }
 
     private void Update()
@@ -83,17 +100,7 @@ public class SleepManager : MonoBehaviour
             else
             {
                 Debug.Log("Time is UP!");
-                particleEffectsManager.StopSleepEffect();
-                PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Idle);
-
-                isCanSleep = false;
-                sleepTimer = totalSleepTime;
-
-                sleepCountdownTxt.text = "START";
-                sleepBtn.enabled = true;
-
-                petCareStateManager.petDataRef.petData.sleepData.isSleeping = false;
-                petCareStateManager.ManageEnergyDataFiller(100);
+                ResetTimerAndSetPetStatData();
             }
         }
     }

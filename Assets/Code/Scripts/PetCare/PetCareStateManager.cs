@@ -356,8 +356,6 @@ public class PetCareStateManager : MonoBehaviour
             {
                 Debug.Log("Sleep Time is Not over yet");
                 sleepManager.SetSleepingTimer(CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.sleepData.sleepStartTime));
-                particleEffectsManager.StartSleepEffect();
-                PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sleep);
             }
         }
 

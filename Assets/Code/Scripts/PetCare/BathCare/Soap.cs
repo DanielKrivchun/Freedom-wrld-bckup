@@ -8,11 +8,10 @@ public class Soap : MonoBehaviour
     public BathObject bathObject;
     public ParticleEffectsManager particleEffectsManager;
 
-    private Vector3 posOffset;
     private bool isDragging = false;
-    Vector3 startPos;
 
     RaycastHit hit;
+    private Vector3 startPos;
 
     private void Start()
     {
@@ -21,7 +20,6 @@ public class Soap : MonoBehaviour
 
     void OnMouseDown()
     {
-        posOffset = transform.position - GetMouseWorldPosition();
         isDragging = true; 
     }
 
@@ -42,11 +40,8 @@ public class Soap : MonoBehaviour
     {
         if (isDragging && bathObject.isReadyForBath && !bathObject.isSoapUsed)
         {
-            // Calculate the new position based on mouse movement
-            Vector3 newPosition = GetMouseWorldPosition() + posOffset;
-
             // Update the object's position
-            transform.position = newPosition;
+            transform.position = GetMouseWorldPosition();
 
             //On foam bubble particles using raycast
             if (Physics.Raycast(transform.position, Vector3.forward, out hit, 100f))
@@ -63,7 +58,7 @@ public class Soap : MonoBehaviour
     Vector3 GetMouseWorldPosition()
     {
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = -Camera.main.transform.position.z;
+        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z;
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
 }

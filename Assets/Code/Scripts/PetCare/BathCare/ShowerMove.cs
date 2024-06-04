@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ShowerMove : MonoBehaviour
 {
-    public float xOffset = 5f;
-    public float yOffset = 5f;
+    public float xOffset;
+    public float yOffset;
 
     [Space]
     public ParticleSystem waterShowerEffect;
@@ -31,7 +31,7 @@ public class ShowerMove : MonoBehaviour
         waterShowerEffect.Stop();
 
         //Checking for Soap used and all foam bubble cleared or not
-        if (bathObject.isSoapUsed && !bathObject.isShowerUsed && particleEffectsManager.IsAllFoamCleared())
+        /*if (bathObject.isSoapUsed && !bathObject.isShowerUsed && particleEffectsManager.IsAllFoamCleared())
         {
             bathObject.isShowerUsed = true;
             PetCareStateManager.instance.ManageCleanlinessDataFiller(particleEffectsManager.numOfFoamBubbles * bathObject.cleanlinessMultiplier);
@@ -39,7 +39,7 @@ public class ShowerMove : MonoBehaviour
 
             //Reset player position
             StartCoroutine(bathObject.ResetPlayerToMainPosition());
-        }
+        }*/
     }
 
     void Update()

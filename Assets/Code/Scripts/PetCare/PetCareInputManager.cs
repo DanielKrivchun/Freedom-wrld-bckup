@@ -8,10 +8,15 @@ public class PetCareInputManager : MonoBehaviour
 {
     public static PetCareInputManager instance;
 
+    public SimpleGameEvent playerReachedEvent;
+
+    [Space]
     public PetCareStateManager petCareStateManager;
     public ParticleEffectsManager particleEffectsManager;
 
-    public Transform destinationPoint1;
+    [Space]
+    public Vector3 playerPosInSleep;
+    public Transform playerPosOutSleep;
 
     [HideInInspector]
     public PetAnimation petAnim;
@@ -29,6 +34,7 @@ public class PetCareInputManager : MonoBehaviour
 
     private void Start()
     {
+
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -68,6 +74,7 @@ public class PetCareInputManager : MonoBehaviour
                         petAnim._ChangeAnimationState(_AnimState.Idle);
                     }
                     transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 2f);
+                    playerReachedEvent.Raise();
 
                     isCheckForPathCompletion = false;
                     //transform.rotation = Quaternion.Euler(0f, 180f, 0f);
@@ -81,5 +88,17 @@ public class PetCareInputManager : MonoBehaviour
         isCheckForPathCompletion = true;
         petAnim._ChangeAnimationState(_AnimState.Run);
         agent.SetDestination(point);
+    }
+
+    public void SetPetToInsideHomeOnSleepStart()
+    {
+        petAnim.transform.gameObject.SetActive(false);
+        transform.DOMove(playerPosInSleep, 1f);
+    }
+
+    public void SetPetToOutsideHomeOnSleepComplete()
+    {
+        transform.DOMove(playerPosOutSleep.position, 1f);
+        petAnim.transform.gameObject.SetActive(true);
     }
 }

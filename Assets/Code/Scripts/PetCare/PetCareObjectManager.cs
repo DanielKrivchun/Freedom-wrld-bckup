@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PetCareObjectManager : MonoBehaviour
 {
+    public PetCareStateManager petStateManager;
     public PetCareInputManager petInputManager;
 
     [Space]
@@ -14,10 +15,12 @@ public class PetCareObjectManager : MonoBehaviour
     [Space]
     public GameObject bathObjectHolder;
     public Transform bathPoint;
+    public BathObject bathObject;
 
     [Space]
     public GameObject sleepCanvas;
     public Transform sleepPoint;
+    public SleepManager sleepManager;
 
     public void ManagePetCareObjects(PetCareState state)
     {
@@ -31,7 +34,7 @@ public class PetCareObjectManager : MonoBehaviour
 
             case PetCareState.Eat:
                 petInputManager.SetDestinationPoint(eatPoint.position);
-                PetCareStateManager.instance.SetAvailabeFoodItemOnTable();
+                petStateManager.SetAvailabeFoodItemOnTable();
 
                 eatObjectHolder.SetActive(true);
                 bathObjectHolder.SetActive(false);
@@ -50,9 +53,29 @@ public class PetCareObjectManager : MonoBehaviour
             case PetCareState.Energy:
                 petInputManager.SetDestinationPoint(sleepPoint.position);
 
-                sleepCanvas.SetActive(true);
+                
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
+                break;
+
+            default:
+                bathObjectHolder.SetActive(false);
+                eatObjectHolder.SetActive(false);
+                sleepCanvas.SetActive(false);
+                break;
+        }
+    }
+
+    public void PetReachedSelectedObjectDestination()
+    {
+        switch (petStateManager.selectedPetCareState)
+        {
+            case PetCareState.Clean:
+                bathObject.MakePetReadyForBath();
+                break;
+
+            case PetCareState.Energy:
+                sleepCanvas.SetActive(true);
                 break;
 
             default:
