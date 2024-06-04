@@ -34,6 +34,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [SerializeField] private TMP_InputField inputField;
     public Vector2 m_input;
     [Networked] public int PathNumber { get; set; }
+    [Networked] public int AIPlayerCount { get; set; }
+
+
     public string PrefabID;
     public int CurrntWinCount;
 
@@ -97,7 +100,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     void _CheckHowManyPlayersAreInGame()
     {
         int a = networkRunnerInstance.ActivePlayers.Count();
+        a += AIPlayerCount;
         Debug.Log("Total Players" + a);
+        NetworkEventManager._EventNewPlayerJoined(a);
     }
 
     #endregion
@@ -280,6 +285,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             Debug.Log("I am client so checking for AI player");
             _CheckForAIPlayers();
+            _CheckHowManyPlayersAreInGame();
         }
     }
 

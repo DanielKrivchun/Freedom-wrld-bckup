@@ -166,7 +166,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
         transform.eulerAngles = new Vector3(0f, 90f, 0f);
         transform.position = pos;
         _ChangeAnimationHere(_AnimState.Jump);
-        NetwrokUI.Instance.WinUI.SetActive(false);
         NetworkCamera.Instance._ActiveWinScene();
     }
 

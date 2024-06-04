@@ -17,6 +17,7 @@ public class NetwrokUI : NetworkBehaviour
     [Space]
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI wintext;
+    public TextMeshProUGUI PlayerCount;
     [Space]
     public RaceManager spawner;
 
@@ -31,12 +32,19 @@ public class NetwrokUI : NetworkBehaviour
     private void OnEnable()
     {
         NetworkEventManager.e_win_event += _OnGameWon;
+        NetworkEventManager.e_playercount += _Playerjoined;
     }
 
     private void OnDisable()
     {
 
         NetworkEventManager.e_win_event -= _OnGameWon;
+        NetworkEventManager.e_playercount -= _Playerjoined;
+    }
+
+    private void _Playerjoined(int _no)
+    {
+        PlayerCount.text = _no.ToString();
     }
 
     private void _OnGameWon(int _no)

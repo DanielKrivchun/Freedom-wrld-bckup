@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Beamable.Api.Notification.PubNubOp;
 
 public class NetworkEventManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class NetworkEventManager : MonoBehaviour
 
 
     public delegate void IntDelegateEvents(int _no);
-    public static event IntDelegateEvents e_win_event;
+    public static event IntDelegateEvents e_win_event, e_playercount;
 
 
     #region _EVENT INVOKERS
@@ -29,6 +30,15 @@ public class NetworkEventManager : MonoBehaviour
             e_win_event(_no);
         }
     }
+
+    public static void _EventNewPlayerJoined(int _count)
+    {
+        if (e_playercount != null)
+        {
+            e_playercount(_count);
+        }
+    }
+
     #endregion
 
 }

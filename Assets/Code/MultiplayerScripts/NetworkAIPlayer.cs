@@ -74,7 +74,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     /// </summary>
     void _SetupConfigs()
     {
-        m_agent.speed = Random.Range(5, PetConfigs.Speed);
+        m_agent.speed = Random.Range(3, 8);
         m_agent.acceleration = Random.Range(15, PetConfigs.Acceleration);
     }
 
