@@ -17,14 +17,15 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.Mathematics;
 using Random = UnityEngine.Random;
+using PubNubMessaging.Core;
 
 public class LeaderboardServiceTest : MonoBehaviour
 {
     //  Variables/Fields  ---------------------------------------
-    [SerializeField]  private PetDataRef petDataRef;
+    [SerializeField] private PetDataRef petDataRef;
 
-    public Transform entryContainer;
-    public Transform entryTemplate;
+    [SerializeField] public Transform entryContainer;
+    [SerializeField] public Transform entryTemplate;
     private List<HighscoreEntry> highscoreEntryList;
     private List<Transform> highscoreEntryTransformList;
 
@@ -33,16 +34,13 @@ public class LeaderboardServiceTest : MonoBehaviour
 
     private void Start()
     {
-        entryContainer = transform.Find("leaderboardEntryContainer");
-        entryTemplate = transform.Find("leaderboardEntry");
-
         entryTemplate.gameObject.SetActive(false);
 
         /*highscoreEntryList = new List<HighscoreEntry>()*/
 
         // Populate leaderboard with mock players
         float templateHeight = 30f;
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             Transform entryTransform = Instantiate(entryTemplate, entryContainer);
             RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
@@ -77,10 +75,11 @@ public class LeaderboardServiceTest : MonoBehaviour
             entryTransform.Find("score").GetComponent<Text>().text = score.ToString();
 
         }
- 
+
         Debug.Log($"Start()");
 
-        Debug.Log(petDataRef.petData.petname);
+        Debug.Log("pet name:" + petDataRef.petData.cleanliness);
+        Debug.Log("pet name:" + petDataRef.petData.birthTime);
     }
 
 
