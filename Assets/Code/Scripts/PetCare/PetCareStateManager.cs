@@ -2,8 +2,6 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class PetCareStateManager : MonoBehaviour
@@ -55,8 +53,6 @@ public class PetCareStateManager : MonoBehaviour
     private GameObject generatedFood;
     private List<GameObject> generatedFoodItems = new List<GameObject>();
 
-
-    private bool waitringfortime;
     private void Awake()
     {
         if (instance == null)
@@ -134,7 +130,7 @@ public class PetCareStateManager : MonoBehaviour
         }
 
         //Adding food item to Petdata
-        PetFoodData petFoodData = new PetFoodData
+        PetFoodData petFoodData = new()
         {
             foodName = foodType,
             foodCount = 1

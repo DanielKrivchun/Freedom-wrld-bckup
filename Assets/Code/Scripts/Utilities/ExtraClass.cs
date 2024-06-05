@@ -60,6 +60,7 @@ public struct _Tags
 
 public enum PetCareState
 {
+    None,
     Happy,
     Eat,
     Clean,

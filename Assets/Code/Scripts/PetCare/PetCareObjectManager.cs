@@ -9,6 +9,9 @@ public class PetCareObjectManager : MonoBehaviour
     public PetCareInputManager petInputManager;
 
     [Space]
+    public PetCareCameraViewManager cameraViewManager;
+
+    [Space]
     public GameObject eatObjectHolder;
     public Transform eatPoint;
 
@@ -24,6 +27,15 @@ public class PetCareObjectManager : MonoBehaviour
 
     public void ManagePetCareObjects(PetCareState state)
     {
+        if(state == PetCareState.Happy)
+        {
+            cameraViewManager.SetCameraFrontView();
+        }
+        else
+        {
+            cameraViewManager.SetCameraTopView();
+        }
+
         switch (state)
         {
             case PetCareState.Happy:
@@ -53,7 +65,6 @@ public class PetCareObjectManager : MonoBehaviour
             case PetCareState.Energy:
                 petInputManager.SetDestinationPoint(sleepPoint.position);
 
-                
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
                 break;
@@ -68,6 +79,11 @@ public class PetCareObjectManager : MonoBehaviour
 
     public void PetReachedSelectedObjectDestination()
     {
+        if(petStateManager.selectedPetCareState != PetCareState.Energy)
+        {
+            cameraViewManager.SetCameraFrontView();
+        }
+
         switch (petStateManager.selectedPetCareState)
         {
             case PetCareState.Clean:

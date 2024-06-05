@@ -13,12 +13,17 @@ public class SleepManager : MonoBehaviour
     [Space]
     public bool isCanSleep;
     public float totalSleepTime;
+
     [HideInInspector]
     public float sleepTimer;
 
     [Space]
     public Button sleepBtn;
     public Text sleepCountdownTxt;
+
+    [Space]
+    public GameObject player;
+    public Transform sleepPoint;
 
     [Space]
     public GameObject petCareBtnHolder;
@@ -46,6 +51,8 @@ public class SleepManager : MonoBehaviour
         if (petCareStateManager.petDataRef.petData.cleanliness > 10 &&
             petCareStateManager.petDataRef.petData.hunger > 10)
         {
+            sleepBtn.enabled = false;
+
             petCareBtnHolder.SetActive(false);
             particleEffectsManager.StartSleepEffect();
             PetCareInputManager.instance.SetPetToInsideHomeOnSleepStart();
@@ -65,6 +72,7 @@ public class SleepManager : MonoBehaviour
         isCanSleep = true;
         gameObject.SetActive(true);
 
+        player.transform.position = sleepPoint.position;
         particleEffectsManager.StartSleepEffect();
         PetCareInputManager.instance.SetPetToInsideHomeOnSleepStart();
     }
