@@ -23,18 +23,22 @@ public class LeaderboardServiceTest : MonoBehaviour
     //  Variables/Fields  ---------------------------------------
     [SerializeField]  private PetDataRef petDataRef;
 
-    private Transform entryContainer;
-    private Transform entryTemplate;
+    public Transform entryContainer;
+    public Transform entryTemplate;
+    private List<HighscoreEntry> highscoreEntryList;
+    private List<Transform> highscoreEntryTransformList;
 
 
     //  Unity Methods  --------------------------------
 
-    private void Awake()
+    private void Start()
     {
         entryContainer = transform.Find("leaderboardEntryContainer");
         entryTemplate = transform.Find("leaderboardEntry");
 
         entryTemplate.gameObject.SetActive(false);
+
+        /*highscoreEntryList = new List<HighscoreEntry>()*/
 
         // Populate leaderboard with mock players
         float templateHeight = 30f;
@@ -73,15 +77,19 @@ public class LeaderboardServiceTest : MonoBehaviour
             entryTransform.Find("score").GetComponent<Text>().text = score.ToString();
 
         }
-    }
-
-
-    private void Start()
-    {
+ 
         Debug.Log($"Start()");
 
         Debug.Log(petDataRef.petData.petname);
     }
+
+
+    /*private void Start()
+    {
+        Debug.Log($"Start()");
+
+        Debug.Log(petDataRef.petData.petname);
+    }*/
 
 
     public void Update()
@@ -96,14 +104,48 @@ public class LeaderboardServiceTest : MonoBehaviour
     // function to create leaderboard entry
     private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList )
     {
+        float templateHeight = 30f;
+        Transform entryTransform = Instantiate(entryTemplate, container);
+        RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
+        entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * transformList.Count);
+        entryTransform.gameObject.SetActive(true);
 
+        // create number suffix
+        int rank = transformList.Count + 1;
+        string rankString;
+        switch (rank)
+        {
+            default:
+                rankString = rank + "TH"; break;
+
+            case 1: rankString = "1ST"; break;
+            case 2: rankString = "2ND"; break;
+            case 3: rankString = "3RD"; break;
+        }
+
+        entryTransform.Find("petRank").GetComponent<Text>().text = rankString;
+
+        int petId = highscoreEntry.petId;
+
+        entryTransform.Find("petId").GetComponent<Text>().text = petId.ToString();
+
+        string playerId = highscoreEntry.playerId;
+
+        entryTransform.Find("playerId").GetComponent<Text>().text = playerId;
+
+        int score = highscoreEntry.score;
+
+        entryTransform.Find("score").GetComponent<Text>().text = score.ToString();
+
+        transformList.Add(entryTransform);
     }
 
     // represents a single entry
     private class HighscoreEntry
     {
+        public int petId;
+        public string playerId;
         public int score;
-        public string name;
     }
    
 
