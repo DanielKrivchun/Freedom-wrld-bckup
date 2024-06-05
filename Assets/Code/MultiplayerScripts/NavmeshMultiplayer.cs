@@ -60,7 +60,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             IsServer = true;
         }
-
         StartCoroutine(_GenrateMyPrefab());
     }
 
@@ -148,22 +147,21 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
             }
         }
-        else
-        {
-            switch (other.tag)
-            {
-                case _Tags.Water:
-                    _ChangeAnimationHere(_AnimState.Swimming);
-                    break;
-                case _Tags.Flying:
-                    _ChangeAnimationHere(_AnimState.Flying);
-                    break;
-                case _Tags.Land:
-                    _ChangeAnimationHere(_AnimState.Run);
-                    break;
-
-            }
-        }
+        //else
+        //{
+        //    switch (other.tag)
+        //    {
+        //        case _Tags.Water:
+        //            _ChangeAnimationHere(_AnimState.Swimming);
+        //            break;
+        //        case _Tags.Flying:
+        //            _ChangeAnimationHere(_AnimState.Flying);
+        //            break;
+        //        case _Tags.Land:
+        //            _ChangeAnimationHere(_AnimState.Run);
+        //            break;
+        //    }
+        //}
     }
     #endregion
 
@@ -171,18 +169,37 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     private IEnumerator SetMyWinPosition()
     {
-        Debug.Log("SetMyWinPosition");
-        yield return new WaitForSecondsRealtime(0.5f);
-        int temp = MyWiningNumber - 1;
-        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
-        yield return new WaitForSecondsRealtime(0.5f);
-        Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
-        transform.eulerAngles = new Vector3(0f, 90f, 0f);
-        transform.position = pos;
-        _ChangeAnimationHere(_AnimState.Jump);
-        NetworkCamera.Instance._ActiveWinScene();
+        if (Utils.IsLocalPlayer(Object))
+        {
+            Debug.Log("SetMyWinPosition");
+            yield return new WaitForSecondsRealtime(0.5f);
+            int temp = MyWiningNumber - 1;
+            Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.isKinematic = true;
+            yield return new WaitForSecondsRealtime(0.5f);
+            Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
+            transform.eulerAngles = new Vector3(0f, 90f, 0f);
+            transform.position = pos;
+            _ChangeAnimationHere(_AnimState.Jump);
+            NetworkCamera.Instance._ActiveWinScene();
+        }
+        else
+        {
+            Debug.Log("SetMyWinPosition Reset of the clients");
+            yield return new WaitForSecondsRealtime(0.5f);
+            int temp = MyWiningNumber - 1;
+            Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.isKinematic = true;
+            yield return new WaitForSecondsRealtime(0.5f);
+            transform.eulerAngles = new Vector3(0f, 90f, 0f);
+            transform.position = pos;
+            Debug.Log("Position Set now Just Play win animation over here " + gameObject.name + temp);
+            _ChangeAnimationHere(_AnimState.Jump);
+        }
+
+
     }
 
     private void _OnWInNumberAlocated()
@@ -192,15 +209,18 @@ public class NavmeshMultiplayer : NetworkBehaviour
             Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
             NetworkEventManager._EventWon(MyWiningNumber);
             //CHECK HERE FOR CLIENT AND THEN SHOW CAMERA ANIMATION
-            Debug.Log("I am client so i need to change camera here");
-
-
             if (Runner.IsClient)
             {
+                Debug.Log("I am client so i need to change camera here");
                 NetwrokUI.Instance.WinUI.SetActive(true);
                 NetworkCamera.Instance._ActiveWinScene();
                 _ChangeAnimationHere(_AnimState.Jump);
             }
+        }
+        else
+        {
+            Debug.Log("Chaning animation for all other " + MyName);
+            _ChangeAnimationHere(_AnimState.Jump);
         }
 
     }
@@ -210,7 +230,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
     #region ANIMATION CAMERA
     private void _ChangeAnimationHere(_AnimState _state)
     {
-        Debug.Log("Changed ANimation here");
         GenratedPet._ChangeAnimationState(_state);
     }
 
@@ -353,10 +372,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
             Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
-
-            //GenratedPet.AddComponent<NetworkMecanimAnimator>();
-            //GenratedPet.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
-            //GenratedPet.GetComponent<NetworkMecanimAnimator>().enabled = true;
+            //gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
 
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;

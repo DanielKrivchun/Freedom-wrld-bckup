@@ -34,7 +34,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [SerializeField] private TMP_InputField inputField;
     public Vector2 m_input;
     [Networked] public int PathNumber { get; set; }
-    [Networked] public int AIPlayerCount { get; set; }
+    [Networked] public int TotalPlayer { get; set; }
 
 
     public string PrefabID;
@@ -97,12 +97,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
 
-    void _CheckHowManyPlayersAreInGame()
+    public void _CheckHowManyPlayersAreInGame()
     {
-        int a = networkRunnerInstance.ActivePlayers.Count();
-        a += AIPlayerCount;
         Debug.Log("Total Players" + a);
-        NetworkEventManager._EventNewPlayerJoined(a);
+        NetworkEventManager._EventNewPlayerJoined(TotalPlayer);
     }
 
     #endregion
@@ -231,8 +229,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
-
-
     public void _StartGameForPlayers()
     {
         Debug.Log("_StartGameForPlayers");
@@ -251,6 +247,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
     #region PLAYER SPWANR
+
+    public override void Spawned()
+    {
+        Debug.Log("Spwanded Worked");
+    }
+
     private void _SpawnPlayer(PlayerRef playerRef)
     {
         if (Runner.IsServer)
@@ -268,6 +270,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             //playerı serverde yaptık.
             Runner.SetPlayerObject(playerRef, playerObject);
             PathNumber++;
+            TotalPlayer++;
 
             _AllPlayerData d = new _AllPlayerData();
             d.playerRef = playerRef;
@@ -285,7 +288,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             Debug.Log("I am client so checking for AI player");
             _CheckForAIPlayers();
-            _CheckHowManyPlayersAreInGame();
         }
     }
 
@@ -327,7 +329,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         //throw new NotImplementedException();
         ColoredDebug.Log("OnPlayerJoined", Color.green);
         _SpawnPlayer(player);
-        _CheckHowManyPlayersAreInGame();
         //CHECKING FOR AI PLAYER COUNT
     }
 
@@ -335,7 +336,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         //throw new NotImplementedException();
         _DespawnPlayer(player);
-        _CheckHowManyPlayersAreInGame();
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -428,7 +428,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public void _GenrateAIPlayer()
     {
         Debug.Log("AI player genration");
-
         if (PathNumber <= 0)
         {
             PathNumber = 0;
@@ -439,17 +438,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         playerObject.GetComponent<NetworkTransform>().transform.position = spawnPoint;
         Debug.Log(playerObject.transform.position);
         playerObject.GetComponent<NetworkAIPlayer>()._SetUpMyInitialData(PathNumber);
-        //playerı serverde yaptık.
         PathNumber++;
-
-
-        if (PathNumber >= 0)
-        {
-            NetwrokUI.Instance._OpenStartUI();
-        }
-
-
-        //RPC_GetAIDetails();
     }
 
     void _SendAIDetails()

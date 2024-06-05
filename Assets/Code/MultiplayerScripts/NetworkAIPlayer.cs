@@ -121,6 +121,7 @@ public class NetworkAIPlayer : NetworkBehaviour
                     RaceComplete = true;
                     GetComponent<NavMeshAgent>().enabled = false;
                     GetComponent<Collider>().enabled = false;
+                    StartCoroutine(SetMyWinPosition());
                     break;
                 case _Tags.Water:
                     _ChangeAnimationHere(_AnimState.Swimming);
@@ -143,6 +144,22 @@ public class NetworkAIPlayer : NetworkBehaviour
         Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
 
     }
+
+    private IEnumerator SetMyWinPosition()
+    {
+        Debug.Log("SetMyWinPosition");
+        yield return new WaitForSecondsRealtime(0.5f);
+        int temp = MyWiningNumber - 1;
+        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        yield return new WaitForSecondsRealtime(0.5f);
+        Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
+        transform.eulerAngles = new Vector3(0f, 90f, 0f);
+        transform.position = pos;
+        _ChangeAnimationHere(_AnimState.Jump);
+    }
+
     #endregion
 
     #region ANIMATION CAMERA
