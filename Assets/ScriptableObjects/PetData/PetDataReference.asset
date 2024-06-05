@@ -15,16 +15,16 @@ MonoBehaviour:
   petData:
     petname: NP
     health: 260
-    happiness: 75
-    hunger: 29
+    happiness: 74
+    hunger: 24
     cleanliness: 71
-    energy: 89
+    energy: 88
     isSick: 1
     birthTime: 5/30/2024 9:15:53 AM
-    lastTimeHappy: 6/5/2024 4:18:52 PM
-    lastTimeFeed: 6/5/2024 4:18:53 PM
-    lastTimeClean: 6/5/2024 4:18:53 PM
-    lastTimeEnergy: 6/5/2024 4:18:53 PM
+    lastTimeHappy: 6/5/2024 4:48:58 PM
+    lastTimeFeed: 6/5/2024 4:53:53 PM
+    lastTimeClean: 6/5/2024 4:48:59 PM
+    lastTimeEnergy: 6/5/2024 4:48:59 PM
     lastLoginTime: 6/5/2024 1:55:52 PM
     running: 26
     climbing: 22
@@ -42,9 +42,9 @@ MonoBehaviour:
     - foodName: 1
       foodCount: 1
     ongoingTrainingData:
-      isTraining: 0
+      isTraining: 1
       ongoingTraining: 3
       ongoingTrainingName: Swimming
-      trainingStartTime: 6/5/2024 4:14:48 PM
+      trainingStartTime: 6/5/2024 4:52:34 PM
   petLocalData:
     petID: 3

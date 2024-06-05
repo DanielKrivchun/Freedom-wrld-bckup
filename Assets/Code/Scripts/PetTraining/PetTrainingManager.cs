@@ -17,6 +17,9 @@ public class PetTrainingManager : MonoBehaviour
     public PetCareInputManager petInputManager;
     public GetServerTime getServerTime;
 
+    [Space]
+    public GameObject petCareBtnHolder;
+
     [Header("Pet Train Panel UI")]
     public GameObject petTrainPanel;
     [Space]
@@ -155,6 +158,7 @@ public class PetTrainingManager : MonoBehaviour
     {
         ongoingTrainingMsgTxt.text = "<b>" + petDataRef.petData.petname + "\n" + selectedTraining.ToString() + " Training</b> \nIn Session";
 
+        petCareBtnHolder.SetActive(false);
         petTrainPanel.SetActive(false);
         ongoingTrainingPopup.SetActive(true);
     }
@@ -216,7 +220,7 @@ public class PetTrainingManager : MonoBehaviour
 
     void SetPetBackToTrainingPoint()
     {
-        petInputManager.transform.DOMove(swimPoint.position, 1f);
+        petInputManager.transform.DOMove(swimPoint.position, 0.5f);
         petInputManager.StopNavigating();
     }
     #endregion
@@ -244,6 +248,7 @@ public class PetTrainingManager : MonoBehaviour
 
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
 
+        petCareBtnHolder.SetActive(true);
         //SetTrainigEarnedStats();
     }
 
@@ -322,7 +327,9 @@ public class PetTrainingManager : MonoBehaviour
                 break;
         }
 
-        if (await CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime) > currentTrainingData.trainingTime)
+        float timeDiff = await CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime);
+
+        if (timeDiff > currentTrainingData.trainingTime)
         {
             Debug.Log("Training completed!");
             ShowTrainingCompletedUI();
