@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ public class PetTrainingManager : MonoBehaviour
     [Space]
     public PetCareStateManager petCareStateManager;
     public PetCareUIManager petCareUIManager;
+    public PetCareInputManager petInputManager;
     public GetServerTime getServerTime;
 
     [Header("Pet Train Panel UI")]
@@ -49,6 +51,8 @@ public class PetTrainingManager : MonoBehaviour
     [SerializeField] private PetTrainingData flyingTrainingData;
     [SerializeField] private PetTrainingData inteligenceTrainingData;
 
+    [Header("Training Points")]
+    public Transform swimPoint;
 
     [Space]
     public PetTraining selectedTraining;
@@ -120,6 +124,8 @@ public class PetTrainingManager : MonoBehaviour
                 break;
 
             case PetTraining.Swimming:
+                petInputManager.SetDestinationPoint(swimPoint.position, true);
+
                 currentTrainingData = swimmingTrainingData;
                 petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Swimming";
                 break;
@@ -183,6 +189,7 @@ public class PetTrainingManager : MonoBehaviour
                 Debug.Log("Trainig Time is over!");
                 startTimer = false;
 
+                //SetPetBackToTrainingPoint();
                 ShowTrainingCompletedUI();
             }
         }
@@ -197,6 +204,19 @@ public class PetTrainingManager : MonoBehaviour
         float seconds = Mathf.FloorToInt(currentTime % 60);
 
         ongoingTrainingTimerTxt.text = "Time Remaining:\n<b>" + string.Format("{0:0}:{1:00}:{2:00}", hours, minutes, seconds) + "</b>";
+    }
+    #endregion
+
+    #region MANAGE PET REACHED TO DESTINATION POINT
+    public void PetReachedSelectedObjectDestination()
+    {
+        petInputManager.NavigatePlayerAroundTrainingPath(selectedTraining);
+    }
+
+    void SetPetBackToTrainingPoint()
+    {
+        petInputManager.transform.DOMove(swimPoint.position, 1f);
+        petInputManager.StopNavigating();
     }
     #endregion
 
@@ -223,7 +243,7 @@ public class PetTrainingManager : MonoBehaviour
 
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
 
-        SetTrainigEarnedStats();
+        //SetTrainigEarnedStats();
     }
 
     public void SetTrainigEarnedStats()

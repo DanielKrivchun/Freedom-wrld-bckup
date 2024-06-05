@@ -45,7 +45,7 @@ public class PetCareObjectManager : MonoBehaviour
                 break;
 
             case PetCareState.Eat:
-                petInputManager.SetDestinationPoint(eatPoint.position);
+                petInputManager.SetDestinationPoint(eatPoint.position, false);
                 petStateManager.SetAvailabeFoodItemOnTable();
 
                 eatObjectHolder.SetActive(true);
@@ -55,7 +55,7 @@ public class PetCareObjectManager : MonoBehaviour
                 break;
 
             case PetCareState.Clean:
-                petInputManager.SetDestinationPoint(bathPoint.position);
+                petInputManager.SetDestinationPoint(bathPoint.position, false);
 
                 bathObjectHolder.SetActive(true);
                 eatObjectHolder.SetActive(false);
@@ -63,7 +63,7 @@ public class PetCareObjectManager : MonoBehaviour
                 break;
 
             case PetCareState.Energy:
-                petInputManager.SetDestinationPoint(sleepPoint.position);
+                petInputManager.SetDestinationPoint(sleepPoint.position, false);
 
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
