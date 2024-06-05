@@ -377,7 +377,7 @@ public class PetCareStateManager : MonoBehaviour
         //Check for any ongoing Training
         if (petDataRef.petData.ongoingTrainingData.isTraining)
         {
-            petTrainingManager.CheckForAnyOngoingTraining();
+           await petTrainingManager.CheckForAnyOngoingTraining();
         }
 
         offLoadingCanvasEvent.Raise();

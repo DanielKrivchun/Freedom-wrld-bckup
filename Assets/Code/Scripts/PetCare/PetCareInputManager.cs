@@ -151,6 +151,19 @@ public class PetCareInputManager : MonoBehaviour
         }
     }
 
+    //This is for when user back to app and training is going on
+    public void StartNavigatingPlayerAroundTrainingPath(PetTraining currentTraining)
+    {
+        switch (currentTraining)
+        {
+            case PetTraining.Swimming:
+                transform.position = swimmingPoints[0].position;
+                break;
+        }
+
+        NavigatePlayerAroundTrainingPath(currentTraining);
+    }
+
     private void MoveToRandomPoints()
     {
         // Select a random point from the list
@@ -176,6 +189,7 @@ public class PetCareInputManager : MonoBehaviour
         petAnim.transform.gameObject.SetActive(true);
     }
 
+    //If pet is sick then play sick animation or play idle animation
     void SetIdleOrSickAnim()
     {
         if (petCareStateManager.petDataRef.petData.isSick)

@@ -154,6 +154,7 @@ public class PetTrainingManager : MonoBehaviour
     void ShowOngoingTrainingUIWithTime()
     {
         ongoingTrainingMsgTxt.text = "<b>" + petDataRef.petData.petname + "\n" + selectedTraining.ToString() + " Training</b> \nIn Session";
+
         petTrainPanel.SetActive(false);
         ongoingTrainingPopup.SetActive(true);
     }
@@ -189,7 +190,7 @@ public class PetTrainingManager : MonoBehaviour
                 Debug.Log("Trainig Time is over!");
                 startTimer = false;
 
-                //SetPetBackToTrainingPoint();
+                SetPetBackToTrainingPoint();
                 ShowTrainingCompletedUI();
             }
         }
@@ -291,7 +292,7 @@ public class PetTrainingManager : MonoBehaviour
     #endregion
 
     #region CHECK FOR ONGOING TRAINING
-    public async void CheckForAnyOngoingTraining()
+    public async Task CheckForAnyOngoingTraining()
     {
         switch (petDataRef.petData.ongoingTrainingData.ongoingTraining)
         {
@@ -332,13 +333,14 @@ public class PetTrainingManager : MonoBehaviour
             ShowOngoingTrainingUIWithTime();
             trainingTimer = currentTrainingData.trainingTime - await CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime);
             startTimer = true;
+
+            petInputManager.StartNavigatingPlayerAroundTrainingPath(selectedTraining);
         }
     }
 
     async Task<float> CheckTimeDiffWithCurrentTimeInSec(string lastTime)
     {
         serverTimeNow = await getServerTime.GetCurrentTimeTask();
-        Debug.Log("Server Time Now - " + serverTimeNow);
         return (float)(serverTimeNow - DateTime.Parse(lastTime)).TotalSeconds;
     }
     #endregion
