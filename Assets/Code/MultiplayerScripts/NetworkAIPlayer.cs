@@ -87,7 +87,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         Debug.Log("Sending RPC with Name   " + playerName);
         int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
         MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
-        RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
+        //RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
         nameText.text = playerName.ToString();
         gameObject.name = MyName.ToString();
     }

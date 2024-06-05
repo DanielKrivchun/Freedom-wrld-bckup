@@ -93,7 +93,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         if (Timer > 20f)
         {
-            Debug.LogError("I AM  AFK KICK ME  NOW ");
+            Debug.LogError("I AM  AFK KICK ME  NOW");
         }
     }
 
