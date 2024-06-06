@@ -16,6 +16,9 @@ public class PetCareUIManager : MonoBehaviour
     [Space]
     public GameEventState petCareEvent;
 
+    [Space]
+    public GameObject careBtnHolder;
+
     [Header("Loading UI")]
     public GameObject loadingCanvas;
 
@@ -148,6 +151,18 @@ public class PetCareUIManager : MonoBehaviour
     }
 
     #region BUTTON CLICK EVENTS
+    public void ManagePetCareBtns()
+    {
+        if (careBtnHolder.activeInHierarchy)
+        {
+            careBtnHolder.SetActive(false);
+        }
+        else
+        {
+            careBtnHolder.SetActive(true);
+        }
+    }
+
     public void OnClickOfPetCareStateBtn(PetCareState selectedState)
     {
         if (!petDataRef.petData.ongoingTrainingData.isTraining)

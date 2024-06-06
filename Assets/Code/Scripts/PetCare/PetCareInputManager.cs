@@ -101,7 +101,7 @@ public class PetCareInputManager : MonoBehaviour
     {
         isPlayerAutoNavigatingOnMap = true;
         agent.isStopped = false;
-        navmeshPos = GetRandomPointOnNavMesh(transform.position, navmeshSpawnOffset / 3f);
+        navmeshPos = GetRandomPointOnNavMesh(transform.position, navmeshSpawnOffset);
         petAnim._ChangeAnimationState(_AnimState.Wallk);
         agent.SetDestination(navmeshPos);
     }
@@ -209,6 +209,11 @@ public class PetCareInputManager : MonoBehaviour
                 trainingPoints = swimmingPoints;
                 MoveToRandomPoints();
                 break;
+
+            case PetTraining.Intelligence:
+                SetIdleOrSickAnim();
+                transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 1f);
+                break;
         }
     }
 
@@ -258,11 +263,7 @@ public class PetCareInputManager : MonoBehaviour
                 break;
         }
 
-        //No need to navigate in puzzle training
-        if (currentTraining != PetTraining.Intelligence)
-        {
             NavigatePlayerAroundTrainingPath(currentTraining);
-        }
     }
 
     public void StopNavigating()

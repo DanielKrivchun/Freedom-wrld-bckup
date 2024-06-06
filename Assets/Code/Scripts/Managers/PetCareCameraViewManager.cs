@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,14 @@ public class PetCareCameraViewManager : MonoBehaviour
     public CinemachineVirtualCamera virtualCam;
 
     [Space]
+    public Transform player;
+    public Transform map;
+
+    [Space]
     public Vector3 topViewPos;
+    public Quaternion topViewRot;
     public Vector3 frontViewPos;
+    public Quaternion frontViewRot;
 
     [Space]
     public float transitionTime;
@@ -38,19 +45,40 @@ public class PetCareCameraViewManager : MonoBehaviour
 
     public void SetCameraTopView()
     {
-        if(!isTransitioning && transposer.m_FollowOffset != topViewPos)
+        /*virtualCam.Follow = map;
+        virtualCam.LookAt = map;
+
+        if (!isTransitioning && transposer.m_FollowOffset != topViewPos)
         {
             StartCoroutine(TransitionToOffset(frontViewPos, topViewPos, transitionTime));
-        }
+        }*/
+
+        GetComponent<CinemachineBrain>().enabled = false;
+        transposer.m_FollowOffset = Vector3.zero;
+        transform.DOMove(topViewPos, 1.5f);
+        transform.DORotateQuaternion(topViewRot, 1.5f);
     }
 
     public void SetCameraFrontView()
     {
-        //transposer.m_FollowOffset = topViewPos;
-        if(!isTransitioning && transposer.m_FollowOffset != frontViewPos)
+        GetComponent<CinemachineBrain>().enabled = true;
+
+        if (!isTransitioning && transposer.m_FollowOffset != frontViewPos)
         {
-            StartCoroutine(TransitionToOffset(topViewPos, frontViewPos, transitionTime));
+            StartCoroutine(TransitionToOffset(transform.position, frontViewPos, transitionTime));
         }
+
+        /*transform.DOMove(frontViewPos, 1.5f);
+        transform.DORotateQuaternion(frontViewRot, 1.5f);
+        StartCoroutine(SetPlayerFollowAndLookAt());*/
+    }
+
+    IEnumerator SetPlayerFollowAndLookAt()
+    {
+        yield return new WaitForSeconds(1.5f);
+        GetComponent<CinemachineBrain>().enabled = true;
+        virtualCam.Follow = player;
+        virtualCam.LookAt = player;
     }
 
 

@@ -227,16 +227,20 @@ public class PetTrainingManager : MonoBehaviour
         {
             puzzleModel.SetActive(true);
         }
-        else
-        {
-            petInputManager.NavigatePlayerAroundTrainingPath(selectedTraining);
-        }
+
+        petInputManager.NavigatePlayerAroundTrainingPath(selectedTraining);
     }
 
     void SetPetBackToTrainingPoint()
     {
-        petInputManager.transform.DOMove(swimPoint.position, 0.5f);
-        petInputManager.StopNavigating();
+        switch (selectedTraining)
+        {
+            case PetTraining.Swimming:
+                petInputManager.transform.DOMove(swimPoint.position, 0.5f);
+                petInputManager.StopNavigating();
+                break;
+        }
+        
     }
     #endregion
 
