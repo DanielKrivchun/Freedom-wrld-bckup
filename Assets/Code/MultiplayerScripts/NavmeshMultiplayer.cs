@@ -171,7 +171,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     {
         if (Utils.IsLocalPlayer(Object))
         {
-            Debug.Log("SetMyWinPosition");
+            Debug.Log("SetMyWinPosition " + MyName);
             yield return new WaitForSecondsRealtime(0.5f);
             int temp = MyWiningNumber - 1;
             Vector3 pos = RaceManager.instance.WinPoints[temp].position;
