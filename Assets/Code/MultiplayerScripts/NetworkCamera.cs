@@ -33,8 +33,8 @@ public class NetworkCamera : MonoBehaviour
 
     public void _ActiveWinScene()
     {
-        MyCam.gameObject.SetActive(false);
         WinCamera.gameObject.SetActive(true);
+        MyCam.gameObject.SetActive(false);
         Confetti.gameObject.SetActive(true);
     }
 }

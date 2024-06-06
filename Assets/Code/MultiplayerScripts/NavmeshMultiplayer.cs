@@ -48,6 +48,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
 
+    private NetworkTransform networkTransform;
+
     #endregion
 
     #region NETWORK FUCTIONS
@@ -56,6 +58,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
         path_point = FindObjectOfType<PathPointManager>();
         SetLocalObjects();
         _SetupConfigs();
+        networkTransform = GetComponent<NetworkTransform>();
         if (Runner.IsServer)
         {
             IsServer = true;
@@ -174,29 +177,31 @@ public class NavmeshMultiplayer : NetworkBehaviour
         if (Utils.IsLocalPlayer(Object))
         {
             Debug.Log("SetMyWinPosition " + MyName);
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(0.1f);
             int temp = MyWiningNumber - 1;
             Vector3 pos = RaceManager.instance.WinPoints[temp].position;
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
+            networkTransform.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+            networkTransform.transform.position = pos;
             yield return new WaitForSecondsRealtime(0.5f);
             Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
-            transform.eulerAngles = new Vector3(0f, 90f, 0f);
-            transform.position = pos;
+
             _ChangeAnimationHere(_AnimState.Jump);
             NetworkCamera.Instance._ActiveWinScene();
         }
         else
         {
             Debug.Log("SetMyWinPosition Reset of the clients");
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(0.1f);
             int temp = MyWiningNumber - 1;
             Vector3 pos = RaceManager.instance.WinPoints[temp].position;
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
+            networkTransform.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+            networkTransform.transform.position = pos;
             yield return new WaitForSecondsRealtime(0.5f);
-            transform.eulerAngles = new Vector3(0f, 90f, 0f);
-            transform.position = pos;
+            //transform.position = pos;
             Debug.Log("Position Set now Just Play win animation over here " + gameObject.name + temp);
             _ChangeAnimationHere(_AnimState.Jump);
         }
