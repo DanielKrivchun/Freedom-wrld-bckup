@@ -7,11 +7,6 @@ public class LookAtCamera : MonoBehaviour
 
     public Transform m_cam;
 
-    private void Start()
-    {
-        m_cam = NetworkCamera.Instance.MyCam.transform;
-    }
-
     // Update is called once per frame
     void Update()
     {

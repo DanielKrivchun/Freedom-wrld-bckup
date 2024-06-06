@@ -136,7 +136,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void _OnWInNumberAlocated()
     {
-        Debug.Log("TimeLeft " + TimeLeft);
+        //Debug.Log("TimeLeft " + TimeLeft);
         gamestarttimer.text = "Game Will Start In :" + TimeLeft;
 
     }
