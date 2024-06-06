@@ -184,9 +184,9 @@ GameObject:
   - component: {fileID: 6133957328870432456}
   - component: {fileID: 1920933005764420817}
   - component: {fileID: 4272026022587835431}
-  - component: {fileID: 7213845569490787930}
   - component: {fileID: 8294929576582710564}
   - component: {fileID: 8328347679902393475}
+  - component: {fileID: 5198368399063005001}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -297,25 +297,9 @@ MonoBehaviour:
   Flags: 786433
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 7213845569490787930}
   - {fileID: 8294929576582710564}
   - {fileID: 8328347679902393475}
---- !u!114 &7213845569490787930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6701743722040084639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncScale: 0
-  SyncParent: 0
-  _autoAOIOverride: 1
-  DisableSharedModeInterpolation: 0
+  - {fileID: 5198368399063005001}
 --- !u!114 &8294929576582710564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,3 +347,19 @@ MonoBehaviour:
   SyncSettings: 79
   StateHashes: 
   TriggerHashes: 
+--- !u!114 &5198368399063005001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6701743722040084639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 1
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0

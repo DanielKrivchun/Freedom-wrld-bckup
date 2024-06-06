@@ -60,15 +60,17 @@ public class NavmeshMultiplayer : NetworkBehaviour
         {
             IsServer = true;
         }
+        else
+        {
+            m_agent.enabled = false;
+        }
         StartCoroutine(_GenrateMyPrefab());
     }
 
     IEnumerator _GenrateMyPrefab()
     {
         yield return new WaitForSecondsRealtime(1f);
-
         Debug.Log("This Choroutine Worked " + gameObject.name);
-
         _GenratePetPrefab();
 
     }
@@ -372,8 +374,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
             Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
-            //gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
-
+            gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
+            gameObject.GetComponent<NetworkMecanimAnimator>().enabled = true;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;
             nameText.text = MyName.ToString();
