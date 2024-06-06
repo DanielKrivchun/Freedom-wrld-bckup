@@ -122,6 +122,7 @@ public class NetworkAIPlayer : NetworkBehaviour
                     GetComponent<NavMeshAgent>().enabled = false;
                     GetComponent<Collider>().enabled = false;
                     StartCoroutine(SetMyWinPosition());
+                    nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
                     break;
                 case _Tags.Water:
                     _ChangeAnimationHere(_AnimState.Swimming);
@@ -140,8 +141,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     private void _OnWInNumberAlocated()
     {
-        Debug.Log("_OnWInNumberAlocated " + gameObject.name);
-        Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
+        nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
 
     }
 
@@ -299,6 +299,8 @@ public class NetworkAIPlayer : NetworkBehaviour
             Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
+            gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
+            gameObject.GetComponent<NetworkMecanimAnimator>().enabled = true;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;
             nameText.text = MyName.ToString();
