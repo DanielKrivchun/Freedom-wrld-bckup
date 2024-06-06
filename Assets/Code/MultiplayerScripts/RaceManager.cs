@@ -111,7 +111,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void _CheckHowManyPlayersAreInGame()
     {
-        Debug.Log("Total Players" + a);
         NetworkEventManager._EventNewPlayerJoined(TotalPlayer);
     }
 
