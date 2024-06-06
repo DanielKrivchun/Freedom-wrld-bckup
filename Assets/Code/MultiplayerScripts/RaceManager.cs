@@ -100,10 +100,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             _CheckForAFK();
         }
 
-        if (Runner.IsServer)
+        if (networkRunnerInstance != null && networkRunnerInstance.IsServer)
         {
             Timer += Time.deltaTime;
-            TimeLeft = Timer.ToString();
+            TimeLeft = ((int)Timer).ToString();
         }
     }
 
