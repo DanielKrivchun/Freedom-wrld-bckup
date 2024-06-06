@@ -49,6 +49,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public int Min;
     public int Max;
     public int MyRank;
+    [Space]
+    public float TotalSeconds;
     public string LocalPlayerNickname { get; private set; }
     [Space]
     public List<_AllPlayerData> GenratedPlayers;
@@ -66,10 +68,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private Vector2 m_input;
 
-
-
     private bool AFKCheck;
     private float Timer;
+    [Space]
     private float match_start_timer;
     private NetworkRunner networkRunnerInstance;
     #endregion
@@ -77,6 +78,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public static RaceManager instance;
 
     private string selected_region = "";
+    private int hours;
+    private int minutes;
+    private int seconds;
 
     private void Awake()
     {
@@ -102,10 +106,17 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         if (networkRunnerInstance != null && networkRunnerInstance.IsServer)
         {
-            Timer += Time.deltaTime;
-            TimeLeft = ((int)Timer).ToString();
+            TotalSeconds -= Time.deltaTime;
+
+            hours = Mathf.FloorToInt(TotalSeconds / 3600);
+            minutes = Mathf.FloorToInt(TotalSeconds / 60);
+            seconds = Mathf.FloorToInt(TotalSeconds % 60);
+
+            TimeLeft = (minutes) + " : " + seconds;
         }
     }
+
+
 
     void _CheckForAFK()
     {
