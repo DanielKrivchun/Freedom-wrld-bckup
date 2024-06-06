@@ -229,7 +229,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
         }
 
     }
-
     #endregion
 
     #region ANIMATION CAMERA

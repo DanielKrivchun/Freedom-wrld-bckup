@@ -16,14 +16,15 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
 
-   
-   
+
+
     [Space]
     public List<_AIData> GenratedAIDetails;
- 
+
     #region PUBLIC
     public TMP_InputField inputField;
     public InputValue InputValue;
+    public TextMeshProUGUI gamestarttimer;
     [Space]
     public TMP_Dropdown dropdown;
     [Space]
@@ -56,11 +57,17 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     #region NETWORKED OBJECTS
     [Networked] public int PathNumber { get; set; }
     [Networked] public int TotalPlayer { get; set; }
+
+    [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
+    public string TimeLeft { get; set; }
     #endregion
 
     #region PRIVATE
 
     private Vector2 m_input;
+
+
+
     private bool AFKCheck;
     private float Timer;
     private float match_start_timer;
@@ -92,6 +99,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             _CheckForAFK();
         }
+
+        if (Runner.IsServer)
+        {
+            Timer += Time.deltaTime;
+            TimeLeft = Timer.ToString();
+        }
     }
 
     void _CheckForAFK()
@@ -120,6 +133,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public const string MAP_PROP_KEY = "C1";
 
     #region GAME START AND MATCHMAKING
+
+    private void _OnWInNumberAlocated()
+    {
+        Debug.Log("TimeLeft " + TimeLeft);
+        gamestarttimer.text = "Game Will Start In :" + TimeLeft;
+
+    }
 
     public void _SelectRegion(int typedText)
     {
