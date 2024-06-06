@@ -22,88 +22,96 @@ using PubNubMessaging.Core;
 public class LeaderboardServiceTest : MonoBehaviour
 {
     //  Variables/Fields  ---------------------------------------
-    [SerializeField] private PetDataRef petDataRef;
+    [SerializeField] public PetDataRef petDataRef;
+    public PetLocalData petLocalRef;
 
     [SerializeField] public Transform entryContainer;
     [SerializeField] public Transform entryTemplate;
     private List<HighscoreEntry> highscoreEntryList;
     private List<Transform> highscoreEntryTransformList;
 
+    
+
 
     //  Unity Methods  --------------------------------
 
-    private void Start()
+    private void Awake()
     {
         entryTemplate.gameObject.SetActive(false);
 
-        /*highscoreEntryList = new List<HighscoreEntry>()*/
-
-        // Populate leaderboard with mock players
-        float templateHeight = 30f;
-        for (int i = 0; i < 10; i++)
+        // Populate leaderboard with mock players and pet database values
+        highscoreEntryList = new List<HighscoreEntry>()
         {
-            Transform entryTransform = Instantiate(entryTemplate, entryContainer);
-            RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
-            entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * i);
-            entryTransform.gameObject.SetActive(true);
+            new HighscoreEntry{ petId = getPetId(), playerId = 1000, petRank = getPetRank(), score = getPetXp()},
+            new HighscoreEntry{ petId = "27", playerId = 1000, petRank = 5, score = Random.Range(0, 8000)},
+            new HighscoreEntry{ petId = "3", playerId = 1000, petRank = 4, score = Random.Range(0, 5000)},
+            new HighscoreEntry{ petId = "7", playerId = 1000, petRank = 9, score = Random.Range(0, 10000)},
+            new HighscoreEntry{ petId = "87", playerId = 1000, petRank = 6, score = Random.Range(0, 13000)},
+            new HighscoreEntry{ petId = "4", playerId = 1000, petRank = 1, score = Random.Range(0, 6000)},
+            new HighscoreEntry{ petId = "10", playerId = 1000, petRank = 8, score = Random.Range(0, 3000)},
+            new HighscoreEntry{ petId = "53", playerId = 1000, petRank = 7, score = Random.Range(0, 15000)},
+            new HighscoreEntry{ petId = "2", playerId = 1000, petRank = 3, score = Random.Range(0, 7000)},
+            new HighscoreEntry{ petId = "11", playerId = 1000, petRank = 10, score = Random.Range(0, 10000)}
+        };
 
-            // create number suffix
-            int rank = i + 1;
-            string rankString;
-            switch (rank)
+        // sort leaderboard entryies by current score(petXp)
+        /*for (int i = 0; i < highscoreEntryList.Count; i++)
+        {
+            for (int j = i + 1; j < highscoreEntryList.Count; j++)
             {
-                default:
-                    rankString = rank + "TH"; break;
-
-                case 1: rankString = "1ST"; break;
-                case 2: rankString = "2ND"; break;
-                case 3: rankString = "3RD"; break;
+                if (highscoreEntryList[j].score > highscoreEntryList[i].score)
+                {
+                    // Swap
+                    HighscoreEntry temp = highscoreEntryList[i];
+                    highscoreEntryList[i] = highscoreEntryList[j];
+                    highscoreEntryList[j] = temp;
+                }
             }
+        }*/
 
-            entryTransform.Find("petRank").GetComponent<Text>().text = rankString;
-
-            int petId = Random.Range(0, 5000);
-
-            entryTransform.Find("petId").GetComponent<Text>().text = petId.ToString();
-
-            string playerId = "tester";
-
-            entryTransform.Find("playerId").GetComponent<Text>().text = playerId.ToString();
-
-            int score = Random.Range(0, 10000);
-
-            entryTransform.Find("score").GetComponent<Text>().text = score.ToString();
-
+        // add container and leaderboard entries
+        highscoreEntryTransformList = new List<Transform>();
+        foreach ( HighscoreEntry highscoreEntry in highscoreEntryList)
+        {
+            CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
 
         Debug.Log($"Start()");
 
-        Debug.Log("pet name:" + petDataRef.petData.cleanliness);
-        Debug.Log("pet name:" + petDataRef.petData.birthTime);
+        Debug.Log(petLocalRef.petID);
     }
-
-
-    /*private void Start()
-    {
-        Debug.Log($"Start()");
-
-        Debug.Log(petDataRef.petData.petname);
-    }*/
-
-
-    public void Update()
-    {
-        
-    }
-
 
 
     //  Methods  --------------------------------------
 
-    // function to create leaderboard entry
+    // Round petXp to nearest whole number
+    public int getPetXp()
+    {
+        float petXp = petDataRef.petData.xp;
+        int x = (int)Math.Round(petXp);
+
+        return x;
+    }
+
+    public string getPetId()
+    {
+
+        string petId = petLocalRef.petID;
+        petId = "1";
+
+        return petId;
+    }
+
+    public int getPetRank()
+    {
+        int petRank = petDataRef.petData.rank;
+        return petRank;
+    }
+
+    // method to create single leaderboard entry
     private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList )
     {
-        float templateHeight = 30f;
+        float templateHeight = 20f;
         Transform entryTransform = Instantiate(entryTemplate, container);
         RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
         entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * transformList.Count);
@@ -122,15 +130,19 @@ public class LeaderboardServiceTest : MonoBehaviour
             case 3: rankString = "3RD"; break;
         }
 
-        entryTransform.Find("petRank").GetComponent<Text>().text = rankString;
+        entryTransform.Find("petStanding").GetComponent<Text>().text = rankString;
 
-        int petId = highscoreEntry.petId;
+        string petId = highscoreEntry.petId;
 
         entryTransform.Find("petId").GetComponent<Text>().text = petId.ToString();
 
-        string playerId = highscoreEntry.playerId;
+        int playerId = highscoreEntry.playerId;
 
-        entryTransform.Find("playerId").GetComponent<Text>().text = playerId;
+        entryTransform.Find("playerId").GetComponent<Text>().text = playerId.ToString();
+
+        int petRank = highscoreEntry.petRank;
+
+        entryTransform.Find("petRank").GetComponent<Text>().text = petRank.ToString();
 
         int score = highscoreEntry.score;
 
@@ -142,8 +154,9 @@ public class LeaderboardServiceTest : MonoBehaviour
     // represents a single entry
     private class HighscoreEntry
     {
-        public int petId;
-        public string playerId;
+        public string petId;
+        public int playerId;
+        public int petRank;
         public int score;
     }
    
