@@ -54,8 +54,12 @@ public class PetTrainingManager : MonoBehaviour
     [SerializeField] private PetTrainingData flyingTrainingData;
     [SerializeField] private PetTrainingData inteligenceTrainingData;
 
+    [Space]
+    public GameObject puzzleModel;
+
     [Header("Training Points")]
     public Transform swimPoint;
+    public Transform intelligencePoint;
 
     [Space]
     public PetTraining selectedTraining;
@@ -78,6 +82,8 @@ public class PetTrainingManager : MonoBehaviour
     #region TRAINING SELECTION UI
     public void ShowPetTrainPanel()
     {
+        petCareStateManager.isCareTaking = false;
+
         //If any training going on then can't open Pet Train Panel
         if(!ongoingTrainingPopup.activeInHierarchy || !petDataRef.petData.ongoingTrainingData.isTraining)
         {
@@ -127,7 +133,7 @@ public class PetTrainingManager : MonoBehaviour
                 break;
 
             case PetTraining.Swimming:
-                petInputManager.SetDestinationPoint(swimPoint.position, true);
+                petInputManager.SetDestinationPointForCareTakingOrTraining(swimPoint.position, true);
 
                 currentTrainingData = swimmingTrainingData;
                 petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Swimming";
@@ -139,6 +145,8 @@ public class PetTrainingManager : MonoBehaviour
                 break;
 
             case PetTraining.Intelligence:
+                petInputManager.SetDestinationPointForCareTakingOrTraining(intelligencePoint.position, true);
+
                 currentTrainingData = inteligenceTrainingData;
                 petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Intelligence";
                 break;
@@ -215,7 +223,14 @@ public class PetTrainingManager : MonoBehaviour
     #region MANAGE PET REACHED TO DESTINATION POINT
     public void PetReachedSelectedObjectDestination()
     {
-        petInputManager.NavigatePlayerAroundTrainingPath(selectedTraining);
+        if(selectedTraining == PetTraining.Intelligence)
+        {
+            puzzleModel.SetActive(true);
+        }
+        else
+        {
+            petInputManager.NavigatePlayerAroundTrainingPath(selectedTraining);
+        }
     }
 
     void SetPetBackToTrainingPoint()
@@ -228,6 +243,7 @@ public class PetTrainingManager : MonoBehaviour
     #region TRAINING COMPLETION UI AND EARNED STATS
     void ShowTrainingCompletedUI()
     {
+        puzzleModel.SetActive(false);
         ongoingTrainingPopup.SetActive(false);
         completedTrainingPanel.SetActive(true);
 
@@ -324,6 +340,7 @@ public class PetTrainingManager : MonoBehaviour
             case PetTraining.Intelligence:
                 selectedTraining = PetTraining.Intelligence;
                 currentTrainingData = inteligenceTrainingData;
+                puzzleModel.SetActive(true);
                 break;
         }
 

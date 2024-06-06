@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,8 +28,12 @@ public class PetCareObjectManager : MonoBehaviour
 
     public void ManagePetCareObjects(PetCareState state)
     {
-        if(state == PetCareState.Happy)
+        //Stop pet from navigating
+        petInputManager.SetPetToIdle();
+
+        if (state == PetCareState.Happy)
         {
+            
             cameraViewManager.SetCameraFrontView();
         }
         else
@@ -39,31 +44,33 @@ public class PetCareObjectManager : MonoBehaviour
         switch (state)
         {
             case PetCareState.Happy:
+                petStateManager.StartIdleTimer();
+                petInputManager.transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 1f);
+
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);
                 break;
 
             case PetCareState.Eat:
-                petInputManager.SetDestinationPoint(eatPoint.position, false);
+                petInputManager.SetDestinationPointForCareTakingOrTraining(eatPoint.position, false);
                 petStateManager.SetAvailabeFoodItemOnTable();
+                petStateManager.StartIdleTimer();
 
-                eatObjectHolder.SetActive(true);
                 bathObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);
 
                 break;
 
             case PetCareState.Clean:
-                petInputManager.SetDestinationPoint(bathPoint.position, false);
+                petInputManager.SetDestinationPointForCareTakingOrTraining(bathPoint.position, false);
 
-                bathObjectHolder.SetActive(true);
                 eatObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);
                 break;
 
             case PetCareState.Energy:
-                petInputManager.SetDestinationPoint(sleepPoint.position, false);
+                petInputManager.SetDestinationPointForCareTakingOrTraining(sleepPoint.position, false);
 
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
@@ -79,14 +86,19 @@ public class PetCareObjectManager : MonoBehaviour
 
     public void PetReachedSelectedObjectDestination()
     {
-        if(petStateManager.selectedPetCareState != PetCareState.Energy)
+        if (petStateManager.selectedPetCareState != PetCareState.Energy)
         {
             cameraViewManager.SetCameraFrontView();
         }
 
         switch (petStateManager.selectedPetCareState)
         {
+            case PetCareState.Eat:
+                eatObjectHolder.SetActive(true);
+                break;
+
             case PetCareState.Clean:
+                bathObjectHolder.SetActive(true);
                 bathObject.MakePetReadyForBath();
                 break;
 

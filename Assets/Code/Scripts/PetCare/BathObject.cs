@@ -55,5 +55,6 @@ public class BathObject : MonoBehaviour
         yield return new WaitForSeconds(1f);
         characterController.enabled = true;
         petCareBtnHolder.SetActive(true);
+        PetCareStateManager.instance.ResetPetCareTakingState();
     }
 }

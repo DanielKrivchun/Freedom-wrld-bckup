@@ -29,6 +29,7 @@ public class PetCareStateManager : MonoBehaviour
 
     [Header("Pet Stat Data")]
     public PetCareStatData petStatData;
+    public float idleTime;
 
     [Space(25)]
     [Header("Script References")]
@@ -39,6 +40,11 @@ public class PetCareStateManager : MonoBehaviour
     public SleepManager sleepManager;
     public TimingManager timingManager;
     public PetTrainingManager petTrainingManager;
+
+    [HideInInspector]
+    public bool isCareTaking;
+    [HideInInspector]
+    public float idleTimer;
 
     private DateTime serverTimeNow;
 
@@ -52,6 +58,7 @@ public class PetCareStateManager : MonoBehaviour
 
     private GameObject generatedFood;
     private List<GameObject> generatedFoodItems = new List<GameObject>();
+    private bool isCheckForIdleTimer;
 
     private void Awake()
     {
@@ -74,8 +81,9 @@ public class PetCareStateManager : MonoBehaviour
     //Setting current pet care state and managing stat objects
     public void CheckForSelectedPetCareState(PetCareState state)
     {
+        isCheckForIdleTimer = false;
         selectedPetCareState = state;
-        //player.transform.position = startPos;
+        isCareTaking = true;
 
         petCareObjectManager.ManagePetCareObjects(selectedPetCareState);
     }
@@ -180,6 +188,39 @@ public class PetCareStateManager : MonoBehaviour
                 foodSpawnIndex = 0;
             }
         }
+
+        StartIdleTimer();
+    }
+    #endregion
+
+    #region CHECK FOR IDLE TIME
+    public void StartIdleTimer()
+    {
+        isCheckForIdleTimer = true;
+        idleTimer = idleTime;
+    }
+
+    private void Update()
+    {
+        if (isCheckForIdleTimer)
+        {
+            if (idleTimer > 0)
+            {
+                idleTimer -= Time.deltaTime;
+            }
+            else
+            {
+                ResetPetCareTakingState();
+                isCheckForIdleTimer = false;
+            }
+        }
+    }
+
+    public void ResetPetCareTakingState()
+    {
+        isCareTaking = false;
+        selectedPetCareState = PetCareState.None;
+        petCareObjectManager.ManagePetCareObjects(selectedPetCareState);
     }
     #endregion
 

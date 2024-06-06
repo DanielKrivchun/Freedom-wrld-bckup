@@ -92,6 +92,9 @@ public class SleepManager : MonoBehaviour
         petCareStateManager.ManageEnergyDataFiller(100);
 
         petCareBtnHolder.SetActive(true);
+        gameObject.SetActive(false);
+
+        petCareStateManager.ResetPetCareTakingState();
     }
 
     private void Update()
@@ -114,7 +117,6 @@ public class SleepManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Time is UP!");
                 ResetTimerAndSetPetStatData();
             }
         }

@@ -8,29 +8,35 @@ public class PetCareInputManager : MonoBehaviour
 {
     public static PetCareInputManager instance;
 
+    [Header("Events")]
     public SimpleGameEvent petCareReachedPointEvent;
     public SimpleGameEvent petTrainingReachedPointEvent;
 
-    [Space]
+    [Header("Script Ref")]
     public PetCareStateManager petCareStateManager;
     public ParticleEffectsManager particleEffectsManager;
 
-    [Space]
-    public float navmeshSpawnOffset;
+    [Header("Player Config")]
+    public float moveSpeed;
+    public float rotationSpeed;
+    public float navmeshSpawnOffset, petAutoNavigateCheckTime;
 
-    [Space]
+    [Header("Training Path Points")]
     public List<Transform> swimmingPoints;
-
-    public float moveSpeed, rotationSpeed;
+    public Transform intelligencePoint;
 
     [HideInInspector]
     public PetAnimation petAnim;
 
     NavMeshAgent agent;
-    bool isCheckForPathCompletion = false, isTrainingPoint;
-    private bool isMoving;
+    bool isCheckForPathCompletion = false, isTrainingPoint, isMoving, isPlayerAutoNavigatingOnMap;
+
+    private Vector3 navmeshPos;
     private Transform targetPoint;
     private List<Transform> trainingPoints;
+
+    float timer;
+
 
     private void Awake()
     {
@@ -45,6 +51,8 @@ public class PetCareInputManager : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
 
         transform.position = GetRandomPointOnNavMesh(transform.position, navmeshSpawnOffset);
+
+        timer = petAutoNavigateCheckTime;
     }
 
     //Set player on Random spawn point
@@ -57,6 +65,53 @@ public class PetCareInputManager : MonoBehaviour
             return hit.position;
         }
         return Vector3.zero; // Return zero if no valid NavMesh point is found
+    }
+
+
+    void CheckForSetPetIdleOrNavigating()
+    {
+        if (petCareStateManager.petDataRef.petData.sleepData.isSleeping || petCareStateManager.petDataRef.petData.ongoingTrainingData.isTraining
+            || petCareStateManager.isCareTaking)
+        {
+            return;
+        }
+
+        //Idle
+        if (Random.Range(0f, 100f) < 50f)
+        {
+            SetPetToIdle();
+        }
+        //Walk around map
+        else
+        {
+            Debug.Log("Set pet moving");
+            SetDestinationPointForNavigationOnHomeIsland();
+        }
+    }
+
+    public void SetPetToIdle()
+    {
+        Debug.Log("Set pet idle");
+        agent.isStopped = true;
+        isPlayerAutoNavigatingOnMap = false;
+        SetIdleOrSickAnim();
+    }
+
+    public void SetDestinationPointForNavigationOnHomeIsland()
+    {
+        isPlayerAutoNavigatingOnMap = true;
+        agent.isStopped = false;
+        navmeshPos = GetRandomPointOnNavMesh(transform.position, navmeshSpawnOffset / 3f);
+        petAnim._ChangeAnimationState(_AnimState.Wallk);
+        agent.SetDestination(navmeshPos);
+    }
+
+    void CheckForPlayerNavmeshMovement()
+    {
+        if (isPlayerAutoNavigatingOnMap && Vector3.Distance(transform.position, navmeshPos) < 0.1f)
+        {
+            SetDestinationPointForNavigationOnHomeIsland();
+        }
     }
 
     //Happy state
@@ -72,14 +127,16 @@ public class PetCareInputManager : MonoBehaviour
                     particleEffectsManager.PlayHappyEffect();
                     petAnim._ChangeAnimationState(_AnimState.Happy);
                     petCareStateManager.ManageHappinessDataFiller(petCareStateManager.petStatData.happinessTickRate);
+                    petCareStateManager.StartIdleTimer();
                 }
                 break;
         }
     }
 
     //Setting and moving player to destination
-    public void SetDestinationPoint(Vector3 point, bool isTrainingPoint)
+    public void SetDestinationPointForCareTakingOrTraining(Vector3 point, bool isTrainingPoint)
     {
+        agent.isStopped = false;
         isCheckForPathCompletion = true;
         petAnim._ChangeAnimationState(_AnimState.Run);
         agent.SetDestination(point);
@@ -90,7 +147,27 @@ public class PetCareInputManager : MonoBehaviour
     //Checking for path completion
     private void Update()
     {
-        // Check if we've reached the destination
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        else
+        {
+            timer = petAutoNavigateCheckTime;
+            CheckForSetPetIdleOrNavigating();
+        }
+
+
+        CheckForPlayerReachedToDestination();
+
+        CheckForPlayerNavmeshMovement();
+
+        CheckForPlayerTrainingMovement();
+    }
+
+    // Check if pet reached the destination
+    void CheckForPlayerReachedToDestination()
+    {
         if (!agent.pathPending && isCheckForPathCompletion)
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
@@ -111,23 +188,6 @@ public class PetCareInputManager : MonoBehaviour
                 }
             }
         }
-
-        if (isMoving)
-        {
-            // Move the player towards the target point
-            transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, moveSpeed * Time.deltaTime);
-
-            // Rotate the player to face the target point
-            Vector3 direction = (targetPoint.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-
-
-            if (Vector3.Distance(transform.position, targetPoint.position) < 0.1f)
-            {
-                MoveToRandomPoints();
-            }
-        }
     }
 
     //Reached to Pet Care destination point
@@ -138,6 +198,7 @@ public class PetCareInputManager : MonoBehaviour
         petCareReachedPointEvent.Raise();
     }
 
+    //Moving pet to training path
     public void NavigatePlayerAroundTrainingPath(PetTraining currentTraining)
     {
         switch (currentTraining)
@@ -151,17 +212,17 @@ public class PetCareInputManager : MonoBehaviour
         }
     }
 
-    //This is for when user back to app and training is going on
-    public void StartNavigatingPlayerAroundTrainingPath(PetTraining currentTraining)
+    void CheckForPlayerTrainingMovement()
     {
-        switch (currentTraining)
+        if (isMoving)
         {
-            case PetTraining.Swimming:
-                transform.position = swimmingPoints[0].position;
-                break;
-        }
+            PetMovingWithLookAtTarget(targetPoint.position);
 
-        NavigatePlayerAroundTrainingPath(currentTraining);
+            if (Vector3.Distance(transform.position, targetPoint.position) < 0.1f)
+            {
+                MoveToRandomPoints();
+            }
+        }
     }
 
     private void MoveToRandomPoints()
@@ -169,6 +230,39 @@ public class PetCareInputManager : MonoBehaviour
         // Select a random point from the list
         targetPoint = trainingPoints[Random.Range(0, trainingPoints.Count)];
         isMoving = true;
+    }
+
+    void PetMovingWithLookAtTarget(Vector3 targetPos)
+    {
+        // Move the player towards the target point
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+
+        // Rotate the player to face the target point
+        Vector3 direction = (targetPos - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+    }
+
+    //This is for when user back to app and training is going on
+    public void StartNavigatingPlayerAroundTrainingPath(PetTraining currentTraining)
+    {
+        //Setting pet to training point
+        switch (currentTraining)
+        {
+            case PetTraining.Swimming:
+                transform.position = swimmingPoints[0].position;
+                break;
+
+            case PetTraining.Intelligence:
+                transform.position = intelligencePoint.position;
+                break;
+        }
+
+        //No need to navigate in puzzle training
+        if (currentTraining != PetTraining.Intelligence)
+        {
+            NavigatePlayerAroundTrainingPath(currentTraining);
+        }
     }
 
     public void StopNavigating()
