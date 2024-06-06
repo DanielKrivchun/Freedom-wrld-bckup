@@ -16,11 +16,6 @@ public class PathPointManager : MonoBehaviour
 #if UNITY_EDITOR
     public List<Vector3> _GetMyPath()
     {
-
-
-
-
-
         List<Vector3> v = new List<Vector3>();
 
         int m_count = WayPoints.Count;
@@ -42,10 +37,7 @@ public class PathPointManager : MonoBehaviour
         prePositions[StraightNo].m_positions = v;
 
         _GenratePathLines(v);
-
         return v;
-
-
     }
 
 #endif

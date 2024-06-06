@@ -186,7 +186,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
             networkTransform.transform.position = pos;
             yield return new WaitForSecondsRealtime(0.5f);
             Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
-
             _ChangeAnimationHere(_AnimState.Jump);
             NetworkCamera.Instance._ActiveWinScene();
         }
@@ -201,7 +200,6 @@ public class NavmeshMultiplayer : NetworkBehaviour
             networkTransform.transform.eulerAngles = new Vector3(0f, 90f, 0f);
             networkTransform.transform.position = pos;
             yield return new WaitForSecondsRealtime(0.5f);
-            //transform.position = pos;
             Debug.Log("Position Set now Just Play win animation over here " + gameObject.name + temp);
             _ChangeAnimationHere(_AnimState.Jump);
         }

@@ -13,6 +13,16 @@ using Fusion.Photon.Realtime;
 using UnityEngine.UI;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
+
+
+
+   
+   
+    [Space]
+    public List<_AIData> GenratedAIDetails;
+ 
+    #region PUBLIC
+    public TMP_InputField inputField;
     public InputValue InputValue;
     [Space]
     public TMP_Dropdown dropdown;
@@ -20,42 +30,44 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public Transform[] spawnPoints;
     [Space]
     public Transform[] WinPoints;
+    [Space]
+    [Header("Player configs")]
     [Header("NetworkRunner Prefab")]
     public NetworkRunner NetworkRunnerPrefab;
+    [Header("Player Prefab")]
+    public NetworkPrefabRef PlayerPrefab = NetworkPrefabRef.Empty;
+    [Header("AIPlayer Prefab")]
+    public NetworkPrefabRef AIPlayer;
     [Space]
     public PrefabHolder PetPrefabHolder;
     [Space]
-    public NetworkPrefabRef AIPlayer;
-    [Space]
-    [Header("Player Prefab")]
-    public NetworkPrefabRef PlayerPrefab = NetworkPrefabRef.Empty;
-
-    int a = 0;
-    [SerializeField] private TMP_InputField inputField;
-    public Vector2 m_input;
-    [Networked] public int PathNumber { get; set; }
-    [Networked] public int TotalPlayer { get; set; }
-
-
     public string PrefabID;
+    [Space]
     public int CurrntWinCount;
-
-    private bool AFKCheck;
-    private float Timer;
     [Space]
     public int Min;
     public int Max;
     public int MyRank;
-    [Space]
-    public List<_AIData> GenratedAIDetails;
-
-    private NetworkRunner networkRunnerInstance;
-
     public string LocalPlayerNickname { get; private set; }
+    [Space]
+    public List<_AllPlayerData> GenratedPlayers;
+    #endregion
+
+    #region NETWORKED OBJECTS
+    [Networked] public int PathNumber { get; set; }
+    [Networked] public int TotalPlayer { get; set; }
+    #endregion
+
+    #region PRIVATE
+
+    private Vector2 m_input;
+    private bool AFKCheck;
+    private float Timer;
+    private float match_start_timer;
+    private NetworkRunner networkRunnerInstance;
+    #endregion
 
     public static RaceManager instance;
-
-    public List<_AllPlayerData> GenratedPlayers;
 
     private string selected_region = "";
 
@@ -244,7 +256,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         return CurrntWinCount;
     }
     #endregion
-
 
     #region PLAYER SPWANR
 
