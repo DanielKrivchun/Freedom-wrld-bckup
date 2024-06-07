@@ -936,78 +936,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 17237059}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &22962063
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 22962065}
-  - component: {fileID: 22962064}
-  m_Layer: 0
-  m_Name: Virtual Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &22962064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22962063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 281894568}
-  m_Follow: {fileID: 281894568}
-  m_Lens:
-    FieldOfView: 60
-    OrthographicSize: 10
-    NearClipPlane: 0.1
-    FarClipPlane: 5000
-    Dutch: 0
-    ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 1346049242}
---- !u!4 &22962065
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22962063}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.18301274, y: -0.6830127, z: 0.18301274, w: 0.6830127}
-  m_LocalPosition: {x: 0.63999987, y: 4.425, z: -2.49}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1346049242}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 30, y: -90, z: 0}
 --- !u!1 &27975318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,7 +1685,6 @@ GameObject:
   - component: {fileID: 55090256}
   - component: {fileID: 55090255}
   - component: {fileID: 55090254}
-  - component: {fileID: 55090258}
   - component: {fileID: 55090259}
   m_Layer: 0
   m_Name: Main Camera
@@ -1834,46 +1761,12 @@ Transform:
   m_GameObject: {fileID: 55090253}
   serializedVersion: 2
   m_LocalRotation: {x: 0.18301274, y: -0.6830127, z: 0.18301274, w: 0.6830127}
-  m_LocalPosition: {x: 0.63999987, y: 4.425, z: -2.49}
+  m_LocalPosition: {x: 10, y: 5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 25, y: -90, z: 0}
---- !u!114 &55090258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55090253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &55090259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1886,12 +1779,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08666e748dea9c448366ed52f1a8fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  virtualCam: {fileID: 22962064}
   player: {fileID: 281894568}
-  topViewPos: {x: 7, y: 4.5, z: -5}
-  topViewRot: {x: -0.15304594, y: 0.6903455, z: -0.15304594, w: -0.6903455}
-  frontViewPos: {x: 2, y: 1, z: 0}
-  frontViewRot: {x: 0, y: 0, z: 0, w: 0}
+  topViewPos: {x: 10, y: 5, z: -4}
+  topViewRot: {x: 30, y: -90, z: 0}
+  frontViewPos: {x: 0, y: 0.45, z: -2}
+  frontViewRot: {x: 0, y: 0, z: 0}
   transitionTime: 1.5
 --- !u!1001 &61348775
 PrefabInstance:
@@ -5120,7 +5012,7 @@ GameObject:
   m_Component:
   - component: {fileID: 152174614}
   m_Layer: 0
-  m_Name: Ponit5
+  m_Name: Ponit6
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -5135,7 +5027,7 @@ Transform:
   m_GameObject: {fileID: 152174613}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.89, y: 1.27, z: -2.39}
+  m_LocalPosition: {x: -6.95, y: 3.73, z: -7.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10664,14 +10556,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 281894563}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -6.36, y: -0.575, z: -2.49}
+  m_LocalRotation: {x: 0.18301274, y: -0.6830127, z: 0.18301274, w: 0.6830127}
+  m_LocalPosition: {x: 10, y: 5, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2089207301}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 25, y: -90, z: 0}
 --- !u!114 &281894569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10713,12 +10605,12 @@ MonoBehaviour:
   - {fileID: 433313071}
   - {fileID: 73103889}
   flyingPoints:
-  - {fileID: 1123456149}
   - {fileID: 1543320919}
-  - {fileID: 1799242070}
   - {fileID: 1210462475}
-  - {fileID: 152174614}
+  - {fileID: 1799242070}
+  - {fileID: 1123456149}
   - {fileID: 329542399}
+  - {fileID: 152174614}
   intelligencePoint: {fileID: 740275236}
   petAnim: {fileID: 0}
 --- !u!114 &281894570
@@ -12237,7 +12129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 329542399}
   m_Layer: 0
-  m_Name: Ponit6
+  m_Name: Ponit5
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -12252,7 +12144,7 @@ Transform:
   m_GameObject: {fileID: 329542398}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.19, y: 4.7, z: 1.8}
+  m_LocalPosition: {x: -9.19, y: 2.86, z: -2.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29400,7 +29292,7 @@ MonoBehaviour:
   - {fileID: 651584851}
   - {fileID: 1385649638}
   petStatData: {fileID: 11400000, guid: 15cc588ed9ddbac498fe093020d80735, type: 2}
-  idleTime: 120
+  idleTime: 20
   petCareUIManager: {fileID: 1334679533}
   getServerTime: {fileID: 1128614860}
   particleEffectsManager: {fileID: 281894570}
@@ -29697,7 +29589,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &756163873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38082,12 +37974,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1123456149}
   - {fileID: 1543320919}
-  - {fileID: 1799242070}
   - {fileID: 1210462475}
-  - {fileID: 152174614}
+  - {fileID: 1799242070}
+  - {fileID: 1123456149}
   - {fileID: 329542399}
+  - {fileID: 152174614}
   m_Father: {fileID: 1010321458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1001193169
@@ -43032,7 +42924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1123456149}
   m_Layer: 0
-  m_Name: Ponit1
+  m_Name: Ponit4
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -43047,7 +42939,7 @@ Transform:
   m_GameObject: {fileID: 1123456148}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.62, y: 2.27, z: -3.4}
+  m_LocalPosition: {x: -6.62, y: 2.27, z: 0.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46184,7 +46076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1210462475}
   m_Layer: 0
-  m_Name: Ponit4
+  m_Name: Ponit2
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -46199,7 +46091,7 @@ Transform:
   m_GameObject: {fileID: 1210462474}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.14, y: 2.27, z: -5.79}
+  m_LocalPosition: {x: 0.43, y: 3.2, z: -5.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54223,73 +54115,6 @@ RectTransform:
   m_AnchoredPosition: {x: -150, y: 120}
   m_SizeDelta: {x: 250, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1346049241
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1346049242}
-  - component: {fileID: 1346049245}
-  - component: {fileID: 1346049246}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1346049242
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1346049241}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 22962065}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1346049245
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1346049241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1346049246
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1346049241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BindingMode: 4
-  m_FollowOffset: {x: 7, y: 5, z: 0}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
-  m_AngularDampingMode: 0
-  m_PitchDamping: 0
-  m_YawDamping: 0
-  m_RollDamping: 0
-  m_AngularDamping: 0
 --- !u!1001 &1346977682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61213,7 +61038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1543320919}
   m_Layer: 0
-  m_Name: Ponit2
+  m_Name: Ponit1
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -61228,7 +61053,7 @@ Transform:
   m_GameObject: {fileID: 1543320918}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 3.35, z: -10.3}
+  m_LocalPosition: {x: -1.92, y: 1.73, z: -10.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69123,7 +68948,7 @@ Transform:
   m_GameObject: {fileID: 1799242069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 3.59, z: 0.59}
+  m_LocalPosition: {x: -1.5, y: 2.3, z: -1.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -84681,7 +84506,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 55090256}
-  - {fileID: 22962065}
   - {fileID: 1230040200}
   - {fileID: 400696996}
   - {fileID: 1334679534}

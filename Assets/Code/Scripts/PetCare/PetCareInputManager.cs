@@ -35,6 +35,7 @@ public class PetCareInputManager : MonoBehaviour
 
     private Vector3 navmeshPos;
     private Transform targetPoint;
+    private bool isRunning;
     private List<Transform> trainingPoints;
 
     float timer;
@@ -165,6 +166,11 @@ public class PetCareInputManager : MonoBehaviour
         CheckForPlayerNavmeshMovement();
 
         CheckForPlayerTrainingMovement();
+
+        /*if (isRunning && Vector3.Distance(transform.position, targetPoint.position) < 0.3f)
+        {
+            MoveToRunningPathPoints();
+        }*/
     }
 
     // Check if pet reached the destination
@@ -214,8 +220,8 @@ public class PetCareInputManager : MonoBehaviour
                 break;
 
             case PetTraining.Flying:
-                SetPetAnimationAndTrainingPoints(_AnimState.Flying, flyingPoints, true);
-                particleEffectsManager.StartFlyingWindEffect();
+                SetPetAnimationAndTrainingPoints(_AnimState.Flying, flyingPoints, false);
+                //particleEffectsManager.StartFlyingWindEffect();
                 break;
 
             case PetTraining.Intelligence:
@@ -233,8 +239,36 @@ public class PetCareInputManager : MonoBehaviour
         trainingPoints = points;
         isRandomPoints = isMoveOnRandomPoints;
         pointIndex = 0;
+
         MoveToTrainingPathPoints();
     }
+
+    /*void SetPetAnimationAndRunningTrainingPoints(_AnimState animState, List<Transform> points, bool isMoveOnRandomPoints)
+    {
+        //agent.enabled = false;
+        petAnim._ChangeAnimationState(animState);
+
+        trainingPoints = points;
+        isRandomPoints = isMoveOnRandomPoints;
+        pointIndex = 0;
+
+        MoveToRunningPathPoints();
+    }
+
+    void MoveToRunningPathPoints()
+    {
+        targetPoint = trainingPoints[pointIndex];
+        isRunning = true;
+        pointIndex++;
+
+        if (pointIndex >= trainingPoints.Count)
+        {
+            pointIndex = 0;
+        }
+
+        agent.SetDestination(targetPoint.position);
+    }*/
+
 
     void CheckForPlayerTrainingMovement()
     {
@@ -254,10 +288,8 @@ public class PetCareInputManager : MonoBehaviour
         // Select a random point from the list
         if (isRandomPoints)
         {
-            
             targetPoint = trainingPoints[Random.Range(0, trainingPoints.Count)];
             isMoving = true;
-            Debug.Log("Move to - " + targetPoint);
         }
         //Select loop point from a list
         else
@@ -291,8 +323,16 @@ public class PetCareInputManager : MonoBehaviour
         //Setting pet to training point
         switch (currentTraining)
         {
+            case PetTraining.Running:
+                transform.position = runningPoints[0].position;
+                break;
+
             case PetTraining.Swimming:
                 transform.position = swimmingPoints[0].position;
+                break;
+
+            case PetTraining.Flying:
+                transform.position = flyingPoints[0].position;
                 break;
 
             case PetTraining.Intelligence:
@@ -303,9 +343,11 @@ public class PetCareInputManager : MonoBehaviour
         NavigatePlayerAroundTrainingPath(currentTraining);
     }
 
-    public void StopNavigating()
+    public IEnumerator StopNavigating()
     {
         isMoving = false;
+        yield return new WaitForSeconds(1f);
+        
         agent.enabled = true;
         SetIdleOrSickAnim();
     }

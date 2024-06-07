@@ -19,6 +19,7 @@ public class PetTrainingManager : MonoBehaviour
 
     [Space]
     public GameObject petCareBtnHolder;
+    public Transform player;
 
     [Header("Pet Train Panel UI")]
     public GameObject petTrainPanel;
@@ -239,24 +240,14 @@ public class PetTrainingManager : MonoBehaviour
 
     void SetPetBackToTrainingPoint()
     {
+        StartCoroutine(petInputManager.StopNavigating());
+
         switch (selectedTraining)
         {
-            case PetTraining.Running:
-                petInputManager.transform.DOMove(runPoint.position, 0.5f);
-                break;
-
-            case PetTraining.Swimming:
-                petInputManager.transform.DOMove(swimPoint.position, 0.5f);
-                break;
-
             case PetTraining.Flying:
                 petInputManager.particleEffectsManager.StopFlyingWindEffect();
-                petInputManager.transform.DOMove(flyPoint.position, 0.5f);
                 break;
         }
-
-        petInputManager.StopNavigating();
-
     }
     #endregion
 
