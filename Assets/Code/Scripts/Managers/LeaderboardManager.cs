@@ -18,6 +18,7 @@ using UnityEngine.UI;
 using Unity.Mathematics;
 using Random = UnityEngine.Random;
 using PubNubMessaging.Core;
+using Beamable.Server.Clients;
 
 public class LeaderboardServiceTest : MonoBehaviour
 {
@@ -30,7 +31,8 @@ public class LeaderboardServiceTest : MonoBehaviour
     private List<HighscoreEntry> highscoreEntryList;
     private List<Transform> highscoreEntryTransformList;
 
-    
+    private GameServerClient _gameServerClient = null;
+
 
 
     //  Unity Methods  --------------------------------
@@ -79,6 +81,30 @@ public class LeaderboardServiceTest : MonoBehaviour
         Debug.Log($"Start()");
 
         Debug.Log(petLocalRef.petID);
+        TestMicroservice();
+    }
+
+
+    private async void TestMicroservice()
+    {
+        var beamContext = BeamContext.Default;
+        await beamContext.OnReady;
+
+        Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");
+
+        _gameServerClient = new GameServerClient();
+
+        // #1 - Call Microservice
+        bool isSuccess = await _gameServerClient.SaveEntry("testPlayerName", "testPetName", 3, 3468);
+
+        // #2 - Result = true
+        Debug.Log($"SaveEntry() isSuccess = {isSuccess}");
+
+        // #3 - Call Microservice
+        List<string> entry = await _gameServerClient.GetEntry("testPlayerName", "testPetName", 3, 3468);
+
+        // #4 - Result = true
+        Debug.Log($"GetEntry() entry.Count = {entry.Count}, entry[0] = {entry[0]}");
     }
 
 
