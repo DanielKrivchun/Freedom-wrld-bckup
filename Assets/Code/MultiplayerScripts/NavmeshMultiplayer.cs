@@ -153,21 +153,21 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
             }
         }
-        //else
-        //{
-        //    switch (other.tag)
-        //    {
-        //        case _Tags.Water:
-        //            _ChangeAnimationHere(_AnimState.Swimming);
-        //            break;
-        //        case _Tags.Flying:
-        //            _ChangeAnimationHere(_AnimState.Flying);
-        //            break;
-        //        case _Tags.Land:
-        //            _ChangeAnimationHere(_AnimState.Run);
-        //            break;
-        //    }
-        //}
+        else
+        {
+            switch (other.tag)
+            {
+                case _Tags.Water:
+                    _ChangeAnimationHere(_AnimState.Swimming);
+                    break;
+                case _Tags.Flying:
+                    _ChangeAnimationHere(_AnimState.Flying);
+                    break;
+                case _Tags.Land:
+                    _ChangeAnimationHere(_AnimState.Run);
+                    break;
+            }
+        }
     }
     #endregion
 

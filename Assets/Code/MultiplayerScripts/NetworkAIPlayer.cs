@@ -34,6 +34,8 @@ public class NetworkAIPlayer : NetworkBehaviour
     public bool IsServer;
     public bool IsLocalPlayer;
     public bool RaceComplete;
+
+    private NetworkTransform networkTransform;
     #endregion
 
     #region NETWORKED OBJECTS
@@ -51,6 +53,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     private void Start()
     {
         Debug.Log("WORKED");
+        networkTransform = GetComponent<NetworkTransform>();
         path_point = FindObjectOfType<PathPointManager>();
         SetLocalObjects();
         _SetupConfigs();
@@ -137,12 +140,27 @@ public class NetworkAIPlayer : NetworkBehaviour
 
             }
         }
+        else
+        {
+            switch (other.tag)
+            {
+                case _Tags.Water:
+                    _ChangeAnimationHere(_AnimState.Swimming);
+                    break;
+                case _Tags.Flying:
+                    _ChangeAnimationHere(_AnimState.Flying);
+                    break;
+                case _Tags.Land:
+                    _ChangeAnimationHere(_AnimState.Run);
+                    break;
+            }
+        }
     }
 
     private void _OnWInNumberAlocated()
     {
         nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
-
+        _ChangeAnimationHere(_AnimState.Jump);
     }
 
     private IEnumerator SetMyWinPosition()
@@ -151,12 +169,12 @@ public class NetworkAIPlayer : NetworkBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         int temp = MyWiningNumber - 1;
         Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+        Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         yield return new WaitForSecondsRealtime(0.5f);
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
-        transform.eulerAngles = new Vector3(0f, 90f, 0f);
-        transform.position = pos;
+        networkTransform.Teleport(pos, Q);
         _ChangeAnimationHere(_AnimState.Jump);
     }
 
