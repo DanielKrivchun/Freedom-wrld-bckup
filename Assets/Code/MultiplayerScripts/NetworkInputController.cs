@@ -23,5 +23,6 @@ public struct netdata : INetworkInput
 public class _AllPlayerData
 {
     public PlayerRef playerRef;
-    public NetworkObject networkObject;
+    public NetworkObject Player;
+    public NetworkAIPlayer AIPlayer;
 }

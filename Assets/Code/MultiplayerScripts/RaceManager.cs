@@ -14,13 +14,6 @@ using UnityEngine.UI;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
 
-
-
-
-
-    [Space]
-    public List<_AIData> GenratedAIDetails;
-
     #region PUBLIC
     public TMP_InputField inputField;
     public InputValue InputValue;
@@ -340,8 +333,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             TotalPlayer++;
 
             _AllPlayerData d = new _AllPlayerData();
+            d.Player = playerObject;
             d.playerRef = playerRef;
-            d.networkObject = playerObject;
 
             GenratedPlayers.Add(d);
 
@@ -364,9 +357,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             _AllPlayerData p = GenratedPlayers.Find(asd => asd.playerRef == playerRef);
 
-            if (p.networkObject != null)
+            if (p.playerRef != null)
             {
-                Runner.Despawn(p.networkObject);
+                Runner.Despawn(p.Player);
                 GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
             }
         }
@@ -523,10 +516,4 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         _SendAIDetails();
     }
     #endregion
-}
-
-[System.Serializable]
-public class _AIData
-{
-    public string AIName;
 }

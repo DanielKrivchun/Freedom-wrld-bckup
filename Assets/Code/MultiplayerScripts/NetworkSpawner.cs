@@ -59,18 +59,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         m_objects = foundplayers.ToList();
         Debug.Log("m_objects.Count " + m_objects.Count);
 
-        foreach (_AllPlayerData item in genratedPlayers)
-        {
-            Debug.Log(item.playerRef.PlayerId);
-
-            if (item.networkObject == null)
-            {
-                foreach (NavmeshMultiplayer playfabs in m_objects)
-                {
-
-                }
-            }
-        }
 
         foreach (var item in foundplayers)
         {
@@ -147,10 +135,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
             networkPlayerObject.name = player.PlayerId.ToString();
             // Keep track of the player avatars for easy access
-            _AllPlayerData d = new _AllPlayerData();
-            d.playerRef = player;
-            d.networkObject = networkPlayerObject;
-            genratedPlayers.Add(d);
             //RPC_SetData(d);
             networkCamera._SetUpCamera(networkPlayerObject.transform);
             //CHECK COUNT OF PLAYER HERE
@@ -167,10 +151,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.IsClient)
         {
             Debug.Log("I am Client  " + player.PlayerId);
-            _AllPlayerData d = new _AllPlayerData();
-            d.playerRef = player;
-            d.networkObject = null;
-            genratedPlayers.Add(d);
         }
 
     }
@@ -179,13 +159,13 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         ColoredDebug.Log("OnPlayerLeft  " + player.PlayerId, Color.red);
 
-        _AllPlayerData p = genratedPlayers.Find(asd => asd.playerRef == player);
+        //_AllPlayerData p = genratedPlayers.Find(asd => asd.playerRef == player);
 
-        if (p.networkObject != null)
-        {
-            runner.Despawn(p.networkObject);
-            genratedPlayers.Remove(genratedPlayers.Find(asd => asd.playerRef == player));
-        }
+        //if (p.networkObject != null)
+        //{
+        //    runner.Despawn(p.networkObject);
+        //    genratedPlayers.Remove(genratedPlayers.Find(asd => asd.playerRef == player));
+        //}
 
     }
 
