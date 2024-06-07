@@ -175,37 +175,17 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     private IEnumerator SetMyWinPosition()
     {
-        if (Utils.IsLocalPlayer(Object))
-        {
-            Debug.Log("SetMyWinPosition " + MyName);
-            yield return new WaitForSecondsRealtime(0.1f);
-            int temp = MyWiningNumber - 1;
-            Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-            Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
-            Rigidbody rb = GetComponent<Rigidbody>();
-            rb.isKinematic = true;
-            networkTransform.Teleport(pos, Q);
-            yield return new WaitForSecondsRealtime(0.5f);
-            Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
-            _ChangeAnimationHere(_AnimState.Jump);
-            NetworkCamera.Instance._ActiveWinScene();
-        }
-        else
-        {
-            Debug.Log("SetMyWinPosition Reset of the clients");
-            yield return new WaitForSecondsRealtime(0.1f);
-            int temp = MyWiningNumber - 1;
-            Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-            Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
-            Rigidbody rb = GetComponent<Rigidbody>();
-            rb.isKinematic = true;
-            networkTransform.Teleport(pos, Q);
-            yield return new WaitForSecondsRealtime(0.5f);
-            Debug.Log("Position Set now Just Play win animation over here " + gameObject.name + temp);
-            _ChangeAnimationHere(_AnimState.Jump);
-        }
-
-
+        Debug.Log("SetMyWinPosition " + MyName);
+        yield return new WaitForSecondsRealtime(0.1f);
+        int temp = MyWiningNumber - 1;
+        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+        Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        networkTransform.Teleport(pos, Q);
+        yield return new WaitForSecondsRealtime(0.5f);
+        Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
+        _ChangeAnimationHere(_AnimState.Jump);
     }
 
     private void _OnWInNumberAlocated()
@@ -215,14 +195,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
             nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
             Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
             NetworkEventManager._EventWon(MyWiningNumber);
-            //CHECK HERE FOR CLIENT AND THEN SHOW CAMERA ANIMATION
-            if (Runner.IsClient)
-            {
-                Debug.Log("I am client so i need to change camera here");
-                NetwrokUI.Instance.WinUI.SetActive(true);
-                NetworkCamera.Instance._ActiveWinScene();
-                _ChangeAnimationHere(_AnimState.Jump);
-            }
+            NetwrokUI.Instance.WinUI.SetActive(true);
+            NetworkCamera.Instance._ActiveWinScene();
+            _ChangeAnimationHere(_AnimState.Jump);
         }
         else
         {
