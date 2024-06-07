@@ -48,7 +48,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public int Min;
     public int Max;
+    [Space]
     public int MyRank;
+    public int MyXP;
+    public int MyCoins;
     [Space]
     public float TotalSeconds;
     public string LocalPlayerNickname { get; private set; }
@@ -147,9 +150,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void _OnWInNumberAlocated()
     {
-        //Debug.Log("TimeLeft " + TimeLeft);
         gamestarttimer.text = "Game Will Start In :" + TimeLeft;
-
     }
 
     public void _SelectRegion(int typedText)
@@ -285,6 +286,34 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         ColoredDebug.Log("Currunt Win Number " + CurrntWinCount);
         return CurrntWinCount;
     }
+
+    public void _XpIncrimental(int _mywinno)
+    {
+        int mul = 1;
+        int coinstoadd = 0;
+        switch (_mywinno)
+        {
+            case 1:
+                mul = 50;
+                coinstoadd = 80;
+                break;
+            case 2:
+                mul = 30;
+                coinstoadd = 60;
+                break;
+            case 3:
+                mul = 20;
+                coinstoadd = 10;
+                break;
+        }
+        int newxp = (MyXP) + (1 / MyRank) * mul;
+
+        Debug.Log(newxp);
+        Debug.Log(coinstoadd);
+
+
+    }
+
     #endregion
 
     #region PLAYER SPWANR
@@ -351,6 +380,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public void _InputSet(InputAction.CallbackContext context)
     {
         m_input = context.ReadValue<Vector2>();
+
     }
 
     #region INetworkRunnerCallbacks

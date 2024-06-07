@@ -181,10 +181,10 @@ public class NavmeshMultiplayer : NetworkBehaviour
             yield return new WaitForSecondsRealtime(0.1f);
             int temp = MyWiningNumber - 1;
             Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+            Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
-            networkTransform.transform.eulerAngles = new Vector3(0f, 90f, 0f);
-            networkTransform.transform.position = pos;
+            networkTransform.Teleport(pos, Q);
             yield return new WaitForSecondsRealtime(0.5f);
             Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
             _ChangeAnimationHere(_AnimState.Jump);
@@ -196,10 +196,10 @@ public class NavmeshMultiplayer : NetworkBehaviour
             yield return new WaitForSecondsRealtime(0.1f);
             int temp = MyWiningNumber - 1;
             Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+            Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
-            networkTransform.transform.eulerAngles = new Vector3(0f, 90f, 0f);
-            networkTransform.transform.position = pos;
+            networkTransform.Teleport(pos, Q);
             yield return new WaitForSecondsRealtime(0.5f);
             Debug.Log("Position Set now Just Play win animation over here " + gameObject.name + temp);
             _ChangeAnimationHere(_AnimState.Jump);
