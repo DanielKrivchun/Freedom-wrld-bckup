@@ -58,7 +58,9 @@ public class PetTrainingManager : MonoBehaviour
     public GameObject puzzleModel;
 
     [Header("Training Points")]
+    public Transform runPoint;
     public Transform swimPoint;
+    public Transform flyPoint;
     public Transform intelligencePoint;
 
     [Space]
@@ -123,6 +125,8 @@ public class PetTrainingManager : MonoBehaviour
         switch (selectedTraining)
         {
             case PetTraining.Running:
+                petInputManager.SetDestinationPointForCareTakingOrTraining(runPoint.position, true);
+
                 currentTrainingData = runningTrainingData;
                 petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Running";
                 break;
@@ -140,6 +144,8 @@ public class PetTrainingManager : MonoBehaviour
                 break;
 
             case PetTraining.Flying:
+                petInputManager.SetDestinationPointForCareTakingOrTraining(flyPoint.position, true);
+
                 currentTrainingData = flyingTrainingData;
                 petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Flying";
                 break;
@@ -235,12 +241,22 @@ public class PetTrainingManager : MonoBehaviour
     {
         switch (selectedTraining)
         {
+            case PetTraining.Running:
+                petInputManager.transform.DOMove(runPoint.position, 0.5f);
+                break;
+
             case PetTraining.Swimming:
                 petInputManager.transform.DOMove(swimPoint.position, 0.5f);
-                petInputManager.StopNavigating();
+                break;
+
+            case PetTraining.Flying:
+                petInputManager.particleEffectsManager.StopFlyingWindEffect();
+                petInputManager.transform.DOMove(flyPoint.position, 0.5f);
                 break;
         }
-        
+
+        petInputManager.StopNavigating();
+
     }
     #endregion
 
@@ -278,6 +294,7 @@ public class PetTrainingManager : MonoBehaviour
         petCareStateManager.IncreaseXP(currentTrainingData.xP);
 
         //Coins
+        //AddCoin(currentTrainingData.coins);
         //Needs add coins of Current Training Data
 
         //Training Stats

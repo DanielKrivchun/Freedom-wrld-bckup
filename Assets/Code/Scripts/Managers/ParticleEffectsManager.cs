@@ -10,6 +10,9 @@ public class ParticleEffectsManager : MonoBehaviour
     [SerializeField]
     ParticleSystem sleepEffect;
 
+    [SerializeField]
+    ParticleSystem flyingWindEffect;
+
     [Space]
     [SerializeField]
     List<ParticleSystem> foamBubbleEffects;
@@ -35,7 +38,18 @@ public class ParticleEffectsManager : MonoBehaviour
     {
         sleepEffect.Stop();
     }
-    
+
+    //Flying wind particle effect
+    public void StartFlyingWindEffect()
+    {
+        flyingWindEffect.Play();
+    }
+
+    public void StopFlyingWindEffect()
+    {
+        flyingWindEffect.Stop();
+    }
+
     //Foam Bubble particle effect
     public void CheckAndStartFoamBubbleEffect(ParticleSystem foamBubbleEffect)
     {

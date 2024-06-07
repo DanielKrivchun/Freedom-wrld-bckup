@@ -22,21 +22,23 @@ public class PetCareInputManager : MonoBehaviour
     public float navmeshSpawnOffset, petAutoNavigateCheckTime;
 
     [Header("Training Path Points")]
+    public List<Transform> runningPoints;
     public List<Transform> swimmingPoints;
+    public List<Transform> flyingPoints;
     public Transform intelligencePoint;
 
     [HideInInspector]
     public PetAnimation petAnim;
 
     NavMeshAgent agent;
-    bool isCheckForPathCompletion = false, isTrainingPoint, isMoving, isPlayerAutoNavigatingOnMap;
+    bool isCheckForPathCompletion = false, isTrainingPoint, isMoving, isPlayerAutoNavigatingOnMap, isRandomPoints;
 
     private Vector3 navmeshPos;
     private Transform targetPoint;
     private List<Transform> trainingPoints;
 
     float timer;
-
+    int pointIndex = 0;
 
     private void Awake()
     {
@@ -203,11 +205,17 @@ public class PetCareInputManager : MonoBehaviour
     {
         switch (currentTraining)
         {
+            case PetTraining.Running:
+                SetPetAnimationAndTrainingPoints(_AnimState.Run, runningPoints, false);
+                break;
+
             case PetTraining.Swimming:
-                agent.enabled = false;
-                petAnim._ChangeAnimationState(_AnimState.Swimming);
-                trainingPoints = swimmingPoints;
-                MoveToRandomPoints();
+                SetPetAnimationAndTrainingPoints(_AnimState.Swimming, swimmingPoints, true);
+                break;
+
+            case PetTraining.Flying:
+                SetPetAnimationAndTrainingPoints(_AnimState.Flying, flyingPoints, true);
+                particleEffectsManager.StartFlyingWindEffect();
                 break;
 
             case PetTraining.Intelligence:
@@ -215,6 +223,17 @@ public class PetCareInputManager : MonoBehaviour
                 transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 1f);
                 break;
         }
+    }
+
+    void SetPetAnimationAndTrainingPoints(_AnimState animState, List<Transform> points, bool isMoveOnRandomPoints)
+    {
+        agent.enabled = false;
+        petAnim._ChangeAnimationState(animState);
+
+        trainingPoints = points;
+        isRandomPoints = isMoveOnRandomPoints;
+        pointIndex = 0;
+        MoveToTrainingPathPoints();
     }
 
     void CheckForPlayerTrainingMovement()
@@ -225,16 +244,34 @@ public class PetCareInputManager : MonoBehaviour
 
             if (Vector3.Distance(transform.position, targetPoint.position) < 0.1f)
             {
-                MoveToRandomPoints();
+                MoveToTrainingPathPoints();
             }
         }
     }
 
-    private void MoveToRandomPoints()
+    private void MoveToTrainingPathPoints()
     {
         // Select a random point from the list
-        targetPoint = trainingPoints[Random.Range(0, trainingPoints.Count)];
-        isMoving = true;
+        if (isRandomPoints)
+        {
+            
+            targetPoint = trainingPoints[Random.Range(0, trainingPoints.Count)];
+            isMoving = true;
+            Debug.Log("Move to - " + targetPoint);
+        }
+        //Select loop point from a list
+        else
+        {
+            targetPoint = trainingPoints[pointIndex];
+            isMoving = true;
+            pointIndex++;
+
+            if(pointIndex >= trainingPoints.Count)
+            {
+                pointIndex = 0;
+            }
+        }
+
     }
 
     void PetMovingWithLookAtTarget(Vector3 targetPos)
@@ -263,7 +300,7 @@ public class PetCareInputManager : MonoBehaviour
                 break;
         }
 
-            NavigatePlayerAroundTrainingPath(currentTraining);
+        NavigatePlayerAroundTrainingPath(currentTraining);
     }
 
     public void StopNavigating()

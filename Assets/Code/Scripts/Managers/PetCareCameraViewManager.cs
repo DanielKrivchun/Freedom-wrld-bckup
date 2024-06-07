@@ -10,11 +10,12 @@ public class PetCareCameraViewManager : MonoBehaviour
 
     [Space]
     public Transform player;
-    public Transform map;
 
     [Space]
     public Vector3 topViewPos;
     public Quaternion topViewRot;
+
+    [Space]
     public Vector3 frontViewPos;
     public Quaternion frontViewRot;
 
@@ -45,40 +46,47 @@ public class PetCareCameraViewManager : MonoBehaviour
 
     public void SetCameraTopView()
     {
-        /*virtualCam.Follow = map;
-        virtualCam.LookAt = map;
+        virtualCam.Follow = null;
+        virtualCam.LookAt = null;
+        transposer.m_FollowOffset = Vector3.zero;
 
         if (!isTransitioning && transposer.m_FollowOffset != topViewPos)
         {
+            Debug.Log("Move to top");
             StartCoroutine(TransitionToOffset(frontViewPos, topViewPos, transitionTime));
-        }*/
+            //StartCoroutine(TransitionToFixedPosition(topViewPos, transitionTime));
+        }
 
-        GetComponent<CinemachineBrain>().enabled = false;
-        transposer.m_FollowOffset = Vector3.zero;
+        /*GetComponent<CinemachineBrain>().enabled = false;
+        //transposer.m_FollowOffset = Vector3.zero;
         transform.DOMove(topViewPos, 1.5f);
-        transform.DORotateQuaternion(topViewRot, 1.5f);
+        transform.DORotateQuaternion(topViewRot, 1.5f);*/
     }
 
     public void SetCameraFrontView()
     {
-        GetComponent<CinemachineBrain>().enabled = true;
+        virtualCam.Follow = player;
+        virtualCam.LookAt = player;
 
         if (!isTransitioning && transposer.m_FollowOffset != frontViewPos)
         {
-            StartCoroutine(TransitionToOffset(transform.position, frontViewPos, transitionTime));
+            StartCoroutine(TransitionToOffset(topViewPos, frontViewPos, transitionTime));
         }
 
-        /*transform.DOMove(frontViewPos, 1.5f);
-        transform.DORotateQuaternion(frontViewRot, 1.5f);
-        StartCoroutine(SetPlayerFollowAndLookAt());*/
+        /*transform.DOMove(player.position + frontViewPos, 1.5f);
+        transform.DORotateQuaternion(frontViewRot, 1.5f);*/
+
+        //virtualCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = frontViewPos;
+        //StartCoroutine(SetPlayerFollowAndLookAt());
     }
 
     IEnumerator SetPlayerFollowAndLookAt()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         GetComponent<CinemachineBrain>().enabled = true;
-        virtualCam.Follow = player;
-        virtualCam.LookAt = player;
+
+        //StartCoroutine(TransitionToOffset(transform.position, frontViewPos, 0.5f));
+        //virtualCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = frontViewPos;
     }
 
 
@@ -91,11 +99,28 @@ public class PetCareCameraViewManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
-            virtualCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = Vector3.Lerp(currentOffset, newOffset, t);
+            transposer.m_FollowOffset = Vector3.Lerp(currentOffset, newOffset, t);
+            yield return null;
+        }
+        transposer.m_FollowOffset = newOffset;
+        isTransitioning = false;
+    }
+
+    private IEnumerator TransitionToFixedPosition(Vector3 fixedPosition, float duration)
+    {
+        isTransitioning = true;
+        elapsedTime = 0.0f;
+        Vector3 startPosition = virtualCam.transform.position;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+            virtualCam.transform.position = Vector3.Lerp(startPosition, fixedPosition, t);
             yield return null;
         }
 
-        virtualCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = newOffset;
+        virtualCam.transform.position = fixedPosition;
         isTransitioning = false;
     }
 }
