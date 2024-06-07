@@ -307,11 +307,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 break;
         }
         int newxp = (MyXP) + (1 / MyRank) * mul;
-
         Debug.Log(newxp);
         Debug.Log(coinstoadd);
-
-
     }
 
     #endregion

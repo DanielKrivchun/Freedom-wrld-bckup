@@ -84772,7 +84772,9 @@ MonoBehaviour:
   Min: 50
   Max: 50
   MyRank: 1000
-  TotalSeconds: 300
+  MyXP: 0
+  MyCoins: 0
+  TotalSeconds: 120
   GenratedPlayers: []
   _PathNumber: 0
   _TotalPlayer: 0
@@ -84785,8 +84787,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620809133}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21986254, y: -0.64045876, z: 0.19874726, w: 0.70850027}
-  m_LocalPosition: {x: 40.020115, y: 9.196674, z: 25.216782}
+  m_LocalRotation: {x: 0.2422623, y: -0.029105037, z: 0.007270986, w: 0.96974695}
+  m_LocalPosition: {x: -3.410009, y: 10.502627, z: 80.20104}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
