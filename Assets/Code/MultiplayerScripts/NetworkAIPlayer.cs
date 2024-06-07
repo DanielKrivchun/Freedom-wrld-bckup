@@ -125,7 +125,6 @@ public class NetworkAIPlayer : NetworkBehaviour
                     GetComponent<NavMeshAgent>().enabled = false;
                     GetComponent<Collider>().enabled = false;
                     StartCoroutine(SetMyWinPosition());
-                    nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
                     break;
                 case _Tags.Water:
                     _ChangeAnimationHere(_AnimState.Swimming);
@@ -160,6 +159,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     private void _OnWInNumberAlocated()
     {
         nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
+        Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
         _ChangeAnimationHere(_AnimState.Jump);
     }
 
