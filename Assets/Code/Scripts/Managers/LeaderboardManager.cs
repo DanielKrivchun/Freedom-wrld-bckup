@@ -85,6 +85,9 @@ public class LeaderboardServiceTest : MonoBehaviour
     }
 
 
+
+    //  Methods  --------------------------------------
+
     private async void TestMicroservice()
     {
         var beamContext = BeamContext.Default;
@@ -106,9 +109,6 @@ public class LeaderboardServiceTest : MonoBehaviour
         // #4 - Result = true
         Debug.Log($"GetEntry() entry.Count = {entry.Count}, entry[0] = {entry[0]}");
     }
-
-
-    //  Methods  --------------------------------------
 
     // Round petXp to nearest whole number
     public int getPetXp()

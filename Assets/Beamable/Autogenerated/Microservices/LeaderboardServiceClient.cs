@@ -32,18 +32,60 @@ namespace Beamable.Server.Clients
         }
         
         /// <summary>
-        /// Call the ServerCall method on the LeaderboardService microservice
-        /// <see cref="Beamable.Microservices.LeaderboardService.ServerCall"/>
+        /// Call the SaveEntry method on the LeaderboardService microservice
+        /// <see cref="Beamable.Microservices.LeaderboardService.SaveEntry"/>
         /// </summary>
-        public Beamable.Common.Promise<Beamable.Common.Unit> ServerCall()
+        public Beamable.Common.Promise<bool> SaveEntry(string _playerName, string _petName, int _petRank, int _petXp)
         {
+            object raw__playerName = _playerName;
+            object raw__petName = _petName;
+            object raw__petRank = _petRank;
+            object raw__petXp = _petXp;
             System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
-            return this.Request<Beamable.Common.Unit>("LeaderboardService", "ServerCall", serializedFields);
+            serializedFields.Add("_playerName", raw__playerName);
+            serializedFields.Add("_petName", raw__petName);
+            serializedFields.Add("_petRank", raw__petRank);
+            serializedFields.Add("_petXp", raw__petXp);
+            return this.Request<bool>("LeaderboardService", "SaveEntry", serializedFields);
+        }
+        
+        /// <summary>
+        /// Call the UpdateEntry method on the LeaderboardService microservice
+        /// <see cref="Beamable.Microservices.LeaderboardService.UpdateEntry"/>
+        /// </summary>
+        public Beamable.Common.Promise<Beamable.Common.Unit> UpdateEntry(string _playerName)
+        {
+            object raw__playerName = _playerName;
+            System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
+            serializedFields.Add("_playerName", raw__playerName);
+            return this.Request<Beamable.Common.Unit>("LeaderboardService", "UpdateEntry", serializedFields);
+        }
+        
+        /// <summary>
+        /// Call the GetEntry method on the LeaderboardService microservice
+        /// <see cref="Beamable.Microservices.LeaderboardService.GetEntry"/>
+        /// </summary>
+        public Beamable.Common.Promise<System.Collections.Generic.List<string>> GetEntry(string _playerName)
+        {
+            object raw__playerName = _playerName;
+            System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
+            serializedFields.Add("_playerName", raw__playerName);
+            return this.Request<System.Collections.Generic.List<string>>("LeaderboardService", "GetEntry", serializedFields);
         }
     }
     
     internal sealed class MicroserviceParametersLeaderboardServiceClient
     {
+        
+        [System.SerializableAttribute()]
+        internal sealed class ParameterSystem_String : MicroserviceClientDataWrapper<string>
+        {
+        }
+        
+        [System.SerializableAttribute()]
+        internal sealed class ParameterSystem_Int32 : MicroserviceClientDataWrapper<int>
+        {
+        }
     }
     
     [BeamContextSystemAttribute()]
