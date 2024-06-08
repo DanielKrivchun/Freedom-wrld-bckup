@@ -31,7 +31,7 @@ public class LeaderboardServiceTest : MonoBehaviour
     private List<HighscoreEntry> highscoreEntryList;
     private List<Transform> highscoreEntryTransformList;
 
-    private GameServerClient _gameServerClient = null;
+    private LeaderboardServiceClient _LeaderboardServiceClient = null;
 
 
 
@@ -95,16 +95,16 @@ public class LeaderboardServiceTest : MonoBehaviour
 
         Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");
 
-        _gameServerClient = new GameServerClient();
+        _LeaderboardServiceClient = new LeaderboardServiceClient();
 
         // #1 - Call Microservice
-        bool isSuccess = await _gameServerClient.SaveEntry("testPlayerName", "testPetName", 3, 3468);
+        bool isSuccess = await _LeaderboardServiceClient.SaveEntry("kairem", "Apollo", 7, 8933);
 
         // #2 - Result = true
         Debug.Log($"SaveEntry() isSuccess = {isSuccess}");
 
         // #3 - Call Microservice
-        List<string> entry = await _gameServerClient.GetEntry("testPlayerName", "testPetName", 3, 3468);
+        List<string> entry = await _LeaderboardServiceClient.GetEntry("kairem");
 
         // #4 - Result = true
         Debug.Log($"GetEntry() entry.Count = {entry.Count}, entry[0] = {entry[0]}");

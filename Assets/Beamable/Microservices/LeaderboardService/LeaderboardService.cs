@@ -24,37 +24,22 @@ namespace Beamable.Microservices
                 var db = await Storage.GetDatabase<LeaderboardStorage>();
                 var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
 
-                // filter for _playerName
-                var filter = Builders<PlayerEntry>.Filter.Eq("playerName", _playerName);
-                if (filter == null)
+                var filter = Builders<PlayerEntry>.Filter.Empty;
+                if (filter != null)
                 {
-                    Debug.Log($"{_playerName} does not exist");
+                    Debug.Log($"Test: Database already populated");
                 }
 
-                // Return the leaderboard connected to _playerName
-                var col = collection.Find(filter).ToList();
-                col.ForEach(x =>
+                // create new data
+                collection.InsertOne(new PlayerEntry()
                 {
-                    if (x.playerName == _playerName)
-                    {
-                        Debug.Log($"{_playerName} already exists");
+                    playerName = _playerName,
+                    petName = _petName,
+                    petRank = _petRank,
+                    petXp = _petXp
 
-                        // to-do: if player exists, update their data
-                    }
-                    else
-                    {
-                        // create new data
-                        collection.InsertOne(new PlayerEntry()
-                        {
-                            playerName = _playerName,
-                            petName = _petName,
-                            petRank = _petRank,
-                            petXp = _petXp
-
-                        });
-                        Debug.Log($"{_playerName} added to database");
-                    }
                 });
+                Debug.Log($"{_playerName}'s data added to database");
 
                 // add method to update data!!!
 
@@ -80,14 +65,14 @@ namespace Beamable.Microservices
         }
 
         [ClientCallable]
-        public async Promise<List<string>> GetEntry(string _playerName)
+        public async Promise<List<String>> GetEntry(string _playerName)
         {
             // Filter entries based on playerName
-            var filter = Builders<PlayerEntry>.Filter.Eq("playerName", _playerName);
+            /*var filter = Builders<PlayerEntry>.Filter.Eq("playerName", _playerName);*/
             var db = await Storage.GetDatabase<LeaderboardStorage>();
             var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
             var LeaderboardEntries = collection
-               .Find(filter)
+               .Find(x => x.playerName == _playerName)
                .ToList();
 
             return LeaderboardEntries.Select(entry => entry.playerName + entry.petName + entry.petRank + entry.petXp).ToList();
