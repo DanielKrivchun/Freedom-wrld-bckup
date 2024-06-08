@@ -13,7 +13,16 @@ MonoBehaviour:
   m_Name: MicroserviceConfiguration
   m_EditorClassIdentifier: 
   Microservices: []
-  StorageObjects: []
+  StorageObjects:
+  - StorageName: LeaderboardEntry
+    StorageType: mongov1
+    Enabled: 1
+    Archived: 0
+    TemplateId: small
+    LocalDataPort: 12100
+    LocalUIPort: 13100
+    LocalInitUser: beamable
+    LocalInitPass: beamable
   ServiceCodeHandlesOnLastDomainReload: []
   LastBuiltDockerImagesCodeHandles: []
   CustomContainerPrefix: 
