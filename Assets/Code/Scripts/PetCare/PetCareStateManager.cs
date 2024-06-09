@@ -1,3 +1,4 @@
+using Beamable.InventoryService;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -40,6 +41,7 @@ public class PetCareStateManager : MonoBehaviour
     public SleepManager sleepManager;
     public TimingManager timingManager;
     public PetTrainingManager petTrainingManager;
+    public BeamableInventoryManager beamableInventoryManager;
 
     [HideInInspector]
     public bool isCareTaking;
@@ -582,7 +584,7 @@ public class PetCareStateManager : MonoBehaviour
         {
             int coins = (int)(1f / petDataRef.petData.rank * 100f);
 
-            //Coins needs to be added
+            beamableInventoryManager.AddCurrency(coins);
             ManageCleanlinessDataFiller(petStatData.cleanlinessTreasureHuntValue);
 
             return petDataRef.petData.petname + " found some coins while you were gone, digging for burried treasure!\n" + coins + " coins found" + "\n -20 Cleanliness";
@@ -637,6 +639,9 @@ public class PetCareStateManager : MonoBehaviour
 
             //Update Max Stamina
             UpdateMaxStamina();
+
+            //Add Coins
+            beamableInventoryManager.AddCurrency(petDataRef.petData.rank * 5);
         }
     }
 

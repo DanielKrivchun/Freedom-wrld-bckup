@@ -1,3 +1,4 @@
+using Beamable.InventoryService;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -16,6 +17,7 @@ public class PetTrainingManager : MonoBehaviour
     public PetCareUIManager petCareUIManager;
     public PetCareInputManager petInputManager;
     public GetServerTime getServerTime;
+    public BeamableInventoryManager beamableInventoryManager;
 
     [Space]
     public GameObject petCareBtnHolder;
@@ -284,9 +286,8 @@ public class PetTrainingManager : MonoBehaviour
         //XP
         petCareStateManager.IncreaseXP(currentTrainingData.xP);
 
-        //Coins
-        //AddCoin(currentTrainingData.coins);
-        //Needs add coins of Current Training Data
+        //Add Coins
+        beamableInventoryManager.AddCurrency(currentTrainingData.coins);
 
         //Training Stats
         if(currentTrainingData == runningTrainingData)

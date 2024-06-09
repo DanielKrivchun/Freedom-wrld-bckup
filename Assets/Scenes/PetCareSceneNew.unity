@@ -2004,7 +2004,9 @@ MonoBehaviour:
   petCareUIManager: {fileID: 1334679533}
   petInputManager: {fileID: 281894569}
   getServerTime: {fileID: 1128614860}
+  beamableInventoryManager: {fileID: 1456848200}
   petCareBtnHolder: {fileID: 1255737852}
+  player: {fileID: 0}
   petTrainPanel: {fileID: 1290140182}
   runningTrainingSelectBtn: {fileID: 1582497153}
   climbingTrainingSelectBtn: {fileID: 1133352970}
@@ -19111,14 +19113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed204df4b41583f4db7aaae8f91e5262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 270678624}
-  jointTransform:
-  - {fileID: 1076873098}
-  - {fileID: 407659938}
-  - {fileID: 415358482}
-  - {fileID: 582591250}
-  - {fileID: 959425968}
-  - {fileID: 1817843729}
 --- !u!1 &555259213
 GameObject:
   m_ObjectHideFlags: 0
@@ -29300,6 +29294,7 @@ MonoBehaviour:
   sleepManager: {fileID: 487682068}
   timingManager: {fileID: 1128614859}
   petTrainingManager: {fileID: 66716814}
+  beamableInventoryManager: {fileID: 1456848200}
   isCareTaking: 0
   idleTimer: 0
 --- !u!114 &743679603
@@ -57751,6 +57746,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448487023}
   m_CullTransparentMesh: 1
+--- !u!1 &1456848199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1456848201}
+  - component: {fileID: 1456848200}
+  m_Layer: 0
+  m_Name: BeamableInventorySave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1456848200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456848199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593a77a87e667e84e997641569a4e841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnRefreshed:
+    m_PersistentCalls:
+      m_Calls: []
+  _currencyRefPrimary:
+    Id: 
+--- !u!4 &1456848201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456848199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 469.988, y: 260.7774, z: -2.709751}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1466362009
 GameObject:
   m_ObjectHideFlags: 0
@@ -84528,3 +84572,4 @@ SceneRoots:
   - {fileID: 1057934120}
   - {fileID: 2068893946}
   - {fileID: 1010321458}
+  - {fileID: 1456848201}
