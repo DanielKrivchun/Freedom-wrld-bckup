@@ -57,7 +57,7 @@ public class LeaderboardServiceTest : MonoBehaviour
         };
 
         // sort leaderboard entryies by current score(petXp)
-        /*for (int i = 0; i < highscoreEntryList.Count; i++)
+        for (int i = 0; i < highscoreEntryList.Count; i++)
         {
             for (int j = i + 1; j < highscoreEntryList.Count; j++)
             {
@@ -69,7 +69,7 @@ public class LeaderboardServiceTest : MonoBehaviour
                     highscoreEntryList[j] = temp;
                 }
             }
-        }*/
+        }
 
         // add container and leaderboard entries
         highscoreEntryTransformList = new List<Transform>();
@@ -98,7 +98,7 @@ public class LeaderboardServiceTest : MonoBehaviour
         _LeaderboardServiceClient = new LeaderboardServiceClient();
 
         // #1 - Call Microservice
-        bool isSuccess = await _LeaderboardServiceClient.SaveEntry("kairem", "Apollo", 7, 8933);
+        bool isSuccess = await _LeaderboardServiceClient.SaveEntry("test", "cool", 2, 4933);
 
         // #2 - Result = true
         Debug.Log($"SaveEntry() isSuccess = {isSuccess}");

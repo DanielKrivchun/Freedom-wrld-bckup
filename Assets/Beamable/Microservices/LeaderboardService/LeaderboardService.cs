@@ -75,6 +75,8 @@ namespace Beamable.Microservices
                .Find(x => x.playerName == _playerName)
                .ToList();
 
+            // Sort retrieved data into an object, then return list of said objects
+
             return LeaderboardEntries.Select(entry => entry.playerName + entry.petName + entry.petRank + entry.petXp).ToList();
         }
 
