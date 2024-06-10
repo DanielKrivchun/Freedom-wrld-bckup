@@ -64,6 +64,7 @@ public class PetTrainingManager : MonoBehaviour
     public Transform runPoint;
     public Transform swimPoint;
     public Transform flyPoint;
+    public Transform climbPoint;
     public Transform intelligencePoint;
 
     [Space]
@@ -135,6 +136,8 @@ public class PetTrainingManager : MonoBehaviour
                 break;
 
             case PetTraining.Climbing:
+                petInputManager.SetDestinationPointForCareTakingOrTraining(climbPoint.position, true);
+
                 currentTrainingData = climbingTrainingData;
                 petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Climbing";
                 break;
@@ -278,7 +281,7 @@ public class PetTrainingManager : MonoBehaviour
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
 
         petCareBtnHolder.SetActive(true);
-        //SetTrainigEarnedStats();
+        SetTrainigEarnedStats();
     }
 
     public void SetTrainigEarnedStats()

@@ -376,7 +376,7 @@ public class PetCareUIManager : MonoBehaviour
     {
         rankUpMsgTxt.text = petDataRef.petData.petname + " just moved up to Rank " + petDataRef.petData.rank + "!\n" +
                             petDataRef.petData.petname + "'s Max Stamina is now " + petDataRef.petData.maxStamina + ".\n" +
-                            "You've earned X Coins.\n" +
+                            "You've earned " + (petDataRef.petData.rank * 5) + " Coins.\n" +
                             petDataRef.petData.petname + " can now compete against Rank " + petDataRef.petData.rank + " pets in Races.";
         rankUpPanel.SetActive(true);
     }

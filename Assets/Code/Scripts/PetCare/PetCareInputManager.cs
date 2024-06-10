@@ -31,20 +31,16 @@ public class PetCareInputManager : MonoBehaviour
     public float flySpeed;
     public float flyRotationSpeed;
 
-    [Header("Climbing Training")]
-    public List<Transform> climbingPoints;
-    public float climbSpeed;
-    public float climbRotationSpeed;
-
     [Header("Intelligence Training")]
     public Transform intelligencePoint;
 
-    [Space]
-    public float navmeshSpawnOffset, petAutoNavigateCheckTime;
-
+    [Header("Pet Auto Navigate Config")]
+    public float navmeshSpawnOffset;
+    public float petAutoNavigateCheckTime;
 
     [HideInInspector]
     public PetAnimation petAnim;
+    public Animator animator;
 
     NavMeshAgent agent;
     bool isCheckForPathCompletion = false, isTrainingPoint, isMoving, isPlayerAutoNavigatingOnMap, isRandomPoints;
@@ -53,7 +49,6 @@ public class PetCareInputManager : MonoBehaviour
 
     private Vector3 navmeshPos;
     private Transform targetPoint;
-    private bool isRunning;
     private List<Transform> trainingPoints;
 
     float timer;
@@ -70,9 +65,9 @@ public class PetCareInputManager : MonoBehaviour
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
 
         transform.position = GetRandomPointOnNavMesh(transform.position, navmeshSpawnOffset);
-
         timer = petAutoNavigateCheckTime;
     }
 
@@ -243,6 +238,10 @@ public class PetCareInputManager : MonoBehaviour
                 particleEffectsManager.StartFlyingWindEffect();
                 break;
 
+            case PetTraining.Climbing:
+                animator.enabled = true;
+                break;
+
             case PetTraining.Intelligence:
                 SetIdleOrSickAnim();
                 transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 1f);
@@ -361,6 +360,10 @@ public class PetCareInputManager : MonoBehaviour
                 transform.position = flyingPoints[0].position;
                 break;
 
+            case PetTraining.Climbing:
+                animator.enabled = true;
+                break;
+
             case PetTraining.Intelligence:
                 transform.position = intelligencePoint.position;
                 break;
@@ -372,10 +375,11 @@ public class PetCareInputManager : MonoBehaviour
     //Stop moving
     public IEnumerator StopNavigating()
     {
-        isMoving = false;
         yield return new WaitForSeconds(1f);
         
+        isMoving = false;
         agent.enabled = true;
+        animator.enabled = false;
         SetIdleOrSickAnim();
     }
 
