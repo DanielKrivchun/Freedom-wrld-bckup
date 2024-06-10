@@ -85,20 +85,20 @@ public class ParticleEffectsManager : MonoBehaviour
     {
         foreach (ParticleSystem particle in foamBubbleEffects)
         {
-            if (particle.gameObject.activeInHierarchy)
+            if (particle.isPlaying)
             {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     public bool IsAllFoamBubblesCleared()
     {
         foreach (ParticleSystem particle in foamBubbleEffects)
         {
-            if (particle.gameObject.activeInHierarchy)
+            if (particle.isPlaying)
             {
                 return false;
             }

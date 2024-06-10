@@ -16,22 +16,40 @@ public class PetCareInputManager : MonoBehaviour
     public PetCareStateManager petCareStateManager;
     public ParticleEffectsManager particleEffectsManager;
 
-    [Header("Player Config")]
-    public float moveSpeed;
-    public float rotationSpeed;
+    [Header("Running Training")]
+    public List<Transform> runningPoints;
+    public float runSpeed;
+    public float runRotationSpeed;
+
+    [Header("Swimming Training")]
+    public List<Transform> swimmingPoints;
+    public float swimSpeed;
+    public float swimRotationSpeed;
+
+    [Header("Flying Training")]
+    public List<Transform> flyingPoints;
+    public float flySpeed;
+    public float flyRotationSpeed;
+
+    [Header("Climbing Training")]
+    public List<Transform> climbingPoints;
+    public float climbSpeed;
+    public float climbRotationSpeed;
+
+    [Header("Intelligence Training")]
+    public Transform intelligencePoint;
+
+    [Space]
     public float navmeshSpawnOffset, petAutoNavigateCheckTime;
 
-    [Header("Training Path Points")]
-    public List<Transform> runningPoints;
-    public List<Transform> swimmingPoints;
-    public List<Transform> flyingPoints;
-    public Transform intelligencePoint;
 
     [HideInInspector]
     public PetAnimation petAnim;
 
     NavMeshAgent agent;
     bool isCheckForPathCompletion = false, isTrainingPoint, isMoving, isPlayerAutoNavigatingOnMap, isRandomPoints;
+
+    float moveSpeed, rotationSpeed;
 
     private Vector3 navmeshPos;
     private Transform targetPoint;
@@ -109,6 +127,7 @@ public class PetCareInputManager : MonoBehaviour
         agent.SetDestination(navmeshPos);
     }
 
+    //Navmesh movement
     void CheckForPlayerNavmeshMovement()
     {
         if (isPlayerAutoNavigatingOnMap && Vector3.Distance(transform.position, navmeshPos) < 0.1f)
@@ -212,16 +231,16 @@ public class PetCareInputManager : MonoBehaviour
         switch (currentTraining)
         {
             case PetTraining.Running:
-                SetPetAnimationAndTrainingPoints(_AnimState.Run, runningPoints, false);
+                SetPetAnimationAndTrainingPoints(_AnimState.Run, runningPoints, false, runSpeed, runRotationSpeed);
                 break;
 
             case PetTraining.Swimming:
-                SetPetAnimationAndTrainingPoints(_AnimState.Swimming, swimmingPoints, true);
+                SetPetAnimationAndTrainingPoints(_AnimState.Swimming, swimmingPoints, true, swimSpeed, swimRotationSpeed);
                 break;
 
             case PetTraining.Flying:
-                SetPetAnimationAndTrainingPoints(_AnimState.Flying, flyingPoints, false);
-                //particleEffectsManager.StartFlyingWindEffect();
+                SetPetAnimationAndTrainingPoints(_AnimState.Flying, flyingPoints, false, flySpeed, flyRotationSpeed);
+                particleEffectsManager.StartFlyingWindEffect();
                 break;
 
             case PetTraining.Intelligence:
@@ -231,11 +250,18 @@ public class PetCareInputManager : MonoBehaviour
         }
     }
 
-    void SetPetAnimationAndTrainingPoints(_AnimState animState, List<Transform> points, bool isMoveOnRandomPoints)
+    //Setting training animation, speed and path points
+    void SetPetAnimationAndTrainingPoints(_AnimState animState, List<Transform> points, bool isMoveOnRandomPoints, float moveSpeed, float rotationSpeed)
     {
+        //animation
         agent.enabled = false;
         petAnim._ChangeAnimationState(animState);
 
+        //speed
+        this.moveSpeed = moveSpeed;
+        this.rotationSpeed = rotationSpeed;
+
+        //path points
         trainingPoints = points;
         isRandomPoints = isMoveOnRandomPoints;
         pointIndex = 0;
@@ -269,7 +295,7 @@ public class PetCareInputManager : MonoBehaviour
         agent.SetDestination(targetPoint.position);
     }*/
 
-
+    //Training movement
     void CheckForPlayerTrainingMovement()
     {
         if (isMoving)
@@ -343,6 +369,7 @@ public class PetCareInputManager : MonoBehaviour
         NavigatePlayerAroundTrainingPath(currentTraining);
     }
 
+    //Stop moving
     public IEnumerator StopNavigating()
     {
         isMoving = false;

@@ -89,7 +89,7 @@ public class PetCareObjectManager : MonoBehaviour
     public void PetReachedSelectedObjectDestination()
     {
         //Set camera front for Eat & Clean state after pet reached to destination point
-        if (petStateManager.selectedPetCareState == PetCareState.Eat &&
+        if (petStateManager.selectedPetCareState == PetCareState.Eat ||
             petStateManager.selectedPetCareState == PetCareState.Clean)
         {
             cameraViewManager.SetCameraFrontView();
@@ -103,7 +103,7 @@ public class PetCareObjectManager : MonoBehaviour
 
             case PetCareState.Clean:
                 bathObjectHolder.SetActive(true);
-                //bathObject.MakePetReadyForBath();
+                bathObject.MakePetReadyForBath();
                 break;
 
             case PetCareState.Energy:

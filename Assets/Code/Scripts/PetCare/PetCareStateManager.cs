@@ -228,6 +228,7 @@ public class PetCareStateManager : MonoBehaviour
         isCareTaking = false;
         selectedPetCareState = PetCareState.None;
         petCareObjectManager.ManagePetCareObjects(selectedPetCareState);
+        petCareUIManager.ManagePetCareBtns();
     }
     #endregion
 
