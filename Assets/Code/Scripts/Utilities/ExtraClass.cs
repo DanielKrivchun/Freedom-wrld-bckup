@@ -17,7 +17,8 @@ public enum _AnimState
     Happy,
     Bath,
     Sleep,
-    Sick
+    Sick,
+    Climbing
 }
 
 public enum _Playertate

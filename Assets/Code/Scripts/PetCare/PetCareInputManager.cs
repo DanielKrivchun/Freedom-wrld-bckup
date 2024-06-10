@@ -245,7 +245,7 @@ public class PetCareInputManager : MonoBehaviour
 
     /*void SetPetAnimationAndRunningTrainingPoints(_AnimState animState, List<Transform> points, bool isMoveOnRandomPoints)
     {
-        //agent.enabled = false;
+        agent.enabled = false;
         petAnim._ChangeAnimationState(animState);
 
         trainingPoints = points;

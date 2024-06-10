@@ -1,8 +1,5 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PetCareObjectManager : MonoBehaviour
 {
@@ -31,6 +28,7 @@ public class PetCareObjectManager : MonoBehaviour
         //Stop pet from navigating
         petInputManager.SetPetToIdle();
 
+        //Set camera front for Happy
         if (state == PetCareState.Happy)
         {
             
@@ -44,7 +42,6 @@ public class PetCareObjectManager : MonoBehaviour
         switch (state)
         {
             case PetCareState.Happy:
-                petStateManager.StartIdleTimer();
                 petInputManager.transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 1f);
 
                 bathObjectHolder.SetActive(false);
@@ -55,7 +52,6 @@ public class PetCareObjectManager : MonoBehaviour
             case PetCareState.Eat:
                 petInputManager.SetDestinationPointForCareTakingOrTraining(eatPoint.position, false);
                 petStateManager.SetAvailabeFoodItemOnTable();
-                petStateManager.StartIdleTimer();
 
                 bathObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);
@@ -82,11 +78,19 @@ public class PetCareObjectManager : MonoBehaviour
                 sleepCanvas.SetActive(false);
                 break;
         }
+
+        //Start Idle Timer for Pet Care State
+        if(state != PetCareState.None)
+        {
+            petStateManager.StartIdleTimer();
+        }
     }
 
     public void PetReachedSelectedObjectDestination()
     {
-        if (petStateManager.selectedPetCareState != PetCareState.Energy)
+        //Set camera front for Eat & Clean state after pet reached to destination point
+        if (petStateManager.selectedPetCareState == PetCareState.Eat &&
+            petStateManager.selectedPetCareState == PetCareState.Clean)
         {
             cameraViewManager.SetCameraFrontView();
         }
@@ -99,7 +103,7 @@ public class PetCareObjectManager : MonoBehaviour
 
             case PetCareState.Clean:
                 bathObjectHolder.SetActive(true);
-                bathObject.MakePetReadyForBath();
+                //bathObject.MakePetReadyForBath();
                 break;
 
             case PetCareState.Energy:

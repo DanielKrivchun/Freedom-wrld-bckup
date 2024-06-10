@@ -202,6 +202,11 @@ public class PetCareStateManager : MonoBehaviour
         idleTimer = idleTime;
     }
 
+    public void StopIdleTimer()
+    {
+        isCheckForIdleTimer = false;
+    }
+
     private void Update()
     {
         if (isCheckForIdleTimer)

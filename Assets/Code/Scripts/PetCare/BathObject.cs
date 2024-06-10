@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BathObject : MonoBehaviour
 {
-    public CharacterController characterController;
     public GameObject foamBubblesHolder;
 
     [Space]
@@ -44,16 +43,12 @@ public class BathObject : MonoBehaviour
             isReadyForBath = true;
             isSoapUsed = false;
             isShowerUsed = false;
-            
-            characterController.enabled = false;
-            petCareBtnHolder.SetActive(false);
         }
     }
 
     public IEnumerator ResetPlayerProperties()
     {
         yield return new WaitForSeconds(1f);
-        characterController.enabled = true;
         petCareBtnHolder.SetActive(true);
         PetCareStateManager.instance.ResetPetCareTakingState();
     }

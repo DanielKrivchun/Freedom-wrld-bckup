@@ -51,6 +51,11 @@ public class PetAnimation : MonoBehaviour
                 m_currunt_anim_state = _AnimState.Swimming;
                 break;
 
+            case _AnimState.Climbing:
+                Animator.SetFloat(_Strings.Velocity, 2.5f);
+                m_currunt_anim_state = _AnimState.Climbing;
+                break;
+
             case _AnimState.Sick:
                 Animator.SetBool(_Strings.IsSick, true);
                 Animator.SetFloat(_Strings.Velocity, 0);

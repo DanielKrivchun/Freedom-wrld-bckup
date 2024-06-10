@@ -81,7 +81,20 @@ public class ParticleEffectsManager : MonoBehaviour
         particle.gameObject.SetActive(false);
     }
 
-    public bool IsAllFoamCleared()
+    public bool IsAllFoamBubbleaGenerated()
+    {
+        foreach (ParticleSystem particle in foamBubbleEffects)
+        {
+            if (particle.gameObject.activeInHierarchy)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool IsAllFoamBubblesCleared()
     {
         foreach (ParticleSystem particle in foamBubbleEffects)
         {

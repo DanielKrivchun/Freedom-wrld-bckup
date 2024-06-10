@@ -31,7 +31,7 @@ public class ShowerMove : MonoBehaviour
         waterShowerEffect.Stop();
 
         //Checking for Soap used and all foam bubble cleared or not
-        if (bathObject.isSoapUsed && !bathObject.isShowerUsed && particleEffectsManager.IsAllFoamCleared())
+        if (bathObject.isSoapUsed && !bathObject.isShowerUsed && particleEffectsManager.IsAllFoamBubblesCleared())
         {
             bathObject.isShowerUsed = true;
             PetCareStateManager.instance.ManageCleanlinessDataFiller(particleEffectsManager.numOfFoamBubbles * bathObject.cleanlinessMultiplier);

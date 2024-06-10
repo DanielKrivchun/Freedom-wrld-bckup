@@ -20,7 +20,9 @@ public class Soap : MonoBehaviour
 
     void OnMouseDown()
     {
-        isDragging = true; 
+        isDragging = true;
+        PetCareStateManager.instance.StopIdleTimer();
+        bathObject.petCareBtnHolder.SetActive(false);
     }
 
     void OnMouseUp()
@@ -28,7 +30,8 @@ public class Soap : MonoBehaviour
         isDragging = false;
         transform.DOMove(startPos, 0.5f);
 
-        if (bathObject.isReadyForBath && !bathObject.isSoapUsed)
+        //Check if all foam bubbles generated
+        if (bathObject.isReadyForBath && !bathObject.isSoapUsed && particleEffectsManager.IsAllFoamBubbleaGenerated())
         {
             bathObject.isReadyForBath = false;
             bathObject.isSoapUsed = true;
