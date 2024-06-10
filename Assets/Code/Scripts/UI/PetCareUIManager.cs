@@ -278,7 +278,7 @@ public class PetCareUIManager : MonoBehaviour
         luckPetCreationStatTxt.text = "(" + luckSliderPetCreation.value + "/15)";
     }
 
-    public void SubmitPetDetails()
+    public async void SubmitPetDetails()
     {
         if (petInput.text == "")
         {
@@ -295,7 +295,7 @@ public class PetCareUIManager : MonoBehaviour
         }
         else
         {
-            BeamableCloudSaveManager.instance.CreateNewPet(petInput.text, (int)runningSliderPetCreation.value, (int)climbingSliderPetCreation.value, (int)flyingSliderPetCreation.value,
+            await BeamableCloudSaveManager.instance.CreateNewPet(petInput.text, (int)runningSliderPetCreation.value, (int)climbingSliderPetCreation.value, (int)flyingSliderPetCreation.value,
                                                             (int)swimmingSliderPetCreation.value, (int)intelligenceSliderPetCreation.value, (int)luckSliderPetCreation.value);
             setPetDetailsPanel.SetActive(false);
             petCreationPanelMain.SetActive(false);

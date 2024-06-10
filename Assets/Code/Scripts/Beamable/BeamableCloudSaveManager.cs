@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 using Beamable.Api.CloudSaving;
+using System.Threading.Tasks;
 
 namespace Beamable.CloudSavingService
 {
@@ -148,15 +149,20 @@ namespace Beamable.CloudSavingService
         }
 
         #region NEW PET CREATION DATA
-        public void CreateNewPet(string petName, int running, int climbing, int flying, int swimming, int intelligence, int luck)
+        public async Task CreateNewPet(string petName, int running, int climbing, int flying, int swimming, int intelligence, int luck)
         {
-            string currentTime = "";
-            getServerTime.GetCurrentTime(timeNow => { currentTime = timeNow.ToString(); });
+            string currentTime;
+
+            DateTime serverTimeNow = await getServerTime.GetCurrentTimeTask();
+            currentTime = serverTimeNow.ToString();
 
             petDataRef.SetPetAllData(petName, 650, 100, 100, 100, 100, false,
                                         currentTime, currentTime, currentTime, currentTime, currentTime, currentTime,
                                         running, climbing, flying, swimming, intelligence, luck, 
                                         1, 0, 100);
+
+            //_beamContext.PlayerId, petDataRef.petData.petname, petDataRef.petData.xp, petDataRef.petData.rank
+            //_beamContext.PlayerId, petName, 0, 1
 
             beamableCloudSavingData.petDataLocal = petDataRef.petData;
             SaveData(beamableCloudSavingData.petDataLocal);
