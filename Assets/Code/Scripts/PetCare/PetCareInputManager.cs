@@ -402,4 +402,19 @@ public class PetCareInputManager : MonoBehaviour
             petAnim._ChangeAnimationState(_AnimState.Idle);
         }
     }
+
+    //Change animation state for Climbing training
+    public void ChangeAnimationState(string animationName)
+    {
+        switch(animationName)
+        {
+            case "Climb":
+                petAnim._ChangeAnimationState(_AnimState.Climbing);
+                break;
+
+            case "Walk":
+                petAnim._ChangeAnimationState(_AnimState.Wallk);
+                break;
+        }
+    }
 }

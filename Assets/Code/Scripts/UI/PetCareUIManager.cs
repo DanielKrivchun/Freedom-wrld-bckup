@@ -16,9 +16,6 @@ public class PetCareUIManager : MonoBehaviour
     [Space]
     public GameEventState petCareEvent;
 
-    [Space]
-    public GameObject careBtnHolder;
-
     [Header("Loading UI")]
     public GameObject loadingCanvas;
 
@@ -69,6 +66,12 @@ public class PetCareUIManager : MonoBehaviour
 
     [Space]
     public Text noticeTxt;
+
+    [Header("Wellbeing Button UI")]
+    public Sprite wellbeingBtnsOn;
+    public Sprite wellbeingBtnsOff;
+    public Image wellbeingBtnImg;
+    public GameObject careBtnHolder;
 
     [Header("Pet Care Screen UI")]
     public Button happyBtn;
@@ -155,10 +158,12 @@ public class PetCareUIManager : MonoBehaviour
     {
         if (careBtnHolder.activeInHierarchy)
         {
+            wellbeingBtnImg.sprite = wellbeingBtnsOn;
             careBtnHolder.SetActive(false);
         }
         else
         {
+            wellbeingBtnImg.sprite = wellbeingBtnsOff;
             careBtnHolder.SetActive(true);
         }
     }
