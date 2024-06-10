@@ -68,6 +68,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
             m_agent.enabled = false;
         }
         StartCoroutine(_GenrateMyPrefab());
+        //ADD ME IN LIST
+
+
     }
 
     IEnumerator _GenrateMyPrefab()
@@ -137,6 +140,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
                     RaceComplete = true;
                     GetComponent<NavMeshAgent>().enabled = false;
                     GetComponent<Collider>().enabled = false;
+
                     StartCoroutine(SetMyWinPosition());
                     nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
                     break;
@@ -176,14 +180,14 @@ public class NavmeshMultiplayer : NetworkBehaviour
     private IEnumerator SetMyWinPosition()
     {
         Debug.Log("SetMyWinPosition " + MyName);
-        yield return new WaitForSecondsRealtime(0.1f);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        yield return new WaitForSecondsRealtime(0.2f);
         int temp = MyWiningNumber - 1;
         Vector3 pos = RaceManager.instance.WinPoints[temp].position;
         Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
         networkTransform.Teleport(pos, Q);
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForEndOfFrame();
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
         _ChangeAnimationHere(_AnimState.Jump);
     }
@@ -205,6 +209,8 @@ public class NavmeshMultiplayer : NetworkBehaviour
             Debug.Log("Chaning animation for all other " + MyName);
             _ChangeAnimationHere(_AnimState.Jump);
         }
+
+        RaceManager.instance._CheckAllPlayerCompleted();
 
     }
     #endregion
@@ -360,6 +366,13 @@ public class NavmeshMultiplayer : NetworkBehaviour
             obj.transform.localRotation = Quaternion.identity;
             nameText.text = MyName.ToString();
             gameObject.name = MyName;
+
+            //ADD PLAYER
+            _GenratedPlayers G = new _GenratedPlayers();
+            G.player = this;
+            RaceManager.instance.TotalPlayers.Add(G);
+            RaceManager.instance.TotalNumberOfPlayers++;
+
         }
         else
         {

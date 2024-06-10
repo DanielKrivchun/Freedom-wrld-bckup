@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetwrokUI : NetworkBehaviour
 {
@@ -18,6 +19,10 @@ public class NetwrokUI : NetworkBehaviour
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI wintext;
     public TextMeshProUGUI PlayerCount;
+    [Space]
+    public GameObject wincontent;
+    [Space]
+    public List<WinContent> WinnerList;
     [Space]
     public RaceManager spawner;
 
@@ -42,6 +47,29 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_playercount -= _Playerjoined;
     }
 
+
+    public void _LoadScene()
+    {
+        SceneManager.LoadScene("PetCareScene");
+    }
+
+    public void _SetupList(List<string> _s)
+    {
+        foreach (var item in _s)
+        {
+            Debug.Log(item);
+        }
+
+        for (int i = 0; i < _s.Count; i++)
+        {
+            WinnerList[i]._SetupMyData(_s[i]);
+            WinnerList[i].gameObject.SetActive(true);
+        }
+
+        wincontent.gameObject.SetActive(true);
+    }
+
+
     private void _Playerjoined(int _no)
     {
         PlayerCount.text = _no.ToString();
@@ -50,7 +78,7 @@ public class NetwrokUI : NetworkBehaviour
     private void _OnGameWon(int _no)
     {
         WinUI.SetActive(true);
-        wintext.text = "Your numbe is  " + _no;
+        wintext.text = "You Finished: " + _no;
     }
 
     public void _JoinRoom()

@@ -57,6 +57,7 @@ public struct _Tags
     public const string Water = "Water";
     public const string Flying = "Flyng";
     public const string Land = "Land";
+    public const string Climbing = "Climbing";
 }
 
 public enum PetCareState

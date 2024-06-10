@@ -47,14 +47,18 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public int MyCoins;
     [Space]
     public float TotalSeconds;
+    [Space]
+    public int TotalNumberOfPlayers;
+    public int AIplayersCount;
+    public int CompletePlayerCount;
     public string LocalPlayerNickname { get; private set; }
     [Space]
     public List<_AllPlayerData> GenratedPlayers;
+    public List<_GenratedPlayers> TotalPlayers;
     #endregion
 
     #region NETWORKED OBJECTS
     [Networked] public int PathNumber { get; set; }
-    [Networked] public int TotalPlayer { get; set; }
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public string TimeLeft { get; set; }
@@ -131,7 +135,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void _CheckHowManyPlayersAreInGame()
     {
-        NetworkEventManager._EventNewPlayerJoined(TotalPlayer);
+        //NetworkEventManager._EventNewPlayerJoined(TotalPlayer);
     }
 
     #endregion
@@ -265,6 +269,45 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
+
+    public void _CheckAllPlayerCompleted()
+    {
+        CompletePlayerCount++;
+
+        Debug.Log(CompletePlayerCount + "    " + TotalNumberOfPlayers);
+
+        if (CompletePlayerCount == TotalNumberOfPlayers)
+        {
+            List<string> _ss = new List<string>();
+
+            for (int i = 1; i < TotalNumberOfPlayers + 1; i++)
+            {
+                foreach (var item in TotalPlayers)
+                {
+                    if (!item.AI)
+                    {
+
+                        if (i == item.player.MyWiningNumber)
+                        {
+                            _ss.Add(item.player.MyName);
+                        }
+
+                    }
+                    else
+                    {
+                        if (i == item.aiplayer.MyWiningNumber)
+                        {
+                            _ss.Add(item.aiplayer.MyName);
+                        }
+                    }
+                }
+            }
+
+            NetwrokUI.Instance._SetupList(_ss);
+
+        }
+    }
+
     public void _StartGameForPlayers()
     {
         Debug.Log("_StartGameForPlayers");
@@ -303,7 +346,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         Debug.Log(newxp);
         Debug.Log(coinstoadd);
     }
-
     #endregion
 
     #region PLAYER SPWANR
@@ -330,7 +372,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             //playerı serverde yaptık.
             Runner.SetPlayerObject(playerRef, playerObject);
             PathNumber++;
-            TotalPlayer++;
 
             _AllPlayerData d = new _AllPlayerData();
             d.Player = playerObject;

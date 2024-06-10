@@ -125,6 +125,7 @@ public class NetworkAIPlayer : NetworkBehaviour
                     GetComponent<NavMeshAgent>().enabled = false;
                     GetComponent<Collider>().enabled = false;
                     StartCoroutine(SetMyWinPosition());
+                    RPC_OnWinningLineCrossed();
                     break;
                 case _Tags.Water:
                     _ChangeAnimationHere(_AnimState.Swimming);
@@ -136,7 +137,6 @@ public class NetworkAIPlayer : NetworkBehaviour
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
                     break;
-
             }
         }
         else
@@ -161,20 +161,21 @@ public class NetworkAIPlayer : NetworkBehaviour
         nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
         Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
         _ChangeAnimationHere(_AnimState.Jump);
+        RaceManager.instance._CheckAllPlayerCompleted();
     }
 
     private IEnumerator SetMyWinPosition()
     {
         Debug.Log("SetMyWinPosition");
-        yield return new WaitForSecondsRealtime(0.5f);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        yield return new WaitForSecondsRealtime(0.2f);
         int temp = MyWiningNumber - 1;
         Vector3 pos = RaceManager.instance.WinPoints[temp].position;
         Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
-        yield return new WaitForSecondsRealtime(0.5f);
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
         networkTransform.Teleport(pos, Q);
+        yield return new WaitForEndOfFrame();
         _ChangeAnimationHere(_AnimState.Jump);
     }
 
@@ -299,6 +300,18 @@ public class NetworkAIPlayer : NetworkBehaviour
         _OnRecivedRPC();
     }
 
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_OnWinningLineCrossed()
+    {
+        Debug.Log("I am sending RPC");
+        _OnRecivedWinnCross();
+    }
+
+    void _OnRecivedWinnCross()
+    {
+        Debug.Log("_OnRecivedWinnCross  " + gameObject.name);
+    }
+
 
     void _OnRecivedRPC()
     {
@@ -323,6 +336,12 @@ public class NetworkAIPlayer : NetworkBehaviour
             obj.transform.localRotation = Quaternion.identity;
             nameText.text = MyName.ToString();
             gameObject.name = MyName;
+
+            _GenratedPlayers G = new _GenratedPlayers();
+            G.aiplayer = this;
+            G.AI = true;
+            RaceManager.instance.TotalPlayers.Add(G);
+            RaceManager.instance.TotalNumberOfPlayers++;
         }
         else
         {

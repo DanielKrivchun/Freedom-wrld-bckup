@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static Unity.Collections.Unicode;
 
 public class NavMeshController : MonoBehaviour
 {
@@ -59,6 +61,34 @@ public class NavMeshController : MonoBehaviour
         Debug.Log("Changed ANimation here");
         GenratedPet._ChangeAnimationState(_state);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (other.tag)
+        {
+            case _Tags.WinLine:
+                GetComponent<NavMeshAgent>().enabled = false;
+                GetComponent<Collider>().enabled = false;
+
+                break;
+            case _Tags.Water:
+                _ChangeAnimationHere(_AnimState.Swimming);
+                break;
+            case _Tags.Flying:
+                _ChangeAnimationHere(_AnimState.Flying);
+                break;
+            case _Tags.Climbing:
+                _ChangeAnimationHere(_AnimState.Climbing);
+                break;
+
+            case _Tags.Land:
+                _ChangeAnimationHere(_AnimState.Run);
+                break;
+
+        }
+    }
+
+
 
 
     private void Update()

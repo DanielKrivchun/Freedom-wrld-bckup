@@ -42,12 +42,12 @@ public class PetAnimation : MonoBehaviour
                 break;
 
             case _AnimState.Flying:
-                Animator.SetFloat(_Strings.Velocity, 1.5f);
+                Animator.SetFloat(_Strings.Velocity, 2f);
                 m_currunt_anim_state = _AnimState.Flying;
                 break;
 
             case _AnimState.Swimming:
-                Animator.SetFloat(_Strings.Velocity, 2f);
+                Animator.SetFloat(_Strings.Velocity, 1.5f);
                 m_currunt_anim_state = _AnimState.Swimming;
                 break;
 
