@@ -133,9 +133,11 @@ public class NetworkAIPlayer : NetworkBehaviour
                 case _Tags.Flying:
                     _ChangeAnimationHere(_AnimState.Flying);
                     break;
-
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
+                    break;
+                case _Tags.Climbing:
+                    _ChangeAnimationHere(_AnimState.Climbing);
                     break;
             }
         }
@@ -151,6 +153,9 @@ public class NetworkAIPlayer : NetworkBehaviour
                     break;
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
+                    break;
+                case _Tags.Climbing:
+                    _ChangeAnimationHere(_AnimState.Climbing);
                     break;
             }
         }

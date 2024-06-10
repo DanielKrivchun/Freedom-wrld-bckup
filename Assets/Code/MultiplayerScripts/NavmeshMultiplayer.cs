@@ -130,6 +130,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        Debug.Log(other.tag);
+
         if (Runner.IsServer)
         {
             switch (other.tag)
@@ -150,9 +153,11 @@ public class NavmeshMultiplayer : NetworkBehaviour
                 case _Tags.Flying:
                     _ChangeAnimationHere(_AnimState.Flying);
                     break;
-
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
+                    break;
+                case _Tags.Climbing:
+                    _ChangeAnimationHere(_AnimState.Climbing);
                     break;
 
             }
@@ -169,6 +174,9 @@ public class NavmeshMultiplayer : NetworkBehaviour
                     break;
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
+                    break;
+                case _Tags.Climbing:
+                    _ChangeAnimationHere(_AnimState.Climbing);
                     break;
             }
         }

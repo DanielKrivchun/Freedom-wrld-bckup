@@ -55,7 +55,7 @@ public struct _Tags
 {
     public const string WinLine = "WinLine";
     public const string Water = "Water";
-    public const string Flying = "Flyng";
+    public const string Flying = "Flying";
     public const string Land = "Land";
     public const string Climbing = "Climbing";
 }
