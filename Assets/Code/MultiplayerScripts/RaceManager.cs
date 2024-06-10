@@ -95,8 +95,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
 
     #region AFK KICKING
-
-
     void Update()
     {
         if (AFKCheck)
@@ -115,8 +113,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             TimeLeft = (minutes) + " : " + seconds;
         }
     }
-
-
 
     void _CheckForAFK()
     {

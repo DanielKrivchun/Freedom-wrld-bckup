@@ -69,7 +69,6 @@ public class NavMeshController : MonoBehaviour
             case _Tags.WinLine:
                 GetComponent<NavMeshAgent>().enabled = false;
                 GetComponent<Collider>().enabled = false;
-
                 break;
             case _Tags.Water:
                 _ChangeAnimationHere(_AnimState.Swimming);

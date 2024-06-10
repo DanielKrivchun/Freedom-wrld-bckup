@@ -18,8 +18,6 @@ public class PathPointManager : MonoBehaviour
     {
         List<Vector3> v = new List<Vector3>();
 
-        int m_count = WayPoints.Count;
-        int m_random_no = Random.Range(0, 5);
 
         int a = 0;
         foreach (Transform child in PathParents[StraightNo].transform)
@@ -31,9 +29,8 @@ public class PathPointManager : MonoBehaviour
         }
 
         _PrePositions pre = new _PrePositions();
-        pre.m_positions = v;
-
         prePositions[StraightNo].m_positions = new List<Vector3>();
+        pre.m_positions = v;
         prePositions[StraightNo].m_positions = v;
 
         _GenratePathLines(v);
@@ -44,8 +41,6 @@ public class PathPointManager : MonoBehaviour
 
 #if UNITY_EDITOR
     public List<GameObject> Lines;
-    public List<Transform> Transforms;
-    public List<_WayPoints> WayPoints;
     [Space]
     public List<Transform> PathParents;
 
@@ -80,43 +75,6 @@ public class PathPointManager : MonoBehaviour
         }
 
         Lines.Clear();
-    }
-
-    public void _GenratePathPoints()
-    {
-        WayPoints = new List<_WayPoints>();
-
-        _WayPoints W = new _WayPoints();
-
-        int a = 0;
-        int b = 0;
-        foreach (var item in Transforms)
-        {
-            item.name = a.ToString();
-
-            W = new _WayPoints();
-            W.m_points = new List<Transform>();
-
-
-            foreach (Transform i in item.transform)
-            {
-                Debug.Log(b + "  " + i.name);
-
-                W.m_points.Add(i);
-            }
-            WayPoints.Add(W);
-
-            b = 0;
-            foreach (var e in W.m_points)
-            {
-                e.SetParent(PathParents[b]);
-                b++;
-            }
-
-            a++;
-        }
-
-
     }
 
 #endif
