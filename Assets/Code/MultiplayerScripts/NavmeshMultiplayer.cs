@@ -7,7 +7,7 @@ using UnityEngine.AI;
 using TMPro;
 using System.Xml.Linq;
 using static UnityEngine.RuleTile.TilingRuleOutput;
-public class NavmeshMultiplayer : NetworkBehaviour
+public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 {
     #region PUBLIC VARIABLES
     [Header("SCRIPTABLE OBJECTS")]
@@ -49,6 +49,7 @@ public class NavmeshMultiplayer : NetworkBehaviour
     public int MyWiningNumber { get; set; }
 
     private NetworkTransform networkTransform;
+    private float horizontal;
 
     #endregion
 
@@ -274,6 +275,11 @@ public class NavmeshMultiplayer : NetworkBehaviour
             return;
         }
 
+        if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var input)) // // this out keyword will find PlayerData script and assign the value all the information from that script and put it into input variable.
+        {
+            Debug.Log("RIGID BODY  " + input.HorizontalInput);
+        }
+
         if (!IsServer || RaceComplete)
         {
             return;
@@ -288,6 +294,15 @@ public class NavmeshMultiplayer : NetworkBehaviour
             _ChangeCurruntPoint();
         }
     }
+
+    public NetworkInputData GetPlayerNetworkInput() // playerdataları işlediğimiz yer. Buraya değerleri gönderiyuz FUN da alıyoruz.
+    {
+        NetworkInputData data = new NetworkInputData();
+        data.HorizontalInput = horizontal; // datadaki horizontol input equals to our local variable input
+        data.direction = Vector2.zero;
+        return data; // then we will return the data.
+    }
+
 
     #region NAVMESH METHODS
     private void _ChangeCurruntPoint()
@@ -385,6 +400,15 @@ public class NavmeshMultiplayer : NetworkBehaviour
         else
         {
             Debug.Log("ALready Genrated");
+        }
+    }
+
+    public void BeforeUpdate()
+    {
+        if (Utils.IsLocalPlayer(Object)) // eğer local playersak horizantalı kuruyoruz.
+        {
+            const string HORIZONTAL = "Horizontal";
+            horizontal = Input.GetAxisRaw(HORIZONTAL);
         }
     }
 

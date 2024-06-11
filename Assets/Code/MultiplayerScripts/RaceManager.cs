@@ -414,17 +414,15 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        //throw new NotImplementedException();x
+
     }
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        //throw new NotImplementedException();
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        //throw new NotImplementedException();
         ColoredDebug.Log("OnPlayerJoined", Color.green);
         _SpawnPlayer(player);
         //CHECKING FOR AI PLAYER COUNT
@@ -432,7 +430,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        //throw new NotImplementedException();
         _DespawnPlayer(player);
     }
 

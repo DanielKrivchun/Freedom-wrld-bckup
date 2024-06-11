@@ -30553,6 +30553,80 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446695810}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &449052266
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 689475285}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 44.04
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.01
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 22.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_Name
+      value: Race_point
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 32f22d8fa9f964a478280cfcd4165a81, type: 3}
+--- !u!4 &449052267 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+    type: 3}
+  m_PrefabInstance: {fileID: 449052266}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &452363858
 GameObject:
   m_ObjectHideFlags: 0
@@ -44568,6 +44642,8 @@ Transform:
   - {fileID: 1622770855}
   - {fileID: 1966823867}
   - {fileID: 714727183}
+  - {fileID: 449052267}
+  - {fileID: 1058061341}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &691187965
@@ -62492,267 +62568,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   Lines: []
-  Transforms:
-  - {fileID: 921305047}
-  - {fileID: 638187923}
-  - {fileID: 1842669575}
-  - {fileID: 1010395188}
-  - {fileID: 237230696}
-  - {fileID: 1380137653}
-  - {fileID: 1990521610}
-  - {fileID: 875610892}
-  - {fileID: 701414990}
-  - {fileID: 128220414}
-  - {fileID: 1750421621}
-  - {fileID: 1555577701}
-  - {fileID: 452363859}
-  - {fileID: 1374146349}
-  - {fileID: 303352255}
-  - {fileID: 876496607}
-  - {fileID: 1297138012}
-  - {fileID: 1595118693}
-  - {fileID: 983795187}
-  - {fileID: 752531879}
-  - {fileID: 1781469123}
-  - {fileID: 252533522}
-  - {fileID: 1310396042}
-  - {fileID: 1882636458}
-  - {fileID: 1440092705}
-  - {fileID: 218733505}
-  - {fileID: 2034826102}
-  - {fileID: 1722318271}
-  - {fileID: 939388767}
-  - {fileID: 1810102999}
-  - {fileID: 974437756}
-  - {fileID: 1388345504}
-  - {fileID: 1100196399}
-  - {fileID: 1154662042}
-  - {fileID: 1550224208}
-  - {fileID: 298865178}
-  - {fileID: 986181750}
-  WayPoints:
-  - m_points:
-    - {fileID: 1849606745}
-    - {fileID: 58314845}
-    - {fileID: 3502382}
-    - {fileID: 641618553}
-    - {fileID: 137146564}
-  - m_points:
-    - {fileID: 2130683418}
-    - {fileID: 1216207369}
-    - {fileID: 336021362}
-    - {fileID: 1367667770}
-    - {fileID: 1736063456}
-  - m_points:
-    - {fileID: 971815233}
-    - {fileID: 402282392}
-    - {fileID: 838899985}
-    - {fileID: 1131652974}
-    - {fileID: 1470051581}
-  - m_points:
-    - {fileID: 694261713}
-    - {fileID: 1768098856}
-    - {fileID: 926181780}
-    - {fileID: 1387632295}
-    - {fileID: 1428335632}
-  - m_points:
-    - {fileID: 458795577}
-    - {fileID: 435126643}
-    - {fileID: 701876398}
-    - {fileID: 352012798}
-    - {fileID: 1885228395}
-  - m_points:
-    - {fileID: 1794854452}
-    - {fileID: 316008672}
-    - {fileID: 1062957912}
-    - {fileID: 183634360}
-    - {fileID: 1589957189}
-  - m_points:
-    - {fileID: 1130221517}
-    - {fileID: 6733642}
-    - {fileID: 1127414298}
-    - {fileID: 1703870835}
-    - {fileID: 595329154}
-  - m_points:
-    - {fileID: 1657027181}
-    - {fileID: 1350491319}
-    - {fileID: 1076936893}
-    - {fileID: 1971757051}
-    - {fileID: 2112486434}
-  - m_points:
-    - {fileID: 1460206279}
-    - {fileID: 35054261}
-    - {fileID: 1878848382}
-    - {fileID: 3497938}
-    - {fileID: 1939131364}
-  - m_points:
-    - {fileID: 438231870}
-    - {fileID: 1936956081}
-    - {fileID: 1192659081}
-    - {fileID: 1658937430}
-    - {fileID: 245162753}
-  - m_points:
-    - {fileID: 2127119122}
-    - {fileID: 430411448}
-    - {fileID: 633944854}
-    - {fileID: 1827900115}
-    - {fileID: 1492643798}
-  - m_points:
-    - {fileID: 1431118841}
-    - {fileID: 848265111}
-    - {fileID: 654468680}
-    - {fileID: 1266211318}
-    - {fileID: 945553345}
-  - m_points:
-    - {fileID: 1018504629}
-    - {fileID: 1716607214}
-    - {fileID: 664443232}
-    - {fileID: 613683142}
-    - {fileID: 1598074845}
-  - m_points:
-    - {fileID: 1886793631}
-    - {fileID: 246527880}
-    - {fileID: 977812710}
-    - {fileID: 837013340}
-    - {fileID: 746211456}
-  - m_points:
-    - {fileID: 549622251}
-    - {fileID: 1556806984}
-    - {fileID: 846589486}
-    - {fileID: 1996446069}
-    - {fileID: 296598328}
-  - m_points:
-    - {fileID: 2087863393}
-    - {fileID: 1261567986}
-    - {fileID: 559467940}
-    - {fileID: 1499896476}
-    - {fileID: 1023499938}
-  - m_points:
-    - {fileID: 606717277}
-    - {fileID: 1871899279}
-    - {fileID: 1283784907}
-    - {fileID: 88317527}
-    - {fileID: 1910981363}
-  - m_points:
-    - {fileID: 1699274644}
-    - {fileID: 2093394230}
-    - {fileID: 1992315419}
-    - {fileID: 1432889971}
-    - {fileID: 912649809}
-  - m_points:
-    - {fileID: 239114655}
-    - {fileID: 935495981}
-    - {fileID: 34352211}
-    - {fileID: 210146174}
-    - {fileID: 965743976}
-  - m_points:
-    - {fileID: 2001229410}
-    - {fileID: 235934342}
-    - {fileID: 179827339}
-    - {fileID: 894401333}
-    - {fileID: 1116169427}
-  - m_points:
-    - {fileID: 485689868}
-    - {fileID: 918630624}
-    - {fileID: 763054223}
-    - {fileID: 1217582865}
-    - {fileID: 1706685497}
-  - m_points:
-    - {fileID: 960777379}
-    - {fileID: 14465543}
-    - {fileID: 1967851943}
-    - {fileID: 2077552317}
-    - {fileID: 1838847849}
-  - m_points:
-    - {fileID: 848883543}
-    - {fileID: 1662886282}
-    - {fileID: 1635710156}
-    - {fileID: 1170424799}
-    - {fileID: 1533101739}
-  - m_points:
-    - {fileID: 518230102}
-    - {fileID: 1869180444}
-    - {fileID: 1428779707}
-    - {fileID: 1435638450}
-    - {fileID: 595214396}
-  - m_points:
-    - {fileID: 1469951209}
-    - {fileID: 108058977}
-    - {fileID: 165668902}
-    - {fileID: 981065046}
-    - {fileID: 1949606176}
-  - m_points:
-    - {fileID: 875000063}
-    - {fileID: 2083125129}
-    - {fileID: 508172606}
-    - {fileID: 1681165538}
-    - {fileID: 1903633982}
-  - m_points:
-    - {fileID: 1767996417}
-    - {fileID: 732575192}
-    - {fileID: 642146833}
-    - {fileID: 1011124569}
-    - {fileID: 1910930920}
-  - m_points:
-    - {fileID: 791960254}
-    - {fileID: 1354322997}
-    - {fileID: 1892136199}
-    - {fileID: 1006415363}
-    - {fileID: 1992369785}
-  - m_points:
-    - {fileID: 932379020}
-    - {fileID: 1229997064}
-    - {fileID: 2068240085}
-    - {fileID: 97028955}
-    - {fileID: 838461631}
-  - m_points:
-    - {fileID: 1407990035}
-    - {fileID: 429714827}
-    - {fileID: 893397164}
-    - {fileID: 1691403518}
-    - {fileID: 1825885655}
-  - m_points:
-    - {fileID: 1734959931}
-    - {fileID: 596527598}
-    - {fileID: 1175044282}
-    - {fileID: 508734598}
-    - {fileID: 915297708}
-  - m_points:
-    - {fileID: 192795639}
-    - {fileID: 1709685915}
-    - {fileID: 1437580133}
-    - {fileID: 365232492}
-    - {fileID: 1057632200}
-  - m_points:
-    - {fileID: 475370927}
-    - {fileID: 964639398}
-    - {fileID: 80073746}
-    - {fileID: 676427175}
-    - {fileID: 955498372}
-  - m_points:
-    - {fileID: 2005488086}
-    - {fileID: 1620677666}
-    - {fileID: 1917603797}
-    - {fileID: 966710627}
-    - {fileID: 129107626}
-  - m_points:
-    - {fileID: 567702079}
-    - {fileID: 662543506}
-    - {fileID: 1939448189}
-    - {fileID: 269929120}
-    - {fileID: 223440792}
-  - m_points:
-    - {fileID: 862776222}
-    - {fileID: 2126755317}
-    - {fileID: 2032967389}
-    - {fileID: 2072551799}
-    - {fileID: 477770515}
-  - m_points:
-    - {fileID: 1968067794}
-    - {fileID: 567570014}
-    - {fileID: 1894968576}
-    - {fileID: 872105183}
-    - {fileID: 315150551}
   PathParents: []
 --- !u!4 &1005409113
 Transform:
@@ -65128,6 +64943,80 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1057632199}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1058061340
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 689475285}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.71
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.99
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9996167
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.027685922
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 3.173
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 32f22d8fa9f964a478280cfcd4165a81,
+        type: 3}
+      propertyPath: m_Name
+      value: Race_point (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 32f22d8fa9f964a478280cfcd4165a81, type: 3}
+--- !u!4 &1058061341 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 32f22d8fa9f964a478280cfcd4165a81,
+    type: 3}
+  m_PrefabInstance: {fileID: 1058061340}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1058282655
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70813,8 +70702,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   Lines: []
-  Transforms: []
-  WayPoints: []
   PathParents:
   - {fileID: 1328021607}
   - {fileID: 1422108541}
