@@ -27,19 +27,16 @@ public class GetItems : MonoBehaviour
 
         // Clear the inventory before fetching new items so we dont duplicate them
         InventoryManager.Instance.Clear();
-        Debug.Log($"New Player items:{playerItems.Count}");
 
         foreach (var playerItem in playerItems)
         {
             // Convert PlayerItem to Item before adding
             Item item = ConvertToItem(playerItem);
-            //Debug.Log($"Adding item: {playerItem.ContentId}");
             if (item != null)
             {
                 item.uniqueId = (int)playerItem.ItemId;
                 InventoryManager.Instance.Add(item);
                 //Debug.Log($"item id=[{playerItem.ItemId}] type=[{playerItem.ContentId}]");
-                //Debug.Log($"Item: {playerItem}");
             }
         }
 

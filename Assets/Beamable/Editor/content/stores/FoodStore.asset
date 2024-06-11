@@ -17,6 +17,9 @@ MonoBehaviour:
   title: Food
   listings:
   - Id: listings.FoodListing
+  - Id: listings.GoldenAppleListing
+  - Id: listings.CosmicBerryDrinkListing
+  - Id: listings.MiracleCognitiveSupplementsListing
   - Id: listings.ItemListing
   showInactiveListings: 1
   activeListingLimit:
