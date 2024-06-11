@@ -34,6 +34,7 @@ public class PetCareStateManager : MonoBehaviour
 
     [Space(25)]
     [Header("Script References")]
+    public PetCareInputManager petInputManager;
     public PetCareUIManager petCareUIManager;
     public GetServerTime getServerTime;
     public ParticleEffectsManager particleEffectsManager;
@@ -58,7 +59,7 @@ public class PetCareStateManager : MonoBehaviour
     private bool isFoodItemsSet = false;
     private int foodSpawnIndex = 0;
 
-    private GameObject generatedFood;
+    private GameObject generatedFood, pet;
     private List<GameObject> generatedFoodItems = new List<GameObject>();
     private bool isCheckForIdleTimer;
 
@@ -242,7 +243,7 @@ public class PetCareStateManager : MonoBehaviour
             petCareUIManager.ClosePetSickLabel();
             petCareUIManager.ShowNotificationUI("Nice job! \nYour pet is all better");
 
-            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Idle);
+            petInputManager.petAnim._ChangeAnimationState(_AnimState.Idle);
         }
     }
 
@@ -257,7 +258,7 @@ public class PetCareStateManager : MonoBehaviour
             petDataRef.petData.isSick = true;
             petCareUIManager.ShowPetSickLabel();
 
-            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sick);
+            petInputManager.petAnim._ChangeAnimationState(_AnimState.Sick);
         }
 
         //Pet is sick so clamp health to sick thresold
@@ -266,7 +267,7 @@ public class PetCareStateManager : MonoBehaviour
             petDataRef.petData.health = Mathf.Clamp(petDataRef.petData.health, 0, petStatData.sickHealthThreshold);
             petCareUIManager.ShowPetSickLabel();
 
-            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Sick);
+            petInputManager.petAnim._ChangeAnimationState(_AnimState.Sick);
         }
     }
     #endregion
@@ -316,13 +317,13 @@ public class PetCareStateManager : MonoBehaviour
     #region SPAWN AND DESTROY PET PREFAB
     public void SpawnPetPrefab()
     {
-        GameObject pet = Instantiate(petPrefabs._GetMyPrefab(petDataRef.petLocalData.petID), player);
-        PetCareInputManager.instance.petAnim = pet.GetComponent<PetAnimation>();
+        pet = Instantiate(petPrefabs._GetMyPrefab(petDataRef.petLocalData.petID), player);
+        petInputManager.petAnim = pet.GetComponent<PetAnimation>();
     }
 
     public void DestroyPetPrefab()
     {
-        petPrefabs._GetMyPrefab(petDataRef.petLocalData.petID).SetActive(false);
+        pet.SetActive(false);
     }
     #endregion
 
@@ -351,6 +352,7 @@ public class PetCareStateManager : MonoBehaviour
         {
             if (IsPetDeathDueToHunger())
             {
+                offLoadingCanvasEvent.Raise();
                 return;
             }
         }
@@ -366,6 +368,7 @@ public class PetCareStateManager : MonoBehaviour
         {
             if (IsPetDeathDueToCleanliness())
             {
+                offLoadingCanvasEvent.Raise();
                 return;
             }
         }
@@ -407,6 +410,7 @@ public class PetCareStateManager : MonoBehaviour
         {
             if (IsPetDeathDueToHealth(lostHappiness, lostHunger, lostCleanliness, lostEnergy))
             {
+                offLoadingCanvasEvent.Raise();
                 return;
             }
         }        

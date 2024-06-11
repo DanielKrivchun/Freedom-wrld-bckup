@@ -292,7 +292,6 @@ public class PetTrainingManager : MonoBehaviour
 
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
 
-        petCareBtnHolder.SetActive(true);
         SetTrainigEarnedStats();
     }
 
