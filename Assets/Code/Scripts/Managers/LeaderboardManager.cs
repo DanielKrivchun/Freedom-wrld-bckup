@@ -20,6 +20,9 @@ using Random = UnityEngine.Random;
 using PubNubMessaging.Core;
 using Beamable.Server.Clients;
 using Newtonsoft.Json.Linq;
+using Object = UnityEngine.Object;
+using System.Linq;
+using Beamable.Common.Api;
 
 public class LeaderboardServiceTest : MonoBehaviour
 {
@@ -29,8 +32,8 @@ public class LeaderboardServiceTest : MonoBehaviour
 
     [SerializeField] public Transform entryContainer;
     [SerializeField] public Transform entryTemplate;
-    private List<HighscoreEntry> highscoreEntryList;
-    private List<Transform> highscoreEntryTransformList;
+    private List<LeaderboardEntry> leaderboardEntryList;
+    private List<Transform> leaderboardEntryTransformList;
 
     private LeaderboardServiceClient _LeaderboardServiceClient = null;
 
@@ -38,60 +41,49 @@ public class LeaderboardServiceTest : MonoBehaviour
 
     //  Unity Methods  --------------------------------
 
-    private void Awake()
+    private async void Awake()
     {
         entryTemplate.gameObject.SetActive(false);
+        List<LeaderboardEntry> tempEntries = await TestMicroservice();
+
+        leaderboardEntryList = tempEntries;
+
 
         /*PetCareStateManager.instance.IncreaseXP(10000);*/
+        
 
-        // Populate leaderboard with mock players and pet database values
-        highscoreEntryList = new List<HighscoreEntry>()
+        // sort leaderboard entryies by current petXp(petXp)
+        for (int i = 0; i < leaderboardEntryList.Count; i++)
         {
-            new HighscoreEntry{ petId = getPetId(), playerId = 1000, petRank = getPetRank(), score = getPetXp()},
-            new HighscoreEntry{ petId = "27", playerId = 1000, petRank = 5, score = Random.Range(0, 8000)},
-            new HighscoreEntry{ petId = "3", playerId = 1000, petRank = 4, score = Random.Range(0, 5000)},
-            new HighscoreEntry{ petId = "7", playerId = 1000, petRank = 9, score = Random.Range(0, 10000)},
-            new HighscoreEntry{ petId = "87", playerId = 1000, petRank = 6, score = Random.Range(0, 13000)},
-            new HighscoreEntry{ petId = "4", playerId = 1000, petRank = 1, score = Random.Range(0, 6000)},
-            new HighscoreEntry{ petId = "10", playerId = 1000, petRank = 8, score = Random.Range(0, 3000)},
-            new HighscoreEntry{ petId = "53", playerId = 1000, petRank = 7, score = Random.Range(0, 15000)},
-            new HighscoreEntry{ petId = "2", playerId = 1000, petRank = 3, score = Random.Range(0, 7000)},
-            new HighscoreEntry{ petId = "11", playerId = 1000, petRank = 10, score = Random.Range(0, 10000)}
-        };
-
-        // sort leaderboard entryies by current score(petXp)
-        for (int i = 0; i < highscoreEntryList.Count; i++)
-        {
-            for (int j = i + 1; j < highscoreEntryList.Count; j++)
+            for (int j = i + 1; j < leaderboardEntryList.Count; j++)
             {
-                if (highscoreEntryList[j].score > highscoreEntryList[i].score)
+                if (leaderboardEntryList[j].petXp > leaderboardEntryList[i].petXp)
                 {
                     // Swap
-                    HighscoreEntry temp = highscoreEntryList[i];
-                    highscoreEntryList[i] = highscoreEntryList[j];
-                    highscoreEntryList[j] = temp;
+                    LeaderboardEntry temp = leaderboardEntryList[i];
+                    leaderboardEntryList[i] = leaderboardEntryList[j];
+                    leaderboardEntryList[j] = temp;
                 }
             }
         }
 
         // add container and leaderboard entries
-        highscoreEntryTransformList = new List<Transform>();
-        foreach ( HighscoreEntry highscoreEntry in highscoreEntryList)
+        leaderboardEntryTransformList = new List<Transform>();
+        foreach (LeaderboardEntry leaderboardEntry in leaderboardEntryList)
         {
-            CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
+            CreateLeaderboardEntryTransform(leaderboardEntry, entryContainer, leaderboardEntryTransformList);
         }
 
         Debug.Log($"Start()");
+        /*Debug.Log($"");*/
 
-        Debug.Log(petLocalRef.petID);
-        TestMicroservice();
     }
 
 
 
-    //  Methods  --------------------------------------
+//  Methods  --------------------------------------
 
-    private async void TestMicroservice()
+private async Task<List<LeaderboardEntry>> TestMicroservice()
     {
         var beamContext = BeamContext.Default;
         await beamContext.OnReady;
@@ -100,24 +92,38 @@ public class LeaderboardServiceTest : MonoBehaviour
 
         _LeaderboardServiceClient = new LeaderboardServiceClient();
 
-        // #1 - Call Microservice
+        // - Save leaderboard data example
         /*bool isSuccess = await _LeaderboardServiceClient.SaveEntry("bird", "flapper", 4, 6000);*/
 
-        // #2 - Result = true
+        // - Result = true
         /*Debug.Log($"SaveEntry() isSuccess = {isSuccess}");*/
 
         // #3 - Call Microservice
-        List<string> entry = await _LeaderboardServiceClient.GetEntry();
+        List<string> jsonEntry = await _LeaderboardServiceClient.GetEntry();
+        List<LeaderboardEntry> entryList = new List<LeaderboardEntry>();
 
-        foreach ( string entry2 in entry )
+        // Convert JSON string to object
+        foreach (string entry in jsonEntry)
         {
-            /*var jsonObject = JsonUtility.FromJson<HighscoreEntry>(entry2);*/
-            var parsedJson = JToken.Parse(entry2);
-            Debug.Log(parsedJson);
+            // Parse json string to .net
+            JObject parsedJson = JObject.Parse(entry);
+
+            string playerName = (string)parsedJson["playerName"];
+            string petName = (string)parsedJson["petName"];
+            int petRank = (int)parsedJson["petRank"];
+            int petXp = (int)parsedJson["petXp"];
+
+            // populate current leaderboard list
+            entryList.Add
+            (
+                new LeaderboardEntry { playerName = playerName, petName = petName, petRank = petRank, petXp = petXp, }
+            );
+
+
         }
 
-        // #4 - Result = true
-        /*Debug.Log($"GetEntry() entry.Count = {entry.Count}, entry[0] = {entry}");*/
+        return entryList;
+       
     }
 
     // Round petXp to nearest whole number
@@ -129,14 +135,7 @@ public class LeaderboardServiceTest : MonoBehaviour
         return x;
     }
 
-    public string getPetId()
-    {
-
-        string petId = petLocalRef.petID;
-        petId = "1";
-
-        return petId;
-    }
+    
 
     public int getPetRank()
     {
@@ -145,7 +144,7 @@ public class LeaderboardServiceTest : MonoBehaviour
     }
 
     // method to create single leaderboard entry
-    private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList )
+    private void CreateLeaderboardEntryTransform(LeaderboardEntry leaderboardEntry, Transform container, List<Transform> transformList )
     {
         float templateHeight = 20f;
         Transform entryTransform = Instantiate(entryTemplate, container);
@@ -168,32 +167,28 @@ public class LeaderboardServiceTest : MonoBehaviour
 
         entryTransform.Find("petStanding").GetComponent<Text>().text = rankString;
 
-        string petId = highscoreEntry.petId;
+        string playerName = leaderboardEntry.playerName;
+        entryTransform.Find("playerName").GetComponent<Text>().text = playerName.ToString();
 
-        entryTransform.Find("petId").GetComponent<Text>().text = petId.ToString();
+        string petName = leaderboardEntry.petName;
+        entryTransform.Find("petName").GetComponent<Text>().text = petName.ToString();
 
-        int playerId = highscoreEntry.playerId;
-
-        entryTransform.Find("playerId").GetComponent<Text>().text = playerId.ToString();
-
-        int petRank = highscoreEntry.petRank;
-
+        int petRank = leaderboardEntry.petRank;
         entryTransform.Find("petRank").GetComponent<Text>().text = petRank.ToString();
 
-        int score = highscoreEntry.score;
-
-        entryTransform.Find("score").GetComponent<Text>().text = score.ToString();
+        int petXp = leaderboardEntry.petXp;
+        entryTransform.Find("petXp").GetComponent<Text>().text = petXp.ToString();
 
         transformList.Add(entryTransform);
     }
 
     // represents a single entry
-    private class HighscoreEntry
+    private class LeaderboardEntry
     {
-        public string petId;
-        public int playerId;
+        public string playerName;
+        public string petName;
         public int petRank;
-        public int score;
+        public int petXp;
     }
    
 

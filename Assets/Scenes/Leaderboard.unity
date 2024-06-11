@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 109455556}
   - component: {fileID: 109455555}
   m_Layer: 5
-  m_Name: playerId
+  m_Name: petName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: PLAYER ID
+  m_Text: PET NAME
 --- !u!222 &109455556
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 226885301}
   - component: {fileID: 226885300}
   m_Layer: 5
-  m_Name: score
+  m_Name: petXp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 950057263}
   - component: {fileID: 950057262}
   m_Layer: 5
-  m_Name: petId
+  m_Name: playerName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: PET ID
+  m_Text: PLAYER NAME
 --- !u!222 &950057263
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1566,10 +1566,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: petStanding
       objectReference: {fileID: 0}
+    - target: {fileID: 1649263244274523510, guid: f23e45737b7c30a47b3e15bdd3f326c7,
+        type: 3}
+      propertyPath: m_Name
+      value: petName
+      objectReference: {fileID: 0}
     - target: {fileID: 4111503719971636257, guid: f23e45737b7c30a47b3e15bdd3f326c7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4386338640309119056, guid: f23e45737b7c30a47b3e15bdd3f326c7,
+        type: 3}
+      propertyPath: m_Name
+      value: petXp
       objectReference: {fileID: 0}
     - target: {fileID: 4965777212964216899, guid: f23e45737b7c30a47b3e15bdd3f326c7,
         type: 3}
@@ -1580,6 +1590,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -401
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783486250713122948, guid: f23e45737b7c30a47b3e15bdd3f326c7,
+        type: 3}
+      propertyPath: m_Name
+      value: playerName
       objectReference: {fileID: 0}
     - target: {fileID: 9165891237508063663, guid: f23e45737b7c30a47b3e15bdd3f326c7,
         type: 3}
