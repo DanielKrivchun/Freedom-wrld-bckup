@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Beamable.CloudSavingService;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PetCareUIManager : MonoBehaviour
 {
@@ -180,11 +181,13 @@ public class PetCareUIManager : MonoBehaviour
         }
     }
 
-    public void OnClickOfHomeBtn()
+    public void OnClickOfHomeBtn(string sceneName)
     {
         if (!petDataRef.petData.ongoingTrainingData.isTraining)
         {
             //Do Button Click Event
+            BeamableCloudSaveManager.instance.SaveData(petDataRef.petData);
+            SceneManager.LoadScene(sceneName);
         }
         else
         {
@@ -244,6 +247,7 @@ public class PetCareUIManager : MonoBehaviour
     #region PET CREATION UI
     public void ShowPetCreationUI()
     {
+        OffLoadingCanvas();
         petCreationPanelMain.SetActive(true);
         eggSelectionPanel.SetActive(true);
     }

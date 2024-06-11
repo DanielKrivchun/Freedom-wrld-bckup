@@ -336,6 +336,15 @@ public class PetCareStateManager : MonoBehaviour
 
         serverTimeNow = await getServerTime.GetCurrentTimeTask();
         Debug.Log("Server Time Now - " + serverTimeNow);
+        
+        if(petDataRef.petData == null)
+        {
+            Debug.Log("Null data");
+        }
+        else
+        {
+            Debug.Log("not null");
+        }
 
         //Happiness
         int lostHappiness = CalculateLostStatValue(petDataRef.petData.lastTimeHappy, petStatData.happyTimeLength, petStatData.happinessTickRate);

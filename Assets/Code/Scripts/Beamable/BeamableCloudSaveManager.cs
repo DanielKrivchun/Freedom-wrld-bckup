@@ -109,6 +109,8 @@ namespace Beamable.CloudSavingService
             // Subscribe to the OnError event to handle when the service fails
             _cloudSavingService.OnError += CloudSavingService_OnError;
 
+            Debug.Log("Pet - " + petDataRef.petData.petname);
+
             if (petDataRef.petData.petname == "")
             {
                 beamableCloudSavingData.DataState = DataState.Pending;
@@ -155,7 +157,7 @@ namespace Beamable.CloudSavingService
 
             DateTime serverTimeNow = await getServerTime.GetCurrentTimeTask();
             currentTime = serverTimeNow.ToString();
-
+            Debug.Log("PetData - " + petDataRef.petData.petname);
             petDataRef.SetPetAllData(petName, 650, 100, 100, 100, 100, false,
                                         currentTime, currentTime, currentTime, currentTime, currentTime, currentTime,
                                         running, climbing, flying, swimming, intelligence, luck, 
