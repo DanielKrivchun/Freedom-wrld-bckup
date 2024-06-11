@@ -40,6 +40,7 @@ public class PetCareInputManager : MonoBehaviour
 
     [HideInInspector]
     public PetAnimation petAnim;
+    [HideInInspector]
     public Animator animator;
 
     NavMeshAgent agent;
@@ -227,10 +228,12 @@ public class PetCareInputManager : MonoBehaviour
         {
             case PetTraining.Running:
                 SetPetAnimationAndTrainingPoints(_AnimState.Run, runningPoints, false, runSpeed, runRotationSpeed);
+                particleEffectsManager.StartRunningDirtEffect();
                 break;
 
             case PetTraining.Swimming:
                 SetPetAnimationAndTrainingPoints(_AnimState.Swimming, swimmingPoints, true, swimSpeed, swimRotationSpeed);
+                particleEffectsManager.StartSwimmingWaterSplashEffect();
                 break;
 
             case PetTraining.Flying:
@@ -243,8 +246,9 @@ public class PetCareInputManager : MonoBehaviour
                 break;
 
             case PetTraining.Intelligence:
-                SetIdleOrSickAnim();
+                petAnim._ChangeAnimationState(_AnimState.Idle);
                 transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 1f);
+                particleEffectsManager.StartPuzzleEffect();
                 break;
         }
     }

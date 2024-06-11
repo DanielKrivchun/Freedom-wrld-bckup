@@ -249,8 +249,20 @@ public class PetTrainingManager : MonoBehaviour
 
         switch (selectedTraining)
         {
+            case PetTraining.Running:
+                petInputManager.particleEffectsManager.StopRunningDirtEffect();
+                break;
+
+            case PetTraining.Swimming:
+                petInputManager.particleEffectsManager.StopSwimmingWaterSplashEffect();
+                break;
+
             case PetTraining.Flying:
                 petInputManager.particleEffectsManager.StopFlyingWindEffect();
+                break;
+
+            case PetTraining.Intelligence:
+                petInputManager.particleEffectsManager.StopPuzzleEffect();
                 break;
         }
     }
