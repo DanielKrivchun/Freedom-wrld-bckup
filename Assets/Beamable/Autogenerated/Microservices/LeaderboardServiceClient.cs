@@ -65,11 +65,9 @@ namespace Beamable.Server.Clients
         /// Call the GetEntry method on the LeaderboardService microservice
         /// <see cref="Beamable.Microservices.LeaderboardService.GetEntry"/>
         /// </summary>
-        public Beamable.Common.Promise<System.Collections.Generic.List<string>> GetEntry(string _playerName)
+        public Beamable.Common.Promise<System.Collections.Generic.List<string>> GetEntry()
         {
-            object raw__playerName = _playerName;
             System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
-            serializedFields.Add("_playerName", raw__playerName);
             return this.Request<System.Collections.Generic.List<string>>("LeaderboardService", "GetEntry", serializedFields);
         }
     }

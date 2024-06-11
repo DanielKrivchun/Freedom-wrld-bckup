@@ -19,6 +19,7 @@ using Unity.Mathematics;
 using Random = UnityEngine.Random;
 using PubNubMessaging.Core;
 using Beamable.Server.Clients;
+using Newtonsoft.Json.Linq;
 
 public class LeaderboardServiceTest : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class LeaderboardServiceTest : MonoBehaviour
     private void Awake()
     {
         entryTemplate.gameObject.SetActive(false);
+
+        /*PetCareStateManager.instance.IncreaseXP(10000);*/
 
         // Populate leaderboard with mock players and pet database values
         highscoreEntryList = new List<HighscoreEntry>()
@@ -98,16 +101,23 @@ public class LeaderboardServiceTest : MonoBehaviour
         _LeaderboardServiceClient = new LeaderboardServiceClient();
 
         // #1 - Call Microservice
-        bool isSuccess = await _LeaderboardServiceClient.SaveEntry("test", "cool", 2, 4933);
+        /*bool isSuccess = await _LeaderboardServiceClient.SaveEntry("bird", "flapper", 4, 6000);*/
 
         // #2 - Result = true
-        Debug.Log($"SaveEntry() isSuccess = {isSuccess}");
+        /*Debug.Log($"SaveEntry() isSuccess = {isSuccess}");*/
 
         // #3 - Call Microservice
-        List<string> entry = await _LeaderboardServiceClient.GetEntry("kairem");
+        List<string> entry = await _LeaderboardServiceClient.GetEntry();
+
+        foreach ( string entry2 in entry )
+        {
+            /*var jsonObject = JsonUtility.FromJson<HighscoreEntry>(entry2);*/
+            var parsedJson = JToken.Parse(entry2);
+            Debug.Log(parsedJson);
+        }
 
         // #4 - Result = true
-        Debug.Log($"GetEntry() entry.Count = {entry.Count}, entry[0] = {entry[0]}");
+        /*Debug.Log($"GetEntry() entry.Count = {entry.Count}, entry[0] = {entry}");*/
     }
 
     // Round petXp to nearest whole number
