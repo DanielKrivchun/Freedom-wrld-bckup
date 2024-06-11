@@ -35,6 +35,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public PrefabHolder PetPrefabHolder;
     [Space]
+    public PetDataRef petdataref;
+    [Space]
     public string PrefabID;
     [Space]
     public int CurrntWinCount;
@@ -265,6 +267,27 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
+
+    #region PLAYER SYNC
+
+    public _PlayerConfigs _GetMyCOnfigs()
+    {
+
+        _PlayerConfigs P = new _PlayerConfigs();
+
+        P.running = petdataref.petData.running;
+        P.climbing = petdataref.petData.climbing;
+        P.flying = petdataref.petData.flying;
+        P.swimming = petdataref.petData.swimming;
+        P.intelligence = petdataref.petData.intelligence;
+        P.luck = petdataref.petData.luck;
+        P.rank = petdataref.petData.rank;
+        P.maxStamina = petdataref.petData.maxStamina;
+
+        return P;
+    }
+
+    #endregion
 
     public void _CheckAllPlayerCompleted()
     {

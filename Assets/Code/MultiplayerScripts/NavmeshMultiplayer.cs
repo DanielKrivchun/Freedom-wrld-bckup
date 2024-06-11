@@ -40,6 +40,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private Vector3 finalPosition;
     #endregion
 
+    public _PlayerConfigs playerconfigs;
+
     #region NETWORKED OBJECTS
     [Networked] public string MyName { get; set; }
     [Networked] public int MyPathNumber { get; set; }
@@ -100,6 +102,16 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             Debug.Log("Sending RPC with Name   " + playerName);
             MyName = playerName.ToString();
             RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
+
+            //RPC FOR SENDING CONFIGS
+
+            string s = JsonUtility.ToJson(RaceManager.instance._GetMyCOnfigs());
+
+            Debug.Log(s);
+
+            RPC_GetMyConfigs(s);
+
+
             nameText.text = playerName.ToString();
             gameObject.name = MyName.ToString();
             _SetupCamera();
@@ -265,6 +277,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     #endregion
 
+    #region FIXED UPDATED
     /// <summary>
     /// NETWORKED CALLS
     /// </summary>
@@ -295,6 +308,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
     }
 
+    #endregion
     public NetworkInputData GetPlayerNetworkInput() // playerdataları işlediğimiz yer. Buraya değerleri gönderiyuz FUN da alıyoruz.
     {
         NetworkInputData data = new NetworkInputData();
@@ -365,6 +379,22 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         _OnRecivedRPC();
     }
 
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_GetMyConfigs(string _json)
+    {
+        Debug.Log("I am sending RPC");
+        _OnReciveConfigs(_json);
+    }
+
+    private void _OnReciveConfigs(string _j)
+    {
+        Debug.Log("I recived RPC  " + gameObject.name + "   " + _j);
+
+        playerconfigs = JsonUtility.FromJson<_PlayerConfigs>(_j);
+
+    }
+
+
 
     void _OnRecivedRPC()
     {
@@ -413,4 +443,11 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     }
 
     #endregion
+}
+
+[System.Serializable]
+public class _PlayerConfigs
+{
+    //Athletics Stats
+    public int running, climbing, flying, swimming, intelligence, luck, rank, maxStamina;
 }
