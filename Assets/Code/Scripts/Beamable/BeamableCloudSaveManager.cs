@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using Beamable.Api.CloudSaving;
 using System.Threading.Tasks;
+using Beamable.Server.Clients;
+using Beamable.Common.Content;
 
 namespace Beamable.CloudSavingService
 {
@@ -43,6 +45,7 @@ namespace Beamable.CloudSavingService
         private BeamContext _beamContext;
         private Api.CloudSaving.CloudSavingService _cloudSavingService;
         private readonly BeamableCloudSavingData beamableCloudSavingData = new BeamableCloudSavingData();
+        private LeaderboardServiceClient _LeaderboardServiceClient = null;
 
         [Header("Pet Care Data Reference")]
         public PetDataRef petDataRef;
@@ -153,6 +156,9 @@ namespace Beamable.CloudSavingService
         #region NEW PET CREATION DATA
         public async Task CreateNewPet(string petName, int running, int climbing, int flying, int swimming, int intelligence, int luck)
         {
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
+            string playerId = _beamContext.PlayerId.ToString();
             string currentTime;
 
             DateTime serverTimeNow = await getServerTime.GetCurrentTimeTask();
@@ -163,6 +169,12 @@ namespace Beamable.CloudSavingService
                                         running, climbing, flying, swimming, intelligence, luck,
                                         1, 0, 100);
 
+            await _LeaderboardServiceClient.CreateEntry (
+                playerId, 
+                petDataRef.petData.petname, 
+                petDataRef.petData.rank, 
+                (int)Math.Round(petDataRef.petData.xp)
+                );
             //_beamContext.PlayerId, petDataRef.petData.petname, petDataRef.petData.xp, petDataRef.petData.rank
             //_beamContext.PlayerId, petName, 0, 1
 

@@ -1,4 +1,6 @@
+using Beamable;
 using Beamable.InventoryService;
+using Beamable.Server.Clients;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -62,6 +64,8 @@ public class PetCareStateManager : MonoBehaviour
     private GameObject generatedFood, pet;
     private List<GameObject> generatedFoodItems = new List<GameObject>();
     private bool isCheckForIdleTimer;
+
+    private LeaderboardServiceClient _LeaderboardServiceClient = null;
 
     private void Awake()
     {
@@ -642,14 +646,23 @@ public class PetCareStateManager : MonoBehaviour
 
     #region XP, RANK AND MAX STAMINA
     //Increase XP with value
-    public void IncreaseXP(float value)
+    public async void IncreaseXP(float value)
     {
         petDataRef.petData.xp += value;
+
+        // Update leaderboard
+        var _beamContext = BeamContext.Default;
+        await _beamContext.OnReady;
+        string playerId = _beamContext.PlayerId.ToString();
+        await _LeaderboardServiceClient.UpdateXp(playerId, (int)Math.Round(petDataRef.petData.xp));
 
         //If Rank is increased then Show RankUp popup and update stamina
         if (CheckForRankUp())
         {
             petDataRef.petData.rank++;
+
+            //Update leaderboard petRank
+            await _LeaderboardServiceClient.UpdateRank(playerId, petDataRef.petData.rank);
 
             //Show Rank popup
             petCareUIManager.ShowRankUpUI();

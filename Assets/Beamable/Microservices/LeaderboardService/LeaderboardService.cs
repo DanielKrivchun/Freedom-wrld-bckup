@@ -13,7 +13,7 @@ namespace Beamable.Microservices
 	public class LeaderboardService : Microservice
 	{
         [ClientCallable]
-        public async Promise<bool> SaveEntry(string _playerName, string _petName, int _petRank, int _petXp)
+        public async Promise<bool> CreateEntry(string _playerName, string _petName, int _petRank, int _petXp)
         {
             bool isSuccess = false;
 
@@ -47,13 +47,11 @@ namespace Beamable.Microservices
         }
 
         [ClientCallable]
-        public async Promise<bool> UpdateRank(string _playerName, int _petRank)
+        public async void UpdateRank(string _playerName, int _petRank)
         {
-            bool isSuccess = false;
-
             try
             {
-                // Declare "LeaderboardStorage" collection
+                // Connect to LeaderboardStorage collection
                 var db = await Storage.GetDatabase<LeaderboardStorage>();
                 var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
                 var filter = Builders<PlayerEntry>.Filter.Eq("playerName", _playerName);
@@ -61,25 +59,17 @@ namespace Beamable.Microservices
 
                 // Update petRank data
                 collection.UpdateOne(filter, update);
-                Debug.Log($"Updated {_playerName}'s rank");
 
-                isSuccess = true;
             }
             catch (Exception e)
             {
-
                 Debug.LogError(e.Message);
             }
-
-            return isSuccess;
-
         }
 
         [ClientCallable]
-        public async Promise<bool> UpdateXp(string _playerName, int _petXp)
+        public async void UpdateXp(string _playerName, int _petXp)
         {
-            bool isSuccess = false;
-
             try
             {
                 // Declare "LeaderboardStorage" collection
@@ -90,17 +80,12 @@ namespace Beamable.Microservices
 
                 // Update petRank data
                 collection.UpdateOne(filter, update);
-                Debug.Log($"Updated {_playerName}'s petXp");
-
-                isSuccess = true;
             }
             catch (Exception e)
             {
 
                 Debug.LogError(e.Message);
             }
-
-            return isSuccess;
 
         }
 

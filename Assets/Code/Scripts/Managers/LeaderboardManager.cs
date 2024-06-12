@@ -29,6 +29,8 @@ public class LeaderboardServiceTest : MonoBehaviour
     //  Variables/Fields  ---------------------------------------
     [SerializeField] public PetDataRef petDataRef;
     public PetLocalData petLocalRef;
+    public GameEventState gameEventStateRef;
+    public SimpleGameEventListener gameEventStateRefListener;
 
     [SerializeField] public Transform entryContainer;
     [SerializeField] public Transform entryTemplate;
@@ -37,53 +39,27 @@ public class LeaderboardServiceTest : MonoBehaviour
 
     private LeaderboardServiceClient _LeaderboardServiceClient = null;
 
+    private class LeaderboardEntry
+    {
+        public string playerName;
+        public string petName;
+        public int petRank;
+        public int petXp;
+    }
 
-
-    //  Unity Methods  --------------------------------
-
-    private async void Awake()
+    private void Awake()
     {
         entryTemplate.gameObject.SetActive(false);
-        List<LeaderboardEntry> tempEntries = await TestMicroservice();
-
-        leaderboardEntryList = tempEntries;
-
-
-        /*PetCareStateManager.instance.IncreaseXP(10000);*/
-        
-
-        // sort leaderboard entryies by current petXp(petXp)
-        for (int i = 0; i < leaderboardEntryList.Count; i++)
-        {
-            for (int j = i + 1; j < leaderboardEntryList.Count; j++)
-            {
-                if (leaderboardEntryList[j].petXp > leaderboardEntryList[i].petXp)
-                {
-                    // Swap
-                    LeaderboardEntry temp = leaderboardEntryList[i];
-                    leaderboardEntryList[i] = leaderboardEntryList[j];
-                    leaderboardEntryList[j] = temp;
-                }
-            }
-        }
-
-        // add container and leaderboard entries
-        leaderboardEntryTransformList = new List<Transform>();
-        foreach (LeaderboardEntry leaderboardEntry in leaderboardEntryList)
-        {
-            CreateLeaderboardEntryTransform(leaderboardEntry, entryContainer, leaderboardEntryTransformList);
-        }
+        generateLeaderboard();
 
         Debug.Log($"Start()");
         /*Debug.Log($"");*/
 
     }
 
-
-
 //  Methods  --------------------------------------
 
-private async Task<List<LeaderboardEntry>> TestMicroservice()
+private async Task<List<LeaderboardEntry>> LeaderboardService()
     {
         var beamContext = BeamContext.Default;
         await beamContext.OnReady;
@@ -92,11 +68,10 @@ private async Task<List<LeaderboardEntry>> TestMicroservice()
 
         _LeaderboardServiceClient = new LeaderboardServiceClient();
 
-        // - Save leaderboard data example
-        /*bool isSuccess = await _LeaderboardServiceClient.SaveEntry("bird", "flapper", 4, 6000);*/
+        // - Save leaderboard data
 
         // - Result = true
-        /*Debug.Log($"SaveEntry() isSuccess = {isSuccess}");*/
+        /*Debug.Log($"UpdateRank() isSuccess = {isSuccess}");*/
 
         // #3 - Call Microservice
         List<string> jsonEntry = await _LeaderboardServiceClient.GetAllEntries();
@@ -107,6 +82,7 @@ private async Task<List<LeaderboardEntry>> TestMicroservice()
         {
             // Parse json string to .net
             JObject parsedJson = JObject.Parse(entry);
+            Debug.Log(parsedJson);
 
             string playerName = (string)parsedJson["playerName"];
             string petName = (string)parsedJson["petName"];
@@ -124,6 +100,37 @@ private async Task<List<LeaderboardEntry>> TestMicroservice()
 
         return entryList;
        
+    }
+
+    private async void generateLeaderboard()
+    {
+        List<LeaderboardEntry> tempEntries = await LeaderboardService();
+
+        leaderboardEntryList = tempEntries;
+
+        /*PetCareStateManager.instance.IncreaseXP(10000);*/
+
+        // sort leaderboard entryies by current petXp(petXp)
+        for (int i = 0; i < leaderboardEntryList.Count; i++)
+        {
+            for (int j = i + 1; j < leaderboardEntryList.Count; j++)
+            {
+                if (leaderboardEntryList[j].petXp > leaderboardEntryList[i].petXp)
+                {
+                    // Swap
+                    LeaderboardEntry temp = leaderboardEntryList[i];
+                    leaderboardEntryList[i] = leaderboardEntryList[j];
+                    leaderboardEntryList[j] = temp;
+                }
+            }
+        }
+
+        // Instantiate container of leaderboard entries8s
+        leaderboardEntryTransformList = new List<Transform>();
+        foreach (LeaderboardEntry leaderboardEntry in leaderboardEntryList)
+        {
+            CreateLeaderboardEntryTransform(leaderboardEntry, entryContainer, leaderboardEntryTransformList);
+        }
     }
 
     // Round petXp to nearest whole number
@@ -182,14 +189,6 @@ private async Task<List<LeaderboardEntry>> TestMicroservice()
         transformList.Add(entryTransform);
     }
 
-    // Obect that represents a single entry
-    private class LeaderboardEntry
-    {
-        public string playerName;
-        public string petName;
-        public int petRank;
-        public int petXp;
-    }
    
 
 }
