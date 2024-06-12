@@ -150,7 +150,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     float _GetMySpeed(float _value)
     {
-        return (1 + (_value / 100f));
+        //return (1 + (_value / 100f));
+        return 10f;
     }
 
     #endregion
@@ -310,7 +311,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var input)) // // this out keyword will find PlayerData script and assign the value all the information from that script and put it into input variable.
         {
-            Debug.Log("RIGID BODY  " + input.TapMultiplier);
+            //Debug.Log("RIGID BODY  " + input.TapMultiplier);
         }
 
         if (!IsServer || RaceComplete)
@@ -325,7 +326,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //FIND DISTNACE HERE
         _CalculateDistance();
-        if (m_distance < 0.1)
+        if (m_distance < 4f)
         {
             _ChangeCurruntPoint();
         }
@@ -355,8 +356,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //Calculate all path here
         m_currunt_pos = move_positions[m_currunt_index];
-
-
         _SetDestination(_GetNextPos(m_currunt_pos));
     }
     /// <summary>
@@ -441,7 +440,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
             gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
-            gameObject.GetComponent<NetworkMecanimAnimator>().enabled = true;
+            //gameObject.GetComponent<NetworkMecanimAnimator>().enabled = true;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;
             nameText.text = MyName.ToString();
