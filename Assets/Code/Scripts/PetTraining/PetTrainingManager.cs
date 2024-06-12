@@ -89,7 +89,7 @@ public class PetTrainingManager : MonoBehaviour
     public void ShowPetTrainPanel()
     {
         petCareStateManager.isCareTaking = false;
-        petCareUIManager.ManagePetCareBtns(true);
+        petCareUIManager.ManagePetCareBtns(false);
 
         //If any training going on then can't open Pet Train Panel
         if (!ongoingTrainingPopup.activeInHierarchy || !petDataRef.petData.ongoingTrainingData.isTraining)

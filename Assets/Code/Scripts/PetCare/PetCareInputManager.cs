@@ -87,8 +87,10 @@ public class PetCareInputManager : MonoBehaviour
 
     void CheckForSetPetIdleOrNavigating()
     {
-        if (petCareStateManager.petDataRef.petData.sleepData.isSleeping || petCareStateManager.petDataRef.petData.ongoingTrainingData.isTraining
-            || petCareStateManager.isCareTaking)
+        if (petCareStateManager.petDataRef.petData != null || 
+            petCareStateManager.petDataRef.petData?.sleepData.isSleeping == true || 
+            petCareStateManager.petDataRef.petData?.ongoingTrainingData.isTraining == true || 
+            petCareStateManager.isCareTaking)
         {
             return;
         }
@@ -181,11 +183,6 @@ public class PetCareInputManager : MonoBehaviour
         CheckForPlayerNavmeshMovement();
 
         CheckForPlayerTrainingMovement();
-
-        /*if (isRunning && Vector3.Distance(transform.position, targetPoint.position) < 0.3f)
-        {
-            MoveToRunningPathPoints();
-        }*/
     }
 
     // Check if pet reached the destination
@@ -271,32 +268,6 @@ public class PetCareInputManager : MonoBehaviour
 
         MoveToTrainingPathPoints();
     }
-
-    /*void SetPetAnimationAndRunningTrainingPoints(_AnimState animState, List<Transform> points, bool isMoveOnRandomPoints)
-    {
-        agent.enabled = false;
-        petAnim._ChangeAnimationState(animState);
-
-        trainingPoints = points;
-        isRandomPoints = isMoveOnRandomPoints;
-        pointIndex = 0;
-
-        MoveToRunningPathPoints();
-    }
-
-    void MoveToRunningPathPoints()
-    {
-        targetPoint = trainingPoints[pointIndex];
-        isRunning = true;
-        pointIndex++;
-
-        if (pointIndex >= trainingPoints.Count)
-        {
-            pointIndex = 0;
-        }
-
-        agent.SetDestination(targetPoint.position);
-    }*/
 
     //Training movement
     void CheckForPlayerTrainingMovement()

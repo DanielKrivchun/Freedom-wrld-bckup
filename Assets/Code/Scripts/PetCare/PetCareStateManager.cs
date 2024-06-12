@@ -229,7 +229,7 @@ public class PetCareStateManager : MonoBehaviour
         isCareTaking = false;
         selectedPetCareState = PetCareState.None;
         petCareObjectManager.ManagePetCareObjects(selectedPetCareState);
-        petCareUIManager.ManagePetCareBtns(true);
+        petCareUIManager.ManagePetCareBtns(false);
     }
     #endregion
 
@@ -567,14 +567,16 @@ public class PetCareStateManager : MonoBehaviour
     //Checking if user is login on new day
     public bool IsUserLoginNewDay()
     {
-        getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
+        //getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
 
         if ((serverTimeNow - DateTime.Parse(petDataRef.petData.lastLoginTime)).TotalDays >= 1)
         {
+            Debug.Log("NewDay");
             return true;
         }
         else
         {
+            Debug.Log("NotNewDay");
             return false;
         }
     }

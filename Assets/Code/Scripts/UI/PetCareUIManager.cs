@@ -155,7 +155,7 @@ public class PetCareUIManager : MonoBehaviour
     }
 
     #region BUTTON CLICK EVENTS
-    public void ManagePetCareBtns(bool wantToOff)
+    public void ManagePetCareBtns(bool wantToOn)
     {
         if (careBtnHolder.activeInHierarchy)
         {
@@ -164,7 +164,7 @@ public class PetCareUIManager : MonoBehaviour
         }
         else
         {
-            if (wantToOff)
+            if (wantToOn)
             {
                 wellbeingBtnImg.sprite = wellbeingBtnsOff;
                 careBtnHolder.SetActive(true);
