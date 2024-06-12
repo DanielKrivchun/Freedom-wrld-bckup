@@ -17,6 +17,8 @@ public class PetDataRef : ScriptableObject
                                 int running, int climbing, int flying, int swimming, int intelligence, int luck,
                                 int rank, float xp, int maxStamina)
     {
+        petData = new PetData();
+
         petData.petname = petName;
 
         petData.health = health;

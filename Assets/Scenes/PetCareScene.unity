@@ -2095,7 +2095,7 @@ MonoBehaviour:
   getServerTime: {fileID: 1128614860}
   beamableInventoryManager: {fileID: 1456848200}
   petCareBtnHolder: {fileID: 1255737852}
-  player: {fileID: 0}
+  player: {fileID: 281894568}
   petTrainPanel: {fileID: 1290140182}
   runningTrainingSelectBtn: {fileID: 1582497153}
   climbingTrainingSelectBtn: {fileID: 1133352970}
@@ -11112,14 +11112,14 @@ MonoBehaviour:
       - m_Target: {fileID: 1334679533}
         m_TargetAssemblyTypeName: PetCareUIManager, Assembly-CSharp
         m_MethodName: ManagePetCareBtns
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &290700873
 MonoBehaviour:

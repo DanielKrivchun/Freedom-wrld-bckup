@@ -123,7 +123,7 @@ namespace Beamable.CloudSavingService
                 throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
             }
 
-            // Check isInitializing, as best practice
+            /*// Check isInitializing, as best practice
             if (!_cloudSavingService.isInitializing)
             {
                 // Resets the local cloud data to match the server cloud data
@@ -134,20 +134,20 @@ namespace Beamable.CloudSavingService
             else
             {
                 throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
-            }
+            }*/
 
             petDataRef.petData = LoadData();
             Refresh();
 
-            if (petDataRef.petData.petname == "")
+            /*if (petDataRef.petData.petname == "")
             {
                 beamableCloudSavingData.DataState = DataState.Pending;
                 petCreationEvent.Raise();
             }
             else
-            {
+            {*/
                 loadGameData.Raise();
-            }
+            //}
         }
 
         #region NEW PET CREATION DATA
@@ -274,12 +274,19 @@ namespace Beamable.CloudSavingService
 
             // If the settings are changed by the server...
             // Reload the scene or something project-specific to reload your game
+            petDataRef.petData = LoadData();
+            Refresh();
+
+            loadGameData.Raise();
         }
 
 
         private void CloudSavingService_OnError(CloudSavingError cloudSavingError)
         {
             Debug.Log($"CloudSavingService_OnError() Message = {cloudSavingError.Message}");
+
+            beamableCloudSavingData.DataState = DataState.Pending;
+            petCreationEvent.Raise();
         }
         #endregion
 

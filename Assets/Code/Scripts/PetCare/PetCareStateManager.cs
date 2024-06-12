@@ -229,7 +229,7 @@ public class PetCareStateManager : MonoBehaviour
         isCareTaking = false;
         selectedPetCareState = PetCareState.None;
         petCareObjectManager.ManagePetCareObjects(selectedPetCareState);
-        petCareUIManager.ManagePetCareBtns();
+        petCareUIManager.ManagePetCareBtns(true);
     }
     #endregion
 
@@ -331,20 +331,16 @@ public class PetCareStateManager : MonoBehaviour
     //Get & set data from Beamable
     public async void SetDataOfCloudAndManageStats()
     {
+        if (petDataRef.petData == null)
+        {
+            return;
+        }
+
         //Spawn pet prefab
         SpawnPetPrefab();
 
         serverTimeNow = await getServerTime.GetCurrentTimeTask();
         Debug.Log("Server Time Now - " + serverTimeNow);
-        
-        if(petDataRef.petData == null)
-        {
-            Debug.Log("Null data");
-        }
-        else
-        {
-            Debug.Log("not null");
-        }
 
         //Happiness
         int lostHappiness = CalculateLostStatValue(petDataRef.petData.lastTimeHappy, petStatData.happyTimeLength, petStatData.happinessTickRate);
@@ -422,9 +418,9 @@ public class PetCareStateManager : MonoBehaviour
                 offLoadingCanvasEvent.Raise();
                 return;
             }
-        }        
+        }
 
-        
+
 
         //Check for last login
         if (IsUserLoginNewDay())
@@ -439,7 +435,7 @@ public class PetCareStateManager : MonoBehaviour
         //Check for any ongoing Training
         if (petDataRef.petData.ongoingTrainingData.isTraining)
         {
-           await petTrainingManager.CheckForAnyOngoingTraining();
+            await petTrainingManager.CheckForAnyOngoingTraining();
         }
 
         offLoadingCanvasEvent.Raise();
