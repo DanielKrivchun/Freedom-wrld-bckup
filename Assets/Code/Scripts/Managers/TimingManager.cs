@@ -64,7 +64,6 @@ public class TimingManager : MonoBehaviour
         {
             happyTimer -= Time.deltaTime;
         }
-        //Debug.Log("Happy - " + happyTimer);
     }
 
     private void SetFeedTimer()
@@ -78,7 +77,6 @@ public class TimingManager : MonoBehaviour
         {
             hungerTimer -= Time.deltaTime;
         }
-        //Debug.Log("Feed - " + feedTimer);
     }
 
     private void SetCleanTimer() 
@@ -92,8 +90,8 @@ public class TimingManager : MonoBehaviour
         {
             cleanTimer -= Time.deltaTime;
         }
-        //Debug.Log("Clean - " + cleanTimer);
     }
+
 
     private void SetEnergyTimer()
     {
@@ -106,6 +104,5 @@ public class TimingManager : MonoBehaviour
         {
             energyTimer -= Time.deltaTime;
         }
-        //Debug.Log("Energy - " + energyTimer);
     }
 }

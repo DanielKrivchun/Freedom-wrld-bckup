@@ -77,6 +77,7 @@ public class PetTrainingManager : MonoBehaviour
     private DateTime serverTimeNow;
     private PetTrainingData currentTrainingData;
 
+    #region BUTTON LISTENERS
     private void Start()
     {
         runningTrainingSelectBtn.onClick.AddListener(() => OnClickOfTrainingSelectBtn(0, PetTraining.Running));
@@ -85,6 +86,7 @@ public class PetTrainingManager : MonoBehaviour
         flyingTrainingSelectBtn.onClick.AddListener(() => OnClickOfTrainingSelectBtn(3, PetTraining.Flying));
         intelligenceTrainingSelectBtn.onClick.AddListener(() => OnClickOfTrainingSelectBtn(4, PetTraining.Intelligence));
     }
+    #endregion
 
     #region TRAINING SELECTION UI
     public void ShowPetTrainPanel()
@@ -126,7 +128,9 @@ public class PetTrainingManager : MonoBehaviour
         notSelectedTrainingMain.SetActive(false);
         startTrainingBtn.SetActive(true);
     }
+    #endregion
 
+    #region START TRAINING
     public void OnClickOfStartTraining()
     {
         //Show popup if energy is low
@@ -277,7 +281,9 @@ public class PetTrainingManager : MonoBehaviour
 
         petInputManager.NavigatePlayerAroundTrainingPath(selectedTraining);
     }
+    #endregion
 
+    #region STOP PARTICLE EFFECTS AND STOP PET DOING TRAINING
     void SetPetBackToTrainingPoint()
     {
         StartCoroutine(petInputManager.StopNavigating());

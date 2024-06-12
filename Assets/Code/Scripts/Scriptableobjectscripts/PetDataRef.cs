@@ -51,39 +51,6 @@ public class PetDataRef : ScriptableObject
 
         petData.foodData = new List<PetFoodData>();
     }
-
-    public void SetPetWellbeingStatsData(int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
-                                        string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy, string sleepStartTime, bool isSleeping)
-    {
-        petData.health = health;
-        petData.happiness = happiness;
-        petData.hunger = hunger;
-        petData.cleanliness = cleanliness;
-        petData.energy = energy;
-        petData.isSick = isSick;
-
-        petData.lastTimeHappy = lastTimeHappy;
-        petData.lastTimeFeed = lastTimeFeed;
-        petData.lastTimeClean = lastTimeClean;
-        petData.lastTimeEnergy = lastTimeEnergy;
-
-        petData.sleepData.sleepStartTime = sleepStartTime;
-        petData.sleepData.isSleeping = isSleeping;
-    }
-
-    public void SetPetAthleticsStatsData(int running, int climbing, int flying, int swimming)
-    {
-        petData.running = running;
-        petData.climbing = climbing;
-        petData.flying = flying;
-        petData.swimming = swimming;
-    }
-
-    public void SetPetChanceStatsData(int intelligence, int luck)
-    {
-        petData.intelligence = intelligence;
-        petData.luck = luck;
-    }
 }
 
 [System.Serializable]

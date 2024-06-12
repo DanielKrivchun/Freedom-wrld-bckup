@@ -82,10 +82,10 @@ public class PetCareInputManager : MonoBehaviour
         {
             return hit.position;
         }
-        return Vector3.zero; // Return zero if no valid NavMesh point is found
+        return Vector3.zero;
     }
 
-
+    #region PET AUTO NAVIGATION
     void CheckForSetPetIdleOrNavigating()
     {
         if (petCareStateManager.petDataRef.petData != null || 
@@ -134,7 +134,9 @@ public class PetCareInputManager : MonoBehaviour
             SetDestinationPointForNavigationOnHomeIsland();
         }
     }
+    #endregion
 
+    #region HAPPY STATE
     //Happy state
     private void OnMouseDown()
     {
@@ -153,19 +155,10 @@ public class PetCareInputManager : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
-    //Setting and moving player to destination
-    public void SetDestinationPointForCareTakingOrTraining(Vector3 point, bool isTrainingPoint)
-    {
-        agent.isStopped = false;
-        isCheckForPathCompletion = true;
-        petAnim._ChangeAnimationState(_AnimState.Run);
-        agent.SetDestination(point);
-
-        this.isTrainingPoint = isTrainingPoint;
-    }
-
-    //Checking for path completion
+    
+    //Checking for time, path completion, navmesh and training movement
     private void Update()
     {
         if (timer > 0)
@@ -184,6 +177,18 @@ public class PetCareInputManager : MonoBehaviour
         CheckForPlayerNavmeshMovement();
 
         CheckForPlayerTrainingMovement();
+    }
+
+    #region SET DESTINATION AND CHECK FOR REACHED DESTINATION
+    //Setting and moving player to destination
+    public void SetDestinationPointForCareTakingOrTraining(Vector3 point, bool isTrainingPoint)
+    {
+        agent.isStopped = false;
+        isCheckForPathCompletion = true;
+        petAnim._ChangeAnimationState(_AnimState.Run);
+        agent.SetDestination(point);
+
+        this.isTrainingPoint = isTrainingPoint;
     }
 
     // Check if pet reached the destination
@@ -218,7 +223,9 @@ public class PetCareInputManager : MonoBehaviour
         transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 1f);
         petCareReachedPointEvent.Raise();
     }
+    #endregion
 
+    #region TRAINING POINTS & ANIMATION, TRAINING MOVEMENT, STOP TRAINING
     //Moving pet to training path
     public void NavigatePlayerAroundTrainingPath(PetTraining currentTraining)
     {
@@ -363,8 +370,9 @@ public class PetCareInputManager : MonoBehaviour
         animator.enabled = false;
         SetIdleOrSickAnim();
     }
+    #endregion
 
-    //Pet on-off on sleep
+    #region PET ON OFF ON SLEEP
     public void SetPetToInsideHomeOnSleepStart()
     {
         petAnim.transform.gameObject.SetActive(false);
@@ -374,7 +382,9 @@ public class PetCareInputManager : MonoBehaviour
     {
         petAnim.transform.gameObject.SetActive(true);
     }
+    #endregion
 
+    #region MANAGE ANIMATIONS
     //If pet is sick then play sick animation or play idle animation
     void SetIdleOrSickAnim()
     {
@@ -402,4 +412,5 @@ public class PetCareInputManager : MonoBehaviour
                 break;
         }
     }
+    #endregion
 }

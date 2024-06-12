@@ -45,6 +45,7 @@ public class SleepManager : MonoBehaviour
         sleepBtn.onClick.AddListener(()=> StartSleepingTimer());  
     }
 
+    #region SET AND START SLEEPING
     private void StartSleepingTimer()
     {
         //If Cleanliness <= 10/100 && Hunger <= 10/100 , then the pet will not be able to sleep
@@ -77,7 +78,9 @@ public class SleepManager : MonoBehaviour
         particleEffectsManager.StartSleepEffect();
         PetCareInputManager.instance.SetPetToInsideHomeOnSleepStart();
     }
+    #endregion
 
+    #region RESET TIMER AND RESET CARETAKING STAT
     void ResetTimerAndSetPetStatData()
     {
         particleEffectsManager.StopSleepEffect();
@@ -97,7 +100,9 @@ public class SleepManager : MonoBehaviour
 
         petCareStateManager.ResetPetCareTakingState();
     }
+    #endregion
 
+    #region TIMER
     private void Update()
     {
         //Sleep
@@ -133,4 +138,5 @@ public class SleepManager : MonoBehaviour
 
         sleepCountdownTxt.text = string.Format("{0:0}:{1:00}:{2:00}", hours, minutes, seconds);
     }
+    #endregion
 }

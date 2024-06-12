@@ -23,6 +23,7 @@ public class PetCareObjectManager : MonoBehaviour
     public Transform sleepPoint;
     public SleepManager sleepManager;
 
+    #region MANAGE PET CARE OBJECTS
     public void ManagePetCareObjects(PetCareState state)
     {
         //Stop pet from navigating
@@ -85,7 +86,9 @@ public class PetCareObjectManager : MonoBehaviour
             petStateManager.StartIdleTimer();
         }
     }
+    #endregion
 
+    #region ON PET REACHED TO DESTINATION
     public void PetReachedSelectedObjectDestination()
     {
         //Set camera front for Eat & Clean state after pet reached to destination point
@@ -111,4 +114,5 @@ public class PetCareObjectManager : MonoBehaviour
                 break;
         }
     }
+    #endregion
 }

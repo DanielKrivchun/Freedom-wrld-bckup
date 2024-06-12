@@ -6,6 +6,7 @@ using DG.Tweening;
 using Beamable.CloudSavingService;
 using System;
 using UnityEngine.SceneManagement;
+using Beamable.InventoryService;
 
 public class PetCareUIManager : MonoBehaviour
 {
@@ -123,8 +124,17 @@ public class PetCareUIManager : MonoBehaviour
     public GameObject rankUpPanel;
     public Text rankUpMsgTxt;
 
+    [Header("Welcome Back From Race UI")]
+    public GameObject welcomeBackPanel;
+    public Text earnedStatsTxt;
+    public Text niceWorkTxt;
+
     [Header("Inventory UI")]
     public GameObject inventoryPanel;
+
+    [Header("Script Ref")]
+    public PetCareStateManager petStateManager;
+    public BeamableInventoryManager beamableInventoryManager;
 
     private int msgIndex;
     private List<string> msgList;
@@ -157,6 +167,14 @@ public class PetCareUIManager : MonoBehaviour
     #region BUTTON CLICK EVENTS
     public void ManagePetCareBtns(bool wantToOn)
     {
+        //If pet is in the training we can't access pet
+        if (petDataRef.petData.ongoingTrainingData.isTraining)
+        {
+            ShowNotificationUI("Sorry, you can't access this while your pet is training");
+            return;
+        }
+
+        //Managing pet care buttons and wellbeing button image
         if (careBtnHolder.activeInHierarchy)
         {
             wellbeingBtnImg.sprite = wellbeingBtnsOn;
@@ -172,38 +190,26 @@ public class PetCareUIManager : MonoBehaviour
         }
     }
 
+    //Pet Care button click event
     public void OnClickOfPetCareStateBtn(PetCareState selectedState)
     {
-        if (!petDataRef.petData.ongoingTrainingData.isTraining)
-        {
-            petCareEvent.Raise(selectedState);
-        }
-        else
-        {
-            ShowNotificationUI("Sorry, you can't access this while your pet is training");
-        }
+        petCareEvent.Raise(selectedState);
     }
 
+    //Home button click event
     public void OnClickOfHomeBtn(string sceneName)
     {
-        if (!petDataRef.petData.ongoingTrainingData.isTraining)
-        {
-            //Do Button Click Event
-            BeamableCloudSaveManager.instance.SaveData(petDataRef.petData);
-            SceneManager.LoadScene(sceneName);
-        }
-        else
-        {
-            ShowNotificationUI("Sorry, you can't access this while your pet is training");
-        }
+        BeamableCloudSaveManager.instance.SaveData(petDataRef.petData);
+        SceneManager.LoadScene(sceneName);
     }
 
+    //Inventory button click event
     public void OnClickOfInventoryBtn()
     {
         if (!petDataRef.petData.ongoingTrainingData.isTraining)
         {
             inventoryPanel.SetActive(true);
-            
+
         }
         else
         {
@@ -292,6 +298,7 @@ public class PetCareUIManager : MonoBehaviour
 
     public async void SubmitPetDetails()
     {
+        //Checking for empty name and stats max limit
         if (petInput.text == "")
         {
             StartCoroutine(ShowNoticeTxt("Please enter Pet name!"));
@@ -326,7 +333,7 @@ public class PetCareUIManager : MonoBehaviour
     #region PET SICK LABEL UI
     public void ShowPetSickLabel()
     {
-        if(!sickLabel.activeInHierarchy)
+        if (!sickLabel.activeInHierarchy)
         {
             sickLabelTxt.text = petDataRef.petData.petname + " is sick! \nThey need medicine.";
             sickLabel.SetActive(true);
@@ -386,6 +393,27 @@ public class PetCareUIManager : MonoBehaviour
                             "You've earned " + (petDataRef.petData.rank * 5) + " Coins.\n" +
                             petDataRef.petData.petname + " can now compete against Rank " + petDataRef.petData.rank + " pets in Races.";
         rankUpPanel.SetActive(true);
+    }
+    #endregion
+
+    #region WELCOME BACK FROM RACE UI
+    public void ShowWelcomeBackFromRaceUI()
+    {
+        /*earnedStatsTxt.text = "• " + currentTrainingData.xP.ToString() + " XP\n"
+                            + "• " + currentTrainingData.coins.ToString() + " Coins";*/
+
+        niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
+
+        SetRacingEarnedStats();
+    }
+
+    public void SetRacingEarnedStats()
+    {
+        //XP
+        //petStateManager.IncreaseXP(XP);
+
+        //Add Coins
+        //beamableInventoryManager.AddCurrency(coins); 
     }
     #endregion
 }
