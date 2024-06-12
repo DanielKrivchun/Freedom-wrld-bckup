@@ -26,6 +26,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public NetworkString<_32> playerName;
     public PlayerRef playerRef;
     public List<Vector3> move_positions;
+    [Space]
+    public _PlayerConfigs playerconfigs;
     #endregion
 
     #region Private variables
@@ -40,8 +42,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private Vector3 finalPosition;
     #endregion
 
-    public _PlayerConfigs playerconfigs;
-
     #region NETWORKED OBJECTS
     [Networked] public string MyName { get; set; }
     [Networked] public int MyPathNumber { get; set; }
@@ -51,7 +51,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public int MyWiningNumber { get; set; }
 
     private NetworkTransform networkTransform;
-    private float horizontal;
+    private float TapMultiplier = 1f;
 
     #endregion
 
@@ -72,8 +72,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
         StartCoroutine(_GenrateMyPrefab());
         //ADD ME IN LIST
-
-
     }
 
     IEnumerator _GenrateMyPrefab()
@@ -139,6 +137,24 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     }
     #endregion
 
+    #region SETUP CONFIGS
+    private void _SetMyConfigs()
+    {
+        PetConfigs.m_run_multiplier = playerconfigs.running;
+        PetConfigs.m_swim_multiplier = playerconfigs.swimming;
+        PetConfigs.m_climb_multiplier = playerconfigs.climbing;
+        PetConfigs.m_fly_multiplier = playerconfigs.flying;
+
+        PetConfigs.Speed = _GetMySpeed(playerconfigs.running);
+    }
+
+    float _GetMySpeed(float _value)
+    {
+        return (1 + (_value / 100f));
+    }
+
+    #endregion
+
     #region COLISION DETECTION
 
     private void OnTriggerEnter(Collider other)
@@ -156,21 +172,24 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     RaceComplete = true;
                     GetComponent<NavMeshAgent>().enabled = false;
                     GetComponent<Collider>().enabled = false;
-
                     StartCoroutine(SetMyWinPosition());
                     nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
                     break;
                 case _Tags.Water:
                     _ChangeAnimationHere(_AnimState.Swimming);
+                    PetConfigs.Speed = _GetMySpeed(playerconfigs.swimming);
                     break;
                 case _Tags.Flying:
                     _ChangeAnimationHere(_AnimState.Flying);
+                    PetConfigs.Speed = _GetMySpeed(playerconfigs.flying);
                     break;
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
+                    PetConfigs.Speed = _GetMySpeed(playerconfigs.running);
                     break;
                 case _Tags.Climbing:
                     _ChangeAnimationHere(_AnimState.Climbing);
+                    PetConfigs.Speed = _GetMySpeed(playerconfigs.climbing);
                     break;
 
             }
@@ -290,7 +309,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var input)) // // this out keyword will find PlayerData script and assign the value all the information from that script and put it into input variable.
         {
-            Debug.Log("RIGID BODY  " + input.HorizontalInput);
+            Debug.Log("RIGID BODY  " + input.TapMultiplier);
         }
 
         if (!IsServer || RaceComplete)
@@ -299,6 +318,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
 
         //Debug.Log("Calculating");
+        //CALCULATING FOR SPEED FROM TAPING
+        PetConfigs.Speed = PetConfigs.Speed * (TapMultiplier);
+        m_agent.speed = PetConfigs.Speed;
 
         //FIND DISTNACE HERE
         _CalculateDistance();
@@ -309,14 +331,16 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     }
 
     #endregion
+
+    #region GETPLAYER INPUT
     public NetworkInputData GetPlayerNetworkInput() // playerdataları işlediğimiz yer. Buraya değerleri gönderiyuz FUN da alıyoruz.
     {
         NetworkInputData data = new NetworkInputData();
-        data.HorizontalInput = horizontal; // datadaki horizontol input equals to our local variable input
+        data.TapMultiplier = TapMultiplier; // datadaki horizontol input equals to our local variable input
         data.direction = Vector2.zero;
         return data; // then we will return the data.
     }
-
+    #endregion
 
     #region NAVMESH METHODS
     private void _ChangeCurruntPoint()
@@ -389,9 +413,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private void _OnReciveConfigs(string _j)
     {
         Debug.Log("I recived RPC  " + gameObject.name + "   " + _j);
-
         playerconfigs = JsonUtility.FromJson<_PlayerConfigs>(_j);
-
+        _SetMyConfigs();
     }
 
 
@@ -437,8 +460,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         if (Utils.IsLocalPlayer(Object)) // eğer local playersak horizantalı kuruyoruz.
         {
-            const string HORIZONTAL = "Horizontal";
-            horizontal = Input.GetAxisRaw(HORIZONTAL);
+            TapMultiplier = 1f;
         }
     }
 

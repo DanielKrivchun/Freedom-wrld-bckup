@@ -362,8 +362,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 break;
         }
         int newxp = (MyXP) + (1 / MyRank) * mul;
+        MyCoins += coinstoadd;
+        MyXP += newxp;
         Debug.Log(newxp);
         Debug.Log(coinstoadd);
+
+        //ADD COINS FROM BeamableInventoryManager AddCurrency
     }
     #endregion
 
@@ -426,7 +430,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
     #endregion
 
-    //FOR INPUT
+    //FOR INPUTx
     public void _InputSet(InputAction.CallbackContext context)
     {
         m_input = context.ReadValue<Vector2>();

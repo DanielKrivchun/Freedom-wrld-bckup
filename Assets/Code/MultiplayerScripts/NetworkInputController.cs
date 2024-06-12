@@ -9,7 +9,7 @@ public class NetworkInputController : MonoBehaviour
 
 public struct NetworkInputData : INetworkInput
 {
-    public float HorizontalInput;
+    public float TapMultiplier;
     public Vector2 direction;
 }
 
