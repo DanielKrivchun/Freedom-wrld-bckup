@@ -99,7 +99,7 @@ private async Task<List<LeaderboardEntry>> TestMicroservice()
         /*Debug.Log($"SaveEntry() isSuccess = {isSuccess}");*/
 
         // #3 - Call Microservice
-        List<string> jsonEntry = await _LeaderboardServiceClient.GetEntry();
+        List<string> jsonEntry = await _LeaderboardServiceClient.GetAllEntries();
         List<LeaderboardEntry> entryList = new List<LeaderboardEntry>();
 
         // Convert JSON string to object
@@ -135,7 +135,6 @@ private async Task<List<LeaderboardEntry>> TestMicroservice()
         return x;
     }
 
-    
 
     public int getPetRank()
     {
@@ -152,7 +151,7 @@ private async Task<List<LeaderboardEntry>> TestMicroservice()
         entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * transformList.Count);
         entryTransform.gameObject.SetActive(true);
 
-        // create number suffix
+        // create number suffix for each entry
         int rank = transformList.Count + 1;
         string rankString;
         switch (rank)
@@ -165,6 +164,7 @@ private async Task<List<LeaderboardEntry>> TestMicroservice()
             case 3: rankString = "3RD"; break;
         }
 
+        // replace ui text with leaderboard data
         entryTransform.Find("petStanding").GetComponent<Text>().text = rankString;
 
         string playerName = leaderboardEntry.playerName;
@@ -182,7 +182,7 @@ private async Task<List<LeaderboardEntry>> TestMicroservice()
         transformList.Add(entryTransform);
     }
 
-    // represents a single entry
+    // Obect that represents a single entry
     private class LeaderboardEntry
     {
         public string playerName;

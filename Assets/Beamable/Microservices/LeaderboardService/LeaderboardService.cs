@@ -12,7 +12,6 @@ namespace Beamable.Microservices
 	[Microservice("LeaderboardService")]
 	public class LeaderboardService : Microservice
 	{
-
         [ClientCallable]
         public async Promise<bool> SaveEntry(string _playerName, string _petName, int _petRank, int _petXp)
         {
@@ -20,15 +19,9 @@ namespace Beamable.Microservices
 
             try
             {
-                // MongoDB connection
+                // Declare "LeaderboardStorage" collection
                 var db = await Storage.GetDatabase<LeaderboardStorage>();
                 var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
-
-                var filter = Builders<PlayerEntry>.Filter.Empty;
-                if (filter != null)
-                {
-                    Debug.Log($"Test: Database already populated");
-                }
 
                 // create new data
                 collection.InsertOne(new PlayerEntry()
@@ -39,9 +32,7 @@ namespace Beamable.Microservices
                     petXp = _petXp
 
                 });
-                Debug.Log($"{_playerName}'s data added to database");
-
-                // add method to update data!!!
+                Debug.Log($"Added {_playerName}'s data added to database");
 
                 isSuccess = true;
             }
@@ -56,20 +47,68 @@ namespace Beamable.Microservices
         }
 
         [ClientCallable]
-        public async void UpdateEntry(string _playerName)
+        public async Promise<bool> UpdateRank(string _playerName, int _petRank)
         {
-            // MongoDB connection
-            var db = await Storage.GetDatabase<LeaderboardStorage>();
-            var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
-            var filter = Builders<PlayerEntry>.Filter.Eq("playerName", _playerName);
+            bool isSuccess = false;
+
+            try
+            {
+                // Declare "LeaderboardStorage" collection
+                var db = await Storage.GetDatabase<LeaderboardStorage>();
+                var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
+                var filter = Builders<PlayerEntry>.Filter.Eq("playerName", _playerName);
+                var update = Builders<PlayerEntry>.Update.Set("petRank", _petRank);
+
+                // Update petRank data
+                collection.UpdateOne(filter, update);
+                Debug.Log($"Updated {_playerName}'s rank");
+
+                isSuccess = true;
+            }
+            catch (Exception e)
+            {
+
+                Debug.LogError(e.Message);
+            }
+
+            return isSuccess;
+
         }
 
         [ClientCallable]
-        public async Promise<List<string>> GetEntry()
+        public async Promise<bool> UpdateXp(string _playerName, int _petXp)
         {
-            // Filter entries based on playerName
+            bool isSuccess = false;
+
+            try
+            {
+                // Declare "LeaderboardStorage" collection
+                var db = await Storage.GetDatabase<LeaderboardStorage>();
+                var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
+                var filter = Builders<PlayerEntry>.Filter.Eq("playerName", _playerName);
+                var update = Builders<PlayerEntry>.Update.Set("petXp", _petXp);
+
+                // Update petRank data
+                collection.UpdateOne(filter, update);
+                Debug.Log($"Updated {_playerName}'s petXp");
+
+                isSuccess = true;
+            }
+            catch (Exception e)
+            {
+
+                Debug.LogError(e.Message);
+            }
+
+            return isSuccess;
+
+        }
+
+        [ClientCallable]
+        public async Promise<List<string>> GetAllEntries()
+        {
+            // Filter all entries from service storage
             var filter = Builders<PlayerEntry>.Filter.Empty;
-           
             var db = await Storage.GetDatabase<LeaderboardStorage>();
             var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
             var LeaderboardEntries = collection
@@ -78,12 +117,10 @@ namespace Beamable.Microservices
 
             List<string> entries = new List<string>();
 
-
-            // Sort retrieved data into an object, then return list of entry objects
+            // Create a list of json strings
             foreach (PlayerEntry entry in LeaderboardEntries)
             {
                 var jsonEntry = JsonUtility.ToJson(entry);
-                /*JObject jsonEntry = JObject.FromObject(entry);*/
                 entries.Add(jsonEntry);
 
             }
