@@ -91,7 +91,7 @@ public class PetTrainingManager : MonoBehaviour
         petCareStateManager.isCareTaking = false;
 
         //If any training going on then can't open Pet Train Panel
-        if(!ongoingTrainingPopup.activeInHierarchy || !petDataRef.petData.ongoingTrainingData.isTraining)
+        if (!ongoingTrainingPopup.activeInHierarchy || !petDataRef.petData.ongoingTrainingData.isTraining)
         {
             petTrainPanel.SetActive(true);
         }
@@ -105,7 +105,7 @@ public class PetTrainingManager : MonoBehaviour
     {
         for (int i = 0; i < trainingStatsMain.Count; i++)
         {
-            if(i == index)
+            if (i == index)
             {
                 trainingSelectBtnImg[i].color = Color.green;
                 trainingSelectBtnTxt[i].text = "Selected";
@@ -126,50 +126,81 @@ public class PetTrainingManager : MonoBehaviour
 
     public void OnClickOfStartTraining()
     {
+        if (IsLowerEnergyForPetTraining())
+        {
+            petCareUIManager.ShowNotificationUI("Pet's energy is low for training!");
+        }
+        else
+        {
+            switch (selectedTraining)
+            {
+                case PetTraining.Running:
+                    petInputManager.SetDestinationPointForCareTakingOrTraining(runPoint.position, true);
+
+                    currentTrainingData = runningTrainingData;
+                    petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Running";
+                    break;
+
+                case PetTraining.Climbing:
+                    petInputManager.SetDestinationPointForCareTakingOrTraining(climbPoint.position, true);
+
+                    currentTrainingData = climbingTrainingData;
+                    petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Climbing";
+                    break;
+
+                case PetTraining.Swimming:
+                    petInputManager.SetDestinationPointForCareTakingOrTraining(swimPoint.position, true);
+
+                    currentTrainingData = swimmingTrainingData;
+                    petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Swimming";
+                    break;
+
+                case PetTraining.Flying:
+                    petInputManager.SetDestinationPointForCareTakingOrTraining(flyPoint.position, true);
+
+                    currentTrainingData = flyingTrainingData;
+                    petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Flying";
+                    break;
+
+                case PetTraining.Intelligence:
+                    petInputManager.SetDestinationPointForCareTakingOrTraining(intelligencePoint.position, true);
+
+                    currentTrainingData = inteligenceTrainingData;
+                    petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Intelligence";
+                    break;
+            }
+
+            petDataRef.petData.ongoingTrainingData.isTraining = true;
+            petDataRef.petData.ongoingTrainingData.ongoingTraining = selectedTraining;
+            getServerTime.GetCurrentTime(timeNow => { petDataRef.petData.ongoingTrainingData.trainingStartTime = timeNow.ToString(); });
+
+            ShowOngoingTrainingUIWithTime();
+            SetTrainingTimer(currentTrainingData.trainingTime);
+        }
+    }
+
+    public bool IsLowerEnergyForPetTraining()
+    {
         switch (selectedTraining)
         {
             case PetTraining.Running:
-                petInputManager.SetDestinationPointForCareTakingOrTraining(runPoint.position, true);
-
-                currentTrainingData = runningTrainingData;
-                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Running";
-                break;
+                return petDataRef.petData.energy <= Mathf.Abs(2 * runningTrainingData.energyStatValue);
 
             case PetTraining.Climbing:
-                petInputManager.SetDestinationPointForCareTakingOrTraining(climbPoint.position, true);
-
-                currentTrainingData = climbingTrainingData;
-                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Climbing";
-                break;
+                return petDataRef.petData.energy <= Mathf.Abs(2 * climbingTrainingData.energyStatValue);
 
             case PetTraining.Swimming:
-                petInputManager.SetDestinationPointForCareTakingOrTraining(swimPoint.position, true);
-
-                currentTrainingData = swimmingTrainingData;
-                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Swimming";
-                break;
+                return petDataRef.petData.energy <= Mathf.Abs(2 * swimmingTrainingData.energyStatValue);
 
             case PetTraining.Flying:
-                petInputManager.SetDestinationPointForCareTakingOrTraining(flyPoint.position, true);
-
-                currentTrainingData = flyingTrainingData;
-                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Flying";
-                break;
+                return petDataRef.petData.energy <= Mathf.Abs(2 * flyingTrainingData.energyStatValue);
 
             case PetTraining.Intelligence:
-                petInputManager.SetDestinationPointForCareTakingOrTraining(intelligencePoint.position, true);
+                return petDataRef.petData.energy <= Mathf.Abs(2 * inteligenceTrainingData.energyStatValue);
 
-                currentTrainingData = inteligenceTrainingData;
-                petDataRef.petData.ongoingTrainingData.ongoingTrainingName = "Intelligence";
-                break;
+            default:
+                return false;
         }
-
-        petDataRef.petData.ongoingTrainingData.isTraining = true;
-        petDataRef.petData.ongoingTrainingData.ongoingTraining = selectedTraining;
-        getServerTime.GetCurrentTime(timeNow => { petDataRef.petData.ongoingTrainingData.trainingStartTime = timeNow.ToString(); });
-
-        ShowOngoingTrainingUIWithTime();
-        SetTrainingTimer(currentTrainingData.trainingTime);
     }
     #endregion
 
@@ -235,7 +266,7 @@ public class PetTrainingManager : MonoBehaviour
     #region MANAGE PET REACHED TO DESTINATION POINT
     public void PetReachedSelectedObjectDestination()
     {
-        if(selectedTraining == PetTraining.Intelligence)
+        if (selectedTraining == PetTraining.Intelligence)
         {
             puzzleModel.SetActive(true);
         }
@@ -279,7 +310,7 @@ public class PetTrainingManager : MonoBehaviour
         float minutes = Mathf.FloorToInt(currentTrainingData.trainingTime / 60);
         float seconds = Mathf.FloorToInt(currentTrainingData.trainingTime % 60);
 
-        completedTrainingMsgTxt.text = petDataRef.petData.petname + " spent " + hours + " hours " + minutes + " minutes " + seconds + " seconds " 
+        completedTrainingMsgTxt.text = petDataRef.petData.petname + " spent " + hours + " hours " + minutes + " minutes " + seconds + " seconds "
                                         + "\ntraining their " + selectedTraining.ToString() + " skills!";
 
         earnedStatsTxt.text = "• " + currentTrainingData.xP.ToString() + " XP\n"
@@ -304,15 +335,15 @@ public class PetTrainingManager : MonoBehaviour
         beamableInventoryManager.AddCurrency(currentTrainingData.coins);
 
         //Training Stats
-        if(currentTrainingData == runningTrainingData)
+        if (currentTrainingData == runningTrainingData)
         {
             petDataRef.petData.running += currentTrainingData.trainingStatValue;
         }
-        else if(currentTrainingData == climbingTrainingData)
+        else if (currentTrainingData == climbingTrainingData)
         {
             petDataRef.petData.climbing += currentTrainingData.trainingStatValue;
         }
-        else if(currentTrainingData == swimmingTrainingData)
+        else if (currentTrainingData == swimmingTrainingData)
         {
             petDataRef.petData.swimming += currentTrainingData.trainingStatValue;
         }
@@ -349,12 +380,12 @@ public class PetTrainingManager : MonoBehaviour
                 currentTrainingData = runningTrainingData;
                 break;
 
-                case PetTraining.Climbing:
+            case PetTraining.Climbing:
                 selectedTraining = PetTraining.Climbing;
                 currentTrainingData = climbingTrainingData;
                 break;
 
-                case PetTraining.Swimming:
+            case PetTraining.Swimming:
                 selectedTraining = PetTraining.Swimming;
                 currentTrainingData = swimmingTrainingData;
                 break;

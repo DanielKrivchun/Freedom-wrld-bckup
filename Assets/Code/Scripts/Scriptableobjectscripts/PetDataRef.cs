@@ -7,10 +7,10 @@ using UnityEngine;
 public class PetDataRef : ScriptableObject
 {
     //Cloud Data
-    public PetData petData = new PetData();
+    public PetData petData;
 
     //Local Data
-    public PetLocalData petLocalData = new PetLocalData();
+    public PetLocalData petLocalData;
 
     public void SetPetAllData(string petName, int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
                                 string petBirthTime, string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy, string lastLoginTime,

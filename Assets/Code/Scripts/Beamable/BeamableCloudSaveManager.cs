@@ -75,7 +75,7 @@ namespace Beamable.CloudSavingService
         //  Unity Methods  --------------------------------
         private void Awake()
         {
-            if(instance == null)
+            if (instance == null)
             {
                 instance = this;
             }
@@ -109,45 +109,45 @@ namespace Beamable.CloudSavingService
             // Subscribe to the OnError event to handle when the service fails
             _cloudSavingService.OnError += CloudSavingService_OnError;
 
-            Debug.Log("Pet - " + petDataRef.petData.petname);
+
+            // Check isInitializing, as best practice
+            if (!_cloudSavingService.isInitializing)
+            {
+                // Init the service, which will first download content that the server may have, that the client does not.
+                // The client will then upload any content that it has, that the server is missing
+                await _cloudSavingService.Init();
+                Debug.Log("Init()");
+            }
+            else
+            {
+                throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
+            }
+
+            // Check isInitializing, as best practice
+            if (!_cloudSavingService.isInitializing)
+            {
+                // Resets the local cloud data to match the server cloud data
+                // IF DESIRED, UNCOMMENT THIS SECTION
+                await _cloudSavingService.ReinitializeUserData();
+                Debug.Log("ReinitializeUserData()");
+            }
+            else
+            {
+                throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
+            }
+
+            petDataRef.petData = LoadData();
+            Refresh();
 
             if (petDataRef.petData.petname == "")
             {
                 beamableCloudSavingData.DataState = DataState.Pending;
-                //CreateNewPet();
                 petCreationEvent.Raise();
             }
             else
             {
-                // Check isInitializing, as best practice
-                if (!_cloudSavingService.isInitializing)
-                {
-                    // Init the service, which will first download content that the server may have, that the client does not.
-                    // The client will then upload any content that it has, that the server is missing
-                    await _cloudSavingService.Init();
-                }
-                else
-                {
-                    throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
-                }
-
-                // Check isInitializing, as best practice
-                /*if (!_cloudSavingService.isInitializing)
-                {
-                    // Resets the local cloud data to match the server cloud data
-                    // IF DESIRED, UNCOMMENT THIS SECTION
-                    await _cloudSavingService.ReinitializeUserData();
-                }
-                else
-                {
-                    throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
-                }*/
-
-                petDataRef.petData = LoadData();
-                Refresh();
-
                 loadGameData.Raise();
-            }  
+            }
         }
 
         #region NEW PET CREATION DATA
@@ -157,10 +157,10 @@ namespace Beamable.CloudSavingService
 
             DateTime serverTimeNow = await getServerTime.GetCurrentTimeTask();
             currentTime = serverTimeNow.ToString();
-            Debug.Log("PetData - " + petDataRef.petData.petname);
+            //Debug.Log("PetData - " + petDataRef.petData.petname);
             petDataRef.SetPetAllData(petName, 650, 100, 100, 100, 100, false,
                                         currentTime, currentTime, currentTime, currentTime, currentTime, currentTime,
-                                        running, climbing, flying, swimming, intelligence, luck, 
+                                        running, climbing, flying, swimming, intelligence, luck,
                                         1, 0, 100);
 
             //_beamContext.PlayerId, petDataRef.petData.petname, petDataRef.petData.xp, petDataRef.petData.rank
