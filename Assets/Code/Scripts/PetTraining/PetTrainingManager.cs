@@ -12,10 +12,11 @@ public class PetTrainingManager : MonoBehaviour
     [Header("Pet Data Reference")]
     public PetDataRef petDataRef;
 
-    [Space]
+    [Header("Script Ref")]
     public PetCareStateManager petCareStateManager;
     public PetCareUIManager petCareUIManager;
     public PetCareInputManager petInputManager;
+    public PetCareCameraViewManager cameraViewManager;
     public GetServerTime getServerTime;
     public BeamableInventoryManager beamableInventoryManager;
 
@@ -90,6 +91,7 @@ public class PetTrainingManager : MonoBehaviour
     {
         petCareStateManager.isCareTaking = false;
         petCareUIManager.ManagePetCareBtns(false);
+        cameraViewManager.SetCameraTopView();
 
         //If any training going on then can't open Pet Train Panel
         if (!ongoingTrainingPopup.activeInHierarchy || !petDataRef.petData.ongoingTrainingData.isTraining)

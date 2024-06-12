@@ -15,6 +15,7 @@ public class PetCareInputManager : MonoBehaviour
     [Header("Script Ref")]
     public PetCareStateManager petCareStateManager;
     public ParticleEffectsManager particleEffectsManager;
+    public PetCareCameraViewManager cameraViewManager;
 
     [Header("Running Training")]
     public List<Transform> runningPoints;
@@ -226,11 +227,13 @@ public class PetCareInputManager : MonoBehaviour
             case PetTraining.Running:
                 SetPetAnimationAndTrainingPoints(_AnimState.Run, runningPoints, false, runSpeed, runRotationSpeed);
                 particleEffectsManager.StartRunningDirtEffect();
+                cameraViewManager.SetCameraRunningTrainingView();
                 break;
 
             case PetTraining.Swimming:
                 SetPetAnimationAndTrainingPoints(_AnimState.Swimming, swimmingPoints, true, swimSpeed, swimRotationSpeed);
                 particleEffectsManager.StartSwimmingWaterSplashEffect();
+                cameraViewManager.SetCameraSwimmingTrainingView();
                 break;
 
             case PetTraining.Flying:
@@ -240,12 +243,14 @@ public class PetCareInputManager : MonoBehaviour
 
             case PetTraining.Climbing:
                 animator.enabled = true;
+                cameraViewManager.SetCameraClimbingTrainingView();
                 break;
 
             case PetTraining.Intelligence:
                 petAnim._ChangeAnimationState(_AnimState.Idle);
                 transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 1f);
                 particleEffectsManager.StartPuzzleEffect();
+                cameraViewManager.SetCameraFrontView();
                 break;
         }
     }
@@ -350,6 +355,7 @@ public class PetCareInputManager : MonoBehaviour
     //Stop moving
     public IEnumerator StopNavigating()
     {
+        cameraViewManager.SetCameraTopView();
         yield return new WaitForSeconds(1f);
         
         isMoving = false;
