@@ -7,7 +7,7 @@ public class BathObject : MonoBehaviour
     public GameObject foamBubblesHolder;
 
     [Space]
-    public GameObject petCareBtnHolder;
+    public PetCareUIManager petCareUIManager;
 
     [Space]
     public int cleanlinessMultiplier;
@@ -49,7 +49,7 @@ public class BathObject : MonoBehaviour
     public IEnumerator ResetPlayerProperties()
     {
         yield return new WaitForSeconds(1f);
-        petCareBtnHolder.SetActive(true);
+        petCareUIManager.ManagePetCareBtns(false);
         PetCareStateManager.instance.ResetPetCareTakingState();
     }
 }

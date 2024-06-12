@@ -294,7 +294,7 @@ public class PetCareUIManager : MonoBehaviour
     {
         if (petInput.text == "")
         {
-            StartCoroutine(ShowNoticeTxt("Please enter valid Pet name!"));
+            StartCoroutine(ShowNoticeTxt("Please enter Pet name!"));
         }
         else if ((runningSliderPetCreation.value + climbingSliderPetCreation.value
                 + flyingSliderPetCreation.value + swimmingSliderPetCreation.value) > maxAbilityStatLimit)

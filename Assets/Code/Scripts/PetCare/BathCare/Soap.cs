@@ -22,7 +22,7 @@ public class Soap : MonoBehaviour
     {
         isDragging = true;
         PetCareStateManager.instance.StopIdleTimer();
-        bathObject.petCareBtnHolder.SetActive(false);
+        bathObject.petCareUIManager.ManagePetCareBtns(false);
     }
 
     void OnMouseUp()
