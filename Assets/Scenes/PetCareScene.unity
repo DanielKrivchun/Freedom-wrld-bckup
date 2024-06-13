@@ -1024,12 +1024,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34194555}
   m_CullTransparentMesh: 0
---- !u!1 &41686706 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3042241936638809930, guid: ad395fddc32b4a940939d34c5a397a81,
-    type: 3}
-  m_PrefabInstance: {fileID: 1524800579}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &44446425
 GameObject:
   m_ObjectHideFlags: 0
@@ -13542,12 +13536,6 @@ Transform:
   - {fileID: 1584392531}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &431621148 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 51657864918245076, guid: ad395fddc32b4a940939d34c5a397a81,
-    type: 3}
-  m_PrefabInstance: {fileID: 1524800579}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &432992838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26902,8 +26890,6 @@ MonoBehaviour:
   timingManager: {fileID: 1128614859}
   petTrainingManager: {fileID: 66716814}
   beamableInventoryManager: {fileID: 1456848200}
-  terrainObject: {fileID: 431621148}
-  mapObject: {fileID: 41686706}
   isCareTaking: 0
   idleTimer: 0
 --- !u!114 &743679603
@@ -55378,6 +55364,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664210139545973566, guid: ad395fddc32b4a940939d34c5a397a81,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8664210139545973566, guid: ad395fddc32b4a940939d34c5a397a81,
         type: 3}

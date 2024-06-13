@@ -47,9 +47,6 @@ public class PetCareStateManager : MonoBehaviour
     public PetTrainingManager petTrainingManager;
     public BeamableInventoryManager beamableInventoryManager;
 
-    public GameObject terrainObject;
-    public GameObject mapObject;
-
     [HideInInspector]
     public bool isCareTaking;
     [HideInInspector]
