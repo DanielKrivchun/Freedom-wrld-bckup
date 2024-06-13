@@ -82,6 +82,7 @@ public class PetCareStateManager : MonoBehaviour
     private void Start()
     {
         foodObjectHolder.ResetFoodObjects();
+        _LeaderboardServiceClient = new LeaderboardServiceClient();
     }
 
     #region PET CARE EVENTS

@@ -93,6 +93,7 @@ namespace Beamable.CloudSavingService
         protected void Start()
         {
             SetupBeamable();
+            _LeaderboardServiceClient = new LeaderboardServiceClient();
         }
 
 

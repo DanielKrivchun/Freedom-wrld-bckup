@@ -29,8 +29,6 @@ public class LeaderboardServiceTest : MonoBehaviour
     //  Variables/Fields  ---------------------------------------
     [SerializeField] public PetDataRef petDataRef;
     public PetLocalData petLocalRef;
-    public GameEventState gameEventStateRef;
-    public SimpleGameEventListener gameEventStateRefListener;
 
     [SerializeField] public Transform entryContainer;
     [SerializeField] public Transform entryTemplate;
@@ -57,23 +55,21 @@ public class LeaderboardServiceTest : MonoBehaviour
 
     }
 
-//  Methods  --------------------------------------
+    private void Start()
+    {
+        _LeaderboardServiceClient = new LeaderboardServiceClient();
+    }
 
-private async Task<List<LeaderboardEntry>> LeaderboardService()
+    //  Methods  --------------------------------------
+
+    private async Task<List<LeaderboardEntry>> LeaderboardService()
     {
         var beamContext = BeamContext.Default;
         await beamContext.OnReady;
 
         Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");
 
-        _LeaderboardServiceClient = new LeaderboardServiceClient();
-
-        // - Save leaderboard data
-
-        // - Result = true
-        /*Debug.Log($"UpdateRank() isSuccess = {isSuccess}");*/
-
-        // #3 - Call Microservice
+        // Call Microservice method
         List<string> jsonEntry = await _LeaderboardServiceClient.GetAllEntries();
         List<LeaderboardEntry> entryList = new List<LeaderboardEntry>();
 
@@ -82,7 +78,7 @@ private async Task<List<LeaderboardEntry>> LeaderboardService()
         {
             // Parse json string to .net
             JObject parsedJson = JObject.Parse(entry);
-            Debug.Log(parsedJson);
+            /*Debug.Log(parsedJson);*/
 
             string playerName = (string)parsedJson["playerName"];
             string petName = (string)parsedJson["petName"];
