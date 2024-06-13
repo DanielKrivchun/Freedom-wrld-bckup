@@ -88,7 +88,7 @@ public class PetCareInputManager : MonoBehaviour
     #region PET AUTO NAVIGATION
     void CheckForSetPetIdleOrNavigating()
     {
-        if (petCareStateManager.petDataRef.petData != null || 
+        if (petCareStateManager.petDataRef.petData == null || 
             petCareStateManager.petDataRef.petData?.sleepData.isSleeping == true || 
             petCareStateManager.petDataRef.petData?.ongoingTrainingData.isTraining == true || 
             petCareStateManager.isCareTaking)
@@ -151,6 +151,10 @@ public class PetCareInputManager : MonoBehaviour
                     petAnim._ChangeAnimationState(_AnimState.Happy);
                     petCareStateManager.ManageHappinessDataFiller(petCareStateManager.petStatData.happinessTickRate);
                     petCareStateManager.StartIdleTimer();
+                }
+                else
+                {
+                    PetCareUIManager.instance.ShowNotificationUI("Happiness is full!");
                 }
                 break;
         }

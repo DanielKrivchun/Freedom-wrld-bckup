@@ -13,6 +13,7 @@ public class ShowerMove : MonoBehaviour
     public float yOffset;
 
     [Space]
+    public GameObject colliderDetector;
     public ParticleSystem waterShowerEffect;
 
     [Space]
@@ -74,7 +75,12 @@ public class ShowerMove : MonoBehaviour
     #region SHOWER MOVEMENT AND PARTICLES
     void Update()
     {
-        if (isDragging && bathObject.isSoapUsed && !bathObject.isShowerUsed)
+        if (!bathObject.isSoapUsed)
+        {
+            return;
+        }
+
+        if (isDragging && !bathObject.isShowerUsed)
         {
             // Calculate the new position based on mouse movement
             Vector3 newPosition = GetMouseWorldPosition() + posOffset;
@@ -86,20 +92,18 @@ public class ShowerMove : MonoBehaviour
             // Update the object's position
             transform.localPosition = newPosition;
 
-            //Off foam bubble particles using raycast
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1000f))
-            {
-                if (hit.collider.CompareTag(_Strings.FoamBubble))
-                {
-                    particleEffectsManager.CheckAndStopFoamBubbleEffect(hit.collider.gameObject.GetComponent<ParticleSystem>());
-                }
-            }
+            //on shower collider
+            colliderDetector.SetActive(true);
 
             //Play shower water effect
             if (!waterShowerEffect.isPlaying)
             {
                 waterShowerEffect.Play();
             }
+        }
+        else
+        {
+            colliderDetector.SetActive(false);
         }
     }
 

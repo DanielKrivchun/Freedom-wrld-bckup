@@ -14,27 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   petData:
     petname: weh
-    health: 648
-    happiness: 100
-    hunger: 99
+    health: 600
+    happiness: 99
+    hunger: 76
     cleanliness: 100
-    energy: 100
+    energy: 88
     isSick: 0
     birthTime: 6/13/2024 9:47:50 AM
-    lastTimeHappy: 6/13/2024 12:07:41 PM
-    lastTimeFeed: 6/13/2024 12:07:42 PM
-    lastTimeClean: 6/13/2024 12:07:42 PM
-    lastTimeEnergy: 6/13/2024 12:07:42 PM
+    lastTimeHappy: 6/13/2024 1:27:40 PM
+    lastTimeFeed: 6/13/2024 1:27:41 PM
+    lastTimeClean: 6/13/2024 1:30:47 PM
+    lastTimeEnergy: 6/13/2024 1:27:41 PM
     lastLoginTime: 6/13/2024 9:47:50 AM
     running: 10
     climbing: 10
     flying: 10
-    swimming: 10
+    swimming: 16
     intelligence: 2
     luck: 2
-    rank: 1
-    maxStamina: 100
-    xp: 0
+    rank: 2
+    maxStamina: 110
+    xp: 900
     sleepData:
       isSleeping: 0
       sleepStartTime: 
@@ -42,7 +42,7 @@ MonoBehaviour:
     ongoingTrainingData:
       isTraining: 0
       ongoingTraining: 0
-      ongoingTrainingName: 
-      trainingStartTime: 
+      ongoingTrainingName: None
+      trainingStartTime: 6/13/2024 12:48:50 PM
   petLocalData:
     petID: 3

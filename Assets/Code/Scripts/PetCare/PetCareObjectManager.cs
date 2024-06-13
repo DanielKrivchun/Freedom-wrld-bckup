@@ -3,22 +3,24 @@ using UnityEngine;
 
 public class PetCareObjectManager : MonoBehaviour
 {
+    [Header("Script Ref")]
     public PetCareStateManager petStateManager;
     public PetCareInputManager petInputManager;
-
-    [Space]
     public PetCareCameraViewManager cameraViewManager;
 
-    [Space]
+    [Header("Happy")]
+    public CharacterController characterController;
+
+    [Header("Eat")]
     public GameObject eatObjectHolder;
     public Transform eatPoint;
 
-    [Space]
+    [Header("Clean")]
     public GameObject bathObjectHolder;
     public Transform bathPoint;
     public BathObject bathObject;
 
-    [Space]
+    [Header("Sleep")]
     public GameObject sleepCanvas;
     public Transform sleepPoint;
     public SleepManager sleepManager;
@@ -45,6 +47,7 @@ public class PetCareObjectManager : MonoBehaviour
             case PetCareState.Happy:
                 petInputManager.transform.DORotateQuaternion(Quaternion.Euler(0f, 180f, 0f), 1f);
 
+                characterController.enabled = true;
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);
@@ -54,14 +57,15 @@ public class PetCareObjectManager : MonoBehaviour
                 petInputManager.SetDestinationPointForCareTakingOrTraining(eatPoint.position, false);
                 petStateManager.SetAvailabeFoodItemOnTable();
 
+                characterController.enabled = false;
                 bathObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);
-
                 break;
 
             case PetCareState.Clean:
                 petInputManager.SetDestinationPointForCareTakingOrTraining(bathPoint.position, false);
 
+                characterController.enabled = false;
                 eatObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);
                 break;
@@ -69,11 +73,13 @@ public class PetCareObjectManager : MonoBehaviour
             case PetCareState.Energy:
                 petInputManager.SetDestinationPointForCareTakingOrTraining(sleepPoint.position, false);
 
+                characterController.enabled = false;
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
                 break;
 
             default:
+                characterController.enabled = false;
                 bathObjectHolder.SetActive(false);
                 eatObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);

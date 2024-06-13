@@ -9562,6 +9562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 281894568}
   - component: {fileID: 281894571}
+  - component: {fileID: 281894573}
   - component: {fileID: 281894572}
   - component: {fileID: 281894569}
   - component: {fileID: 281894570}
@@ -9716,6 +9717,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!143 &281894573
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281894563}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Height: 0.5
+  m_Radius: 0.2
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!1 &285283797
 GameObject:
   m_ObjectHideFlags: 0
@@ -12680,6 +12707,101 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409034931}
   m_CullTransparentMesh: 1
+--- !u!1 &412028021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412028022}
+  - component: {fileID: 412028025}
+  - component: {fileID: 412028024}
+  - component: {fileID: 412028023}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &412028022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412028021}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1817843729}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &412028023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412028021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a67073ca38bbd479872f8dc14e6ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectsManager: {fileID: 281894570}
+--- !u!65 &412028024
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412028021}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.25, y: 5.0334563, z: -0.8}
+  m_Center: {x: 0, y: -2.5, z: 0}
+--- !u!54 &412028025
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412028021}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &414952639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28641,7 +28763,7 @@ Transform:
   m_GameObject: {fileID: 782893932}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.15}
+  m_LocalPosition: {x: 0, y: 0, z: 0.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -40631,6 +40753,7 @@ MonoBehaviour:
   petStateManager: {fileID: 743679602}
   petInputManager: {fileID: 281894569}
   cameraViewManager: {fileID: 55090259}
+  characterController: {fileID: 281894573}
   eatObjectHolder: {fileID: 6881907604498136143}
   eatPoint: {fileID: 740275236}
   bathObjectHolder: {fileID: 2799242787086901922}
@@ -47647,7 +47770,7 @@ MonoBehaviour:
   earnedStatsTxt: {fileID: 366841942}
   niceWorkTxt: {fileID: 538493096}
   inventoryPanel: {fileID: 1771055722}
-  sleepPanel: {fileID: 0}
+  sleepPanel: {fileID: 487682064}
   petStateManager: {fileID: 743679602}
   beamableInventoryManager: {fileID: 1456848200}
 --- !u!4 &1334679534
@@ -63074,6 +63197,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4031868574639171}
+  - {fileID: 412028022}
   m_Father: {fileID: 546883144}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1817843731
@@ -63235,6 +63359,7 @@ MonoBehaviour:
   - {fileID: 1817843729}
   xOffset: 3
   yOffset: 1.75
+  colliderDetector: {fileID: 412028021}
   waterShowerEffect: {fileID: 198172826630242323}
   bathObject: {fileID: 4456333872699540345}
   particleEffectsManager: {fileID: 281894570}
