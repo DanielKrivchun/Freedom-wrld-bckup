@@ -13,21 +13,15 @@ public class FoodObjectHolder : ScriptableObject
     private FoodHolder tempFoodHolder;
     private GameObject tempObject;
 
+    //Give me requested food item GameObject
     public GameObject GetMyFood(FoodItems foodItems)
     {
-        /*foreach (FoodHolder foodHolder in generatedFoodObjects)
-        {
-            if (!foodHolder.foodObject.activeSelf)
-            {
-                return foodHolder.foodObject;
-            }
-        }*/
-
         tempFoodHolder = InstantiateFoodObject(foodItems);
         generatedFoodObjects.Add(tempFoodHolder);
         return tempFoodHolder.foodObject;
     }
 
+    //Instantiates food item GameObject
     private FoodHolder InstantiateFoodObject(FoodItems foodItems)
     {
         tempObject = Instantiate(PrefabHolderList.Find(asd => asd.foodType == foodItems).foodObject);
@@ -38,6 +32,7 @@ public class FoodObjectHolder : ScriptableObject
         return foodHolder;
     }
 
+    //Reset
     public void ResetFoodObjects()
     {
         generatedFoodObjects.Clear();

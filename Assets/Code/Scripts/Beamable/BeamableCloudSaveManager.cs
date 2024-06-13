@@ -12,18 +12,17 @@ namespace Beamable.CloudSavingService
     [Serializable]
     public class RefreshedUnityEvent : UnityEvent<BeamableCloudSavingData> { }
 
+    #region PET DATA CLOUD AND LOCAL
     [Serializable]
     public class BeamableCloudSavingData
     {
-        public bool IsFirstFrame = true;
-        public bool IsDataFoundFirstFrame = false;
-
         public PetData petDataCloud = null;
         public PetData petDataLocal = null;
 
         //public List<string> InstructionLogs = new List<string>();
         public DataState DataState = DataState.Initializing;
     }
+    #endregion
 
     public enum DataState
     {
@@ -59,6 +58,7 @@ namespace Beamable.CloudSavingService
         [Space]
         public GetServerTime getServerTime;
 
+        #region FILE PATH
         /// <summary>
         /// Dynamically build the local storage for the Cloud Saving Data object
         /// </summary>
@@ -73,6 +73,7 @@ namespace Beamable.CloudSavingService
                 return $"{_cloudSavingService.LocalCloudDataFullPath}{Path.DirectorySeparatorChar}{fileName}";
             }
         }
+        #endregion
 
 
         //  Unity Methods  --------------------------------
@@ -84,7 +85,7 @@ namespace Beamable.CloudSavingService
             }
             else
             {
-                DestroyImmediate(instance);
+                DestroyImmediate(gameObject);
             }
 
             DontDestroyOnLoad(gameObject);
@@ -92,11 +93,15 @@ namespace Beamable.CloudSavingService
 
         protected void Start()
         {
+            //Stop screen from sleep
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
             SetupBeamable();
+
             _LeaderboardServiceClient = new LeaderboardServiceClient();
         }
 
-
+        #region BEAMABLE SETUP
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
@@ -143,16 +148,9 @@ namespace Beamable.CloudSavingService
             petDataRef.petData = LoadData();
             Refresh();
 
-            /*if (petDataRef.petData.petname == "")
-            {
-                beamableCloudSavingData.DataState = DataState.Pending;
-                petCreationEvent.Raise();
-            }
-            else
-            {*/
-                loadGameData.Raise();
-            //}
+           loadGameData.Raise();
         }
+        #endregion
 
         #region NEW PET CREATION DATA
         public async Task CreateNewPet(string petName, int running, int climbing, int flying, int swimming, int intelligence, int luck)
@@ -164,20 +162,17 @@ namespace Beamable.CloudSavingService
 
             DateTime serverTimeNow = await getServerTime.GetCurrentTimeTask();
             currentTime = serverTimeNow.ToString();
-            //Debug.Log("PetData - " + petDataRef.petData.petname);
+
             petDataRef.SetPetAllData(petName, 650, 100, 100, 100, 100, false,
                                         currentTime, currentTime, currentTime, currentTime, currentTime, currentTime,
                                         running, climbing, flying, swimming, intelligence, luck,
                                         1, 0, 100);
 
-            await _LeaderboardServiceClient.CreateEntry (
+            /*await _LeaderboardServiceClient.CreateEntry (
                 playerId, 
                 petDataRef.petData.petname, 
                 petDataRef.petData.rank, 
-                (int)Math.Round(petDataRef.petData.xp)
-                );
-            //_beamContext.PlayerId, petDataRef.petData.petname, petDataRef.petData.xp, petDataRef.petData.rank
-            //_beamContext.PlayerId, petName, 0, 1  
+                (int)Math.Round(petDataRef.petData.xp)); */
 
             beamableCloudSavingData.petDataLocal = petDataRef.petData;
             SaveData(beamableCloudSavingData.petDataLocal);

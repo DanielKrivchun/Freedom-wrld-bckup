@@ -50,6 +50,8 @@ public class PetDataRef : ScriptableObject
         petData.maxStamina = maxStamina;
 
         petData.foodData = new List<PetFoodData>();
+        petData.sleepData = new PetSleepData();
+        petData.ongoingTrainingData = new PetOngoingTrainingData();
     }
 }
 

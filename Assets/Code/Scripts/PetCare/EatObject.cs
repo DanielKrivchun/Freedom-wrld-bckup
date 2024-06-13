@@ -18,5 +18,9 @@ public class EatObject : MonoBehaviour
             PetCareStateManager.instance.RemoveFoodFromTable(foodSpawnIndex);
             gameObject.SetActive(false);
         }
+        else
+        {
+            PetCareUIManager.instance.ShowNotificationUI("Hunger is full!");
+        }
     }
 }

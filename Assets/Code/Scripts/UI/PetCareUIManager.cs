@@ -132,6 +132,9 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Inventory UI")]
     public GameObject inventoryPanel;
 
+    [Header("Sleep UI")]
+    public GameObject sleepPanel;
+
     [Header("Script Ref")]
     public PetCareStateManager petStateManager;
     public BeamableInventoryManager beamableInventoryManager;
@@ -179,6 +182,7 @@ public class PetCareUIManager : MonoBehaviour
         {
             wellbeingBtnImg.sprite = wellbeingBtnsOn;
             careBtnHolder.SetActive(false);
+            sleepPanel.SetActive(false);
         }
         else
         {

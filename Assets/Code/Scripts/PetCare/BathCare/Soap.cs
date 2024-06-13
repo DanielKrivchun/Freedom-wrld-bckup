@@ -18,11 +18,19 @@ public class Soap : MonoBehaviour
         startPos = transform.position;
     }
 
+    #region SOAP CLICK EVENTS
     void OnMouseDown()
     {
-        isDragging = true;
-        PetCareStateManager.instance.StopIdleTimer();
-        bathObject.petCareUIManager.ManagePetCareBtns(false);
+        if(bathObject.petStateManager.petDataRef.petData.cleanliness < 100)
+        {
+            isDragging = true;
+            bathObject.petStateManager.StopIdleTimer();
+            bathObject.petCareUIManager.ManagePetCareBtns(false);
+        }
+        else
+        {
+            bathObject.petCareUIManager.ShowNotificationUI("Cleanliness is full!");
+        }
     }
 
     void OnMouseUp()
@@ -38,7 +46,9 @@ public class Soap : MonoBehaviour
             PetCareStateManager.instance.ManageCleanlinessDataFiller(particleEffectsManager.numOfFoamBubbles * bathObject.cleanlinessMultiplier);
         }
     }
+    #endregion
 
+    #region SOAP MOVING AND PARTICLES
     void Update()
     {
         if (isDragging && bathObject.isReadyForBath && !bathObject.isSoapUsed)
@@ -64,4 +74,5 @@ public class Soap : MonoBehaviour
         mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z;
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
+    #endregion
 }

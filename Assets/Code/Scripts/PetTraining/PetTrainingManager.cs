@@ -71,7 +71,9 @@ public class PetTrainingManager : MonoBehaviour
     [Space]
     public PetTraining selectedTraining;
 
+    [HideInInspector]
     public bool startTimer;
+    [HideInInspector]
     public float trainingTimer;
 
     private DateTime serverTimeNow;

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GetServerTime : MonoBehaviour
 {
+    #region GET CURRENT TIME ACTION
     public void GetCurrentTime(Action<DateTime> nowTime)
     {
         PlayFabServerAPI.GetTime(new GetTimeRequest(),
@@ -16,8 +17,9 @@ public class GetServerTime : MonoBehaviour
             LogFailure);
 
     }
+    #endregion
 
-
+    #region GET CURRENT TIME TASK WITH AWAIT 
     public async Task<DateTime> GetCurrentTimeTask()
     {
         bool isTimeSet = false;
@@ -38,15 +40,12 @@ public class GetServerTime : MonoBehaviour
 
         return T;
     }
+    #endregion
 
-    void OnGetTimeSuccess(GetTimeResult result)
-    {
-        Debug.Log("The time is: " + result.Time);
-
-    }
-
+    #region ERROR
     void LogFailure(PlayFabError error)
     {
         Debug.Log("There was a problem getting the time. Error: " + error.GenerateErrorReport());
     }
+    #endregion
 }

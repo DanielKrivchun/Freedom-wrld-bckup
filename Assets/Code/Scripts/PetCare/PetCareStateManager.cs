@@ -328,7 +328,7 @@ public class PetCareStateManager : MonoBehaviour
 
     public void DestroyPetPrefab()
     {
-        pet.SetActive(false);
+        Destroy(pet, 0.1f);
     }
     #endregion
 
@@ -576,12 +576,10 @@ public class PetCareStateManager : MonoBehaviour
 
         if ((serverTimeNow - DateTime.Parse(petDataRef.petData.lastLoginTime)).TotalDays >= 1)
         {
-            Debug.Log("NewDay");
             return true;
         }
         else
         {
-            Debug.Log("NotNewDay");
             return false;
         }
     }
@@ -652,10 +650,10 @@ public class PetCareStateManager : MonoBehaviour
         petDataRef.petData.xp += value;
 
         // Update leaderboard
-        var _beamContext = BeamContext.Default;
+        /*var _beamContext = BeamContext.Default;
         await _beamContext.OnReady;
         string playerId = _beamContext.PlayerId.ToString();
-        await _LeaderboardServiceClient.UpdateXp(playerId, (int)Math.Round(petDataRef.petData.xp));
+        await _LeaderboardServiceClient.UpdateXp(playerId, (int)Math.Round(petDataRef.petData.xp));*/
 
         //If Rank is increased then Show RankUp popup and update stamina
         if (CheckForRankUp())
@@ -663,7 +661,7 @@ public class PetCareStateManager : MonoBehaviour
             petDataRef.petData.rank++;
 
             //Update leaderboard petRank
-            await _LeaderboardServiceClient.UpdateRank(playerId, petDataRef.petData.rank);
+            //await _LeaderboardServiceClient.UpdateRank(playerId, petDataRef.petData.rank);
 
             //Show Rank popup
             petCareUIManager.ShowRankUpUI();

@@ -64,7 +64,11 @@ public class SleepManager : MonoBehaviour
 
             petCareStateManager.petDataRef.petData.sleepData.isSleeping = true;
             getServerTime.GetCurrentTime(timeNow => { petCareStateManager.petDataRef.petData.sleepData.sleepStartTime = timeNow.ToString(); });
-        } 
+        }
+        else
+        {
+            PetCareUIManager.instance.ShowNotificationUI("Pet can't sleep because of lower Hunger and lower Cleanliness!");
+        }
     }
 
     public void SetSleepingTimer(float sleepTimeTillNow)

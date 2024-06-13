@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ShowerMove : MonoBehaviour
 {
+    [Header("Shower Line Joints")]
+    public LineRenderer lineRenderer;
+    public List<Transform> jointTransform;
+
+    [Header("Shower Movement")]
     public float xOffset;
     public float yOffset;
 
@@ -19,6 +24,29 @@ public class ShowerMove : MonoBehaviour
 
     RaycastHit hit;
 
+    #region SHOWER LINE MOVEMENT
+    void Start()
+    {
+        // Set the initial positions for the line renderer
+        lineRenderer.positionCount = jointTransform.Count;
+
+        for (int i = 0; i < jointTransform.Count; i++)
+        {
+            lineRenderer.SetPosition(i, jointTransform[i].position);
+        }
+    }
+
+    void LateUpdate()
+    {
+        // Update the positions of the line renderer to follow the draggable object
+        for (int i = 0; i < jointTransform.Count; i++)
+        {
+            lineRenderer.SetPosition(i, jointTransform[i].position);
+        }
+    }
+    #endregion
+
+    #region SHOWER CLICK EVENTS
     void OnMouseDown()
     {
         posOffset = transform.localPosition - GetMouseWorldPosition();
@@ -41,7 +69,9 @@ public class ShowerMove : MonoBehaviour
             StartCoroutine(bathObject.ResetPlayerProperties());
         }
     }
+    #endregion
 
+    #region SHOWER MOVEMENT AND PARTICLES
     void Update()
     {
         if (isDragging && bathObject.isSoapUsed && !bathObject.isShowerUsed)
@@ -81,4 +111,5 @@ public class ShowerMove : MonoBehaviour
         mousePosition.z = Camera.main.WorldToScreenPoint(transform.localPosition).z;
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
+    #endregion
 }

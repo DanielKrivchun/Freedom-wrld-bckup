@@ -7,6 +7,7 @@ public class BathObject : MonoBehaviour
     public GameObject foamBubblesHolder;
 
     [Space]
+    public PetCareStateManager petStateManager;
     public PetCareUIManager petCareUIManager;
 
     [Space]
@@ -15,6 +16,7 @@ public class BathObject : MonoBehaviour
     [HideInInspector]
     public bool isReadyForBath, isSoapUsed, isShowerUsed;
 
+    #region MANAGE FOAM BUBBLES
     private void OnEnable()
     {
         if (foamBubblesHolder != null)
@@ -35,21 +37,23 @@ public class BathObject : MonoBehaviour
             foamBubblesHolder.SetActive(false);
         }
     }
+    #endregion
 
+    #region BATH PREPARATION AND RESET
+    //Make player ready for bath
     public void MakePetReadyForBath()
     {
-        if (PetCareStateManager.instance.petDataRef.petData.cleanliness < 100)
-        {
-            isReadyForBath = true;
-            isSoapUsed = false;
-            isShowerUsed = false;
-        }
+        isReadyForBath = true;
+        isSoapUsed = false;
+        isShowerUsed = false;
     }
 
+    //Reset pet caretaking state
     public IEnumerator ResetPlayerProperties()
     {
         yield return new WaitForSeconds(1f);
         petCareUIManager.ManagePetCareBtns(false);
-        PetCareStateManager.instance.ResetPetCareTakingState();
+        petStateManager.ResetPetCareTakingState();
     }
+    #endregion
 }
