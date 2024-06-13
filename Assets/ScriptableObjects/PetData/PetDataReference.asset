@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: weh
-    health: 600
-    happiness: 99
-    hunger: 76
+    petname: v
+    health: 602
+    happiness: 100
+    hunger: 75
     cleanliness: 100
-    energy: 88
+    energy: 90
     isSick: 0
-    birthTime: 6/13/2024 9:47:50 AM
-    lastTimeHappy: 6/13/2024 1:27:40 PM
-    lastTimeFeed: 6/13/2024 1:27:41 PM
-    lastTimeClean: 6/13/2024 1:30:47 PM
-    lastTimeEnergy: 6/13/2024 1:27:41 PM
-    lastLoginTime: 6/13/2024 9:47:50 AM
+    birthTime: 6/13/2024 4:01:41 PM
+    lastTimeHappy: 6/13/2024 4:56:18 PM
+    lastTimeFeed: 6/13/2024 4:57:09 PM
+    lastTimeClean: 6/13/2024 4:56:18 PM
+    lastTimeEnergy: 6/13/2024 4:56:18 PM
+    lastLoginTime: 6/13/2024 4:01:41 PM
     running: 10
     climbing: 10
     flying: 10
@@ -38,11 +38,17 @@ MonoBehaviour:
     sleepData:
       isSleeping: 0
       sleepStartTime: 
-    foodData: []
+    foodData:
+    - foodName: 2
+      foodCount: 1
+    - foodName: 2
+      foodCount: 1
+    - foodName: 1
+      foodCount: 1
     ongoingTrainingData:
       isTraining: 0
       ongoingTraining: 0
       ongoingTrainingName: None
-      trainingStartTime: 6/13/2024 12:48:50 PM
+      trainingStartTime: 6/13/2024 4:43:49 PM
   petLocalData:
-    petID: 3
+    petID: 1

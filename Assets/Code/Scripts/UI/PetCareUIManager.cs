@@ -273,7 +273,10 @@ public class PetCareUIManager : MonoBehaviour
         selectedEggPet.sprite = petImages[index - 1];
 
         //Setting Pet prefab index for spawning pet
-        petDataRef.petLocalData.petID = index.ToString();
+        /*petDataRef.petLocalData = new PetLocalData();
+        petDataRef.petLocalData.petID = index.ToString();*/
+        PlayerPrefs.SetInt(_Strings.PetID, index);
+        Debug.Log("Petid - " + PlayerPrefs.GetInt(_Strings.PetID));
     }
 
     public void NextFromWelcomePanel()

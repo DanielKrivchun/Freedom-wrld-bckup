@@ -38,6 +38,8 @@ public class _WayPoints
 
 public class _Strings
 {
+    public static string PetID = "PetID";
+
     public static string Velocity = "Velocity";
     public static string Jumping = "Jumping";
     public static string Idle = "Idle";

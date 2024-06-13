@@ -93,14 +93,12 @@ public class PetTrainingManager : MonoBehaviour
     #region TRAINING SELECTION UI
     public void ShowPetTrainPanel()
     {
-        petCareStateManager.isCareTaking = false;
-        petCareUIManager.ManagePetCareBtns(false);
-        cameraViewManager.SetCameraTopView();
-
         //If any training going on then can't open Pet Train Panel
         if (!ongoingTrainingPopup.activeInHierarchy || !petDataRef.petData.ongoingTrainingData.isTraining)
         {
             petTrainPanel.SetActive(true);
+            petCareStateManager.ResetPetCareTakingState();
+            cameraViewManager.SetCameraTopView();
         }
         else
         {

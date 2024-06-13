@@ -104,14 +104,12 @@ public class PetCareInputManager : MonoBehaviour
         //Walk around map
         else
         {
-            Debug.Log("Set pet moving");
             SetDestinationPointForNavigationOnHomeIsland();
         }
     }
 
     public void SetPetToIdle()
     {
-        Debug.Log("Set pet idle");
         agent.isStopped = true;
         isPlayerAutoNavigatingOnMap = false;
         SetIdleOrSickAnim();
@@ -123,6 +121,8 @@ public class PetCareInputManager : MonoBehaviour
         agent.isStopped = false;
         navmeshPos = GetRandomPointOnNavMesh(transform.position, navmeshSpawnOffset);
         petAnim._ChangeAnimationState(_AnimState.Wallk);
+
+        agent.speed = 0.5f;
         agent.SetDestination(navmeshPos);
     }
 
@@ -190,6 +190,8 @@ public class PetCareInputManager : MonoBehaviour
         agent.isStopped = false;
         isCheckForPathCompletion = true;
         petAnim._ChangeAnimationState(_AnimState.Run);
+
+        agent.speed = 1f;
         agent.SetDestination(point);
 
         this.isTrainingPoint = isTrainingPoint;
