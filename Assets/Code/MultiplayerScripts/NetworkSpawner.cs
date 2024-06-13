@@ -78,7 +78,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     #region INetworkRunnerCallbacks
     public void OnConnectedToServer(NetworkRunner runner)
     {
-        ColoredDebug.Log("OnConnectedToServer", Color.green);
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
@@ -103,7 +102,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
-        ColoredDebug.Log("OnHostMigration", Color.green);
     }
 
 
@@ -114,7 +112,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {
-        ColoredDebug.Log("OnObjectEnterAOI " + runner.name, Color.green);
     }
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
@@ -124,7 +121,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        ColoredDebug.Log("OnPlayerJoined  IsServer", Color.green);
 
 
         if (runner.IsServer)
@@ -157,7 +153,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        ColoredDebug.Log("OnPlayerLeft  " + player.PlayerId, Color.red);
 
         //_AllPlayerData p = genratedPlayers.Find(asd => asd.playerRef == player);
 

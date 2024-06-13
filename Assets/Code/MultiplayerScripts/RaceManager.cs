@@ -375,7 +375,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public int _GetMyWinningNo()
     {
         CurrntWinCount++;
-        ColoredDebug.Log("Currunt Win Number " + CurrntWinCount);
         return CurrntWinCount;
     }
 
@@ -461,7 +460,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        ColoredDebug.Log("OnPlayerJoined", Color.green);
         _SpawnPlayer(player);
         //CHECKING FOR AI PLAYER COUNT
     }
