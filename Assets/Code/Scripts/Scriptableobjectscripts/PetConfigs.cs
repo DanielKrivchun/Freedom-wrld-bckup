@@ -21,6 +21,9 @@ public class PetConfigs : ScriptableObject
     public float m_swim_multiplier;
     public float m_climb_multiplier;
     public float m_fly_multiplier;
+    [Space]
+    public int MyCoins;
+    public int MyXp;
     [Header("Player State")]
     public _Playertate m_player_state;
 

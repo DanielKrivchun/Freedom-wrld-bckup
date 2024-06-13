@@ -53,6 +53,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public int TotalNumberOfPlayers;
     public int AIplayersCount;
     public int CompletePlayerCount;
+    public int MyWinNumber;
     public string LocalPlayerNickname { get; private set; }
     [Space]
     public List<_AllPlayerData> GenratedPlayers;
@@ -75,14 +76,18 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     private float match_start_timer;
     private NetworkRunner networkRunnerInstance;
-    #endregion
-
-    public static RaceManager instance;
 
     private string selected_region = "";
     private int hours;
     private int minutes;
     private int seconds;
+
+
+    #endregion
+
+    public static RaceManager instance;
+
+    #region UNITY METHODS
 
     private void Awake()
     {
@@ -95,6 +100,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             Destroy(this.gameObject);
         }
     }
+    #endregion
 
     #region AFK KICKING
     void Update()
@@ -138,11 +144,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
+    #region GAME START AND MATCHMAKING
     public const string ELO_PROP_KEY = "C0";
     public const string MAP_PROP_KEY = "C1";
-
-    #region GAME START AND MATCHMAKING
-
     private void _OnWInNumberAlocated()
     {
         gamestarttimer.text = "Game Will Start In :" + TimeLeft;
@@ -267,9 +271,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
-
     #region PLAYER SYNC
-
     public _PlayerConfigs _GetMyCOnfigs()
     {
 
@@ -283,11 +285,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         P.luck = petdataref.petData.luck;
         P.rank = petdataref.petData.rank;
         P.maxStamina = petdataref.petData.maxStamina;
-
+        P.mycoins = MyCoins;
+        P.xp = MyXP;
         return P;
     }
 
     #endregion
+
+    #region ON RACE COMPLETE
 
     public void _CheckAllPlayerCompleted()
     {
@@ -323,23 +328,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             }
 
             NetwrokUI.Instance._SetupList(_ss);
-
+            _XpIncrimental(MyWinNumber);
         }
-    }
-
-    public void _StartGameForPlayers()
-    {
-        Debug.Log("_StartGameForPlayers");
-        NetworkEventManager._EventStartGame();
-        InputValue.m_enable_navmesh = true;
-    }
-
-    #region WIN LOGIC
-    public int _GetMyWinningNo()
-    {
-        CurrntWinCount++;
-        ColoredDebug.Log("Currunt Win Number " + CurrntWinCount);
-        return CurrntWinCount;
     }
 
     public void _XpIncrimental(int _mywinno)
@@ -369,6 +359,27 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         //ADD COINS FROM BeamableInventoryManager AddCurrency
     }
+
+    #endregion
+
+    #region ON RACE STARTS
+    public void _StartGameForPlayers()
+    {
+        Debug.Log("_StartGameForPlayers");
+        NetworkEventManager._EventStartGame();
+        InputValue.m_enable_navmesh = true;
+    }
+    #endregion
+
+    #region WIN LOGIC
+    public int _GetMyWinningNo()
+    {
+        CurrntWinCount++;
+        ColoredDebug.Log("Currunt Win Number " + CurrntWinCount);
+        return CurrntWinCount;
+    }
+
+
     #endregion
 
     #region PLAYER SPWANR
@@ -484,32 +495,26 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
-        //throw new NotImplementedException();
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
-        //throw new NotImplementedException();
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-        //throw new NotImplementedException();
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
     {
-        //throw new NotImplementedException();
     }
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        //throw new NotImplementedException();
     }
 
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
     {
-        //throw new NotImplementedException();
     }
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)

@@ -103,13 +103,11 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
 
             //RPC FOR SENDING CONFIGS
-
             string s = JsonUtility.ToJson(RaceManager.instance._GetMyCOnfigs());
 
             Debug.Log(s);
 
             RPC_GetMyConfigs(s);
-
 
             nameText.text = playerName.ToString();
             gameObject.name = MyName.ToString();
@@ -145,13 +143,21 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         PetConfigs.m_swim_multiplier = playerconfigs.swimming;
         PetConfigs.m_climb_multiplier = playerconfigs.climbing;
         PetConfigs.m_fly_multiplier = playerconfigs.flying;
+        PetConfigs.MyXp = (int)playerconfigs.xp;
+        PetConfigs.MyCoins = playerconfigs.mycoins;
+
+        RaceManager.instance.MyXP = PetConfigs.MyXp;
+        RaceManager.instance.MyCoins = PetConfigs.MyCoins;
+
+
+
         PetConfigs.Speed = _GetMySpeed(playerconfigs.running);
     }
 
     float _GetMySpeed(float _value)
     {
-        //return (1 + (_value / 100f));
-        return 10f;
+        return (1 + (_value / 100f));
+        //return 10f;
     }
 
     #endregion
@@ -218,7 +224,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #endregion
 
     #region WIN LOGC 
-
     private IEnumerator SetMyWinPosition()
     {
         Debug.Log("SetMyWinPosition " + MyName);
@@ -244,6 +249,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             NetwrokUI.Instance.WinUI.SetActive(true);
             NetworkCamera.Instance._ActiveWinScene();
             _ChangeAnimationHere(_AnimState.Jump);
+            RaceManager.instance.MyWinNumber = MyWiningNumber;
         }
         else
         {
@@ -281,7 +287,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             Debug.Log(MyPathNumber);
             _InitilizePath();
-            _SetDestination(_GetNextPos(move_positions[m_currunt_index]));
+            m_currunt_pos = _GetNextPos(move_positions[m_currunt_index]);
+            _SetDestination();
         }
         else
         {
@@ -355,8 +362,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
 
         //Calculate all path here
-        m_currunt_pos = move_positions[m_currunt_index];
-        _SetDestination(_GetNextPos(m_currunt_pos));
+        m_currunt_pos = _GetNextPos(move_positions[m_currunt_index]);
+        _SetDestination();
     }
     /// <summary>
     /// Initilize path
@@ -368,10 +375,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         move_positions = path_point.prePositions[MyPathNumber].m_positions;
     }
 
-    public void _SetDestination(Vector3 _target_pos)
+    public void _SetDestination()
     {
-        m_currunt_pos = _target_pos;
-        m_agent.SetDestination(m_currunt_pos);
+        NavMeshPath path = new NavMeshPath();
+        NavMesh.CalculatePath(m_agent.transform.position, m_currunt_pos, NavMesh.AllAreas, path);
+        m_agent.SetPath(path);
+        //m_currunt_pos = _target_pos;
+        //m_agent.SetDestination(m_currunt_pos);
     }
 
     void _CalculateDistance()
@@ -474,5 +484,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 public class _PlayerConfigs
 {
     //Athletics Stats
-    public int running, climbing, flying, swimming, intelligence, luck, rank, maxStamina;
+    public int running, climbing, flying, swimming, intelligence, luck, rank, maxStamina, mycoins;
+    public float xp;
 }
