@@ -430,8 +430,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         _SetMyConfigs();
     }
 
-
-
     void _OnRecivedRPC()
     {
         Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);

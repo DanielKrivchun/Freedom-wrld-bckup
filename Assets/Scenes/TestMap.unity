@@ -26705,9 +26705,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_arrow: {fileID: 926774166}
   m_clicking: 0
-  m_speed: 15
-  m_speedd: 15
+  DowngradeSpeed: 5
+  UpwordSpeed: 2
   m_reset_t: 0.5
+  Incrimental: 0.3
+  Decrimental: 0.1
+  value: 0
 --- !u!4 &384342717
 Transform:
   m_ObjectHideFlags: 0
