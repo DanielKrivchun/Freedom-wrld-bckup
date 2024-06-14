@@ -9,7 +9,7 @@ public class PetCareObjectManager : MonoBehaviour
     public PetCareCameraViewManager cameraViewManager;
 
     [Header("Happy")]
-    public CharacterController characterController;
+    [SerializeField] CharacterController characterController;
 
     [Header("Eat")]
     public GameObject eatObjectHolder;
@@ -23,7 +23,6 @@ public class PetCareObjectManager : MonoBehaviour
     [Header("Sleep")]
     public GameObject sleepCanvas;
     public Transform sleepPoint;
-    public SleepManager sleepManager;
 
     #region MANAGE PET CARE OBJECTS
     public void ManagePetCareObjects(PetCareState state)
