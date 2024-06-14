@@ -48,6 +48,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     private NavMeshHit hit;
     private Vector3 finalPosition;
+    private Vector3 WinPosition = Vector3.zero;
     #endregion
 
     #region NETWORKED OBJECTS
@@ -238,8 +239,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         yield return new WaitForSecondsRealtime(0.2f);
         int temp = MyWiningNumber - 1;
         Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-        Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
-        networkTransform.Teleport(pos, Q);
+        //Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
+        WinPosition = pos;
+        //networkTransform.Teleport(pos, Q);
         yield return new WaitForEndOfFrame();
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
         _ChangeAnimationHere(_AnimState.Jump);
@@ -326,6 +328,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             NetworkedSetTap = input.TapMultiplier;
             MyNetworkSpeed = input.Speed;
+            WinPosition = input.direction;
+
+            if (RaceComplete)
+            {
+                transform.position = input.direction;
+            }
+
         }
 
         if (!IsServer || RaceComplete)
@@ -354,7 +363,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         NetworkInputData data = new NetworkInputData();
         data.TapMultiplier = PetConfigs.TapMultiplier;
         data.Speed = MySpeed;
-        data.direction = Vector2.zero;
+        data.direction = WinPosition;
         return data; // then we will return the data.
     }
     #endregion
