@@ -29,6 +29,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public List<Vector3> move_positions;
     [Space]
     public _PlayerConfigs playerconfigs;
+    [Space]
+    public float MySpeed;
+    public float TapMultiplier = 1f;
+    public float MyStamina;
     #endregion
 
     #region Private variables
@@ -52,7 +56,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public int MyWiningNumber { get; set; }
 
     private NetworkTransform networkTransform;
-    private float TapMultiplier = 1f;
 
     #endregion
 
@@ -72,7 +75,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             m_agent.enabled = false;
         }
         StartCoroutine(_GenrateMyPrefab());
-        //ADD ME IN LIST
     }
 
     IEnumerator _GenrateMyPrefab()
@@ -80,7 +82,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         yield return new WaitForSecondsRealtime(1f);
         Debug.Log("This Choroutine Worked " + gameObject.name);
         _GenratePetPrefab();
-
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     /// </summary>
     void _SetupConfigs()
     {
-        m_agent.speed = Random.Range(3, PetConfigs.Speed);
+        m_agent.speed = Random.Range(3, PetConfigs.BaseSpeed);
         m_agent.acceleration = Random.Range(15, PetConfigs.Acceleration);
     }
 
@@ -151,7 +152,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
 
 
-        PetConfigs.Speed = _GetMySpeed(playerconfigs.running);
+        PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.running);
     }
 
     float _GetMySpeed(float _value)
@@ -185,19 +186,19 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 case _Tags.Water:
 
                     _ChangeAnimationHere(_AnimState.Swimming);
-                    PetConfigs.Speed = _GetMySpeed(playerconfigs.swimming);
+                    PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.swimming);
                     break;
                 case _Tags.Flying:
                     _ChangeAnimationHere(_AnimState.Flying);
-                    PetConfigs.Speed = _GetMySpeed(playerconfigs.flying);
+                    PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.flying);
                     break;
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
-                    PetConfigs.Speed = _GetMySpeed(playerconfigs.running);
+                    PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.running);
                     break;
                 case _Tags.Climbing:
                     _ChangeAnimationHere(_AnimState.Climbing);
-                    PetConfigs.Speed = _GetMySpeed(playerconfigs.climbing);
+                    PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.climbing);
                     break;
 
             }
@@ -328,8 +329,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
-        PetConfigs.Speed = PetConfigs.Speed * (TapMultiplier);
-        m_agent.speed = PetConfigs.Speed;
+        PetConfigs.BaseSpeed = PetConfigs.BaseSpeed * (TapMultiplier);
+        m_agent.speed = PetConfigs.BaseSpeed;
 
         //FIND DISTNACE HERE
         _CalculateDistance();

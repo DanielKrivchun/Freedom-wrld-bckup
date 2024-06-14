@@ -14,7 +14,7 @@ public class PetConfigs : ScriptableObject
     [Space]
     [Header("NAV MESH CONFIGS")]
     [Header("Stearing")]
-    public float Speed;
+    public float BaseSpeed;
     public float Acceleration;
     [Header("BOOSTERS Multipler")]
     public float m_run_multiplier;
