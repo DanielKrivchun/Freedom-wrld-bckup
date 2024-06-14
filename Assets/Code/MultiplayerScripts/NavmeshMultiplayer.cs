@@ -421,7 +421,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         _OnRecivedRPC();
     }
 
-    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     private void RPC_GetMyConfigs(string _json)
     {
         Debug.Log("I am sending RPC");
