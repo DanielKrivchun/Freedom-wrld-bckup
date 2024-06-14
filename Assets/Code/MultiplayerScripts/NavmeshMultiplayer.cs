@@ -41,6 +41,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public bool IsServer;
     public bool IsLocalPlayer;
     public bool RaceComplete;
+    [Space]
+    public float NetworkedSetTap;
 
     private NavMeshHit hit;
     private Vector3 finalPosition;
@@ -53,6 +55,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
+
 
     private NetworkTransform networkTransform;
 
@@ -319,7 +322,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var input)) // // this out keyword will find PlayerData script and assign the value all the information from that script and put it into input variable.
         {
-            //Debug.Log("RIGID BODY  " + input.TapMultiplier);
+            NetworkedSetTap = input.TapMultiplier;
         }
 
         if (!IsServer || RaceComplete)
@@ -329,7 +332,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
-        MySpeed = MySpeed * PetConfigs.TapMultiplier;
+        MySpeed = MySpeed * NetworkedSetTap;
         m_agent.speed = MySpeed;
 
         //FIND DISTNACE HERE
@@ -466,13 +469,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
     }
 
-    //public void BeforeUpdate()
-    //{
-    //    if (Utils.IsLocalPlayer(Object))
-    //    {
-    //        PetConfigs.TapMultiplier
-    //    }
-    //}
+    public void BeforeUpdate()
+    {
+        //if (Utils.IsLocalPlayer(Object))
+        //{
+        //    //PetConfigs.TapMultiplier
+        //}
+    }
 
     #endregion
 }
