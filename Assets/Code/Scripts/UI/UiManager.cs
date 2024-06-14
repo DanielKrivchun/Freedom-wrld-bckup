@@ -1,21 +1,28 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    private int clickCount = 0;
-    private float startTime;
-
     private float m_diff;
 
     float m_last_time = 0;
     float m_currunt_time = 0;
 
     [Space]
+    public GameObject InGmmeUI;
     public RectTransform m_arrow;
+    [Space]
+    public Image Filler;
+    [Space]
+    public PetConfigs PetConfigs;
+
+    public float MyStemina;
+    public float CurrnutStemina;
 
     private Vector2 m_initial_pos;
     //MAX POSITION WILL GO HERE
@@ -28,6 +35,14 @@ public class UiManager : MonoBehaviour
     public float DowngradeSpeed;
     public float UpwordSpeed;
     [Space]
+    public float SteminaDrain;
+
+
+    private float red_drain = 0.005f;
+    private float yellow_drain = 0f;
+    private float greem_drain = 0.01f;
+
+    [Space]
     public float m_reset_t;
 
     [Space]
@@ -35,37 +50,82 @@ public class UiManager : MonoBehaviour
     public float Decrimental;
     [Space]
     public float value = 0;
+    [Space]
+    public Button TapButton;
 
+
+    private float ypos;
 
     private float m_reset;
+
+
+    public bool GameStarted;
+
+
+    private float FillAmount;
+    private void OnEnable()
+    {
+        TapButton.onClick.AddListener(_Tap);
+        NetworkEventManager.e_config_updated += _ConfigUodated;
+        NetworkEventManager.e_get_set_go += _StartStaminaBar;
+        NetworkEventManager.e_win_event += _OnWon;
+    }
+
+    private void OnDisable()
+    {
+        TapButton.onClick.RemoveListener(_Tap);
+        NetworkEventManager.e_config_updated -= _ConfigUodated;
+        NetworkEventManager.e_get_set_go -= _StartStaminaBar;
+        NetworkEventManager.e_win_event -= _OnWon;
+    }
+
+    private void _OnWon(int _no)
+    {
+        GameStarted = false;
+        InGmmeUI.SetActive(false);
+    }
+
+    private void _ConfigUodated()
+    {
+        //Calculate max stemina here
+        MyStemina = PetConfigs.maxstemina;
+        CurrnutStemina = MyStemina;
+        Debug.Log("_ConfigUodated");
+    }
+
+    private void _StartStaminaBar()
+    {
+        GameStarted = true;
+        InGmmeUI.SetActive(true);
+    }
+
+    private void _Tap()
+    {
+        m_reset = 0f;
+        m_clicking = true;
+        m_currunt_time = Time.time;
+        m_diff = m_currunt_time - m_last_time;
+        m_last_time = m_currunt_time;
+    }
+
     private void Start()
     {
         m_pos = m_arrow.anchoredPosition;
         m_last_time = Time.time;
         m_currunt_time = Time.time;
-
         m_initial_pos = m_arrow.anchoredPosition;
-
     }
 
     private void Update()
     {
+
+        if (!GameStarted) return;
+
         m_reset += Time.deltaTime;
         if (m_reset > m_reset_t)
         {
             m_clicking = false;
         }
-
-        if (Input.GetMouseButtonDown(0)) // Check for left mouse button click
-        {
-            m_reset = 0f;
-            m_clicking = true;
-            m_currunt_time = Time.time;
-            m_diff = m_currunt_time - m_last_time;
-            m_last_time = m_currunt_time;
-        }
-
-        //_ChckClcker();
 
         if (m_clicking)
         {
@@ -77,11 +137,24 @@ public class UiManager : MonoBehaviour
             _MoveArrowToInitialPos();
         }
 
+        if (GameStarted)
+        {
+            _SteminaChanges();
+        }
     }
+
+    void _SteminaChanges()
+    {
+        CurrnutStemina -= SteminaDrain;
+        FillAmount = ((100f * CurrnutStemina) / MyStemina) / 100f;
+        Filler.fillAmount = FillAmount;
+    }
+
+
 
     void _ChckClcker()
     {
-        if (Input.GetMouseButtonDown(0)) // Check for left mouse button click
+        if (Input.GetMouseButtonDown(0))
         {
             m_reset = 0f;
             m_clicking = true;
@@ -107,6 +180,38 @@ public class UiManager : MonoBehaviour
         //Debug.Log(m_diff + "               " + m_pos.y);
         m_arrow.anchoredPosition = Vector2.Lerp(m_arrow.anchoredPosition, m_pos, UpwordSpeed * Time.deltaTime);
         //m_arrow.DOAnchorPos(m_pos, m_diff);
+
+        ypos = m_arrow.anchoredPosition.y;
+
+        if (ypos >= -600f && ypos < -460f)
+        {
+            //Debug.Log("Bottom Red");
+            SteminaDrain = red_drain;
+            return;
+        }
+
+        if (ypos >= -460f && ypos < -290f)
+        {
+            //Debug.Log("Yellow Red");
+            SteminaDrain = yellow_drain;
+            return;
+        }
+
+        if (ypos > -290f && ypos < -160f)
+        {
+            //Debug.Log("Green Red");
+            SteminaDrain = greem_drain;
+            return;
+        }
+
+        if (ypos > -160f && ypos < 0f)
+        {
+            //Debug.Log("Top Red");
+            SteminaDrain = red_drain;
+            return;
+        }
+
+
     }
 
 }

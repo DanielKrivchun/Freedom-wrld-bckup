@@ -26703,14 +26703,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016c6170ff00c9147a8f9ccca8e5f584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InGmmeUI: {fileID: 1251572673}
   m_arrow: {fileID: 926774166}
+  Filler: {fileID: 1800517816}
+  PetConfigs: {fileID: 11400000, guid: 2726ba940c4abc448a48f08f07cc4bb2, type: 2}
+  MyStemina: 50
+  CurrnutStemina: 0
   m_clicking: 0
   DowngradeSpeed: 5
   UpwordSpeed: 2
+  SteminaDrain: 0.005
   m_reset_t: 0.5
   Incrimental: 0.3
   Decrimental: 0.1
   value: 0
+  TapButton: {fileID: 954603310}
+  GameStarted: 0
 --- !u!4 &384342717
 Transform:
   m_ObjectHideFlags: 0
@@ -55019,7 +55027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -126.9, y: -580}
+  m_AnchoredPosition: {x: -126.9, y: -577}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &926774167
@@ -66210,7 +66218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1231343760
 RectTransform:
   m_ObjectHideFlags: 0
@@ -67005,7 +67013,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1251572674
 RectTransform:
   m_ObjectHideFlags: 0

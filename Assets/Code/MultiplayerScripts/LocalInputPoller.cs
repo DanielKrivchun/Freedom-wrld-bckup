@@ -20,11 +20,11 @@ public class LocalInputPoller : NetworkBehaviour, INetworkRunnerCallbacks
     }
 
     //Only if local we get input callback, no need to check
-    public void OnInput(NetworkRunner runner, NetworkInput input) // en önemli metot ınput için
+    public void OnInput(NetworkRunner runner, NetworkInput input) 
     {
         if (runner != null && runner.IsRunning)
         {
-            var data = player.GetPlayerNetworkInput(); // playerda çektiğimiz dataya buradan ulaştık
+            var data = player.GetPlayerNetworkInput();
             input.Set(data);
         }
     }

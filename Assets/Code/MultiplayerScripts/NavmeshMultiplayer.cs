@@ -31,7 +31,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public _PlayerConfigs playerconfigs;
     [Space]
     public float MySpeed;
-    public float TapMultiplier = 1f;
     public float MyStamina;
     #endregion
 
@@ -146,14 +145,17 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         PetConfigs.m_fly_multiplier = playerconfigs.flying;
         PetConfigs.MyXp = (int)playerconfigs.xp;
         PetConfigs.MyCoins = playerconfigs.mycoins;
+        PetConfigs.maxstemina = playerconfigs.maxStamina;
 
         RaceManager.instance.MyXP = PetConfigs.MyXp;
         RaceManager.instance.MyCoins = PetConfigs.MyCoins;
 
-        MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.running);
+        MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.running);
+
+        NetworkEventManager._EventConfigUpdated();
     }
 
-    float _GetMySpeed(float _value)
+    float _GetMyStateMultiplier(float _value)
     {
         return (1 + (_value / 100f));
         //return 10f;
@@ -184,19 +186,19 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 case _Tags.Water:
 
                     _ChangeAnimationHere(_AnimState.Swimming);
-                    MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.swimming);
+                    MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.swimming);
                     break;
                 case _Tags.Flying:
                     _ChangeAnimationHere(_AnimState.Flying);
-                    MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.flying);
+                    MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.flying);
                     break;
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
-                    MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.running);
+                    MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.running);
                     break;
                 case _Tags.Climbing:
                     _ChangeAnimationHere(_AnimState.Climbing);
-                    MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.climbing);
+                    MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.climbing);
                     break;
 
             }
@@ -327,7 +329,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
-        MySpeed += TapMultiplier;
+        MySpeed = MySpeed * PetConfigs.TapMultiplier;
         m_agent.speed = MySpeed;
 
         //FIND DISTNACE HERE
@@ -344,7 +346,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public NetworkInputData GetPlayerNetworkInput() // playerdataları işlediğimiz yer. Buraya değerleri gönderiyuz FUN da alıyoruz.
     {
         NetworkInputData data = new NetworkInputData();
-        data.TapMultiplier = TapMultiplier; // datadaki horizontol input equals to our local variable input
+        data.TapMultiplier = PetConfigs.TapMultiplier; // datadaki horizontol input equals to our local variable input
         data.direction = Vector2.zero;
         return data; // then we will return the data.
     }
@@ -379,8 +381,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         NavMeshPath path = new NavMeshPath();
         NavMesh.CalculatePath(m_agent.transform.position, m_currunt_pos, NavMesh.AllAreas, path);
         m_agent.SetPath(path);
-        //m_currunt_pos = _target_pos;
-        //m_agent.SetDestination(m_currunt_pos);
     }
 
     void _CalculateDistance()
@@ -466,13 +466,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
     }
 
-    public void BeforeUpdate()
-    {
-        if (Utils.IsLocalPlayer(Object))
-        {
-            TapMultiplier = 1f;
-        }
-    }
+    //public void BeforeUpdate()
+    //{
+    //    if (Utils.IsLocalPlayer(Object))
+    //    {
+    //        PetConfigs.TapMultiplier
+    //    }
+    //}
 
     #endregion
 }

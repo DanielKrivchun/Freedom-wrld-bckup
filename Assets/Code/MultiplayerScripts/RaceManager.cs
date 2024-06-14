@@ -391,8 +391,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         CurrntWinCount++;
         return CurrntWinCount;
     }
-
-
     #endregion
 
     #region PLAYER SPWANR

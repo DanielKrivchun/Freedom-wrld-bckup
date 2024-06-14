@@ -24,6 +24,10 @@ public class PetConfigs : ScriptableObject
     [Space]
     public int MyCoins;
     public int MyXp;
+    [Space]
+    public float maxstemina;
+    [Space]
+    public float TapMultiplier;
     [Header("Player State")]
     public _Playertate m_player_state;
 

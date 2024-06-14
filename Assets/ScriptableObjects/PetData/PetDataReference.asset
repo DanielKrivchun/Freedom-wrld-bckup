@@ -13,42 +13,37 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: v
-    health: 602
-    happiness: 100
-    hunger: 75
-    cleanliness: 100
+    petname: ksk
+    petPrefabID: 1
+    health: 593
+    happiness: 93
+    hunger: 85
+    cleanliness: 95
     energy: 90
     isSick: 0
-    birthTime: 6/13/2024 4:01:41 PM
-    lastTimeHappy: 6/13/2024 4:56:18 PM
-    lastTimeFeed: 6/13/2024 4:57:09 PM
-    lastTimeClean: 6/13/2024 4:56:18 PM
-    lastTimeEnergy: 6/13/2024 4:56:18 PM
-    lastLoginTime: 6/13/2024 4:01:41 PM
-    running: 10
-    climbing: 10
-    flying: 10
-    swimming: 16
+    birthTime: 14-06-2024 09:50:53
+    lastTimeHappy: 14-06-2024 11:12:06
+    lastTimeFeed: 14-06-2024 11:12:06
+    lastTimeClean: 14-06-2024 11:12:06
+    lastTimeEnergy: 14-06-2024 11:12:06
+    lastLoginTime: 14-06-2024 09:50:53
+    running: 50
+    climbing: 40
+    flying: 30
+    swimming: 25
     intelligence: 2
     luck: 2
-    rank: 2
-    maxStamina: 110
-    xp: 900
+    rank: 1
+    maxStamina: 100
+    xp: 0
     sleepData:
       isSleeping: 0
       sleepStartTime: 
-    foodData:
-    - foodName: 2
-      foodCount: 1
-    - foodName: 2
-      foodCount: 1
-    - foodName: 1
-      foodCount: 1
+    foodData: []
     ongoingTrainingData:
       isTraining: 0
       ongoingTraining: 0
-      ongoingTrainingName: None
-      trainingStartTime: 6/13/2024 4:43:49 PM
+      ongoingTrainingName: 
+      trainingStartTime: 
   petLocalData:
     petID: 1
