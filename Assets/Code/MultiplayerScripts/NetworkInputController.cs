@@ -10,6 +10,7 @@ public class NetworkInputController : MonoBehaviour
 public struct NetworkInputData : INetworkInput
 {
     public float TapMultiplier;
+    public float Speed;
     public Vector2 direction;
 }
 

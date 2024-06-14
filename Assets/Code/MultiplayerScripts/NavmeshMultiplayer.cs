@@ -43,6 +43,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public bool RaceComplete;
     [Space]
     public float NetworkedSetTap;
+    public float MyNetworkSpeed;
 
     private NavMeshHit hit;
     private Vector3 finalPosition;
@@ -105,11 +106,11 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             MyName = playerName.ToString();
             RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
 
+            _SetMyConfigs();
+
             //RPC FOR SENDING CONFIGS
             string s = JsonUtility.ToJson(RaceManager.instance._GetMyCOnfigs());
-
             Debug.Log(s);
-
             RPC_GetMyConfigs(s);
 
             nameText.text = playerName.ToString();
@@ -261,7 +262,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             Debug.Log("Chaning animation for all other " + MyName);
             _ChangeAnimationHere(_AnimState.Jump);
         }
-
         RaceManager.instance._CheckAllPlayerCompleted();
 
     }
@@ -320,9 +320,11 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             return;
         }
 
+
         if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var input)) // // this out keyword will find PlayerData script and assign the value all the information from that script and put it into input variable.
         {
             NetworkedSetTap = input.TapMultiplier;
+            MyNetworkSpeed = input.Speed;
         }
 
         if (!IsServer || RaceComplete)
@@ -332,8 +334,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
-        MySpeed = MySpeed * NetworkedSetTap;
-        m_agent.speed = MySpeed;
+
+        m_agent.speed = MyNetworkSpeed * NetworkedSetTap;
 
         //FIND DISTNACE HERE
         _CalculateDistance();
@@ -349,7 +351,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public NetworkInputData GetPlayerNetworkInput() // playerdataları işlediğimiz yer. Buraya değerleri gönderiyuz FUN da alıyoruz.
     {
         NetworkInputData data = new NetworkInputData();
-        data.TapMultiplier = PetConfigs.TapMultiplier; // datadaki horizontol input equals to our local variable input
+        data.TapMultiplier = PetConfigs.TapMultiplier;
+        data.Speed = MySpeed;
         data.direction = Vector2.zero;
         return data; // then we will return the data.
     }

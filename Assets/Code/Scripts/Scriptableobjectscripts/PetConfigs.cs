@@ -14,6 +14,7 @@ public class PetConfigs : ScriptableObject
     [Space]
     [Header("NAV MESH CONFIGS")]
     [Header("Stearing")]
+    //Default will be 1
     public float BaseSpeed;
     public float Acceleration;
     [Header("BOOSTERS Multipler")]
@@ -25,6 +26,7 @@ public class PetConfigs : ScriptableObject
     public int MyCoins;
     public int MyXp;
     [Space]
+    //2X drain 
     public float maxstemina;
     [Space]
     public float TapMultiplier;

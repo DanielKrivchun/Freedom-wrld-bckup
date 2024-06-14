@@ -16,12 +16,14 @@ MonoBehaviour:
   m_acceleration: 10
   m_rotationspeed: 500
   m_speed: 12.19
-  BaseSpeed: 5
+  BaseSpeed: 1
   Acceleration: 20
-  m_run_multiplier: 25
-  m_swim_multiplier: 22
-  m_climb_multiplier: 18
-  m_fly_multiplier: 10
+  m_run_multiplier: 50
+  m_swim_multiplier: 25
+  m_climb_multiplier: 40
+  m_fly_multiplier: 30
   MyCoins: 0
   MyXp: 0
+  maxstemina: 100
+  TapMultiplier: 1.5
   m_player_state: 0
