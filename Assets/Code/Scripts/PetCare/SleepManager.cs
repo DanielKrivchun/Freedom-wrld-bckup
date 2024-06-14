@@ -53,9 +53,6 @@ public class SleepManager : MonoBehaviour
             petCareStateManager.petDataRef.petData.hunger > 10)
         {
             sleepBtn.enabled = false;
-            petCareStateManager.StopIdleTimer();
-            PetCareUIManager.instance.ManagePetCareBtns(false);
-
             particleEffectsManager.StartSleepEffect();
             PetCareInputManager.instance.SetPetToInsideHomeOnSleepStart();
 
@@ -64,6 +61,9 @@ public class SleepManager : MonoBehaviour
 
             petCareStateManager.petDataRef.petData.sleepData.isSleeping = true;
             getServerTime.GetCurrentTime(timeNow => { petCareStateManager.petDataRef.petData.sleepData.sleepStartTime = timeNow.ToString(); });
+
+            petCareStateManager.StopIdleTimer();
+            PetCareUIManager.instance.ManagePetCareBtns(false);
         }
         else
         {

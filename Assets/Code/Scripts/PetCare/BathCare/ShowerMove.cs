@@ -5,12 +5,12 @@ using UnityEngine;
 public class ShowerMove : MonoBehaviour
 {
     [Header("Shower Line Joints")]
-    public LineRenderer lineRenderer;
-    public List<Transform> jointTransform;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private List<Transform> jointTransform;
 
     [Header("Shower Movement")]
-    public float xOffset;
-    public float yOffset;
+    [SerializeField] private float xOffset;
+    [SerializeField] private float yOffset;
 
     [Space]
     public GameObject colliderDetector;

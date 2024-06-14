@@ -5,28 +5,21 @@ using UnityEngine;
 public class ParticleEffectsManager : MonoBehaviour
 {
     [Header("Pet Care Effects")]
-    [SerializeField]
-    ParticleSystem happyEffect;
+    [SerializeField] ParticleSystem happyEffect;
 
-    [SerializeField]
-    ParticleSystem sleepEffect;
+    [SerializeField] ParticleSystem sleepEffect;
 
     [Space]
-    [SerializeField]
-    List<ParticleSystem> foamBubbleEffects;
+    [SerializeField] List<ParticleSystem> foamBubbleEffects;
 
     [Header("Pet Training Effects")]
-    [SerializeField]
-    ParticleSystem runningDirtEffect;
+    [SerializeField] ParticleSystem runningDirtEffect;
 
-    [SerializeField]
-    ParticleSystem swimmingWaterSplashEffect;
+    [SerializeField] ParticleSystem swimmingWaterSplashEffect;
 
-    [SerializeField]
-    ParticleSystem flyingWindEffect;
+    [SerializeField] ParticleSystem flyingWindEffect;
 
-    [SerializeField]
-    ParticleSystem puzzleEffect;
+    [SerializeField] ParticleSystem puzzleEffect;
 
     [HideInInspector]
     public int numOfFoamBubbles = 0;

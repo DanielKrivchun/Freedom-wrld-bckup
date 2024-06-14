@@ -22,18 +22,16 @@ public class PetCareStateManager : MonoBehaviour
     public PrefabHolder petPrefabs;
 
     [Space]
+    [SerializeField] Transform player;
     public PetCareState selectedPetCareState;
 
     [Space]
-    public Transform player;
-
-    [Space]
-    public FoodObjectHolder foodObjectHolder;
-    public List<Transform> foodSpawnTransforms;
+    [SerializeField] FoodObjectHolder foodObjectHolder;
+    [SerializeField] List<Transform> foodSpawnTransforms;
 
     [Header("Pet Stat Data")]
     public PetCareStatData petStatData;
-    public float idleTime;
+    [SerializeField] float idleTime;
 
     [Space(25)]
     [Header("Script References")]
@@ -59,12 +57,10 @@ public class PetCareStateManager : MonoBehaviour
     // Total seconds of 1 hour for hours calculation
     static float oneHourSeconds = 3600f;
 
-    private bool isFoodItemsSet = false;
-    private int foodSpawnIndex = 0;
+    private bool isFoodItemsSet = false, isCheckForIdleTimer = false;
 
     private GameObject generatedFood, pet = null;
     private List<GameObject> generatedFoodItems = new List<GameObject>();
-    private bool isCheckForIdleTimer;
 
     private LeaderboardServiceClient _LeaderboardServiceClient = null;
 
@@ -341,13 +337,11 @@ public class PetCareStateManager : MonoBehaviour
 
         //Happiness
         int lostHappiness = CalculateLostStatValue(petDataRef.petData.lastTimeHappy, petStatData.happyTimeLength, petStatData.happinessTickRate);
-        Debug.Log("Lost Happiness - " + lostHappiness);
         ManageHappinessDataFiller(-lostHappiness);
 
 
         //Feed
         int lostHunger = CalculateLostStatValue(petDataRef.petData.lastTimeFeed, petStatData.hungerTimeLength, petStatData.hungerTickRate);
-        Debug.Log("Lost Hunger - " + lostHunger);
 
         //Checking Pet Death Situation
         if ((petDataRef.petData.hunger - lostHunger) <= petStatData.lowHungerThreshold)
@@ -363,7 +357,6 @@ public class PetCareStateManager : MonoBehaviour
 
         //Cleanliness
         int lostCleanliness = CalculateLostStatValue(petDataRef.petData.lastTimeClean, petStatData.cleanTimeLength, petStatData.cleanlinessTickRate);
-        Debug.Log("Lost Cleanliness - " + lostCleanliness);
 
         //Checking Pet Death Situation
         if ((petDataRef.petData.cleanliness - lostCleanliness) <= petStatData.lowCleanlinessThreshold)
@@ -388,8 +381,6 @@ public class PetCareStateManager : MonoBehaviour
 
         //Energy
         int lostEnergy = CalculateLostStatValue(petDataRef.petData.lastTimeEnergy, petStatData.energyTimeLength, petStatData.energyTickRate);
-        Debug.Log("Lost Energy - " + lostEnergy);
-
         ManageEnergyDataFiller(-lostEnergy);
 
         //Sleep
@@ -564,8 +555,6 @@ public class PetCareStateManager : MonoBehaviour
     //Checking if user is login on new day
     public bool IsUserLoginNewDay()
     {
-        //getServerTime.GetCurrentTime(timeNow => { serverTimeNow = timeNow; });
-
         if ((serverTimeNow - DateTime.Parse(petDataRef.petData.lastLoginTime)).TotalDays >= 1)
         {
             return true;
