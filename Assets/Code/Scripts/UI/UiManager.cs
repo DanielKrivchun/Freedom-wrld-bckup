@@ -48,6 +48,7 @@ public class UiManager : MonoBehaviour
         m_currunt_time = Time.time;
 
         m_initial_pos = m_arrow.anchoredPosition;
+
     }
 
     private void Update()
@@ -58,16 +59,16 @@ public class UiManager : MonoBehaviour
             m_clicking = false;
         }
 
-        //if (Input.GetMouseButtonDown(0)) // Check for left mouse button click
-        //{
-        //    m_reset = 0f;
-        //    m_clicking = true;
-        //    m_currunt_time = Time.time;
-        //    m_diff = m_currunt_time - m_last_time;
-        //    m_last_time = m_currunt_time;
-        //}
+        if (Input.GetMouseButtonDown(0)) // Check for left mouse button click
+        {
+            m_reset = 0f;
+            m_clicking = true;
+            m_currunt_time = Time.time;
+            m_diff = m_currunt_time - m_last_time;
+            m_last_time = m_currunt_time;
+        }
 
-        _ChckClcker();
+        //_ChckClcker();
 
         if (m_clicking)
         {

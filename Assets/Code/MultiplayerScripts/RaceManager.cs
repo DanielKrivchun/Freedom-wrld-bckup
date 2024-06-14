@@ -37,6 +37,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public PetDataRef petdataref;
     [Space]
+    public SceneSyncData SceneData;
+    [Space]
     public string PrefabID;
     [Space]
     public int CurrntWinCount;
@@ -99,6 +101,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             Destroy(this.gameObject);
         }
+    }
+
+    private void Start()
+    {
+        PrefabID = petdataref.petData.petPrefabID.ToString();
+        SceneData._Reset();
+
     }
     #endregion
 
@@ -286,7 +295,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         P.rank = petdataref.petData.rank;
         P.maxStamina = petdataref.petData.maxStamina;
         P.mycoins = MyCoins;
-        P.xp = MyXP;
+        P.xp = petdataref.petData.xp;
         return P;
     }
 
@@ -329,6 +338,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
             NetwrokUI.Instance._SetupList(_ss);
             _XpIncrimental(MyWinNumber);
+
+            SceneData.ShowWelcomeScreen = true;
         }
     }
 
@@ -356,6 +367,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         MyXP += newxp;
         Debug.Log(newxp);
         Debug.Log(coinstoadd);
+
+        SceneData.XpGained += newxp;
+        SceneData.CoinsGained += coinstoadd;
 
         //ADD COINS FROM BeamableInventoryManager AddCurrency
     }
