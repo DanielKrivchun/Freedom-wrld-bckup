@@ -333,7 +333,6 @@ public class PetCareStateManager : MonoBehaviour
         SpawnPetPrefab();
 
         serverTimeNow = await getServerTime.GetCurrentTimeTask();
-        Debug.Log("Server Time Now - " + serverTimeNow);
 
         //Happiness
         int lostHappiness = CalculateLostStatValue(petDataRef.petData.lastTimeHappy, petStatData.happyTimeLength, petStatData.happinessTickRate);
@@ -386,14 +385,14 @@ public class PetCareStateManager : MonoBehaviour
         //Sleep
         if (petDataRef.petData.sleepData.isSleeping)
         {
+            //Sleep time over
             if (CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.sleepData.sleepStartTime) > sleepManager.totalSleepTime)
             {
-                Debug.Log("Sleep time over");
                 ManageEnergyDataFiller(100);
             }
+            //Sleep time is not over yet
             else
             {
-                Debug.Log("Sleep Time is Not over yet");
                 sleepManager.SetSleepingTimer(CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.sleepData.sleepStartTime));
             }
         }

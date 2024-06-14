@@ -21,7 +21,7 @@ MonoBehaviour:
   hungerTimeLength: 288
   hungerTickRate: 1
   lowHungerThreshold: 10
-  lowerHungerTimeInDay: 0
+  lowerHungerTimeInDay: 7
   maxCleanliness: 100
   cleanTimeLength: 864
   cleanlinessTickRate: 1
@@ -32,5 +32,5 @@ MonoBehaviour:
   energyTickRate: 1
   lowerSleepTimeInDay: 10
   fluChance: 3
-  treasureHuntChance: 100
+  treasureHuntChance: 50
   cleanlinessTreasureHuntValue: -20

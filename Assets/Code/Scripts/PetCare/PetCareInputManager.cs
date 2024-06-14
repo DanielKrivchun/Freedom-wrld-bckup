@@ -19,23 +19,18 @@ public class PetCareInputManager : MonoBehaviour
     public PetCareCameraViewManager cameraViewManager;
 
     [Header("Running Training")]
-    //public List<Transform> runningPoints;
-    public PathCreator runningPath;
     public float runSpeed;
-    //public float runRotationSpeed;
+    public PathCreator runningPath;
 
     [Header("Swimming Training")]
-    //public List<Transform> swimmingPoints;
-    public PathCreator swimmingPath;
+    public List<Transform> swimmingPoints;
     public float swimSpeed;
-    //public float swimRotationSpeed;
+    public float swimRotationSpeed;
 
     [Header("Flying Training")]
-    //public List<Transform> flyingPoints;
-    public PathCreator flyingStartPath;
-    public PathCreator flyingPath;
+    public List<Transform> flyingPoints;
     public float flySpeed;
-    //public float flyRotationSpeed;
+    public float flyRotationSpeed;
 
     [Header("Intelligence Training")]
     public Transform intelligencePoint;
@@ -52,7 +47,7 @@ public class PetCareInputManager : MonoBehaviour
     public Animator animator;
 
     NavMeshAgent agent;
-    bool isCheckForPathCompletion = false, isTrainingPoint, isMoving, isPlayerAutoNavigatingOnMap, isRandomPoints;
+    bool isCheckForPathCompletion = false, isTrainingPoint, isMoving, isPlayerAutoNavigatingOnMap, isRandomPoints, isRunning;
 
     float moveSpeed, rotationSpeed;
 
@@ -191,10 +186,10 @@ public class PetCareInputManager : MonoBehaviour
 
         CheckForPlayerTrainingMovement();
 
-        /*if (isRunning)
+        if (isRunning)
         {
-            PeTrainingPathFollowMovement();
-        }*/
+            PetRunningTraining();
+        }
     }
 
     #region SET DESTINATION AND CHECK FOR REACHED DESTINATION
@@ -252,19 +247,23 @@ public class PetCareInputManager : MonoBehaviour
         switch (currentTraining)
         {
             case PetTraining.Running:
-                SetPetAnimationAndTrainingPath(_AnimState.Run, runningPath, runSpeed);
+                agent.enabled = false;
+                petAnim._ChangeAnimationState(_AnimState.Run);
+                isRunning = true;
+
+                //SetPetAnimationAndTrainingPoints(_AnimState.Run, runningPoints, false, runSpeed, runRotationSpeed);
                 particleEffectsManager.StartRunningDirtEffect();
                 cameraViewManager.SetCameraRunningTrainingView();
                 break;
 
             case PetTraining.Swimming:
-                SetPetAnimationAndTrainingPath(_AnimState.Swimming, swimmingPath, swimSpeed);
+                SetPetAnimationAndTrainingPoints(_AnimState.Swimming, swimmingPoints, true, swimSpeed, swimRotationSpeed);
                 particleEffectsManager.StartSwimmingWaterSplashEffect();
                 cameraViewManager.SetCameraSwimmingTrainingView();
                 break;
 
             case PetTraining.Flying:
-                SetPetAnimationAndTrainingPath(_AnimState.Flying, flyingPath, flySpeed);
+                SetPetAnimationAndTrainingPoints(_AnimState.Flying, flyingPoints, false, flySpeed, flyRotationSpeed);
                 particleEffectsManager.StartFlyingWindEffect();
                 break;
 
@@ -282,45 +281,31 @@ public class PetCareInputManager : MonoBehaviour
         }
     }
 
-    void PetStartTrainingMovement()
-    {
-        isMoving = true;
-        distanceTravelled += moveSpeed * Time.deltaTime;
-        transform.position = currentPath.path.GetPointAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
-        transform.rotation = currentPath.path.GetRotationAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
-
-        
-    }
-
     //Path follow for running training
-    void PeTrainingPathFollowMovement()
+    void PetRunningTraining()
     {
-        isMoving = true;
-        distanceTravelled += moveSpeed * Time.deltaTime;
-        transform.position = currentPath.path.GetPointAtDistance(distanceTravelled, EndOfPathInstruction.Loop);
-        transform.rotation = currentPath.path.GetRotationAtDistance(distanceTravelled, EndOfPathInstruction.Loop);
+        distanceTravelled += runSpeed * Time.deltaTime;
+        transform.position = runningPath.path.GetPointAtDistance(distanceTravelled, EndOfPathInstruction.Loop);
+        transform.rotation = runningPath.path.GetRotationAtDistance(distanceTravelled, EndOfPathInstruction.Loop);
     }
 
     //Setting training animation, speed and path points
-    void SetPetAnimationAndTrainingPath(_AnimState animState, PathCreator trainingPath, float moveSpeed)
+    void SetPetAnimationAndTrainingPoints(_AnimState animState, List<Transform> points, bool isMoveOnRandomPoints, float moveSpeed, float rotationSpeed)
     {
         //animation
         agent.enabled = false;
         petAnim._ChangeAnimationState(animState);
 
-        //Path & Speed
-        currentPath = trainingPath;
+        //speed
         this.moveSpeed = moveSpeed;
-
-        isMoving = true;
-        /*this.rotationSpeed = rotationSpeed;
+        this.rotationSpeed = rotationSpeed;
 
         //path points
         trainingPoints = points;
         isRandomPoints = isMoveOnRandomPoints;
         pointIndex = 0;
 
-        MoveToTrainingPathPoints();*/
+        MoveToTrainingPathPoints();
     }
 
     //Training movement
@@ -328,11 +313,16 @@ public class PetCareInputManager : MonoBehaviour
     {
         if (isMoving)
         {
-            PeTrainingPathFollowMovement();
+            PetMovingWithLookAtTarget(targetPoint.position);
+
+            if (Vector3.Distance(transform.position, targetPoint.position) < 0.1f)
+            {
+                MoveToTrainingPathPoints();
+            }
         }
     }
 
-    /*private void MoveToTrainingPathPoints()
+    private void MoveToTrainingPathPoints()
     {
         // Select a random point from the list
         if (isRandomPoints)
@@ -364,24 +354,25 @@ public class PetCareInputManager : MonoBehaviour
         Vector3 direction = (targetPos - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-    }*/
+    }
 
     //This is for when user back to app and training is going on
     public void StartNavigatingPlayerAroundTrainingPath(PetTraining currentTraining)
     {
         //Setting pet to training point
-        /*switch (currentTraining)
+        switch (currentTraining)
         {
             case PetTraining.Running:
-                currentPath = runningPath;
+                //transform.position = runningPoints[0].position;
+                isRunning = true;
                 break;
 
             case PetTraining.Swimming:
-                currentPath = swimmingPath;
+                transform.position = swimmingPoints[0].position;
                 break;
 
             case PetTraining.Flying:
-                currentPath = flyingPath;
+                transform.position = flyingPoints[0].position;
                 break;
 
             case PetTraining.Climbing:
@@ -391,11 +382,6 @@ public class PetCareInputManager : MonoBehaviour
             case PetTraining.Intelligence:
                 transform.position = intelligencePoint.position;
                 break;
-        }*/
-
-        if(currentTraining == PetTraining.Intelligence)
-        {
-            transform.position = intelligencePoint.position;
         }
 
         NavigatePlayerAroundTrainingPath(currentTraining);
@@ -407,6 +393,7 @@ public class PetCareInputManager : MonoBehaviour
         cameraViewManager.SetCameraTopView();
         yield return new WaitForSeconds(1f);
 
+        isRunning = false;
         isMoving = false;
         agent.enabled = true;
         animator.enabled = false;

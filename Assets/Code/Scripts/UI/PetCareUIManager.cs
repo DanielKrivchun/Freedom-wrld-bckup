@@ -246,23 +246,10 @@ public class PetCareUIManager : MonoBehaviour
     }
     #endregion
 
-    #region SCALE EFFECT PANEL UI
-    public void ScaleUpPanel(GameObject panel)
-    {
-        panel.transform.DOScale(1f, 0.35f);
-    }
-
-    public void ScaleDownPanel(GameObject panel)
-    {
-        panel.transform.DOScale(0.2f, 0.25f).OnComplete(() => panel.transform.parent.gameObject.SetActive(false));
-    }
-    #endregion
-
     #region PETS PROFILE UI
     public void ShowPetStatPanel()
     {
         petStatPanel.SetActive(true);
-        ScaleUpPanel(petStatPanel.transform.GetChild(0).gameObject);
 
         petNameTxt.text = petDataRef.petData.petname;
         petRankTxt.text = "Rank: " + petDataRef.petData.rank;
@@ -405,7 +392,7 @@ public class PetCareUIManager : MonoBehaviour
         }
         else
         {
-            notificationPopup.SetActive(false);
+            notificationPopup.transform.DOScale(0.2f, 0.25f).OnComplete(() => notificationPopup.SetActive(false)); 
         }
     }
     #endregion

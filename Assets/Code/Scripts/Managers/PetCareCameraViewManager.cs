@@ -6,23 +6,23 @@ public class PetCareCameraViewManager : MonoBehaviour
     [Space]
     public Transform player;
 
-    [Space]
+    [Header("Top View")]
     public Vector3 topViewPos;
     public Vector3 topViewRot;
 
-    [Space]
+    [Header("Front View")]
     public Vector3 frontViewPos;
     public Vector3 frontViewRot;
 
-    [Space]
+    [Header("Running Training View")]
     public Vector3 runningTrainingViewPos;
     public Vector3 runningTrainingViewRot;
 
-    [Space]
+    [Header("Swimming Training View")]
     public Vector3 swimmingTrainingViewPos;
     public Vector3 swimmingTrainingViewRot;
 
-    [Space]
+    [Header("Climbing Training View")]
     public Vector3 climbingTrainingViewPos;
     public Vector3 climbingTrainingViewRot;
 

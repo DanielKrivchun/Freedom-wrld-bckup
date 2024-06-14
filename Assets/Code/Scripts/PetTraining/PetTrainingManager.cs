@@ -414,14 +414,14 @@ public class PetTrainingManager : MonoBehaviour
 
         float timeDiff = await CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime);
 
+        //Training completed
         if (timeDiff > currentTrainingData.trainingTime)
         {
-            Debug.Log("Training completed!");
             ShowTrainingCompletedUI();
         }
+        //Training time is not over yet
         else
         {
-            Debug.Log("Training Time is Not over yet!");
             ShowOngoingTrainingUIWithTime();
             trainingTimer = currentTrainingData.trainingTime - await CheckTimeDiffWithCurrentTimeInSec(petDataRef.petData.ongoingTrainingData.trainingStartTime);
             startTimer = true;
