@@ -150,9 +150,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         RaceManager.instance.MyXP = PetConfigs.MyXp;
         RaceManager.instance.MyCoins = PetConfigs.MyCoins;
 
-
-
-        PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.running);
+        MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.running);
     }
 
     float _GetMySpeed(float _value)
@@ -186,19 +184,19 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 case _Tags.Water:
 
                     _ChangeAnimationHere(_AnimState.Swimming);
-                    PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.swimming);
+                    MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.swimming);
                     break;
                 case _Tags.Flying:
                     _ChangeAnimationHere(_AnimState.Flying);
-                    PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.flying);
+                    MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.flying);
                     break;
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
-                    PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.running);
+                    MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.running);
                     break;
                 case _Tags.Climbing:
                     _ChangeAnimationHere(_AnimState.Climbing);
-                    PetConfigs.BaseSpeed = _GetMySpeed(playerconfigs.climbing);
+                    MySpeed = PetConfigs.BaseSpeed + _GetMySpeed(playerconfigs.climbing);
                     break;
 
             }
@@ -329,8 +327,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
-        PetConfigs.BaseSpeed = PetConfigs.BaseSpeed * (TapMultiplier);
-        m_agent.speed = PetConfigs.BaseSpeed;
+        MySpeed += TapMultiplier;
+        m_agent.speed = MySpeed;
 
         //FIND DISTNACE HERE
         _CalculateDistance();
@@ -470,7 +468,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     public void BeforeUpdate()
     {
-        if (Utils.IsLocalPlayer(Object)) // eğer local playersak horizantalı kuruyoruz.
+        if (Utils.IsLocalPlayer(Object))
         {
             TapMultiplier = 1f;
         }
