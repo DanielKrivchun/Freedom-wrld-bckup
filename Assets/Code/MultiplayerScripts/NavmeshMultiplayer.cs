@@ -83,7 +83,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     IEnumerator _GenrateMyPrefab()
     {
         yield return new WaitForSecondsRealtime(1f);
-        Debug.Log("This Choroutine Worked " + gameObject.name);
+        //Debug.Log("This Choroutine Worked " + gameObject.name);
         _GenratePetPrefab();
     }
 
@@ -110,7 +110,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
             //RPC FOR SENDING CONFIGS
             string s = JsonUtility.ToJson(RaceManager.instance._GetMyCOnfigs());
-            Debug.Log(s);
+            Debug.Log(s + "    " + MyName);
             RPC_GetMyConfigs(s);
 
             nameText.text = playerName.ToString();
@@ -119,7 +119,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
         else
         {
-            Debug.Log("My Name Is " + MyName);
+            //Debug.Log("My Name Is " + MyName);
             gameObject.name = MyName.ToString();
             nameText.text = MyName.ToString();
         }
@@ -446,10 +446,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     private void _GenratePetPrefab()
     {
-        Debug.Log("This works on Server  only  " + Runner.IsServer);
+        //Debug.Log("This works on Server  only  " + Runner.IsServer);
         if (GenratedPet == null)
         {
-            Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
+            //Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
             gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
