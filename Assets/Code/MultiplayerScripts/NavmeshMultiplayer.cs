@@ -181,10 +181,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             {
                 case _Tags.WinLine:
                     Debug.Log("WINLINE COLIDED" + other.tag + "    " + MyName);
-                    MyWiningNumber = RaceManager.instance._GetMyWinningNo();
-                    RaceComplete = true;
                     GetComponent<NavMeshAgent>().enabled = false;
                     GetComponent<Collider>().enabled = false;
+                    Rigidbody rb = GetComponent<Rigidbody>();
+                    rb.isKinematic = true;
+                    MyWiningNumber = RaceManager.instance._GetMyWinningNo();
+                    RaceComplete = true;
                     StartCoroutine(SetMyWinPosition());
                     nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
                     break;
@@ -232,8 +234,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private IEnumerator SetMyWinPosition()
     {
         Debug.Log("SetMyWinPosition " + MyName);
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
+
         yield return new WaitForSecondsRealtime(0.2f);
         int temp = MyWiningNumber - 1;
         //Vector3 pos = RaceManager.instance.WinPoints[temp].position;
