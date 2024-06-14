@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Beamable.CloudSavingService;
-using System;
 using UnityEngine.SceneManagement;
 using Beamable.InventoryService;
 
@@ -125,6 +124,7 @@ public class PetCareUIManager : MonoBehaviour
     public Text rankUpMsgTxt;
 
     [Header("Welcome Back From Race UI")]
+    public SceneSyncData sceneSyncData;
     public GameObject welcomeBackPanel;
     public Text earnedStatsTxt;
     public Text niceWorkTxt;
@@ -166,6 +166,12 @@ public class PetCareUIManager : MonoBehaviour
     private void Start()
     {
         msgList = new List<string>();
+
+        //If show welcome is true then show UI
+        if(sceneSyncData.ShowWelcomeScreen)
+        {
+            ShowWelcomeBackFromRaceUI();
+        }
     }
 
     #region BUTTON CLICK EVENTS
@@ -408,10 +414,11 @@ public class PetCareUIManager : MonoBehaviour
     #region WELCOME BACK FROM RACE UI
     public void ShowWelcomeBackFromRaceUI()
     {
-        /*earnedStatsTxt.text = "• " + currentTrainingData.xP.ToString() + " XP\n"
-                            + "• " + currentTrainingData.coins.ToString() + " Coins";*/
+        earnedStatsTxt.text = "• " + sceneSyncData.XpGained.ToString() + " XP\n"
+                            + "• " + sceneSyncData.CoinsGained.ToString() + " Coins";
 
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
+        welcomeBackPanel.SetActive(true);
 
         SetRacingEarnedStats();
     }
@@ -419,10 +426,10 @@ public class PetCareUIManager : MonoBehaviour
     public void SetRacingEarnedStats()
     {
         //XP
-        //petStateManager.IncreaseXP(XP);
+        petStateManager.IncreaseXP(sceneSyncData.XpGained);
 
         //Add Coins
-        //beamableInventoryManager.AddCurrency(coins); 
+        beamableInventoryManager.AddCurrency(sceneSyncData.CoinsGained); 
     }
     #endregion
 }

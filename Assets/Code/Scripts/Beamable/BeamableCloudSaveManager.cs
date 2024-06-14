@@ -85,7 +85,7 @@ namespace Beamable.CloudSavingService
             }
             else
             {
-                DestroyImmediate(gameObject);
+                DestroyImmediate(instance);
             }
 
             DontDestroyOnLoad(gameObject);
