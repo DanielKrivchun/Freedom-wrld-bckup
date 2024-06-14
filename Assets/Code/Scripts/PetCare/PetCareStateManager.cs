@@ -314,7 +314,7 @@ public class PetCareStateManager : MonoBehaviour
             return;
         }
 
-        pet = Instantiate(petPrefabs._GetMyPrefab(PlayerPrefs.GetInt(_Strings.PetID).ToString()), player);
+        pet = Instantiate(petPrefabs._GetMyPrefab(petDataRef.petData.petPrefabID.ToString()), player);
         petInputManager.petAnim = pet.GetComponent<PetAnimation>();
     }
 

@@ -141,6 +141,7 @@ public class PetCareUIManager : MonoBehaviour
 
     private int msgIndex;
     private List<string> msgList;
+    private int petPrefabId;
 
     private void Awake()
     {
@@ -273,10 +274,11 @@ public class PetCareUIManager : MonoBehaviour
         selectedEggPet.sprite = petImages[index - 1];
 
         //Setting Pet prefab index for spawning pet
+        petPrefabId = index;
         /*petDataRef.petLocalData = new PetLocalData();
         petDataRef.petLocalData.petID = index.ToString();*/
-        PlayerPrefs.SetInt(_Strings.PetID, index);
-        Debug.Log("Petid - " + PlayerPrefs.GetInt(_Strings.PetID));
+        /*PlayerPrefs.SetInt(_Strings.PetID, index);
+        Debug.Log("Petid - " + PlayerPrefs.GetInt(_Strings.PetID));*/
     }
 
     public void NextFromWelcomePanel()
@@ -321,7 +323,7 @@ public class PetCareUIManager : MonoBehaviour
         }
         else
         {
-            await BeamableCloudSaveManager.instance.CreateNewPet(petInput.text, (int)runningSliderPetCreation.value, (int)climbingSliderPetCreation.value, (int)flyingSliderPetCreation.value,
+            await BeamableCloudSaveManager.instance.CreateNewPet(petInput.text, petPrefabId, (int)runningSliderPetCreation.value, (int)climbingSliderPetCreation.value, (int)flyingSliderPetCreation.value,
                                                             (int)swimmingSliderPetCreation.value, (int)intelligenceSliderPetCreation.value, (int)luckSliderPetCreation.value);
             setPetDetailsPanel.SetActive(false);
             petCreationPanelMain.SetActive(false);

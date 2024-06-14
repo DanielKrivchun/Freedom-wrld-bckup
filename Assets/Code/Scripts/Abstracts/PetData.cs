@@ -5,6 +5,7 @@ public class PetData
 {
     //Pet
     public string petname;
+    public int petPrefabID;
 
     //Wellbeing Stats
     public int health, happiness, hunger, cleanliness, energy;

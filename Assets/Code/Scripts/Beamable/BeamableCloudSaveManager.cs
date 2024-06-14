@@ -145,15 +145,26 @@ namespace Beamable.CloudSavingService
                 throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
             }*/
 
-            petDataRef.petData = LoadData();
-            Refresh();
+            if(LoadData() != null)
+            {
+                Debug.Log("Data not null!");
+                petDataRef.petData = LoadData();
+                Refresh();
 
-           loadGameData.Raise();
+               loadGameData.Raise();
+            }
+            else
+            {
+                Debug.Log("Data is null, create one");
+                PlayerPrefs.SetInt("IsPetCreated", 0);
+                beamableCloudSavingData.DataState = DataState.Pending;
+                petCreationEvent.Raise();
+            }
         }
         #endregion
 
         #region NEW PET CREATION DATA
-        public async Task CreateNewPet(string petName, int running, int climbing, int flying, int swimming, int intelligence, int luck)
+        public async Task CreateNewPet(string petName, int petPrefabID, int running, int climbing, int flying, int swimming, int intelligence, int luck)
         {
             _beamContext = BeamContext.Default;
             await _beamContext.OnReady;
@@ -163,7 +174,7 @@ namespace Beamable.CloudSavingService
             DateTime serverTimeNow = await getServerTime.GetCurrentTimeTask();
             currentTime = serverTimeNow.ToString();
 
-            petDataRef.SetPetAllData(petName, 650, 100, 100, 100, 100, false,
+            petDataRef.SetPetAllData(petName, petPrefabID, 650, 100, 100, 100, 100, false,
                                         currentTime, currentTime, currentTime, currentTime, currentTime, currentTime,
                                         running, climbing, flying, swimming, intelligence, luck,
                                         1, 0, 100);
@@ -178,6 +189,8 @@ namespace Beamable.CloudSavingService
             SaveData(beamableCloudSavingData.petDataLocal);
 
             Debug.Log("Created New Pet!");
+            PlayerPrefs.SetInt("IsPetCreated", 1);
+
             Refresh();
             loadGameData.Raise();
         }
@@ -219,9 +232,12 @@ namespace Beamable.CloudSavingService
         #region SAVE DATA
         public void SaveData(PetData myPetData)
         {
-            beamableCloudSavingData.DataState = DataState.Pending;
-            SaveDataInternal(myPetData);
-            Refresh();
+            if (PlayerPrefs.GetInt("IsPetCreated") == 0)
+            {
+                beamableCloudSavingData.DataState = DataState.Pending;
+                SaveDataInternal(myPetData);
+                Refresh();
+            }
         }
 
         private void SaveDataInternal(PetData myPetData)
@@ -270,7 +286,6 @@ namespace Beamable.CloudSavingService
             }
 
             //Debug.Log("Refresh()");
-
             OnRefreshed.Invoke(beamableCloudSavingData);
         }
 
@@ -293,8 +308,8 @@ namespace Beamable.CloudSavingService
         {
             Debug.Log($"CloudSavingService_OnError() Message = {cloudSavingError.Message}");
 
-            beamableCloudSavingData.DataState = DataState.Pending;
-            petCreationEvent.Raise();
+            /*beamableCloudSavingData.DataState = DataState.Pending;
+            petCreationEvent.Raise();*/
         }
         #endregion
 

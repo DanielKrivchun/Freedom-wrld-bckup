@@ -12,7 +12,7 @@ public class PetDataRef : ScriptableObject
     //Local Data
     public PetLocalData petLocalData;
 
-    public void SetPetAllData(string petName, int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
+    public void SetPetAllData(string petName, int petPrefabID, int health, int happiness, int cleanliness, int hunger, int energy, bool isSick,
                                 string petBirthTime, string lastTimeHappy, string lastTimeFeed, string lastTimeClean, string lastTimeEnergy, string lastLoginTime,
                                 int running, int climbing, int flying, int swimming, int intelligence, int luck,
                                 int rank, float xp, int maxStamina)
@@ -20,6 +20,7 @@ public class PetDataRef : ScriptableObject
         petData = new PetData();
 
         petData.petname = petName;
+        petData.petPrefabID = petPrefabID;
 
         petData.health = health;
         petData.happiness = happiness;
