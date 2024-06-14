@@ -237,11 +237,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         yield return new WaitForSecondsRealtime(0.2f);
         int temp = MyWiningNumber - 1;
-        //Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-        //Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
-        //transform.DOMove(pos, 0.1f);
-        //transform.DORotateQuaternion(Q, 0.1f);
-        //networkTransform.Teleport(pos, Q);
+        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+        Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
+        networkTransform.Teleport(pos, Q);
         yield return new WaitForEndOfFrame();
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
         _ChangeAnimationHere(_AnimState.Jump);
@@ -258,14 +256,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             NetworkCamera.Instance._ActiveWinScene();
             _ChangeAnimationHere(_AnimState.Jump);
             RaceManager.instance.MyWinNumber = MyWiningNumber;
-
-            int temp = RaceManager.instance.MyWinNumber - 1;
-
-            Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-            Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
-            transform.DOMove(pos, 0.1f);
-            transform.DORotateQuaternion(Q, 0.1f);
-
         }
         else
         {
