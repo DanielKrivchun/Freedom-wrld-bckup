@@ -11,6 +11,7 @@ using static Unity.Collections.Unicode;
 using System.Linq;
 using Fusion.Photon.Realtime;
 using UnityEngine.UI;
+using DG.Tweening;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
 
@@ -107,7 +108,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         PrefabID = petdataref.petData.petPrefabID.ToString();
         SceneData._Reset();
-
     }
     #endregion
 

@@ -17,9 +17,6 @@ public class UiManager : MonoBehaviour
     [Space]
     public RectTransform m_arrow;
 
-
-
-
     private Vector2 m_initial_pos;
     //MAX POSITION WILL GO HERE
     //LOW POS WILL BE ALWAYS ZERO AS ACNCOR SET
