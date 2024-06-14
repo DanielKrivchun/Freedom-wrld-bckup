@@ -9642,6 +9642,9 @@ MonoBehaviour:
   intelligencePoint: {fileID: 740275236}
   navmeshSpawnOffset: 15
   petAutoNavigateCheckTime: 20
+  pathCreator: {fileID: 946688798}
+  endOfPathInstruction: 0
+  isRunning: 0
   petAnim: {fileID: 0}
   animator: {fileID: 0}
 --- !u!114 &281894570
@@ -27179,7 +27182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &756163873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32373,6 +32376,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 946688797}
+  - component: {fileID: 946688798}
   m_Layer: 0
   m_Name: RunningPoints
   m_TagString: Untagged
@@ -32388,7 +32392,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946688796}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -32405,6 +32409,101 @@ Transform:
   - {fileID: 1766844849}
   m_Father: {fileID: 1010321458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &946688798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946688796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5ac92bc18f545cc84cd886ece82b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  editorData:
+    _bezierPath:
+      points:
+      - {x: -5.092, y: -0.55, z: 0.12}
+      - {x: -5.1428947, y: -0.55, z: 0.5398568}
+      - {x: -5.3944097, y: -0.55, z: 1.1018615}
+      - {x: -5.704, y: -0.55, z: 1.39}
+      - {x: -6.0991955, y: -0.55, z: 1.7578118}
+      - {x: -6.8566117, y: -0.55, z: 1.9092607}
+      - {x: -7.377, y: -0.55, z: 2.053}
+      - {x: -7.870986, y: -0.55, z: 2.1894464}
+      - {x: -8.552253, y: -0.55, z: 2.3701591}
+      - {x: -9.063, y: -0.55, z: 2.328}
+      - {x: -9.388433, y: -0.55, z: 2.3011374}
+      - {x: -9.87277, y: -0.55, z: 2.2191794}
+      - {x: -10.094, y: -0.55, z: 1.979}
+      - {x: -10.386417, y: -0.55, z: 1.6615341}
+      - {x: -10.404829, y: -0.55, z: 1.0130129}
+      - {x: -10.442, y: -0.55, z: 0.583}
+      - {x: -10.493108, y: -0.55, z: -0.008226216}
+      - {x: -10.585278, y: -0.55, z: -0.86963737}
+      - {x: -10.3, y: -0.55, z: -1.39}
+      - {x: -9.998006, y: -0.55, z: -1.9408545}
+      - {x: -9.209613, y: -0.55, z: -2.4232106}
+      - {x: -8.62, y: -0.55, z: -2.64}
+      - {x: -8.143139, y: -0.55, z: -2.815333}
+      - {x: -7.423972, y: -0.55, z: -2.8688664}
+      - {x: -6.93, y: -0.55, z: -2.75}
+      - {x: -6.4512897, y: -0.55, z: -2.6348064}
+      - {x: -5.806349, y: -0.55, z: -2.3105464}
+      - {x: -5.52, y: -0.55, z: -1.91}
+      - {x: -5.1580396, y: -0.55, z: -1.4036875}
+      - {x: -5.017103, y: -0.55, z: -0.49786568}
+      isClosed: 1
+      space: 0
+      controlMode: 3
+      autoControlLength: 0.3
+      boundsUpToDate: 0
+      bounds:
+        m_Center: {x: 0, y: 0, z: 0}
+        m_Extent: {x: 0, y: 0, z: 0}
+      perAnchorNormalsAngle:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      globalNormalsAngle: 0
+      flipNormals: 0
+    vertexPathUpToDate: 1
+    vertexPathMaxAngleError: 0
+    vertexPathMinVertexSpacing: 0.01
+    showTransformTool: 1
+    showPathBounds: 0
+    showPerSegmentBounds: 0
+    displayAnchorPoints: 1
+    displayControlPoints: 1
+    bezierHandleScale: 1
+    globalDisplaySettingsFoldout: 0
+    keepConstantHandleSize: 0
+    showNormalsInVertexMode: 0
+    showBezierPathInVertexMode: 0
+    showDisplayOptions: 0
+    showPathOptions: 1
+    showVertexPathDisplayOptions: 0
+    showVertexPathOptions: 1
+    showNormals: 0
+    showNormalsHelpInfo: 0
+    tabIndex: 0
+  initialized: 1
 --- !u!1 &953627472
 GameObject:
   m_ObjectHideFlags: 0
@@ -61772,12 +61871,12 @@ GameObject:
   - component: {fileID: 1722936673}
   - component: {fileID: 1722936671}
   m_Layer: 0
-  m_Name: Path
+  m_Name: RunningPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1722936671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61852,7 +61951,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 1
+    vertexPathUpToDate: 0
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1

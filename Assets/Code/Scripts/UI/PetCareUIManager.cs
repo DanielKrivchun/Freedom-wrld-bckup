@@ -189,7 +189,12 @@ public class PetCareUIManager : MonoBehaviour
         {
             wellbeingBtnImg.sprite = wellbeingBtnsOn;
             careBtnHolder.SetActive(false);
-            sleepPanel.SetActive(false);
+
+            //If sleeping then on the sleep ui
+            if(!petDataRef.petData.sleepData.isSleeping)
+            {
+                sleepPanel.SetActive(false);
+            }
         }
         else
         {

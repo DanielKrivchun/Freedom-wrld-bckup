@@ -132,19 +132,6 @@ namespace Beamable.CloudSavingService
                 throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
             }
 
-            /*// Check isInitializing, as best practice
-            if (!_cloudSavingService.isInitializing)
-            {
-                // Resets the local cloud data to match the server cloud data
-                // IF DESIRED, UNCOMMENT THIS SECTION
-                await _cloudSavingService.ReinitializeUserData();
-                Debug.Log("ReinitializeUserData()");
-            }
-            else
-            {
-                throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
-            }*/
-
             if(LoadData() != null)
             {
                 Debug.Log("Data not null!");
@@ -232,7 +219,7 @@ namespace Beamable.CloudSavingService
         #region SAVE DATA
         public void SaveData(PetData myPetData)
         {
-            if (PlayerPrefs.GetInt("IsPetCreated") == 0)
+            if (PlayerPrefs.GetInt("IsPetCreated") == 1)
             {
                 beamableCloudSavingData.DataState = DataState.Pending;
                 SaveDataInternal(myPetData);

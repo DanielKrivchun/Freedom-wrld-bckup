@@ -1,4 +1,5 @@
 using DG.Tweening;
+using PathCreation;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +40,10 @@ public class PetCareInputManager : MonoBehaviour
     public float navmeshSpawnOffset;
     public float petAutoNavigateCheckTime;
 
+    public PathCreator pathCreator;
+    public EndOfPathInstruction endOfPathInstruction;
+    public bool isRunning;
+
     [HideInInspector]
     public PetAnimation petAnim;
     [HideInInspector]
@@ -55,6 +60,7 @@ public class PetCareInputManager : MonoBehaviour
 
     float timer;
     int pointIndex = 0;
+    private float distanceTravelled;
 
     private void Awake()
     {
@@ -181,6 +187,11 @@ public class PetCareInputManager : MonoBehaviour
         CheckForPlayerNavmeshMovement();
 
         CheckForPlayerTrainingMovement();
+
+        if (isRunning)
+        {
+            PetRunningTraining();
+        }
     }
 
     #region SET DESTINATION AND CHECK FOR REACHED DESTINATION
@@ -266,6 +277,13 @@ public class PetCareInputManager : MonoBehaviour
                 cameraViewManager.SetCameraFrontView();
                 break;
         }
+    }
+
+    void PetRunningTraining()
+    {
+        distanceTravelled += runSpeed * Time.deltaTime;
+        transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+        transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
     }
 
     //Setting training animation, speed and path points
