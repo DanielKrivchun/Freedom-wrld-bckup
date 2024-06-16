@@ -22,9 +22,16 @@ public class PetCareStatData : ScriptableObject
     [Header("Happiness")]
     public int maxHappiness;
     /// <summary>
+    ///  OLD:
     ///  Happy lasts 2/3 of a real day so time = 16 hours = 960 minutes
     ///  So after 9.6 minutes User lost 1 happiness
     ///  happyTimeLength = 9.6 minutes = 576 seconds
+    /// </summary>
+    /// <summary>
+    ///  NEW:
+    ///  Happy lasts 2 real days so time = 48 hours = 2880 minutes
+    ///  So after 28.8 minutes User lost 1 happiness
+    ///  happyTimeLength = 28.8 minutes = 1728 seconds
     /// </summary>
     public float happyTimeLength;
     // TickRate is the value which will reduce after Time Length is over
