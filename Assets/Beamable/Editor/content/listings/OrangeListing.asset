@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14ae295abc57d4046906c98c15f3ea23, type: 3}
-  m_Name: ItemListing
+  m_Name: OrangeListing
   m_EditorClassIdentifier: 
   _tags: []
   price:
     type: currency
     symbol: currency.coins
-    amount: 50
+    amount: 18
   offer:
     titles:
       HasValue: 0
@@ -29,15 +29,7 @@ MonoBehaviour:
     obtainCurrency: []
     obtainItems:
     - contentId:
-        Id: items.Apple
-      properties: []
-      content_legacy: 
-    - contentId:
-        Id: items.Mushroom
-      properties: []
-      content_legacy: 
-    - contentId:
-        Id: items.EnergyDrink
+        Id: items.Orange
       properties: []
       content_legacy: 
   activePeriod:
@@ -80,7 +72,7 @@ MonoBehaviour:
     HasValue: 0
     Value:
       description: 
-      activeFrom: 2024-04-27T22:04:37Z
+      activeFrom: 2024-06-16T19:01:26Z
       activeTo:
         HasValue: 0
         Value: 

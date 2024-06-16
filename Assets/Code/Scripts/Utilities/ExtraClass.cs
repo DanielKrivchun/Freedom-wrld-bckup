@@ -106,8 +106,32 @@ public static class Utils
             case "Apple":
                 return FoodItems.Apple;
 
-            case "Mushroom":
-                return FoodItems.Mushroom;
+            case "Orange":
+                return FoodItems.Orange;
+
+            case "KaleSalad":
+                return FoodItems.KaleSalad;
+
+            case "GoldenApple":
+                return FoodItems.GoldenApple;
+
+            case "EnergyDrink":
+                return FoodItems.EnergyDrink;
+
+            case "Fairy":
+                return FoodItems.Fairy;
+
+            case "GoldenFairy":
+                return FoodItems.GoldenFairy;
+
+            case "CosmicBerryElectrolyteDrink":
+                return FoodItems.CosmicBerryElectrolyteDrink;
+
+            case "ProteinShake":
+                return FoodItems.ProteinShake;
+
+            case "MiracleCognitiveSupplements":
+                return FoodItems.MiracleCognitiveSupplements;
         }
 
         return FoodItems.None;

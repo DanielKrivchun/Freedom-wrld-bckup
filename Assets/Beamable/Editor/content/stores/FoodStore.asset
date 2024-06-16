@@ -16,9 +16,15 @@ MonoBehaviour:
   - base
   title: Food
   listings:
-  - Id: listings.FoodListing
+  - Id: listings.AppleListing
+  - Id: listings.OrangeListing
+  - Id: listings.KaleSaladListing
   - Id: listings.GoldenAppleListing
+  - Id: listings.EnergyDrinkListing
+  - Id: listings.FairyListing
+  - Id: listings.GoldenFairyListing
   - Id: listings.CosmicBerryDrinkListing
+  - Id: listings.ProteinShakeListing
   - Id: listings.MiracleCognitiveSupplementsListing
   - Id: listings.ItemListing
   showInactiveListings: 1

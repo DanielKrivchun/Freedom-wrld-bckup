@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2334971001421729782}
   - component: {fileID: 4313308869195113978}
   m_Layer: 0
-  m_Name: AppleFoodObject
+  m_Name: KaleSaladFoodObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 43ec6acb38da11a418d578d1b0574654, type: 2}
+  - {fileID: 2100000, guid: 9ddfc89e93de4c8409e42a205285be22, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -120,9 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016eec923dc4c604c9c33d5fc4cecf5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodName: 1
-  hungerValue: 5
-  happinessValue: 0
+  foodName: 3
+  hungerValue: 25
+  happinessValue: -15
   energyValue: 0
   cleanlinessValue: 0
   runningValue: 0

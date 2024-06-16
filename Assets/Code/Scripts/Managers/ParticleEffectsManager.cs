@@ -9,6 +9,8 @@ public class ParticleEffectsManager : MonoBehaviour
 
     [SerializeField] ParticleSystem sleepEffect;
 
+    [SerializeField] ParticleSystem fairyEffect;
+
     [Space]
     [SerializeField] List<ParticleSystem> foamBubbleEffects;
 
@@ -32,6 +34,10 @@ public class ParticleEffectsManager : MonoBehaviour
         {
             happyEffect.Play();
         }
+    }
+
+    public void PlayFairyEffect() {
+        fairyEffect.Play();
     }
 
     //Sleep particle effect

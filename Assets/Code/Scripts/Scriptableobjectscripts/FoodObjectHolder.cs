@@ -50,5 +50,13 @@ public enum FoodItems
 {
     None,
     Apple,
-    Mushroom
+    Orange,
+    KaleSalad,
+    GoldenApple,
+    EnergyDrink,
+    Fairy,
+    GoldenFairy,
+    CosmicBerryElectrolyteDrink,
+    ProteinShake,
+    MiracleCognitiveSupplements
 }

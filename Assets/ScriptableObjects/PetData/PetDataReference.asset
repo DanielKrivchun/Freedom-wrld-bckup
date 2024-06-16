@@ -13,37 +13,37 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: xad
+    petname: SIlvan
     petPrefabID: 1
-    health: 650
+    health: 461
     happiness: 100
-    hunger: 100
-    cleanliness: 100
-    energy: 100
+    hunger: 75
+    cleanliness: 50
+    energy: 49
     isSick: 0
-    birthTime: 14-06-2024 14:52:04
-    lastTimeHappy: 14-06-2024 14:52:05
-    lastTimeFeed: 14-06-2024 14:52:06
-    lastTimeClean: 14-06-2024 14:52:06
-    lastTimeEnergy: 14-06-2024 14:52:06
-    lastLoginTime: 14-06-2024 14:52:04
-    running: 200
-    climbing: 200
-    flying: 200
-    swimming: 200
+    birthTime: 2024-06-16 7:23:21 PM
+    lastTimeHappy: 2024-06-16 10:05:55 PM
+    lastTimeFeed: 2024-06-16 10:05:38 PM
+    lastTimeClean: 2024-06-16 10:05:38 PM
+    lastTimeEnergy: 2024-06-16 10:05:38 PM
+    lastLoginTime: 2024-06-16 7:23:21 PM
+    running: 13
+    climbing: 13
+    flying: 13
+    swimming: 13
     intelligence: 2
     luck: 2
     rank: 1
-    maxStamina: 50
+    maxStamina: 100
     xp: 0
     sleepData:
       isSleeping: 0
       sleepStartTime: 
     foodData: []
     ongoingTrainingData:
-      isTraining: 1
-      ongoingTraining: 4
-      ongoingTrainingName: Flying
-      trainingStartTime: 14-06-2024 14:52:08
+      isTraining: 0
+      ongoingTraining: 0
+      ongoingTrainingName: 
+      trainingStartTime: 
   petLocalData:
     petID: 1

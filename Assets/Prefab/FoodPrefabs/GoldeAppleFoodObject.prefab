@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2334971001421729782}
   - component: {fileID: 4313308869195113978}
   m_Layer: 0
-  m_Name: MushroomFoodObject
+  m_Name: GoldeAppleFoodObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9ddfc89e93de4c8409e42a205285be22, type: 2}
+  - {fileID: 2100000, guid: 5ca7ad0da2008954c9c2e15bcd36e8ad, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -120,6 +120,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016eec923dc4c604c9c33d5fc4cecf5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodName: 2
-  hungerValue: 35
+  foodName: 4
+  hungerValue: 30
+  happinessValue: 0
+  energyValue: 0
+  cleanlinessValue: 0
+  runningValue: 0
+  climbingValue: 0
+  flyingValue: 0
+  swimmingValue: 0
+  IntelligenceValue: 0
+  luckValue: 0
+  particleEffectsManager: {fileID: 0}
+  petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   foodSpawnIndex: 0
