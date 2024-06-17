@@ -16,7 +16,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
 
     #region PUBLIC
-    public TMP_InputField inputField;
     public InputValue InputValue;
     public TextMeshProUGUI gamestarttimer;
     [Space]
@@ -39,6 +38,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public PetDataRef petdataref;
     [Space]
     public SceneSyncData SceneData;
+    [Space]
+    public NamesJson namesJson;
     [Space]
     public string PrefabID;
     [Space]
@@ -201,9 +202,19 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
 
 
+    /// <summary>
+    /// STARTING GAME AND JOINING ROOM 
+    /// BASED ON LOCATION , RANK 
+    /// </summary>
+    /// <param name="mode"></param>
     public async void _StartGame(GameMode mode)
     {
-        LocalPlayerNickname = inputField.text;
+        //GET MY NAME XP AND COINS OVER HERE
+        LocalPlayerNickname = petdataref.petData.petname;
+        MyXP = (int)petdataref.petData.xp;
+        MyRank = (int)petdataref.petData.rank;
+
+
 
         if (selected_region.Length <= 0)
         {
@@ -219,12 +230,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             Debug.Log("Instantiated my object  " + mode);
             networkRunnerInstance = Instantiate(NetworkRunnerPrefab);
         }
-
         networkRunnerInstance.AddCallbacks(this);
         networkRunnerInstance.ProvideInput = true;
-
-
-
 
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
         var scenenetwork = new NetworkSceneInfo();
@@ -233,19 +240,11 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             scenenetwork.AddSceneRef(scene, LoadSceneMode.Additive);
         }
 
-
-
         string s1 = "C0 BETWEEN ";
         string s2 = " AND C1";
 
         Min = MyRank - 50;
         Max = MyRank + 50;
-
-        //string matchmakingstring = "C0 BETWEEN " + Min + " AND " + Max;
-        //string matchmakingstring = _GetMyRank();
-
-
-        //Debug.Log(matchmakingstring);
 
         var customProps = new Dictionary<string, SessionProperty>();
 
@@ -255,7 +254,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         await networkRunnerInstance.StartGame(new StartGameArgs
         {
             GameMode = mode,
-            CustomLobbyName = "MyLobby",
+            //CustomLobbyName = "MyLobby",
             PlayerCount = 5,
             Scene = scene,
             SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>(),
@@ -263,8 +262,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             CustomPhotonAppSettings = appSettings
 
         });
-
-
     }
 
     string _GetMyRank()
@@ -273,19 +270,19 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             return "A";
         }
-
         return "B";
-
     }
 
     #endregion
 
     #region PLAYER SYNC
+    /// <summary>
+    /// Getting player config in player object based on RPC calls
+    /// </summary>
+    /// <returns></returns>
     public _PlayerConfigs _GetMyCOnfigs()
     {
-
         _PlayerConfigs P = new _PlayerConfigs();
-
         P.running = petdataref.petData.running;
         P.climbing = petdataref.petData.climbing;
         P.flying = petdataref.petData.flying;
@@ -452,14 +449,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
     #endregion
 
+    #region INetworkRunnerCallbacks ALSO SETTING INPUT OVER HERE
+
     //FOR INPUTx
     public void _InputSet(InputAction.CallbackContext context)
     {
         m_input = context.ReadValue<Vector2>();
 
     }
-
-    #region INetworkRunnerCallbacks
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {

@@ -36,6 +36,8 @@ public class NetworkAIPlayer : NetworkBehaviour
     public bool RaceComplete;
 
     private NetworkTransform networkTransform;
+    private NavMeshHit hit;
+    private Vector3 finalPosition;
     #endregion
 
     #region NETWORKED OBJECTS
@@ -85,12 +87,11 @@ public class NetworkAIPlayer : NetworkBehaviour
     {
         Debug.Log("I am Local Player");
         IsLocalPlayer = true;
-        MyName = Random.Range(0, 10).ToString();
+        MyName = RaceManager.instance.namesJson._GetNames();
         playerName = MyName;
         Debug.Log("Sending RPC with Name   " + playerName);
         int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
         MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
-        //RPC_SetNameAndPrefab(playerName, RaceManager.instance.PrefabID);
         nameText.text = playerName.ToString();
         gameObject.name = MyName.ToString();
     }
@@ -211,7 +212,8 @@ public class NetworkAIPlayer : NetworkBehaviour
         {
             Debug.Log(MyPathNumber);
             _InitilizePath();
-            _SetDestination(move_positions[m_currunt_index]);
+            m_currunt_pos = _GetNextPos(move_positions[m_currunt_index]);
+            _SetDestination();
         }
 
         _ChangeAnimationHere(_AnimState.Run);
@@ -255,9 +257,26 @@ public class NetworkAIPlayer : NetworkBehaviour
             //Debug.Log("Path Complete");
             return;
         }
-        m_currunt_pos = move_positions[m_currunt_index];
-        _SetDestination(move_positions[m_currunt_index]);
+        m_currunt_pos = _GetNextPos(move_positions[m_currunt_index]);
+        _SetDestination();
     }
+
+
+    public Vector3 _GetNextPos(Vector3 _pos)
+    {
+        hit = new NavMeshHit();
+        finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(_pos, out hit, 10, 1))
+        {
+            finalPosition = hit.position;
+        }
+        else
+        {
+            finalPosition = _pos;
+        }
+        return finalPosition;
+    }
+
     /// <summary>
     /// Initilize path
     /// </summary>
@@ -268,30 +287,18 @@ public class NetworkAIPlayer : NetworkBehaviour
         move_positions = path_point.prePositions[MyPathNumber].m_positions;
     }
 
-    public void _SetDestination(Vector3 _target_pos)
+    public void _SetDestination()
     {
-        m_currunt_pos = _target_pos;
-        m_agent.SetDestination(m_currunt_pos);
+        NavMeshPath path = new NavMeshPath();
+        NavMesh.CalculatePath(m_agent.transform.position, m_currunt_pos, NavMesh.AllAreas, path);
+        m_agent.SetPath(path);
     }
 
     void _CalculateDistance()
     {
         m_distance = Vector3.Distance(m_currunt_pos, transform.position);
-        //Debug.Log(m_distance);
     }
 
-    public Vector3 RandomNavmeshLocation(float radius)
-    {
-        Vector3 randomDirection = Random.insideUnitSphere * radius;
-        randomDirection += transform.position;
-        NavMeshHit hit;
-        Vector3 finalPosition = Vector3.zero;
-        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
-        {
-            finalPosition = hit.position;
-        }
-        return finalPosition;
-    }
 
     #endregion
 

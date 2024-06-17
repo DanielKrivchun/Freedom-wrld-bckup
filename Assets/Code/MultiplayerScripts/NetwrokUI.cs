@@ -33,6 +33,7 @@ public class NetwrokUI : NetworkBehaviour
         Instance = this;
     }
 
+    #region UNITY METHODS
 
     private void OnEnable()
     {
@@ -46,7 +47,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_win_event -= _OnGameWon;
         NetworkEventManager.e_playercount -= _Playerjoined;
     }
-
+    #endregion
 
     public void _LoadScene()
     {
