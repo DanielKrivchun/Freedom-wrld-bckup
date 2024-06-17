@@ -7,11 +7,14 @@ using static Beamable.Api.Notification.PubNubOp;
 public class NetworkEventManager : MonoBehaviour
 {
     public delegate void SimpleDelegateEvents();
-    public static event SimpleDelegateEvents e_get_set_go,e_config_updated;
+    public static event SimpleDelegateEvents e_get_set_go, e_config_updated;
 
 
     public delegate void IntDelegateEvents(int _no);
     public static event IntDelegateEvents e_win_event, e_playercount;
+
+    public delegate void CameraDelegateEvents(_CamState _CamState);
+    public static event CameraDelegateEvents e_camera_cnage;
 
 
     #region _EVENT INVOKERS
@@ -46,6 +49,14 @@ public class NetworkEventManager : MonoBehaviour
         if (e_playercount != null)
         {
             e_playercount(_count);
+        }
+    }
+
+    public static void _EventCameraChange(_CamState _state)
+    {
+        if (e_camera_cnage != null)
+        {
+            e_camera_cnage(_state);
         }
     }
 

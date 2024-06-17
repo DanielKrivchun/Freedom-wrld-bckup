@@ -1,16 +1,22 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class NetworkCamera : MonoBehaviour
 {
-    public CinemachineVirtualCamera MyCam;
+    public CinemachineBrain Brain;
+    [Space]
     public CinemachineFreeLook WinCam;
     public GameObject WinCamera;
     [Space]
+    public CinemachineVirtualCamera StartCam;
+    public CinemachineVirtualCamera FollowCam;
+    [Space]
     public GameObject Confetti;
 
+    private GameObject CurruntCam;
 
     public static NetworkCamera Instance;
     private void Awake()
@@ -23,19 +29,54 @@ public class NetworkCamera : MonoBehaviour
         {
             Destroy(Instance.gameObject);
         }
+
+        CurruntCam = FollowCam.gameObject;
     }
+
+    private void OnEnable()
+    {
+        NetworkEventManager.e_camera_cnage += _CameraSetup;
+    }
+
+    private void OnDisable()
+    {
+        NetworkEventManager.e_camera_cnage -= _CameraSetup;
+
+    }
+
+    private void _CameraSetup(_CamState _CamState)
+    {
+        switch (_CamState)
+        {
+            case _CamState.Start:
+                StartCam.gameObject.SetActive(true);
+                break;
+
+            case _CamState.Follow:
+                FollowCam.gameObject.SetActive(true);
+                break;
+        }
+    }
+
+
 
     public void _SetUpCamera(Transform _target)
     {
-        MyCam.Follow = _target;
-        MyCam.LookAt = _target;
+        FollowCam.Follow = _target;
+        FollowCam.LookAt = _target;
     }
-
 
     public void _ActiveWinScene()
     {
         WinCamera.gameObject.SetActive(true);
-        MyCam.gameObject.SetActive(false);
+        //FollowCam.gameObject.SetActive(false);
         Confetti.gameObject.SetActive(true);
     }
+}
+
+public enum _CamState
+{
+    none,
+    Start,
+    Follow,
 }

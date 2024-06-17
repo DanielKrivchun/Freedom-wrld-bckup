@@ -378,6 +378,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log("_StartGameForPlayers");
         NetworkEventManager._EventStartGame();
+        NetworkEventManager._EventCameraChange(_CamState.Follow);
         InputValue.m_enable_navmesh = true;
     }
     #endregion
@@ -502,6 +503,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
+
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
