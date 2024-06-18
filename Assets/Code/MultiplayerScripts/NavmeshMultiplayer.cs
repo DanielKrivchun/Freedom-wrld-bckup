@@ -115,7 +115,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             Debug.Log(s + "    " + MyName);
             RPC_GetMyConfigs(s);
 
-            nameText.text = playerName.ToString();
+            _SetName(playerName.ToString());
             gameObject.name = MyName.ToString();
             _SetupCamera();
         }
@@ -123,8 +123,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             //Debug.Log("My Name Is " + MyName);
             gameObject.name = MyName.ToString();
-            nameText.text = MyName.ToString();
+            _SetName(MyName);
         }
+    }
+
+    void _SetName(string _name)
+    {
+        nameText.text = _name;
     }
 
     #endregion
@@ -452,7 +457,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
         MyName = playerName.ToString();
-        nameText.text = MyName.ToString();
+        _SetName(MyName);
         gameObject.name = MyName;
         _GenratePetPrefab();
     }
@@ -469,7 +474,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             //gameObject.GetComponent<NetworkMecanimAnimator>().enabled = true;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;
-            nameText.text = MyName.ToString();
+            _SetName(MyName);
             gameObject.name = MyName;
 
             //ADD PLAYER

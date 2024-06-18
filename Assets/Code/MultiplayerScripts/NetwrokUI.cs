@@ -15,6 +15,9 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject connectingUI;
     [Space]
     public GameObject starGameButton;
+    [Header("Notification")]
+    public GameObject NotificationPanel;
+    public TextMeshProUGUI NotificationText;
     [Space]
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI wintext;
@@ -106,25 +109,31 @@ public class NetwrokUI : NetworkBehaviour
         startUI.SetActive(false);
         countdownPanel.SetActive(true);
         StartCoroutine(_StartedCountDown());
+        NetworkEventManager._EventStartCountDown();
     }
 
     IEnumerator _StartedCountDown()
     {
+        NetworkEventManager._EventFocusOnPlayer(0);
         int a = 5;
         countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(1.5f);
+        NetworkEventManager._EventFocusOnPlayer(1);
         a--;
         countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(1.5f);
+        NetworkEventManager._EventFocusOnPlayer(2);
         a--;
         countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(1.5f);
+        NetworkEventManager._EventFocusOnPlayer(3);
         a--;
         countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(1.5f);
+        NetworkEventManager._EventFocusOnPlayer(4);
         a--;
         countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(1.5f);
         a--;
         countdownText.text = a.ToString();
         countdownPanel.SetActive(false);

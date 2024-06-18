@@ -92,7 +92,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         Debug.Log("Sending RPC with Name   " + playerName);
         int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
         MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
-        nameText.text = playerName.ToString();
+        _SetName(playerName.ToString());
         gameObject.name = MyName.ToString();
     }
 
@@ -329,10 +329,16 @@ public class NetworkAIPlayer : NetworkBehaviour
     {
         Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
         MyName = playerName.ToString();
-        nameText.text = MyName.ToString();
+        _SetName(MyName);
         gameObject.name = MyName;
         _GenratePetPrefab();
     }
+
+    void _SetName(string _name)
+    {
+        nameText.text = _name;
+    }
+
 
     private void _GenratePetPrefab()
     {
@@ -346,7 +352,7 @@ public class NetworkAIPlayer : NetworkBehaviour
             gameObject.GetComponent<NetworkMecanimAnimator>().enabled = true;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;
-            nameText.text = MyName.ToString();
+            _SetName(MyName);
             gameObject.name = MyName;
 
             _GenratedPlayers G = new _GenratedPlayers();

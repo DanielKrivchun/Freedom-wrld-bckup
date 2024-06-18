@@ -109,6 +109,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         PrefabID = petdataref.petData.petPrefabID.ToString();
         SceneData._Reset();
+        namesJson._SetMyData();
     }
     #endregion
 
