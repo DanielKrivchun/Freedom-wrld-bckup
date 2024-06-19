@@ -317,12 +317,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 {
                     if (!item.AI)
                     {
-
                         if (i == item.player.MyWiningNumber)
                         {
                             _ss.Add(item.player.MyName);
                         }
-
                     }
                     else
                     {
@@ -336,7 +334,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
             NetwrokUI.Instance._SetupList(_ss);
             _XpIncrimental(MyWinNumber);
-
             SceneData.ShowWelcomeScreen = true;
         }
     }
@@ -446,8 +443,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
             _AllPlayerData p = GenratedPlayers.Find(asd => asd.playerRef == playerRef);
 
+
             if (p.playerRef != null)
             {
+                //NOTIFY TO PLAYER WHICH PLAYER LEFT
+                Debug.Log(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
+                RPC_PlayerLeftNofirication(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
                 Runner.Despawn(p.Player);
                 GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
             }
@@ -593,18 +594,21 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         PathNumber++;
     }
 
-    void _SendAIDetails()
-    {
-        Debug.Log("I am Sedning AI Details");
-    }
-
     #endregion
 
     #region RPC CALLS
-    [Rpc(RpcSources.InputAuthority, RpcTargets.InputAuthority)]
-    public void RPC_GetAIDetails()
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_PlayerLeftNofirication(string _name)
     {
-        _SendAIDetails();
+        _PlayerLeftDetails(_name);
     }
+
+    void _PlayerLeftDetails(string s)
+    {
+        Debug.Log("I am Getting  Details  " + s);
+
+    }
+
     #endregion
 }

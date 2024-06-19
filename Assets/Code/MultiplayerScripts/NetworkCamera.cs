@@ -65,11 +65,13 @@ public class NetworkCamera : MonoBehaviour
             case _CamState.Start:
                 CurruntCam = _GetCam("startracecam");
                 CurruntCam.SetActive(true);
+                NetworkEventManager._EventTextLookat(CurruntCam.transform);
                 break;
 
             case _CamState.Follow:
                 CurruntCam = _GetCam("follocam");
                 CurruntCam.SetActive(true);
+                NetworkEventManager._EventTextLookat(CurruntCam.transform);
                 break;
         }
     }

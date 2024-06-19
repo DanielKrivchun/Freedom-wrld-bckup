@@ -19,9 +19,19 @@ public class NetworkEventManager : MonoBehaviour
     public delegate void LookatEvent(Transform _t);
     public static event LookatEvent e_text_lookat;
 
+    public delegate void StingEvent(string _s);
+    public static event StingEvent e_player_left;
+
 
     #region _EVENT INVOKERS
 
+    public static void _EventPlayerLeft(string _s)
+    {
+        if (e_player_left!=null)
+        {
+            e_player_left(_s);
+        }
+    }
 
     public static void _EventTextLookat(Transform _t)
     {

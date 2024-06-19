@@ -42,6 +42,7 @@ public class NetwrokUI : NetworkBehaviour
     {
         NetworkEventManager.e_win_event += _OnGameWon;
         NetworkEventManager.e_playercount += _Playerjoined;
+        NetworkEventManager.e_player_left += _PlayerLeft;
     }
 
     private void OnDisable()
@@ -49,6 +50,13 @@ public class NetwrokUI : NetworkBehaviour
 
         NetworkEventManager.e_win_event -= _OnGameWon;
         NetworkEventManager.e_playercount -= _Playerjoined;
+        NetworkEventManager.e_player_left -= _PlayerLeft;
+    }
+
+    private void _PlayerLeft(string _s)
+    {
+        NotificationText.text = _s;
+        NotificationPanel.SetActive(true);
     }
     #endregion
 
