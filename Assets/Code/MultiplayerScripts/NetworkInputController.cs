@@ -26,7 +26,6 @@ public class _AllPlayerData
 {
     public PlayerRef playerRef;
     public NetworkObject Player;
-    public NetworkAIPlayer AIPlayer;
 }
 
 [System.Serializable]

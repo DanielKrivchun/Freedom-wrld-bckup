@@ -16,8 +16,21 @@ public class NetworkEventManager : MonoBehaviour
     public delegate void CameraDelegateEvents(_CamState _CamState);
     public static event CameraDelegateEvents e_camera_cnage;
 
+    public delegate void LookatEvent(Transform _t);
+    public static event LookatEvent e_text_lookat;
+
 
     #region _EVENT INVOKERS
+
+
+    public static void _EventTextLookat(Transform _t)
+    {
+        if (e_text_lookat != null)
+        {
+            e_text_lookat(_t);
+        }
+    }
+
 
     public static void _EventConfigUpdated()
     {

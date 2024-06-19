@@ -164,7 +164,6 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     private void _OnWInNumberAlocated()
     {
-        nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
         Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
         _ChangeAnimationHere(_AnimState.Jump);
         RaceManager.instance._CheckAllPlayerCompleted();

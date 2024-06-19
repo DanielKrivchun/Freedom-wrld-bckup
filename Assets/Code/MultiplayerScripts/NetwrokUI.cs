@@ -12,7 +12,7 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject WinUI;
     public GameObject countdownPanel;
     [Space]
-    public GameObject connectingUI;
+    public GameObject LoadingPanel;
     [Space]
     public GameObject starGameButton;
     [Header("Notification")]
@@ -87,7 +87,7 @@ public class NetwrokUI : NetworkBehaviour
 
     public void _JoinRoom()
     {
-        connectingUI.SetActive(true);
+        //LoadingPanel.SetActive(true);
         spawner._StartGame(Fusion.GameMode.AutoHostOrClient);
     }
 
@@ -105,7 +105,7 @@ public class NetwrokUI : NetworkBehaviour
 
     public void _StartCountDown()
     {
-        connectingUI.SetActive(false);
+        //LoadingPanel.SetActive(false);
         startUI.SetActive(false);
         countdownPanel.SetActive(true);
         StartCoroutine(_StartedCountDown());

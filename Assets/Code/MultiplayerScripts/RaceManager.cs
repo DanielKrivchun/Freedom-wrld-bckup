@@ -370,6 +370,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         SceneData.CoinsGained += coinstoadd;
 
         //ADD COINS FROM BeamableInventoryManager AddCurrency
+        //AND XP WILL BE CALCULATED IN NEXT SCENE
     }
 
     #endregion
@@ -440,6 +441,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         if (Runner.IsServer)
         {
+
+            //NOTIFY TO PLAYER WHICH PLAYER LEFT
+
             _AllPlayerData p = GenratedPlayers.Find(asd => asd.playerRef == playerRef);
 
             if (p.playerRef != null)
@@ -450,6 +454,17 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
     #endregion
+
+
+    #region RECONNECTION
+
+    private void _SendNotification()
+    {
+
+    }
+
+    #endregion
+
 
     #region INetworkRunnerCallbacks ALSO SETTING INPUT OVER HERE
 

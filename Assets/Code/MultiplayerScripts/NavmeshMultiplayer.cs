@@ -194,7 +194,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     MyWiningNumber = RaceManager.instance._GetMyWinningNo();
                     RaceComplete = true;
                     StartCoroutine(SetMyWinPosition());
-                    nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
                     break;
                 case _Tags.Water:
                     _ChangeAnimationHere(_AnimState.Swimming);
@@ -256,7 +255,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         if (Utils.IsLocalPlayer(Object))
         {
-            nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
             Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
             NetworkEventManager._EventWon(MyWiningNumber);
             NetwrokUI.Instance.WinUI.SetActive(true);
@@ -266,7 +264,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
         else
         {
-            nameText.GetComponent<LookAtCamera>().m_cam = NetworkCamera.Instance.WinCam.transform;
             Debug.Log("Chaning animation for all other " + MyName);
             _ChangeAnimationHere(_AnimState.Jump);
         }
