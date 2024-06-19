@@ -75,7 +75,7 @@ public class NetwrokUI : NetworkBehaviour
     IEnumerator _DisableNotification()
     {
         yield return new WaitForSecondsRealtime(2f);
-        NofificationObj.DOAnchorPosY(-500f, 1f);
+        NofificationObj.DOAnchorPosY(1000f, 1f);
         _ienumrator = null;
     }
 
