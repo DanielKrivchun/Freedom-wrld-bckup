@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Fusion;
 using System;
 using System.Collections;
@@ -17,6 +18,7 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject starGameButton;
     [Header("Notification")]
     public GameObject NotificationPanel;
+    public RectTransform NofificationObj;
     public TextMeshProUGUI NotificationText;
     [Space]
     public TextMeshProUGUI countdownText;
@@ -30,6 +32,8 @@ public class NetwrokUI : NetworkBehaviour
     public RaceManager spawner;
 
     public static NetwrokUI Instance;
+
+    private IEnumerator _ienumrator;
 
     private void Awake()
     {
@@ -53,11 +57,30 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_player_left -= _PlayerLeft;
     }
 
-    private void _PlayerLeft(string _s)
+    private async void _PlayerLeft(string _s)
     {
-        NotificationText.text = _s;
+        NotificationText.text = _s+" is left";
         NotificationPanel.SetActive(true);
+        NofificationObj.DOAnchorPosY(-50f, 1f);
+
+        if(_ienumrator != null)
+        {
+            StopCoroutine(_ienumrator);
+        }
+
+        _ienumrator = _DisableNotification();
+        StartCoroutine(_ienumrator);
     }
+
+    IEnumerator _DisableNotification()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        NofificationObj.DOAnchorPosY(-500f, 1f);
+        _ienumrator = null;
+    }
+
+
+
     #endregion
 
     public void _LoadScene()

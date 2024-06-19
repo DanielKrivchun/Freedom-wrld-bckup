@@ -12,10 +12,16 @@ public class LookAtCamera : MonoBehaviour
 
     public Vector3 Offset;
     private Vector3 pos;
+
+
+    private void Start()
+    {
+        target = NetworkCamera.Instance.CurruntCam.transform;
+    }
+
     private void OnEnable()
     {
         NetworkEventManager.e_text_lookat += _LoookatTargetChange;
-
     }
 
     private void OnDisable()

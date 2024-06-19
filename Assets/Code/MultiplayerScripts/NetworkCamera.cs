@@ -19,7 +19,7 @@ public class NetworkCamera : MonoBehaviour
     [Space]
     public GameObject Confetti;
 
-    private GameObject CurruntCam;
+    public GameObject CurruntCam;
     private CinemachineVirtualCamera cam;
 
     public static NetworkCamera Instance;
@@ -45,7 +45,6 @@ public class NetworkCamera : MonoBehaviour
     {
         NetworkEventManager.e_camera_cnage -= _CameraSetup;
         NetworkEventManager.e_focus_on_player -= _FocusOnPlayer;
-
     }
 
     private void _FocusOnPlayer(int _no)
