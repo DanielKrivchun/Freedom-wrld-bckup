@@ -16,8 +16,8 @@ public class EatObject : MonoBehaviour
     public int IntelligenceValue;
     public int luckValue;
 
-    //[Header("Script Ref")]
-    //public ParticleEffectsManager particleEffectsManager;
+    [Header("Script Ref")]
+    private ParticleEffectsManager particleEffectsManager;
 
     [Header("Pet Data Reference")]
     public PetDataRef petDataRef;
@@ -25,12 +25,18 @@ public class EatObject : MonoBehaviour
     [HideInInspector]
     public int foodSpawnIndex;
 
+    private void Start()
+    {
+        particleEffectsManager = FindObjectOfType<ParticleEffectsManager>();
+    }
+
     private void OnMouseDown()
     {
         if (PetCareStateManager.instance.petDataRef.petData.hunger < 100)
         {
             if (foodName == FoodItems.Fairy || foodName == FoodItems.GoldenFairy) {
-                
+                //Do particle effect
+                particleEffectsManager.PlayFairyEffect();
             }
             PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Eating);
             PetCareStateManager.instance.ManageHungerDataFiller(hungerValue);
