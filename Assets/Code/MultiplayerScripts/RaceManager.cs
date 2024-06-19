@@ -607,7 +607,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     void _PlayerLeftDetails(string s)
     {
         Debug.Log("I am Getting  Details  " + s);
-
+        NetworkEventManager._EventPlayerLeft(s);
     }
 
     #endregion
