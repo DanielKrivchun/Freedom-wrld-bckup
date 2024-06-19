@@ -629,11 +629,11 @@ public class PetCareStateManager : MonoBehaviour
     {
         petDataRef.petData.xp += value;
 
-        // Update leaderboard
-        /*var _beamContext = BeamContext.Default;
+        // Update leaderboard petXp
+        var _beamContext = BeamContext.Default;
         await _beamContext.OnReady;
         string playerId = _beamContext.PlayerId.ToString();
-        await _LeaderboardServiceClient.UpdateXp(playerId, (int)Math.Round(petDataRef.petData.xp));*/
+        await _LeaderboardServiceClient.UpdateXp(playerId, (int)Math.Round(petDataRef.petData.xp));
 
         //If Rank is increased then Show RankUp popup and update stamina
         if (CheckForRankUp())
@@ -641,7 +641,7 @@ public class PetCareStateManager : MonoBehaviour
             petDataRef.petData.rank++;
 
             //Update leaderboard petRank
-            //await _LeaderboardServiceClient.UpdateRank(playerId, petDataRef.petData.rank);
+            await _LeaderboardServiceClient.UpdateRank(playerId, petDataRef.petData.rank);
 
             //Show Rank popup
             petCareUIManager.ShowRankUpUI();

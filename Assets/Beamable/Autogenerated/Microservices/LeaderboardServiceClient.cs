@@ -35,7 +35,7 @@ namespace Beamable.Server.Clients
         /// Call the CreateEntry method on the LeaderboardService microservice
         /// <see cref="Beamable.Microservices.LeaderboardService.CreateEntry"/>
         /// </summary>
-        public Beamable.Common.Promise<bool> CreateEntry(string _playerName, string _petName, int _petRank, int _petXp)
+        public Beamable.Common.Promise<Beamable.Common.Unit> CreateEntry(string _playerName, string _petName, int _petRank, int _petXp)
         {
             object raw__playerName = _playerName;
             object raw__petName = _petName;
@@ -46,7 +46,7 @@ namespace Beamable.Server.Clients
             serializedFields.Add("_petName", raw__petName);
             serializedFields.Add("_petRank", raw__petRank);
             serializedFields.Add("_petXp", raw__petXp);
-            return this.Request<bool>("LeaderboardService", "CreateEntry", serializedFields);
+            return this.Request<Beamable.Common.Unit>("LeaderboardService", "CreateEntry", serializedFields);
         }
         
         /// <summary>

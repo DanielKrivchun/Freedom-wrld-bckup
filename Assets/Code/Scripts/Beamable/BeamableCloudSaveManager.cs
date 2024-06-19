@@ -166,11 +166,12 @@ namespace Beamable.CloudSavingService
                                         running, climbing, flying, swimming, intelligence, luck,
                                         1, 0, 100);
 
-            /*await _LeaderboardServiceClient.CreateEntry (
-                playerId, 
-                petDataRef.petData.petname, 
-                petDataRef.petData.rank, 
-                (int)Math.Round(petDataRef.petData.xp)); */
+            // Create leaderboard entry
+            await _LeaderboardServiceClient.CreateEntry(
+                playerId,
+                petDataRef.petData.petname,
+                petDataRef.petData.rank,
+                (int)Math.Round(petDataRef.petData.xp));
 
             beamableCloudSavingData.petDataLocal = petDataRef.petData;
             SaveData(beamableCloudSavingData.petDataLocal);

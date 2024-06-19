@@ -13,9 +13,8 @@ namespace Beamable.Microservices
 	public class LeaderboardService : Microservice
 	{
         [ClientCallable]
-        public async Promise<bool> CreateEntry(string _playerName, string _petName, int _petRank, int _petXp)
+        public async void CreateEntry(string _playerName, string _petName, int _petRank, int _petXp)
         {
-            bool isSuccess = false;
 
             try
             {
@@ -34,7 +33,6 @@ namespace Beamable.Microservices
                 });
                 Debug.Log($"Added {_playerName}'s data added to database");
 
-                isSuccess = true;
             }
             catch (Exception e)
             {
@@ -42,7 +40,6 @@ namespace Beamable.Microservices
                 Debug.LogError(e.Message);
             }
 
-            return isSuccess;
 
         }
 
