@@ -58,5 +58,6 @@ public enum FoodItems
     GoldenFairy,
     CosmicBerryElectrolyteDrink,
     ProteinShake,
-    MiracleCognitiveSupplements
+    MiracleCognitiveSupplements,
+    AntiBiotics
 }

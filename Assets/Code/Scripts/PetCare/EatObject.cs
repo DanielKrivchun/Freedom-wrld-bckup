@@ -38,6 +38,14 @@ public class EatObject : MonoBehaviour
                 //Do particle effect
                 particleEffectsManager.PlayFairyEffect();
             }
+
+            if (foodName == FoodItems.AntiBiotics) {
+                petDataRef.petData.isSick = false;
+                PetCareUIManager.instance.ShowNotificationUI("Sickness has been cured!");
+                PetCareUIManager.instance.ClosePetSickLabel();
+                PetCareInputManager.instance.SetPetToIdle();
+            }
+
             PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Eating);
             PetCareStateManager.instance.ManageHungerDataFiller(hungerValue);
             PetCareStateManager.instance.ManageHappinessDataFiller(happinessValue);

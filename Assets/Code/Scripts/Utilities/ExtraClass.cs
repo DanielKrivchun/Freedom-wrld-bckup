@@ -132,6 +132,9 @@ public static class Utils
 
             case "MiracleCognitiveSupplements":
                 return FoodItems.MiracleCognitiveSupplements;
+
+            case "AntiBiotics":
+                return FoodItems.AntiBiotics;
         }
 
         return FoodItems.None;
