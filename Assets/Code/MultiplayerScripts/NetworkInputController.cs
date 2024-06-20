@@ -29,9 +29,16 @@ public class _AllPlayerData
 }
 
 [System.Serializable]
-public class _GenratedPlayers
+public class _GenratedAIPlayer
 {
     public bool AI;
     public NavmeshMultiplayer player;
+    public NetworkAIPlayer aiplayer;
+}
+
+[System.Serializable]
+public class _AIplayerDetails
+{
+    public PlayerRef playerRef;
     public NetworkAIPlayer aiplayer;
 }

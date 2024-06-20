@@ -61,7 +61,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public string LocalPlayerNickname { get; private set; }
     [Space]
     public List<_AllPlayerData> GenratedPlayers;
-    public List<_GenratedPlayers> TotalPlayers;
+    [Space]
+    public List<_GenratedAIPlayer> TotalPlayers;
+    [Space]
+    public List<_AIplayerDetails> AIplayerDetails;
     #endregion
 
     #region NETWORKED OBJECTS
@@ -401,48 +404,80 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         if (Runner.IsServer)
         {
+
+            //CHECK HERE FOR TOTAL NULBER OF PLAYERS
+
+            if (TotalNumberOfPlayers >= 5)
+            {
+                Debug.Log("Players are morethen 5 or 5 ");
+                //REMOVE AI PLAYER HERE AND ADD REAL PLAYER
+                int newpathno = _DespwanAIplayer();
+                Vector3 spwanp = spawnPoints[newpathno].transform.position;
+                _SpwanPlayerCalculations(playerRef, newpathno, spwanp);
+                return;
+            }
+
             if (PathNumber <= 0)
             {
                 PathNumber = 0;
             }
             Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
-            Debug.Log(spawnPoint);
-            NetworkObject playerObject = Runner.Spawn(PlayerPrefab, spawnPoint, Quaternion.identity, playerRef);
-            playerObject.transform.position = spawnPoint;
-            Debug.Log(playerObject.transform.position);
-            playerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData(PathNumber);
-            //playerı serverde yaptık.
-            Runner.SetPlayerObject(playerRef, playerObject);
+            _SpwanPlayerCalculations(playerRef, PathNumber, spawnPoint);
             PathNumber++;
-
-            _AllPlayerData d = new _AllPlayerData();
-            d.Player = playerObject;
-            d.playerRef = playerRef;
-
-            GenratedPlayers.Add(d);
-
             if (PathNumber >= 0)
             {
                 NetwrokUI.Instance._OpenStartUI();
             }
         }
 
-        if (Runner.IsClient)
+        //if (Runner.IsClient)
+        //{
+        //    Debug.Log("I am client so checking for AI player");
+        //    _CheckForAIPlayers();
+        //}
+    }
+
+    void _SpwanPlayerCalculations(PlayerRef _playerRef, int _pathno, Vector3 _spwanpos)
+    {
+        NetworkObject playerObject = Runner.Spawn(PlayerPrefab, _spwanpos, Quaternion.identity, _playerRef);
+        playerObject.transform.position = _spwanpos;
+        playerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData(_pathno);
+        Runner.SetPlayerObject(_playerRef, playerObject);
+        _AllPlayerData d = new _AllPlayerData();
+        d.Player = playerObject;
+        d.playerRef = _playerRef;
+        GenratedPlayers.Add(d);
+    }
+
+    private int _DespwanAIplayer()
+    {
+        if (Runner.IsServer)
         {
-            Debug.Log("I am client so checking for AI player");
-            _CheckForAIPlayers();
+
+            int a = 0;
+            foreach (var item in TotalPlayers)
+            {
+                if (item.AI)
+                {
+                    a = item.aiplayer.MyPathNumber;
+                    Debug.Log(a);
+                    Destroy(item.aiplayer.gameObject);
+                    TotalPlayers.Remove(item);
+                    return a;
+                }
+            }
         }
+
+        Debug.Log("No AI player Found");
+        return 4;
     }
 
     private void _DespawnPlayer(PlayerRef playerRef)
     {
         if (Runner.IsServer)
         {
-
             //NOTIFY TO PLAYER WHICH PLAYER LEFT
-
             _AllPlayerData p = GenratedPlayers.Find(asd => asd.playerRef == playerRef);
-
 
             if (p.playerRef != null)
             {
@@ -455,17 +490,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
     #endregion
-
-
-    #region RECONNECTION
-
-    private void _SendNotification()
-    {
-
-    }
-
-    #endregion
-
 
     #region INetworkRunnerCallbacks ALSO SETTING INPUT OVER HERE
 
@@ -487,6 +511,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
+
+        //CHECK OF ROOM IS FULL IF FULL THEN DESPWAN PLAYER
         _SpawnPlayer(player);
         //CHECKING FOR AI PLAYER COUNT
     }
@@ -581,10 +607,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public void _GenrateAIPlayer()
     {
         Debug.Log("AI player genration");
-        if (PathNumber <= 0)
-        {
-            PathNumber = 0;
-        }
         Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
         Debug.Log(spawnPoint);
         NetworkObject playerObject = Runner.Spawn(AIPlayer, spawnPoint, Quaternion.identity);

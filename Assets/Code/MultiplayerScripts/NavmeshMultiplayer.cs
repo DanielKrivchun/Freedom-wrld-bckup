@@ -241,15 +241,15 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         Debug.Log("SetMyWinPosition " + MyName);
 
         yield return new WaitForSecondsRealtime(0.2f);
-        int temp = MyWiningNumber - 1;
-        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-        //Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
-        WinPosition = pos;
+        GenratedPet.gameObject.SetActive(false);
+        _GenratePetPrefabOnWin();
+        //WinPosition = pos;
         //networkTransform.Teleport(pos, Q);
         yield return new WaitForEndOfFrame();
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
         _ChangeAnimationHere(_AnimState.Jump);
     }
+
 
     private void _OnWInNumberAlocated()
     {
@@ -475,7 +475,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             gameObject.name = MyName;
 
             //ADD PLAYER
-            _GenratedPlayers G = new _GenratedPlayers();
+            _GenratedAIPlayer G = new _GenratedAIPlayer();
             G.player = this;
             RaceManager.instance.TotalPlayers.Add(G);
             RaceManager.instance.TotalNumberOfPlayers++;
@@ -485,6 +485,17 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             Debug.Log("ALready Genrated");
         }
+    }
+
+    private void _GenratePetPrefabOnWin()
+    {
+        int temp = MyWiningNumber - 1;
+        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+        GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), RaceManager.instance.WinPoints[temp]);
+        PetAnimation P = obj.GetComponent<PetAnimation>();
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
+        P._ChangeAnimationState(_AnimState.Jump);
     }
 
     public void BeforeUpdate()
