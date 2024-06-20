@@ -50,6 +50,9 @@ public class NetworkAIPlayer : NetworkBehaviour
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
     public int SpeedController = 1;
+    private Vector3 pos;
+
+    public Quaternion Q { get; private set; }
 
     #endregion
 
@@ -195,9 +198,8 @@ public class NetworkAIPlayer : NetworkBehaviour
         rb.isKinematic = true;
         yield return new WaitForSecondsRealtime(0.2f);
         int temp = MyWiningNumber - 1;
-        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-        Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
-
+        pos = RaceManager.instance.WinPoints[temp].position;
+        Q = RaceManager.instance.WinPoints[temp].rotation;
         networkTransform.Teleport(pos, Q);
         //GenratedPet.gameObject.SetActive(false);
         //_GenratePetPrefabOnWin();
@@ -267,8 +269,15 @@ public class NetworkAIPlayer : NetworkBehaviour
             return;
         }
 
+        if (RaceComplete)
+        {
+            networkTransform.Teleport(pos, Q);
+            return;
+        }
+
         if (!IsServer && RaceComplete)
         {
+
             return;
         }
         //FIND DISTNACE HERE

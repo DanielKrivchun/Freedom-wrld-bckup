@@ -266,6 +266,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             CustomPhotonAppSettings = appSettings
 
         });
+
     }
 
     string _GetMyRank()
@@ -409,6 +410,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
             if (TotalNumberOfPlayers >= 5)
             {
+                TotalNumberOfPlayers--;
                 Debug.Log("Players are morethen 5 or 5 ");
                 //REMOVE AI PLAYER HERE AND ADD REAL PLAYER
                 int newpathno = _DespwanAIplayer();
