@@ -303,7 +303,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
-    #region ON RACE COMPLETE
+    #region ON RACE COMPLETE CACLULATION CP AND COINS
 
     public void _CheckAllPlayerCompleted()
     {
@@ -394,7 +394,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
     #endregion
 
-    #region PLAYER SPWANR
+    #region PLAYER SPWANR AND DESPWAN
 
     public override void Spawned()
     {

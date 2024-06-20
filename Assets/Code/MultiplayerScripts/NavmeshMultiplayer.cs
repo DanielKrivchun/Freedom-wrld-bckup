@@ -89,6 +89,11 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         StartCoroutine(_GenrateMyPrefab());
     }
 
+    private void OnDestroy()
+    {
+        NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;
+    }
+
     private void _OnStopStartPlayer(int _no)
     {
         SpeedController = _no;

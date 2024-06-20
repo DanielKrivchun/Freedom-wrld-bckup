@@ -223,7 +223,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     #region ANIMATION CAMERA
     private void _ChangeAnimationHere(_AnimState _state)
     {
-        Debug.Log("Changed ANimation here");
+        //Debug.Log("Changed ANimation here");
         GenratedPet._ChangeAnimationState(_state);
     }
 
