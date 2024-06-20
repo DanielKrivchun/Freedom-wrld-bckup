@@ -59,11 +59,11 @@ public class NetwrokUI : NetworkBehaviour
 
     private async void _PlayerLeft(string _s)
     {
-        NotificationText.text = _s+" is left";
+        NotificationText.text = _s + " is left";
         NotificationPanel.SetActive(true);
         NofificationObj.DOAnchorPosY(-50f, 1f);
 
-        if(_ienumrator != null)
+        if (_ienumrator != null)
         {
             StopCoroutine(_ienumrator);
         }
@@ -99,6 +99,7 @@ public class NetwrokUI : NetworkBehaviour
         {
             WinnerList[i]._SetupMyData(_s[i]);
             WinnerList[i].gameObject.SetActive(true);
+            WinnerList[i].transform.DOScale(1f, 0.5f);
         }
 
         wincontent.gameObject.SetActive(true);

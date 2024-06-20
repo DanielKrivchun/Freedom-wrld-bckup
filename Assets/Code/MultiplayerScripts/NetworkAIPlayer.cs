@@ -11,7 +11,9 @@ public class NetworkAIPlayer : NetworkBehaviour
     #region PUBLIC VARIABLES
     [Header("SCRIPTABLE OBJECTS")]
     public InputValue m_input_value;
-    public PetConfigs PetConfigs;
+    public AiPlayerConfigs PetConfigs;
+    [Space]
+    public float Speed;
     [Space]
     public TextMeshPro nameText;
     [Header("Navmesh Agent")]
@@ -63,6 +65,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         {
             IsServer = true;
         }
+        Speed = PetConfigs._GetMySpeed();
         StartCoroutine(_GenrateMyPrefab());
     }
 
@@ -71,7 +74,6 @@ public class NetworkAIPlayer : NetworkBehaviour
         yield return new WaitForSecondsRealtime(1f);
         Debug.Log("This Choroutine Worked " + gameObject.name);
         _GenratePetPrefab();
-
     }
 
     /// <summary>
@@ -80,7 +82,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     void _SetupConfigs()
     {
         m_agent.speed = Random.Range(3, 8);
-        m_agent.acceleration = Random.Range(15, PetConfigs.Acceleration);
+        m_agent.acceleration = Random.Range(15, Speed);
     }
 
     private void SetLocalObjects()

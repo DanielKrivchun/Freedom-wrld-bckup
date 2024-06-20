@@ -548,7 +548,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_input_value: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
-  PetConfigs: {fileID: 11400000, guid: 2726ba940c4abc448a48f08f07cc4bb2, type: 2}
+  PetConfigs: {fileID: 11400000, guid: 80d9f7d0a8895aa42b63171b5169d5fb, type: 2}
+  Speed: 0
   nameText: {fileID: 1881986423725643747}
   m_agent: {fileID: 1920933005764420817}
   GenratedPet: {fileID: 0}
@@ -577,7 +578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 0}
-  TotalWords: -1
+  TotalWords: 0
   ApplyTiming: 2
   SyncSettings: 79
   StateHashes: 
