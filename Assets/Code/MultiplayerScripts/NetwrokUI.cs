@@ -74,7 +74,7 @@ public class NetwrokUI : NetworkBehaviour
 
     IEnumerator _DisableNotification()
     {
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(5f);
         NofificationObj.DOAnchorPosY(1000f, 1f);
         _ienumrator = null;
     }
@@ -119,7 +119,6 @@ public class NetwrokUI : NetworkBehaviour
 
     public void _JoinRoom()
     {
-        //LoadingPanel.SetActive(true);
         spawner._StartGame(Fusion.GameMode.AutoHostOrClient);
     }
 
@@ -137,7 +136,6 @@ public class NetwrokUI : NetworkBehaviour
 
     public void _StartCountDown()
     {
-        //LoadingPanel.SetActive(false);
         startUI.SetActive(false);
         countdownPanel.SetActive(true);
         StartCoroutine(_StartedCountDown());

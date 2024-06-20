@@ -33,6 +33,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Space]
     public float MySpeed;
     public float MyStamina;
+    [Space]
+    private float SpeedController = 1f;
     #endregion
 
     #region Private variables
@@ -60,13 +62,14 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public int MyWiningNumber { get; set; }
 
 
-    private NetworkTransform networkTransform;
+    public NetworkTransform networkTransform;
 
     #endregion
 
     #region NETWORK FUCTIONS
     public override void Spawned() // fusionun startı
     {
+        NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
         path_point = FindObjectOfType<PathPointManager>();
         SetLocalObjects();
         _SetupConfigs();
@@ -80,6 +83,20 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             m_agent.enabled = false;
         }
         StartCoroutine(_GenrateMyPrefab());
+    }
+
+    private void _OnStopStartPlayer(int _no)
+    {
+        SpeedController = _no;
+
+        if (_no == 0)
+        {
+            GenratedPet._ChangeAnimationState(_AnimState.Idle);
+        }
+        else
+        {
+            GenratedPet._ChangeAnimationState(_AnimState.Run);
+        }
     }
 
     IEnumerator _GenrateMyPrefab()
@@ -241,10 +258,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         Debug.Log("SetMyWinPosition " + MyName);
 
         yield return new WaitForSecondsRealtime(0.2f);
-        GenratedPet.gameObject.SetActive(false);
-        _GenratePetPrefabOnWin();
+        int temp = MyWiningNumber - 1;
+        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+        Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
+        //GenratedPet.gameObject.SetActive(false);
+        //_GenratePetPrefabOnWin();
         //WinPosition = pos;
-        //networkTransform.Teleport(pos, Q);
+        networkTransform.Teleport(pos, Q);
         yield return new WaitForEndOfFrame();
         Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
         _ChangeAnimationHere(_AnimState.Jump);
@@ -333,13 +353,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             NetworkedSetTap = input.TapMultiplier;
             MyNetworkSpeed = input.Speed;
-            WinPosition = input.direction;
+            //WinPosition = input.direction;
 
-            if (RaceComplete)
-            {
-                transform.position = input.direction;
-            }
-
+            //if (WinPosition.x != 0)
+            //{
+            //    transform.position = input.direction;
+            //}
         }
 
         if (!IsServer || RaceComplete)
@@ -350,7 +369,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
 
-        m_agent.speed = MyNetworkSpeed * NetworkedSetTap;
+        m_agent.speed = MyNetworkSpeed * NetworkedSetTap * SpeedController;
 
         //FIND DISTNACE HERE
         _CalculateDistance();

@@ -94,7 +94,7 @@ public class NetworkCamera : MonoBehaviour
 
     public void _ActiveWinScene()
     {
-        NetworkEventManager._EventTextLookat(CurruntCam.transform);
+        NetworkEventManager._EventTextLookat(WinCam.transform);
         WinCamera.gameObject.SetActive(true);
         //FollowCam.gameObject.SetActive(false);
         Confetti.gameObject.SetActive(true);

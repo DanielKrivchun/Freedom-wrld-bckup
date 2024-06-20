@@ -37,7 +37,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     public bool IsLocalPlayer;
     public bool RaceComplete;
 
-    private NetworkTransform networkTransform;
+    public NetworkTransform networkTransform;
     private NavMeshHit hit;
     private Vector3 finalPosition;
     #endregion
@@ -49,6 +49,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
+    public int SpeedController = 1;
 
     #endregion
 
@@ -57,6 +58,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     private void Start()
     {
         Debug.Log("WORKED");
+        NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
         networkTransform = GetComponent<NetworkTransform>();
         path_point = FindObjectOfType<PathPointManager>();
         SetLocalObjects();
@@ -67,6 +69,22 @@ public class NetworkAIPlayer : NetworkBehaviour
         }
         Speed = PetConfigs._GetMySpeed();
         StartCoroutine(_GenrateMyPrefab());
+    }
+
+    private void _OnStopStartPlayer(int _no)
+    {
+        SpeedController = _no;
+        m_agent.speed = Speed * SpeedController;
+
+        if (_no == 0)
+        {
+            GenratedPet._ChangeAnimationState(_AnimState.Idle);
+        }
+        else
+        {
+            GenratedPet._ChangeAnimationState(_AnimState.Run);
+        }
+
     }
 
     IEnumerator _GenrateMyPrefab()
@@ -176,8 +194,13 @@ public class NetworkAIPlayer : NetworkBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         yield return new WaitForSecondsRealtime(0.2f);
-        GenratedPet.gameObject.SetActive(false);
-        _GenratePetPrefabOnWin();
+        int temp = MyWiningNumber - 1;
+        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
+        Quaternion Q = RaceManager.instance.WinPoints[temp].rotation;
+
+        networkTransform.Teleport(pos, Q);
+        //GenratedPet.gameObject.SetActive(false);
+        //_GenratePetPrefabOnWin();
         yield return new WaitForEndOfFrame();
         _ChangeAnimationHere(_AnimState.Jump);
     }
