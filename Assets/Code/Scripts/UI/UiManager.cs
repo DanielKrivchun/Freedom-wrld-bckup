@@ -118,9 +118,7 @@ public class UiManager : MonoBehaviour
 
     private void Update()
     {
-
         if (!GameStarted) return;
-
         m_reset += Time.deltaTime;
         if (m_reset > m_reset_t)
         {
@@ -136,6 +134,9 @@ public class UiManager : MonoBehaviour
             value -= Decrimental;
             _MoveArrowToInitialPos();
         }
+
+        _SetArrowBasedMultiplier();
+
 
         if (GameStarted)
         {
@@ -176,16 +177,18 @@ public class UiManager : MonoBehaviour
 
         //CALCULATION HERE
         m_pos.y = -(m_max_y_pos) * (m_diff) / (1.5f);
-
-        //Debug.Log(m_diff + "               " + m_pos.y);
         m_arrow.anchoredPosition = Vector2.Lerp(m_arrow.anchoredPosition, m_pos, UpwordSpeed * Time.deltaTime);
-        //m_arrow.DOAnchorPos(m_pos, m_diff);
 
+
+    }
+
+    void _SetArrowBasedMultiplier()
+    {
         ypos = m_arrow.anchoredPosition.y;
 
         if (ypos >= -600f && ypos < -460f)
         {
-            //Debug.Log("Bottom Red");
+            Debug.Log("Bottom Red");
             PetConfigs.TapMultiplier = 0.8f;
             SteminaDrain = red_drain;
             return;
@@ -193,7 +196,7 @@ public class UiManager : MonoBehaviour
 
         if (ypos >= -460f && ypos < -290f)
         {
-            //Debug.Log("Yellow Red");
+            Debug.Log("Yellow Red");
             PetConfigs.TapMultiplier = 1f;
             SteminaDrain = yellow_drain;
             return;
@@ -201,7 +204,7 @@ public class UiManager : MonoBehaviour
 
         if (ypos > -290f && ypos < -160f)
         {
-            //Debug.Log("Green Red");
+            Debug.Log("Green Red");
             PetConfigs.TapMultiplier = 1.5f;
             SteminaDrain = greem_drain;
             return;
@@ -209,13 +212,11 @@ public class UiManager : MonoBehaviour
 
         if (ypos > -160f && ypos < 0f)
         {
-            //Debug.Log("Top Red");
+            Debug.Log("Top Red");
             PetConfigs.TapMultiplier = 0.8f;
             SteminaDrain = red_drain;
             return;
         }
-
-
     }
 
 }

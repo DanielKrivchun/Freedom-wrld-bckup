@@ -57,9 +57,6 @@ public class NetworkAIPlayer : NetworkBehaviour
     #endregion
 
     #region NETWORK FUCTIONS
-
-
-
     private void OnDestroy()
     {
         NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;

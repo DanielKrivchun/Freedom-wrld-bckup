@@ -12,6 +12,7 @@ using System.Linq;
 using Fusion.Photon.Realtime;
 using UnityEngine.UI;
 using DG.Tweening;
+using Unity.Mathematics;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
 
@@ -24,6 +25,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public Transform[] spawnPoints;
     [Space]
     public Transform[] WinPoints;
+    [Space]
+    public Transform[] StumblePoints;
     [Space]
     [Header("Player configs")]
     [Header("NetworkRunner Prefab")]
@@ -95,7 +98,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public static RaceManager instance;
 
     #region UNITY METHODS
-
     private void Awake()
     {
         if (instance == null)
@@ -113,7 +115,25 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         PrefabID = petdataref.petData.petPrefabID.ToString();
         SceneData._Reset();
         namesJson._SetMyData();
+
+        NetworkEventManager.e_countdown_start += _OnCounddownStart;
     }
+
+    private void OnDestroy()
+    {
+        NetworkEventManager.e_countdown_start -= _OnCounddownStart;
+    }
+
+    private void _OnCounddownStart()
+    {
+        if (Runner.IsServer)
+        {
+            int a = UnityEngine.Random.Range(0, 3);
+            Debug.Log("Stumble point  " + a);
+            RPC_SetStumbleObject(a);
+        }
+    }
+
     #endregion
 
     #region AFK KICKING
@@ -131,7 +151,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             hours = Mathf.FloorToInt(TotalSeconds / 3600);
             minutes = Mathf.FloorToInt(TotalSeconds / 60);
             seconds = Mathf.FloorToInt(TotalSeconds % 60);
-
             TimeLeft = (minutes) + " : " + seconds;
         }
     }
@@ -632,8 +651,19 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log("I am Getting  Details  " + s);
         NetworkEventManager._EventPlayerLeft(s);
-        NetworkEventManager._EventOnStopPlayer(0);
+        NetworkEventManager._EventOnStopPlayer(1);
 
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SetStumbleObject(int a)
+    {
+        _SetStumbleObjec(a);
+    }
+
+    void _SetStumbleObjec(int a)
+    {
+        StumblePoints[a].gameObject.SetActive(true);
     }
 
     #endregion
