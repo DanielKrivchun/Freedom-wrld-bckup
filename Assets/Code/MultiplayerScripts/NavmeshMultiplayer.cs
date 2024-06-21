@@ -62,7 +62,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
 
-
     public NetworkTransform networkTransform;
     private Vector3 pos;
 
@@ -205,7 +204,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log(other.tag);
+        //Debug.Log(other.tag);
 
         if (Runner.IsServer)
         {
@@ -326,7 +325,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         if (IsServer)
         {
-            Debug.Log(MyPathNumber);
+            //Debug.Log(MyPathNumber);
             _InitilizePath();
             m_currunt_pos = _GetNextPos(move_positions[m_currunt_index]);
             _SetDestination();
@@ -428,7 +427,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     /// </summary>
     void _InitilizePath()
     {
-        Debug.Log("My Path No  " + MyPathNumber + "   " + gameObject.name);
+        //Debug.Log("My Path No  " + MyPathNumber + "   " + gameObject.name);
         move_positions = new List<Vector3>();
         move_positions = path_point.prePositions[MyPathNumber].m_positions;
     }

@@ -6,12 +6,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NetwrokUI : NetworkBehaviour
 {
     public GameObject startUI;
     public GameObject WinUI;
     public GameObject countdownPanel;
+    public GameObject LeaveUI;
+    public GameObject LeavePopup;
     [Space]
     public GameObject LoadingPanel;
     [Space]
@@ -30,6 +33,11 @@ public class NetwrokUI : NetworkBehaviour
     public List<WinContent> WinnerList;
     [Space]
     public RaceManager spawner;
+    [Space]
+    [Header("Buttons")]
+    public Button LeaveButton;
+    public Button ContinueButton;
+    public Button ExitButton;
 
     public static NetwrokUI Instance;
 
@@ -47,6 +55,11 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_win_event += _OnGameWon;
         NetworkEventManager.e_playercount += _Playerjoined;
         NetworkEventManager.e_player_left += _PlayerLeft;
+
+        LeaveButton.onClick.AddListener(_OnLeaveButton);
+        ContinueButton.onClick.AddListener(_ContinueRace);
+        ExitButton.onClick.AddListener(_YesLeave);
+
     }
 
     private void OnDisable()
@@ -55,6 +68,10 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_win_event -= _OnGameWon;
         NetworkEventManager.e_playercount -= _Playerjoined;
         NetworkEventManager.e_player_left -= _PlayerLeft;
+
+        LeaveButton.onClick.RemoveListener(_OnLeaveButton);
+        ContinueButton.onClick.RemoveListener(_ContinueRace);
+        ExitButton.onClick.RemoveListener(_YesLeave);
     }
 
     private async void _PlayerLeft(string _s)
@@ -83,10 +100,28 @@ public class NetwrokUI : NetworkBehaviour
 
     #endregion
 
-    public void _LoadScene()
+
+    #region LOCAL BUTTONS AND METHDOS
+    private void _OnLeaveButton()
+    {
+        LeavePopup.transform.localScale = Vector3.zero;
+        LeaveUI.SetActive(true);
+        LeavePopup.transform.DOScale(1f, 0.5f);
+    }
+
+    private void _ContinueRace()
+    {
+        LeaveUI.SetActive(false);
+    }
+
+    private void _YesLeave()
     {
         SceneManager.LoadScene("PetCareScene");
     }
+
+
+    #endregion
+
 
     public void _SetupList(List<string> _s)
     {
@@ -167,7 +202,7 @@ public class NetwrokUI : NetworkBehaviour
         a--;
         countdownText.text = a.ToString();
         countdownPanel.SetActive(false);
-        Debug.Log("Game Started Now");
+        //Debug.Log("Game Started Now");
         spawner._StartGameForPlayers();
     }
 
@@ -179,5 +214,7 @@ public class NetwrokUI : NetworkBehaviour
         _StartCountDown();
     }
     #endregion
+
+
 
 }

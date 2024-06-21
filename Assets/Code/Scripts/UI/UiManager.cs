@@ -188,7 +188,7 @@ public class UiManager : MonoBehaviour
 
         if (ypos >= -600f && ypos < -460f)
         {
-            Debug.Log("Bottom Red");
+            //Debug.Log("Bottom Red");
             PetConfigs.TapMultiplier = 0.8f;
             SteminaDrain = red_drain;
             return;
@@ -196,7 +196,7 @@ public class UiManager : MonoBehaviour
 
         if (ypos >= -460f && ypos < -290f)
         {
-            Debug.Log("Yellow Red");
+            //Debug.Log("Yellow Red");
             PetConfigs.TapMultiplier = 1f;
             SteminaDrain = yellow_drain;
             return;
@@ -204,7 +204,7 @@ public class UiManager : MonoBehaviour
 
         if (ypos > -290f && ypos < -160f)
         {
-            Debug.Log("Green Red");
+            //Debug.Log("Green Red");
             PetConfigs.TapMultiplier = 1.5f;
             SteminaDrain = greem_drain;
             return;
@@ -212,11 +212,12 @@ public class UiManager : MonoBehaviour
 
         if (ypos > -160f && ypos < 0f)
         {
-            Debug.Log("Top Red");
+            //Debug.Log("Top Red");
             PetConfigs.TapMultiplier = 0.8f;
             SteminaDrain = red_drain;
             return;
         }
     }
+
 
 }
