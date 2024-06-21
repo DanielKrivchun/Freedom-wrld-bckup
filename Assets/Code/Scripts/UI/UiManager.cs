@@ -52,6 +52,7 @@ public class UiManager : MonoBehaviour
     public float value = 0;
     [Space]
     public Button TapButton;
+    public Button Stumble;
 
 
     private float ypos;
@@ -66,6 +67,7 @@ public class UiManager : MonoBehaviour
     private void OnEnable()
     {
         TapButton.onClick.AddListener(_Tap);
+        Stumble.onClick.AddListener(_OnStumble);
         NetworkEventManager.e_config_updated += _ConfigUodated;
         NetworkEventManager.e_get_set_go += _StartStaminaBar;
         NetworkEventManager.e_win_event += _OnWon;
@@ -74,6 +76,7 @@ public class UiManager : MonoBehaviour
     private void OnDisable()
     {
         TapButton.onClick.RemoveListener(_Tap);
+        Stumble.onClick.RemoveListener(_OnStumble);
         NetworkEventManager.e_config_updated -= _ConfigUodated;
         NetworkEventManager.e_get_set_go -= _StartStaminaBar;
         NetworkEventManager.e_win_event -= _OnWon;
@@ -106,6 +109,12 @@ public class UiManager : MonoBehaviour
         m_currunt_time = Time.time;
         m_diff = m_currunt_time - m_last_time;
         m_last_time = m_currunt_time;
+    }
+
+
+    public void _OnStumble()
+    {
+
     }
 
     private void Start()

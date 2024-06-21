@@ -6,6 +6,9 @@ using static Unity.Collections.Unicode;
 
 public class Stumble : NetworkBehaviour
 {
+
+    public NavmeshMultiplayer player;
+
     private void OnTriggerEnter(Collider other)
     {
         if (Runner.IsServer)
