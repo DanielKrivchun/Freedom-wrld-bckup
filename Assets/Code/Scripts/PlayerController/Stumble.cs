@@ -13,7 +13,7 @@ public class Stumble : NetworkBehaviour
     {
         if (Runner.IsServer)
         {
-            Debug.Log("Stumbe  " + other.gameObject.name);
+            Debug.Log("Stumbe  " + other.gameObject.name + "  My name " + gameObject.name);
             switch (other.tag)
             {
 
