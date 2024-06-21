@@ -478,6 +478,24 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         _OnReciveConfigs(_json);
     }
 
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_Stumble(string _name)
+    {
+        _OnRecivedStumble(_name);
+    }
+
+    void _OnRecivedStumble(string _stumblename)
+    {
+        Debug.Log("I recived rpc  " + _stumblename +"   "+MyName);
+
+        if (Utils.IsLocalPlayer(Object) && _stumblename==MyName)
+        {
+            Debug.Log("Activate my stumble  " + MyName);
+            NetworkEventManager._EvantActivateStuble();
+        }
+
+    }
+
     private void _OnReciveConfigs(string _j)
     {
         Debug.Log("I recived RPC  " + gameObject.name + "   " + _j);

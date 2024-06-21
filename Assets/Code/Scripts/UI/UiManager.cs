@@ -71,6 +71,7 @@ public class UiManager : MonoBehaviour
         NetworkEventManager.e_config_updated += _ConfigUodated;
         NetworkEventManager.e_get_set_go += _StartStaminaBar;
         NetworkEventManager.e_win_event += _OnWon;
+        NetworkEventManager.e_activae_stumble += _ActivateStumble;
     }
 
     private void OnDisable()
@@ -80,6 +81,12 @@ public class UiManager : MonoBehaviour
         NetworkEventManager.e_config_updated -= _ConfigUodated;
         NetworkEventManager.e_get_set_go -= _StartStaminaBar;
         NetworkEventManager.e_win_event -= _OnWon;
+        NetworkEventManager.e_activae_stumble -= _ActivateStumble;
+    }
+
+    private void _ActivateStumble()
+    {
+        Stumble.gameObject.SetActive(true);
     }
 
     private void _OnWon(int _no)

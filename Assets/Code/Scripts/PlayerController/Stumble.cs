@@ -11,13 +11,10 @@ public class Stumble : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (Runner.IsServer)
+        if (Utils.IsLocalPlayer(Object))
         {
-            Debug.Log("Stumbe  " + other.gameObject.name + "  My name " + gameObject.name);
-            switch (other.tag)
-            {
-
-            }
+            Debug.Log("Stumbe  " + other.transform.root.name + "  My name " + transform.root.name);
+            player.RPC_Stumble(player.MyName);
         }
     }
 }
