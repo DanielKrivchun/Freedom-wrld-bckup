@@ -62,7 +62,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
 
-    private float luckchance;
+    private float luckchance=0f;
 
     public NetworkTransform networkTransform;
     private Vector3 pos;
@@ -369,7 +369,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             //    transform.position = input.direction;
             //}
         }
-
+    
         //MOVE PLAYER TO PODIUM
         if (RaceComplete)
         {
@@ -387,12 +387,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         ////CALCULATION FOR LUCK
         //luckchance += Time.deltaTime;
 
-        //if (luckchance >= 5f)
-        //{
-        //    Debug.Log(" LuckChance hapning "+luckchance);
-        //    MyNetworkSpeed = 0.2f;
-        //    StartCoroutine(_WaitAndStopLuckChance());
-        //}
+        if (luckchance >= 5f)
+        {
+            Debug.Log(" LuckChance hapning " + luckchance);
+            MyNetworkSpeed = 0.2f;
+            StartCoroutine(_WaitAndStopLuckChance());
+        }
 
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
@@ -504,13 +504,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_JackInBox()
     {
-
+        _OnRecivedStumble();
     }
 
     void _OnRecivedStumble()
     {
         Debug.Log("I recived rpc    " + MyName);
-
+        luckchance = 5f;
     }
 
     private void _OnReciveConfigs(string _j)

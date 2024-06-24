@@ -13,8 +13,15 @@ public class Stumble : NetworkBehaviour
     {
         if (Utils.IsLocalPlayer(Object))
         {
-            Debug.Log("Stumbe  " + other.transform.root.name + "  My name " + transform.root.name);
-            player.RPC_JackInBox();
+            switch (other.tag)
+            {
+                case _Tags.Jack:
+                    Debug.Log("Stumbe  " + other.transform.root.name + "  My name " + transform.root.name);
+                    player.RPC_JackInBox();
+                    break;
+            }
+
+
         }
     }
 }
