@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e5c966c61ab8314c9dcb5694fc6ac7c, type: 3}
-  m_Name: PetConfigs
+  m_Name: PetConfigLocal
   m_EditorClassIdentifier: 
-  m_incrimental: 10
-  m_acceleration: 10
+  m_incrimental: 2
+  m_acceleration: 8.9
   m_rotationspeed: 500
-  m_speed: 10
+  m_speed: 2
   BaseSpeed: 1
   Acceleration: 20
   m_run_multiplier: 14

@@ -102,6 +102,12 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region TEXT UPDATE
+
+    public void _UpdatedText(float _coins, float _xp)
+    {
+        Cointext.text = "Coins Gained :" + _coins.ToString();
+        Xptext.text = "XP Gained :" + _xp.ToString();
+    }
     #endregion
 
 

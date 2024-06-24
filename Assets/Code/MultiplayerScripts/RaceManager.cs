@@ -390,7 +390,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         SceneData.CoinsGained += coinstoadd;
 
         //SHOW TEXT
-
+        NetwrokUI.Instance._UpdatedText(coinstoadd, newxp);
 
         //ADD COINS FROM BeamableInventoryManager AddCurrency
         //AND XP WILL BE CALCULATED IN NEXT SCENE
@@ -510,6 +510,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 RPC_PlayerLeftNofirication(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
                 Runner.Despawn(p.Player);
                 GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
+                TotalNumberOfPlayers--;
             }
         }
     }

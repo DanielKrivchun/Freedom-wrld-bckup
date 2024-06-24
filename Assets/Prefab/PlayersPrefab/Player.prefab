@@ -94,8 +94,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_input_value: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
+  m_obj: {fileID: 0}
+  CUrrntPathNo: 0
   m_path_point: {fileID: 0}
-  GenratedPet: {fileID: 0}
+  m_positions: []
+  GenratedPet: {fileID: 193655267928429142}
+  m_currunt_index: 0
 --- !u!195 &7708139451570835108
 NavMeshAgent:
   m_ObjectHideFlags: 0
