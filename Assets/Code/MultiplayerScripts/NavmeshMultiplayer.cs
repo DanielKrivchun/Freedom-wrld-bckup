@@ -62,6 +62,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
 
+    private float luckchance;
+
     public NetworkTransform networkTransform;
     private Vector3 pos;
 
@@ -356,7 +358,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             return;
         }
 
-
         if (Runner.TryGetInputForPlayer<NetworkInputData>(Object.InputAuthority, out var input)) // // this out keyword will find PlayerData script and assign the value all the information from that script and put it into input variable.
         {
             NetworkedSetTap = input.TapMultiplier;
@@ -369,22 +370,32 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             //}
         }
 
+        //MOVE PLAYER TO PODIUM
         if (RaceComplete)
         {
             networkTransform.Teleport(pos, Q);
             return;
         }
 
-
-
+        //RETUNS IF CLIENT AND RACE IS COMPLETE
         if (!IsServer || RaceComplete)
         {
             return;
         }
 
+
+        ////CALCULATION FOR LUCK
+        //luckchance += Time.deltaTime;
+
+        //if (luckchance >= 5f)
+        //{
+        //    Debug.Log(" LuckChance hapning "+luckchance);
+        //    MyNetworkSpeed = 0.2f;
+        //    StartCoroutine(_WaitAndStopLuckChance());
+        //}
+
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
-
         m_agent.speed = MyNetworkSpeed * NetworkedSetTap * SpeedController;
 
         //FIND DISTNACE HERE
@@ -393,6 +404,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             _ChangeCurruntPoint();
         }
+    }
+
+    IEnumerator _WaitAndStopLuckChance()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        luckchance = 0f;
     }
 
     #endregion
@@ -479,20 +496,20 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     }
 
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
-    public void RPC_Stumble(string _name)
+    public void RPC_Stumble()
     {
-        _OnRecivedStumble(_name);
+        _OnRecivedStumble();
     }
 
-    void _OnRecivedStumble(string _stumblename)
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_JackInBox()
     {
-        Debug.Log("I recived rpc  " + _stumblename +"   "+MyName);
 
-        if (Utils.IsLocalPlayer(Object) && _stumblename==MyName)
-        {
-            Debug.Log("Activate my stumble  " + MyName);
-            NetworkEventManager._EvantActivateStuble();
-        }
+    }
+
+    void _OnRecivedStumble()
+    {
+        Debug.Log("I recived rpc    " + MyName);
 
     }
 

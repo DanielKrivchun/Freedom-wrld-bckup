@@ -25,8 +25,11 @@ public class NetwrokUI : NetworkBehaviour
     public TextMeshProUGUI NotificationText;
     [Space]
     public TextMeshProUGUI countdownText;
-    public TextMeshProUGUI wintext;
     public TextMeshProUGUI PlayerCount;
+    [Header("WIN SCREEN")]
+    public TextMeshProUGUI wintext;
+    public TextMeshProUGUI Cointext;
+    public TextMeshProUGUI Xptext;
     [Space]
     public GameObject wincontent;
     [Space]
@@ -96,8 +99,9 @@ public class NetwrokUI : NetworkBehaviour
         _ienumrator = null;
     }
 
+    #endregion
 
-
+    #region TEXT UPDATE
     #endregion
 
 

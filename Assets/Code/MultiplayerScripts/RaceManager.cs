@@ -389,6 +389,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         SceneData.XpGained += newxp;
         SceneData.CoinsGained += coinstoadd;
 
+        //SHOW TEXT
+
+
         //ADD COINS FROM BeamableInventoryManager AddCurrency
         //AND XP WILL BE CALCULATED IN NEXT SCENE
     }

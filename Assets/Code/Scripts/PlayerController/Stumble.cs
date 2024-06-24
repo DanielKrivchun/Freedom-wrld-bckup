@@ -14,7 +14,7 @@ public class Stumble : NetworkBehaviour
         if (Utils.IsLocalPlayer(Object))
         {
             Debug.Log("Stumbe  " + other.transform.root.name + "  My name " + transform.root.name);
-            player.RPC_Stumble(player.MyName);
+            player.RPC_JackInBox();
         }
     }
 }
