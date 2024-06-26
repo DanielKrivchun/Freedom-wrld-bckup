@@ -7,24 +7,31 @@ using static Beamable.Api.Notification.PubNubOp;
 public class NetworkEventManager : MonoBehaviour
 {
     public delegate void SimpleDelegateEvents();
-    public static event SimpleDelegateEvents e_get_set_go, e_config_updated, e_countdown_start,e_activae_stumble;
+    public static event SimpleDelegateEvents e_get_set_go, e_config_updated, e_countdown_start, e_activae_stumble;
 
 
     public delegate void IntDelegateEvents(int _no);
     public static event IntDelegateEvents e_win_event, e_playercount, e_focus_on_player, e_player_speed_change;
 
     public delegate void CameraDelegateEvents(_CamState _CamState);
-    public static event CameraDelegateEvents e_camera_cnage;
+    public static event CameraDelegateEvents e_camera_change;
 
     public delegate void LookatEvent(Transform _t);
     public static event LookatEvent e_text_lookat;
 
     public delegate void StingEvent(string _s);
-    public static event StingEvent e_player_left;
+    public static event StingEvent e_player_left, e_reset_player;
 
 
     #region _EVENT INVOKERS
 
+    public static void _EventResetPlayerOnReplay(string _pname)
+    {
+        if (e_reset_player != null)
+        {
+            e_reset_player(_pname);
+        }
+    }
 
     public static void _EvantActivateStuble()
     {
@@ -109,9 +116,9 @@ public class NetworkEventManager : MonoBehaviour
 
     public static void _EventCameraChange(_CamState _state)
     {
-        if (e_camera_cnage != null)
+        if (e_camera_change != null)
         {
-            e_camera_cnage(_state);
+            e_camera_change(_state);
         }
     }
 

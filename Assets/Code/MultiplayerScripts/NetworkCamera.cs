@@ -37,13 +37,13 @@ public class NetworkCamera : MonoBehaviour
 
     private void OnEnable()
     {
-        NetworkEventManager.e_camera_cnage += _CameraSetup;
+        NetworkEventManager.e_camera_change += _CameraSetup;
         NetworkEventManager.e_focus_on_player += _FocusOnPlayer;
     }
 
     private void OnDisable()
     {
-        NetworkEventManager.e_camera_cnage -= _CameraSetup;
+        NetworkEventManager.e_camera_change -= _CameraSetup;
         NetworkEventManager.e_focus_on_player -= _FocusOnPlayer;
     }
 
@@ -61,6 +61,10 @@ public class NetworkCamera : MonoBehaviour
     {
         switch (_CamState)
         {
+            case _CamState.InitialCam:
+                cam = _GetCamm("startcam");
+                cam.gameObject.SetActive(true);
+                break;
             case _CamState.Start:
                 CurruntCam = _GetCam("startracecam");
                 CurruntCam.SetActive(true);
@@ -95,6 +99,13 @@ public class NetworkCamera : MonoBehaviour
     public void _ActiveWinScene()
     {
         NetworkEventManager._EventTextLookat(WinCam.transform);
+
+        cam = _GetCamm("follocam");
+        cam.gameObject.SetActive(false);
+
+        cam = _GetCamm("startcam");
+        cam.gameObject.SetActive(false);
+
         WinCamera.gameObject.SetActive(true);
         //FollowCam.gameObject.SetActive(false);
         Confetti.gameObject.SetActive(true);
@@ -106,6 +117,7 @@ public enum _CamState
     none,
     Start,
     Follow,
+    InitialCam
 }
 
 [System.Serializable]

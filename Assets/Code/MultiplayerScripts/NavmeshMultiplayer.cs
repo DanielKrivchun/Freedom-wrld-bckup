@@ -39,9 +39,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #endregion
 
     #region Private variables
-    private Vector3 m_currunt_pos;
+    private Vector3 CurruntPos;
     private float m_distance;
-    private int m_currunt_index;
+    private int CurruntIndex;
     public bool IsServer;
     public bool IsLocalPlayer;
     public bool RaceComplete;
@@ -62,7 +62,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
 
-    private float luckchance=0f;
+    private float luckchance = 0f;
 
     public NetworkTransform networkTransform;
     private Vector3 pos;
@@ -75,6 +75,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public override void Spawned() // fusionun startı
     {
         NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
+        NetworkEventManager.e_reset_player += _ResetMe;
         path_point = FindObjectOfType<PathPointManager>();
         SetLocalObjects();
         _SetupConfigs();
@@ -93,6 +94,21 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private void OnDestroy()
     {
         NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;
+        NetworkEventManager.e_reset_player -= _ResetMe;
+    }
+
+    public void _ResetMe(string _name)
+    {
+        if (MyName == _name)
+        {
+            pos = RaceManager.instance.spawnPoints[MyPathNumber].position;
+            Q = RaceManager.instance.spawnPoints[MyPathNumber].rotation;
+            _ChangeAnimationHere(_AnimState.Idle);
+            CurruntIndex = 0;
+            Debug.Log("Reseting Me " + MyName);
+        }
+
+
     }
 
     private void _OnStopStartPlayer(int _no)
@@ -226,20 +242,20 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     StartCoroutine(SetMyWinPosition());
                     break;
                 case _Tags.Water:
-                    _ChangeAnimationHere(_AnimState.Swimming);
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.swimming);
+                    _ChangeAnimationHere(_AnimState.Swimming);
                     break;
                 case _Tags.Flying:
-                    _ChangeAnimationHere(_AnimState.Flying);
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.flying);
+                    _ChangeAnimationHere(_AnimState.Flying);
                     break;
                 case _Tags.Land:
-                    _ChangeAnimationHere(_AnimState.Run);
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.running);
+                    _ChangeAnimationHere(_AnimState.Run);
                     break;
                 case _Tags.Climbing:
-                    _ChangeAnimationHere(_AnimState.Climbing);
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.climbing);
+                    _ChangeAnimationHere(_AnimState.Climbing);
                     break;
 
             }
@@ -329,7 +345,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             //Debug.Log(MyPathNumber);
             _InitilizePath();
-            m_currunt_pos = _GetNextPos(move_positions[m_currunt_index]);
+            CurruntPos = _GetNextPos(move_positions[CurruntIndex]);
             _SetDestination();
         }
         else
@@ -363,13 +379,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             NetworkedSetTap = input.TapMultiplier;
             MyNetworkSpeed = input.Speed;
             //WinPosition = input.direction;
-
             //if (WinPosition.x != 0)
             //{
             //    transform.position = input.direction;
             //}
         }
-    
+
         //MOVE PLAYER TO PODIUM
         if (RaceComplete)
         {
@@ -382,17 +397,16 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             return;
         }
-
-
         ////CALCULATION FOR LUCK
         //luckchance += Time.deltaTime;
-
         if (luckchance >= 5f)
         {
             Debug.Log(" LuckChance hapning " + luckchance);
             MyNetworkSpeed = 0.2f;
             StartCoroutine(_WaitAndStopLuckChance());
         }
+
+        GenratedPet._ChangeSpeed(m_agent.speed);
 
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
@@ -428,15 +442,15 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #region NAVMESH METHODS
     private void _ChangeCurruntPoint()
     {
-        m_currunt_index++;
-        if (m_currunt_index >= move_positions.Count)
+        CurruntIndex++;
+        if (CurruntIndex >= move_positions.Count)
         {
             //Debug.Log("Path Complete");
             return;
         }
 
         //Calculate all path here
-        m_currunt_pos = _GetNextPos(move_positions[m_currunt_index]);
+        CurruntPos = _GetNextPos(move_positions[CurruntIndex]);
         _SetDestination();
     }
     /// <summary>
@@ -452,13 +466,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public void _SetDestination()
     {
         NavMeshPath path = new NavMeshPath();
-        NavMesh.CalculatePath(m_agent.transform.position, m_currunt_pos, NavMesh.AllAreas, path);
+        NavMesh.CalculatePath(m_agent.transform.position, CurruntPos, NavMesh.AllAreas, path);
         m_agent.SetPath(path);
     }
 
     void _CalculateDistance()
     {
-        m_distance = Vector3.Distance(m_currunt_pos, transform.position);
+        m_distance = Vector3.Distance(CurruntPos, transform.position);
     }
 
     public Vector3 _GetNextPos(Vector3 _pos)
@@ -537,7 +551,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             //Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
-            gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
+            gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.AnimatorRef;
             //gameObject.GetComponent<NetworkMecanimAnimator>().enabled = true;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;

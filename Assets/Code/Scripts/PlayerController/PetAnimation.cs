@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PetAnimation : MonoBehaviour
 {
-    public Animator Animator;
+    public Animator AnimatorRef;
+    [Space]
+    private float curruntspeed;
+    public float Speed;
 
     public _AnimState m_currunt_anim_state;
 
@@ -17,73 +20,100 @@ public class PetAnimation : MonoBehaviour
         switch (_state)
         {
             case _AnimState.Idle:
-                Animator.SetFloat(_Strings.Velocity, 0);
-                Animator.SetBool(_Strings.IsSleeping, false);
-                Animator.SetBool(_Strings.IsSick, false);
-                Animator.SetBool(_Strings.Idle, true);
+                AnimatorRef.SetFloat(_Strings.Velocity, 0);
+                AnimatorRef.SetBool(_Strings.IsSleeping, false);
+                AnimatorRef.SetBool(_Strings.IsSick, false);
+                AnimatorRef.SetBool(_Strings.Idle, true);
                 m_currunt_anim_state = _AnimState.Idle;
                 break;
 
             case _AnimState.Wallk:
-                Animator.SetFloat(_Strings.Velocity, 0.5f);
+                AnimatorRef.SetFloat(_Strings.Velocity, 0.5f);
                 m_currunt_anim_state = _AnimState.Wallk;
                 break;
 
             case _AnimState.Run:
-                Animator.SetBool(_Strings.Idle, false);
-                Animator.SetFloat(_Strings.Velocity, 1f);
+                AnimatorRef.SetBool(_Strings.Idle, false);
+                AnimatorRef.SetFloat(_Strings.Velocity, 1f);
                 m_currunt_anim_state = _AnimState.Run;
                 break;
 
             case _AnimState.Jump:
-                Animator.SetFloat(_Strings.Velocity, 0f);
-                Animator.SetBool(_Strings.Jumping, true);
+                AnimatorRef.SetFloat(_Strings.Velocity, 0f);
+                AnimatorRef.SetBool(_Strings.Jumping, true);
                 m_currunt_anim_state = _AnimState.Jump;
                 break;
 
             case _AnimState.Flying:
-                Animator.SetFloat(_Strings.Velocity, 2f);
+                AnimatorRef.SetFloat(_Strings.Velocity, 2f);
                 m_currunt_anim_state = _AnimState.Flying;
                 break;
 
             case _AnimState.Swimming:
-                Animator.SetFloat(_Strings.Velocity, 1.5f);
+                AnimatorRef.SetFloat(_Strings.Velocity, 1.5f);
                 m_currunt_anim_state = _AnimState.Swimming;
                 break;
 
             case _AnimState.Climbing:
-                Animator.SetFloat(_Strings.Velocity, 2.5f);
+                AnimatorRef.SetFloat(_Strings.Velocity, 2.5f);
                 m_currunt_anim_state = _AnimState.Climbing;
                 break;
 
             case _AnimState.Sick:
-                Animator.SetBool(_Strings.IsSick, true);
-                Animator.SetFloat(_Strings.Velocity, 0);
-                Animator.SetBool(_Strings.Idle, false);
+                AnimatorRef.SetBool(_Strings.IsSick, true);
+                AnimatorRef.SetFloat(_Strings.Velocity, 0);
+                AnimatorRef.SetBool(_Strings.Idle, false);
                 m_currunt_anim_state = _AnimState.Sick;
                 break;
 
             case _AnimState.Eating:
-                Animator.SetTrigger(_Strings.Eat);
+                AnimatorRef.SetTrigger(_Strings.Eat);
                 m_currunt_anim_state = _AnimState.Eating;
                 break;
 
             case _AnimState.Happy:
-                Animator.SetTrigger(_Strings.Happy);
+                AnimatorRef.SetTrigger(_Strings.Happy);
                 m_currunt_anim_state = _AnimState.Happy;
                 break;
 
             case _AnimState.Bath:
-                Animator.SetTrigger(_Strings.Bath);
+                AnimatorRef.SetTrigger(_Strings.Bath);
                 m_currunt_anim_state = _AnimState.Bath;
                 break;
 
             case _AnimState.Sleep:
-                Animator.SetBool(_Strings.IsSleeping, true);
+                AnimatorRef.SetBool(_Strings.IsSleeping, true);
                 m_currunt_anim_state = _AnimState.Sleep;
                 break;
 
             default:
+                break;
+        }
+    }
+
+    public void _ChangeSpeed(float _speed)
+    {
+        if (curruntspeed == _speed)
+        {
+            return;
+        }
+
+        curruntspeed = _speed;
+        switch (m_currunt_anim_state)
+        {
+            case _AnimState.Run:
+                Speed = (_speed / 2f);
+                AnimatorRef.speed = Speed;
+                break;
+
+            case _AnimState.Swimming:
+                Speed = (_speed / 4f);
+                AnimatorRef.speed = Speed;
+                break;
+
+            case _AnimState.Climbing:
+                Speed = (_speed / 1.5f);
+                AnimatorRef.speed = Speed;
                 break;
         }
     }

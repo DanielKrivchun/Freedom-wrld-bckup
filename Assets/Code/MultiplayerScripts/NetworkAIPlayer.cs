@@ -356,8 +356,6 @@ public class NetworkAIPlayer : NetworkBehaviour
         _OnRecivedRPC();
     }
 
-
-
     void _OnRecivedRPC()
     {
         Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
@@ -381,7 +379,7 @@ public class NetworkAIPlayer : NetworkBehaviour
             Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
-            gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.Animator;
+            gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.AnimatorRef;
             gameObject.GetComponent<NetworkMecanimAnimator>().enabled = true;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;

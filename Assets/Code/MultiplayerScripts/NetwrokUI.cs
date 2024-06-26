@@ -23,6 +23,10 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject NotificationPanel;
     public RectTransform NofificationObj;
     public TextMeshProUGUI NotificationText;
+    [Header("Replay")]
+    public GameObject ReplayCanvas;
+    public RectTransform ReplayPopup;
+    public TextMeshProUGUI ReplayText;
     [Space]
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI PlayerCount;
@@ -39,8 +43,15 @@ public class NetwrokUI : NetworkBehaviour
     [Space]
     [Header("Buttons")]
     public Button LeaveButton;
+    public Button InGameLeave;
     public Button ContinueButton;
     public Button ExitButton;
+    [Header("Reply")]
+    public Button ReplayButton;
+    public Button Yes;
+    public Button No;
+    [Space]
+    private bool requestedReplay;
 
     public static NetwrokUI Instance;
 
@@ -60,8 +71,12 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_player_left += _PlayerLeft;
 
         LeaveButton.onClick.AddListener(_OnLeaveButton);
+        InGameLeave.onClick.AddListener(_OnLeaveButton);
         ContinueButton.onClick.AddListener(_ContinueRace);
         ExitButton.onClick.AddListener(_YesLeave);
+        ReplayButton.onClick.AddListener(_ReplayButtonClick);
+        Yes.onClick.AddListener(_Yes);
+        No.onClick.AddListener(_No);
 
     }
 
@@ -72,9 +87,43 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_playercount -= _Playerjoined;
         NetworkEventManager.e_player_left -= _PlayerLeft;
 
+        InGameLeave.onClick.RemoveListener(_OnLeaveButton);
         LeaveButton.onClick.RemoveListener(_OnLeaveButton);
         ContinueButton.onClick.RemoveListener(_ContinueRace);
         ExitButton.onClick.RemoveListener(_YesLeave);
+        ReplayButton.onClick.RemoveListener(_ReplayButtonClick);
+
+        Yes.onClick.RemoveListener(_Yes);
+        No.onClick.RemoveListener(_No);
+    }
+
+    private void _Yes()
+    {
+        _DisableReplay();
+        RPC_YesToReplay(RaceManager.instance.LocalPlayerNickname);
+    }
+
+    private void _DisableReplay()
+    {
+        ReplayCanvas.SetActive(false);
+        WinUI.gameObject.SetActive(false);
+    }
+
+    private void _No()
+    {
+        Debug.Log("Remove me from server and update path numbers");
+    }
+
+    private void _ReplayButtonClick()
+    {
+        if (Runner.IsServer)
+        {
+            NetworkEventManager._EventResetPlayerOnReplay(RaceManager.instance.LocalPlayerNickname);
+        }
+        _DisableReplay();
+        requestedReplay = true;
+        RPC_ReplayNotificationSend(RaceManager.instance.LocalPlayerNickname);
+        NetworkEventManager._EventCameraChange(_CamState.InitialCam);
     }
 
     private async void _PlayerLeft(string _s)
@@ -192,21 +241,21 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager._EventFocusOnPlayer(0);
         int a = 5;
         countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1.5f);
-        NetworkEventManager._EventFocusOnPlayer(1);
-        a--;
-        countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1.5f);
-        NetworkEventManager._EventFocusOnPlayer(2);
-        a--;
-        countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1.5f);
-        NetworkEventManager._EventFocusOnPlayer(3);
-        a--;
-        countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1.5f);
-        NetworkEventManager._EventFocusOnPlayer(4);
-        a--;
+        //yield return new WaitForSecondsRealtime(1.5f);
+        //NetworkEventManager._EventFocusOnPlayer(1);
+        //a--;
+        //countdownText.text = a.ToString();
+        //yield return new WaitForSecondsRealtime(1.5f);
+        //NetworkEventManager._EventFocusOnPlayer(2);
+        //a--;
+        //countdownText.text = a.ToString();
+        //yield return new WaitForSecondsRealtime(1.5f);
+        //NetworkEventManager._EventFocusOnPlayer(3);
+        //a--;
+        //countdownText.text = a.ToString();
+        //yield return new WaitForSecondsRealtime(1.5f);
+        //NetworkEventManager._EventFocusOnPlayer(4);
+        //a--;
         countdownText.text = a.ToString();
         yield return new WaitForSecondsRealtime(1.5f);
         a--;
@@ -216,6 +265,16 @@ public class NetwrokUI : NetworkBehaviour
         spawner._StartGameForPlayers();
     }
 
+    #region REPLAY METHOS
+    public void _ReplayRPCRecived(string _name)
+    {
+        ReplayPopup.transform.localScale = Vector3.zero;
+        ReplayCanvas.SetActive(true);
+        ReplayText.text = _name + " Want's to play again!";
+        ReplayPopup.transform.DOScale(1f, 0.5f);
+    }
+    #endregion
+
     #region RPC Remote Procedure Call
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_StartGame()
@@ -223,8 +282,36 @@ public class NetwrokUI : NetworkBehaviour
         Debug.Log("Started Game now");
         _StartCountDown();
     }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_ReplayNotificationSend(string _pname)
+    {
+        Debug.Log("Recived Replay Notification ");
+        _RecivedReplayNotification(_pname);
+        NetworkEventManager._EventCameraChange(_CamState.InitialCam);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_YesToReplay(string _name)
+    {
+        if (Runner.IsServer)
+        {
+            NetworkEventManager._EventResetPlayerOnReplay(_name);
+        }
+    }
+
+    void _RecivedReplayNotification(string _name)
+    {
+        if (Runner.IsServer)
+        {
+            NetworkEventManager._EventResetPlayerOnReplay(_name);
+        }
+
+        if (requestedReplay) return;
+        _ReplayRPCRecived(_name);
+    }
+
+
+
     #endregion
-
-
-
 }
