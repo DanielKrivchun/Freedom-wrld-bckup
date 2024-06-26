@@ -52,7 +52,6 @@ public class NetworkCamera : MonoBehaviour
         Debug.Log(_no);
         cam = _GetCamm(_no.ToString());
         cam.gameObject.SetActive(true);
-
         cam.Follow = InitialTransforms[_no];
         cam.LookAt = InitialTransforms[_no];
     }
@@ -64,6 +63,7 @@ public class NetworkCamera : MonoBehaviour
             case _CamState.InitialCam:
                 cam = _GetCamm("startcam");
                 cam.gameObject.SetActive(true);
+                NetworkEventManager._EventTextLookat(null);
                 break;
             case _CamState.Start:
                 CurruntCam = _GetCam("startracecam");

@@ -28,8 +28,10 @@ public class NetwrokUI : NetworkBehaviour
     public RectTransform ReplayPopup;
     public TextMeshProUGUI ReplayText;
     [Space]
+    [Header("In-Game Text")]
     public TextMeshProUGUI countdownText;
-    public TextMeshProUGUI PlayerCount;
+
+    public TextMeshProUGUI CurruntRankNo;
     [Header("WIN SCREEN")]
     public TextMeshProUGUI wintext;
     public TextMeshProUGUI Cointext;
@@ -67,7 +69,6 @@ public class NetwrokUI : NetworkBehaviour
     private void OnEnable()
     {
         NetworkEventManager.e_win_event += _OnGameWon;
-        NetworkEventManager.e_playercount += _Playerjoined;
         NetworkEventManager.e_player_left += _PlayerLeft;
 
         LeaveButton.onClick.AddListener(_OnLeaveButton);
@@ -77,14 +78,11 @@ public class NetwrokUI : NetworkBehaviour
         ReplayButton.onClick.AddListener(_ReplayButtonClick);
         Yes.onClick.AddListener(_Yes);
         No.onClick.AddListener(_No);
-
     }
 
     private void OnDisable()
     {
-
         NetworkEventManager.e_win_event -= _OnGameWon;
-        NetworkEventManager.e_playercount -= _Playerjoined;
         NetworkEventManager.e_player_left -= _PlayerLeft;
 
         InGameLeave.onClick.RemoveListener(_OnLeaveButton);
@@ -92,7 +90,6 @@ public class NetwrokUI : NetworkBehaviour
         ContinueButton.onClick.RemoveListener(_ContinueRace);
         ExitButton.onClick.RemoveListener(_YesLeave);
         ReplayButton.onClick.RemoveListener(_ReplayButtonClick);
-
         Yes.onClick.RemoveListener(_Yes);
         No.onClick.RemoveListener(_No);
     }
@@ -116,6 +113,7 @@ public class NetwrokUI : NetworkBehaviour
 
     private void _ReplayButtonClick()
     {
+        //RUN THIS ON SERVER
         if (Runner.IsServer)
         {
             NetworkEventManager._EventResetPlayerOnReplay(RaceManager.instance.LocalPlayerNickname);
@@ -159,7 +157,6 @@ public class NetwrokUI : NetworkBehaviour
     }
     #endregion
 
-
     #region LOCAL BUTTONS AND METHDOS
     private void _OnLeaveButton()
     {
@@ -200,10 +197,6 @@ public class NetwrokUI : NetworkBehaviour
     }
 
 
-    private void _Playerjoined(int _no)
-    {
-        PlayerCount.text = _no.ToString();
-    }
 
     private void _OnGameWon(int _no)
     {

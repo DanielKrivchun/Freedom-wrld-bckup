@@ -11,7 +11,7 @@ public class NetworkEventManager : MonoBehaviour
 
 
     public delegate void IntDelegateEvents(int _no);
-    public static event IntDelegateEvents e_win_event, e_playercount, e_focus_on_player, e_player_speed_change;
+    public static event IntDelegateEvents e_win_event, e_focus_on_player, e_player_speed_change,e_updated_my_no;
 
     public delegate void CameraDelegateEvents(_CamState _CamState);
     public static event CameraDelegateEvents e_camera_change;
@@ -24,6 +24,14 @@ public class NetworkEventManager : MonoBehaviour
 
 
     #region _EVENT INVOKERS
+
+    public static void _EventUpdateMyNo(int _no)
+    {
+        if (e_updated_my_no != null)
+        {
+            e_updated_my_no(_no);
+        }
+    }
 
     public static void _EventResetPlayerOnReplay(string _pname)
     {
@@ -103,14 +111,6 @@ public class NetworkEventManager : MonoBehaviour
         if (e_win_event != null)
         {
             e_win_event(_no);
-        }
-    }
-
-    public static void _EventNewPlayerJoined(int _count)
-    {
-        if (e_playercount != null)
-        {
-            e_playercount(_count);
         }
     }
 

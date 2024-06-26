@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ public class UiManager : MonoBehaviour
 
     [Space]
     public GameObject InGmmeUI;
+    public TextMeshProUGUI PetNameText;
+    [Space]
     public RectTransform m_arrow;
     [Space]
     public Image Filler;
@@ -105,6 +108,7 @@ public class UiManager : MonoBehaviour
 
     private void _StartStaminaBar()
     {
+        PetNameText.text = RaceManager.instance.LocalPlayerNickname + "'s" + " Pet";
         GameStarted = true;
         InGmmeUI.SetActive(true);
     }

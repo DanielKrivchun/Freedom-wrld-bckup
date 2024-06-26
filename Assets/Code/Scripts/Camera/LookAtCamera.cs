@@ -13,9 +13,11 @@ public class LookAtCamera : MonoBehaviour
     public Vector3 Offset;
     private Vector3 pos;
 
+    private Quaternion LocalRotation;
 
     private void Start()
     {
+        LocalRotation = transform.rotation;
         target = NetworkCamera.Instance.CurruntCam.transform;
     }
 
@@ -31,6 +33,12 @@ public class LookAtCamera : MonoBehaviour
 
     private void _LoookatTargetChange(Transform _t)
     {
+        if (_t == null)
+        {
+            target = null;
+            transform.localRotation = LocalRotation;
+            return;
+        }
         target = _t;
     }
 
@@ -39,7 +47,7 @@ public class LookAtCamera : MonoBehaviour
     {
         if (target != null)
         {
-            pos=target.position;
+            pos = target.position;
             //transform.LookAt(pos + Offset, Vector3.up);
             transform.LookAt(transform.position + target.transform.rotation * Vector3.forward, target.rotation * Vector3.up);
         }

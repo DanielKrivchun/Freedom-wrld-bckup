@@ -22,7 +22,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public NavMeshAgent m_agent;
     [Header("ANIMATOR")]
     public PetAnimation GenratedPet;
-
     [Header("Script Refrence")]
     private PathPointManager path_point;
 
@@ -34,6 +33,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Space]
     public float MySpeed;
     public float MyStamina;
+    [Space]
+    public int MyRankNo;
     [Space]
     private float SpeedController = 1f;
     #endregion
