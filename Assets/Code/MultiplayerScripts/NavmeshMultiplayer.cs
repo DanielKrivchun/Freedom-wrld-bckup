@@ -63,8 +63,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked] public int MyPathNumber { get; set; }
     [Networked] public string MyPrefabID { get; set; }
 
-    [Networked, OnChangedRender(nameof(_OnRankNumberChanged))]
-    public int MyRankNo { get; set; }
+
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
@@ -75,6 +74,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private Vector3 pos;
 
     private RaceManager racemanager;
+
+    [Networked, OnChangedRender(nameof(_OnRankNumberChanged))]
+    public int MyRankNo { get; set; }
 
     public Quaternion Q { get; private set; }
 
@@ -296,6 +298,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #region RANK FINDING
     public void _ChangingRanke(int _Myrank)
     {
+        Debug.Log("My Ranke is changed " + MyName);
         MyRankNo = _Myrank;
     }
     #endregion

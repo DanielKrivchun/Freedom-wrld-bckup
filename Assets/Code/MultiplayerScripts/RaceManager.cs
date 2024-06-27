@@ -177,6 +177,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
 
+
+
+    }
+
+    public override void FixedUpdateNetwork()
+    {
         //CHECK THIS ONLY ON SERVER
         if (Runner == null) return;
         if (!Runner.IsServer) return;
@@ -184,7 +190,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         timer += Time.deltaTime;
 
-        if (timer > 1f)
+        if (timer > 2f)
         {
             timer = 0f;
 
@@ -192,6 +198,11 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             temp_list = RankBasedPlayers;
 
             temp_list = temp_list.OrderByDescending(asd => asd.MyDistance).ToList();
+
+            foreach (var item in temp_list)
+            {
+                Debug.Log(item.MyDistance);
+            }
 
             int MyRank = 0;
             foreach (var item in TotalPlayers)
@@ -204,7 +215,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             }
 
         }
-
     }
 
     void _CheckForAFK()
