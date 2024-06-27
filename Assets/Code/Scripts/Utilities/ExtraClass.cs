@@ -83,6 +83,13 @@ public enum PetTraining
     Intelligence
 }
 
+[System.Serializable]
+public class _RankPlayers
+{
+    public int PathNo;
+
+}
+
 public static class Utils
 {
     public static bool IsLocalPlayer(NetworkObject networkObj)

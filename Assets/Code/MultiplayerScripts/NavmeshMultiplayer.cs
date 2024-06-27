@@ -267,9 +267,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.climbing);
                     _ChangeAnimationHere(_AnimState.Climbing);
                     break;
-                case _Tags.Rank:
-                    MyRankNo = other.GetComponent<RankChanger>()._UpdateMyRank();
-                    break;
+                    //case _Tags.Rank:
+                    //    MyRankNo = other.GetComponent<RankChanger>()._UpdateMyRank();
+                    //    break;
             }
         }
         else
@@ -290,6 +290,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     break;
             }
         }
+    }
+    #endregion
+
+    #region RANK FINDING
+    public void _ChangingRanke(int _Myrank)
+    {
+        MyRankNo = _Myrank;
     }
     #endregion
 
@@ -442,6 +449,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //FIND DISTNACE HERE
         MyDistanceOnPath = racemanager._FindMyDistance(transform.position);
+        racemanager.RankBasedPlayers[MyPathNumber] = MyDistanceOnPath;
         _CalculateDistance();
         if (Distance < 4f)
         {

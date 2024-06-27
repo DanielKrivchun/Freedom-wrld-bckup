@@ -70,6 +70,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public List<_GenratedAIPlayer> TotalPlayers;
     [Space]
     public List<_AIplayerDetails> AIplayerDetails;
+    [Space]
+    public List<float> RankBasedPlayers;
+
     #endregion
 
     #region NETWORKED OBJECTS
@@ -128,6 +131,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         NetworkEventManager.e_countdown_start -= _OnCounddownStart;
     }
 
+
     private void _OnCounddownStart()
     {
         if (Runner.IsServer)
@@ -161,6 +165,46 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             seconds = Mathf.FloorToInt(TotalSeconds % 60);
             TimeLeft = (minutes) + " : " + seconds;
         }
+
+        //CHECK PLAYERS RANK
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            //CHECK RANK OF THE PLAYERS
+            List<float> a = new List<float>();
+            List<float> b = new List<float>();
+            a = RankBasedPlayers;
+            b = RankBasedPlayers;
+
+            b.Sort();
+
+            foreach (var item in b)
+            {
+                Debug.Log(b);
+            }
+
+            foreach (var item in b)
+            {
+                int index = a.FindIndex(asd => asd.Equals(item));
+                Debug.Log(index);
+
+                foreach (var tt in TotalPlayers)
+                {
+                    //REAL PLAYER
+                    if (!tt.AI)
+                    {
+                        tt.player._ChangingRanke(index);
+                    }
+                    else
+                    {
+                        //AI PLAYER
+                    }
+                }
+
+
+            }
+
+        }
+
     }
 
     void _CheckForAFK()
