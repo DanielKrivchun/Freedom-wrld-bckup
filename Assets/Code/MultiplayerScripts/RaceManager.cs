@@ -173,12 +173,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             seconds = Mathf.FloorToInt(TotalSeconds % 60);
             TimeLeft = (minutes) + " : " + seconds;
         }
-
-
-
-
-
-
     }
 
     public override void FixedUpdateNetwork()

@@ -269,9 +269,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.climbing);
                     _ChangeAnimationHere(_AnimState.Climbing);
                     break;
-                    //case _Tags.Rank:
-                    //    MyRankNo = other.GetComponent<RankChanger>()._UpdateMyRank();
-                    //    break;
             }
         }
         else
@@ -299,6 +296,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public void _ChangingRanke(int _Myrank)
     {
         Debug.Log("My Ranke is changed " + MyName);
+        _Myrank += 1 ;
         MyRankNo = _Myrank;
     }
     #endregion

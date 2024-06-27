@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using static Unity.Collections.Unicode;
 using UnityEngine.AI;
+using DG.Tweening.Core.Easing;
 
 public class NetworkAIPlayer : NetworkBehaviour
 {
@@ -53,7 +54,8 @@ public class NetworkAIPlayer : NetworkBehaviour
     private Vector3 pos;
 
     public Quaternion Q { get; private set; }
-
+    public float MyDistanceOnPath;
+    private RaceManager racemanager;
     #endregion
 
     #region NETWORK FUCTIONS
@@ -68,6 +70,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
         networkTransform = GetComponent<NetworkTransform>();
         path_point = FindObjectOfType<PathPointManager>();
+        racemanager = RaceManager.instance;
         SetLocalObjects();
         _SetupConfigs();
         if (Runner.IsServer)
@@ -281,9 +284,11 @@ public class NetworkAIPlayer : NetworkBehaviour
 
         if (!IsServer && RaceComplete)
         {
-
             return;
         }
+
+        MyDistanceOnPath = racemanager._FindMyDistance(transform.position);
+        racemanager.RankBasedPlayers[MyPathNumber].MyDistance = MyDistanceOnPath;
         //FIND DISTNACE HERE
         _CalculateDistance();
         if (m_distance < 1)
