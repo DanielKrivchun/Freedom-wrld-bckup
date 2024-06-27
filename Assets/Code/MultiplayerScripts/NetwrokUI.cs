@@ -123,10 +123,10 @@ public class NetwrokUI : NetworkBehaviour
     private void _ReplayButtonClick()
     {
         //RUN THIS ON SERVER
-        if (Runner.IsServer)
-        {
-            NetworkEventManager._EventResetPlayerOnReplay(RaceManager.instance.LocalPlayerNickname);
-        }
+        //if (Runner.IsServer)
+        //{
+        //    NetworkEventManager._EventResetPlayerOnReplay(RaceManager.instance.LocalPlayerNickname);
+        //}
         _DisableReplay();
         requestedReplay = true;
         RPC_ReplayNotificationSend(RaceManager.instance.LocalPlayerNickname);

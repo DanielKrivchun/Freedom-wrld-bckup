@@ -105,12 +105,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         if (MyName == _name)
         {
+            Debug.Log("Reseting Me " + MyName);
             pos = RaceManager.instance.spawnPoints[MyPathNumber].position;
             Q = RaceManager.instance.spawnPoints[MyPathNumber].rotation;
             _ChangeAnimationHere(_AnimState.Idle);
             CurruntIndex = 0;
             RaceManager.instance._ResetRaceManager();
-            Debug.Log("Reseting Me " + MyName);
+
         }
     }
 

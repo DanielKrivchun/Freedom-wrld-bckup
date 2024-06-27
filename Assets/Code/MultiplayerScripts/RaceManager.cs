@@ -134,6 +134,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             Debug.Log("Stumble point  " + a);
             RPC_SetStumbleObject(a);
         }
+
+        ResetAgrreePlayers = 0;
+        MyWinNumber = 0;
+
     }
 
     #endregion
@@ -222,7 +226,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         // If the Region is set to China (CN),
         // the Name Server will be automatically changed to the right one
         // appSettings.Server = "ns.photonengine.cn";
-
         return appSettings;
     }
 
@@ -360,11 +363,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             _XpIncrimental(MyWinNumber);
             SceneData.ShowWelcomeScreen = true;
             ResetAgrreePlayers = 0;
+            MyWinNumber = 0;
         }
     }
 
     public void _ResetRaceManager()
     {
+        Debug.Log(ResetAgrreePlayers);
         ResetAgrreePlayers++;
 
         if (ResetAgrreePlayers == TotalNumberOfPlayers)
