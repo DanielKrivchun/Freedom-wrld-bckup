@@ -67039,11 +67039,16 @@ MonoBehaviour:
   TotalPlayers: []
   AIplayerDetails: []
   RankBasedPlayers:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  - PathNo: 0
+    MyDistance: 0
+  - PathNo: 1
+    MyDistance: 0
+  - PathNo: 2
+    MyDistance: 0
+  - PathNo: 3
+    MyDistance: 0
+  - PathNo: 4
+    MyDistance: 0
   _PathNumber: 0
   _TimeLeft: 
   Path: {fileID: 1967101955}

@@ -449,7 +449,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //FIND DISTNACE HERE
         MyDistanceOnPath = racemanager._FindMyDistance(transform.position);
-        racemanager.RankBasedPlayers[MyPathNumber] = MyDistanceOnPath;
+        racemanager.RankBasedPlayers[MyPathNumber].MyDistance = MyDistanceOnPath;
         _CalculateDistance();
         if (Distance < 4f)
         {

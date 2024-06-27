@@ -71,7 +71,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public List<_AIplayerDetails> AIplayerDetails;
     [Space]
-    public List<float> RankBasedPlayers;
+    public List<_RankPlayers> RankBasedPlayers;
 
     #endregion
 
@@ -170,39 +170,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         if (Input.GetKeyDown(KeyCode.T))
         {
             //CHECK RANK OF THE PLAYERS
-            List<float> a = new List<float>();
-            List<float> b = new List<float>();
-            a = RankBasedPlayers;
-            b = RankBasedPlayers;
-
-            b.Sort();
-
-            foreach (var item in b)
-            {
-                Debug.Log(b);
-            }
-
-            foreach (var item in b)
-            {
-                int index = a.FindIndex(asd => asd.Equals(item));
-                Debug.Log(index);
-
-                foreach (var tt in TotalPlayers)
-                {
-                    //REAL PLAYER
-                    if (!tt.AI)
-                    {
-                        tt.player._ChangingRanke(index);
-                    }
-                    else
-                    {
-                        //AI PLAYER
-                    }
-                }
-
-
-            }
-
+            RankBasedPlayers.OrderBy(item => item.MyDistance).ToList();
         }
 
     }

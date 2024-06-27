@@ -87,6 +87,7 @@ public enum PetTraining
 public class _RankPlayers
 {
     public int PathNo;
+    public float MyDistance;
 
 }
 
