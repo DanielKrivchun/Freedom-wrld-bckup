@@ -61,6 +61,7 @@ public struct _Tags
     public const string Land = "Land";
     public const string Climbing = "Climbing";
     public const string Jack = "Jack";
+    public const string Rank = "Rank";
 }
 
 public enum PetCareState

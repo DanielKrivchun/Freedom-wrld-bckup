@@ -34,7 +34,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public float MySpeed;
     public float MyStamina;
     [Space]
-    public int MyRankNo;
+    //public int MyRankNo;
     [Space]
     private float SpeedController = 1f;
     #endregion
@@ -59,6 +59,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked] public string MyName { get; set; }
     [Networked] public int MyPathNumber { get; set; }
     [Networked] public string MyPrefabID { get; set; }
+
+    [Networked] public int MyRankNo { get; set; }
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
@@ -108,8 +110,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             CurruntIndex = 0;
             Debug.Log("Reseting Me " + MyName);
         }
-
-
     }
 
     private void _OnStopStartPlayer(int _no)
@@ -258,7 +258,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.climbing);
                     _ChangeAnimationHere(_AnimState.Climbing);
                     break;
-
+                case _Tags.Rank:
+                    MyRankNo = other.GetComponent<RankChanger>()._UpdateMyRank();
+                    break;
             }
         }
         else

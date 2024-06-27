@@ -323,7 +323,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     #endregion
 
     #region ON RACE COMPLETE CACLULATION CP AND COINS
-
     public void _CheckAllPlayerCompleted()
     {
         CompletePlayerCount++;
