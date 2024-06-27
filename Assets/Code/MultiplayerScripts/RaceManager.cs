@@ -149,6 +149,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         ResetAgrreePlayers = 0;
         MyWinNumber = 0;
         RaceStart = true;
+        CompletePlayerCount = 0;
     }
 
     #endregion
@@ -399,10 +400,16 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             NetwrokUI.Instance._SetupList(_ss);
             _XpIncrimental(MyWinNumber);
             SceneData.ShowWelcomeScreen = true;
-            ResetAgrreePlayers = 0;
-            MyWinNumber = 0;
-            PathNumber = 0;
+            _ResetDataOnComplete();
         }
+    }
+
+    private void _ResetDataOnComplete()
+    {
+        ResetAgrreePlayers = 0;
+        MyWinNumber = 0;
+        PathNumber = 0;
+        CompletePlayerCount = 0;
     }
 
     public void _ResetRaceManager()
@@ -537,7 +544,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         if (Runner.IsServer)
         {
-
             int a = 0;
             foreach (var item in TotalPlayers)
             {
@@ -551,7 +557,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 }
             }
         }
-
         Debug.Log("No AI player Found");
         return 4;
     }
