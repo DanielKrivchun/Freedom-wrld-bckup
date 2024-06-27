@@ -178,6 +178,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
         //CHECK THIS ONLY ON SERVER
+        if (Runner == null) return;
         if (!Runner.IsServer) return;
         if (!RaceStart) return;
 
