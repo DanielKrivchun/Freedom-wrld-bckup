@@ -128,8 +128,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         SceneData._Reset();
         namesJson._SetMyData();
 
-
-
         NetworkEventManager.e_countdown_start += _OnCounddownStart;
     }
 
@@ -151,12 +149,11 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         ResetAgrreePlayers = 0;
         MyWinNumber = 0;
         RaceStart = true;
-
     }
 
     #endregion
 
-    #region AFK KICKING
+    #region AFK KICKING FIXED UPDATE
     void Update()
     {
         if (AFKCheck)
@@ -184,7 +181,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         timer += Time.deltaTime;
 
-        if (timer > 2f)
+        if (timer > 5f)
         {
             timer = 0f;
 
@@ -192,12 +189,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             temp_list = RankBasedPlayers;
 
             temp_list = temp_list.OrderByDescending(asd => asd.MyDistance).ToList();
-
-            foreach (var item in temp_list)
-            {
-                Debug.Log(item.MyDistance);
-            }
-
             int MyRank = 0;
             foreach (var item in TotalPlayers)
             {
@@ -226,10 +217,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
 
-    public void _CheckHowManyPlayersAreInGame()
-    {
-        //NetworkEventManager._EventNewPlayerJoined(TotalPlayer);
-    }
 
     #endregion
 
@@ -414,6 +401,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             SceneData.ShowWelcomeScreen = true;
             ResetAgrreePlayers = 0;
             MyWinNumber = 0;
+            PathNumber = 0;
         }
     }
 
@@ -422,10 +410,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         Debug.Log(ResetAgrreePlayers);
         ResetAgrreePlayers++;
 
-        if (ResetAgrreePlayers == TotalNumberOfPlayers)
+        if (ResetAgrreePlayers == TotalRealPlayers)
         {
             Debug.Log("All Players agreed to match ");
             Debug.Log("Start Game Now");
+            //DE SPWAN ALL AI PLAYERS
+            _DespwanAllAIplayers();
+
             NetwrokUI.Instance.RPC_StartGame();
         }
     }
@@ -478,6 +469,19 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
     #endregion
 
+    #region PATHNUMBER SETUP
+    public int _GetPathNo()
+    {
+        if (PathNumber <= 0)
+        {
+            PathNumber = 0;
+        }
+        int a = PathNumber;
+        PathNumber++;
+        return a;
+    }
+    #endregion
+
     #region WIN LOGIC
     public int _GetMyWinningNo()
     {
@@ -488,18 +492,11 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #region PLAYER SPWANR AND DESPWAN
 
-    public override void Spawned()
-    {
-        Debug.Log("Spwanded Worked");
-    }
-
     private void _SpawnPlayer(PlayerRef playerRef)
     {
         if (Runner.IsServer)
         {
-
             //CHECK HERE FOR TOTAL NULBER OF PLAYERS
-
             if (TotalNumberOfPlayers >= 5)
             {
                 TotalNumberOfPlayers--;
@@ -523,12 +520,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 NetwrokUI.Instance._OpenStartUI();
             }
         }
-
-        //if (Runner.IsClient)
-        //{
-        //    Debug.Log("I am client so checking for AI player");
-        //    _CheckForAIPlayers();
-        //}
     }
 
     void _SpwanPlayerCalculations(PlayerRef _playerRef, int _pathno, Vector3 _spwanpos)
@@ -564,6 +555,21 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         Debug.Log("No AI player Found");
         return 4;
+    }
+
+    private void _DespwanAllAIplayers()
+    {
+        if (Runner.IsServer)
+        {
+            foreach (var item in TotalPlayers)
+            {
+                if (item.AI)
+                {
+                    Destroy(item.aiplayer.gameObject);
+                    TotalPlayers.Remove(item);
+                }
+            }
+        }
     }
 
     private void _DespawnPlayer(PlayerRef playerRef)

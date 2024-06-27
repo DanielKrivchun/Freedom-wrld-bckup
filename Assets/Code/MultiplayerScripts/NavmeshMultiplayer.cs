@@ -109,6 +109,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         NetworkEventManager.e_reset_player -= _ResetMe;
     }
 
+
+    #region RESET PLAYER
     public void _ResetMe(string _name)
     {
         if (MyName == _name)
@@ -119,9 +121,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             _ChangeAnimationHere(_AnimState.Idle);
             CurruntIndex = 0;
             RaceManager.instance._ResetRaceManager();
-
+            MyPathNumber = racemanager._GetPathNo();
         }
     }
+    #endregion
+
+
 
     private void _OnStopStartPlayer(int _no)
     {
@@ -296,7 +301,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public void _ChangingRanke(int _Myrank)
     {
         Debug.Log("My Ranke is changed " + MyName);
-        _Myrank += 1 ;
+        _Myrank += 1;
         MyRankNo = _Myrank;
     }
     #endregion
