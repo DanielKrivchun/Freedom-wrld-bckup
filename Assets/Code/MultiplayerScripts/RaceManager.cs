@@ -416,7 +416,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             Debug.Log("Start Game Now");
             //DE SPWAN ALL AI PLAYERS
             _DespwanAllAIplayers();
-
             NetwrokUI.Instance.RPC_StartGame();
         }
     }
