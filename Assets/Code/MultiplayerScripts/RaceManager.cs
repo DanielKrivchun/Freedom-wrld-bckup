@@ -151,6 +151,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         MyWinNumber = 0;
         RaceStart = true;
         CompletePlayerCount = 0;
+        CurrntWinCount = 0;
     }
 
     #endregion
@@ -412,6 +413,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         PathNumber = 0;
         CompletePlayerCount = 0;
         RaceStart = false;
+        CurrntWinCount = 0;
     }
 
     public void _ResetRaceManager()
