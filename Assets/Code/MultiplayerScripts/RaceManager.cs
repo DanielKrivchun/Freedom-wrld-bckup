@@ -73,6 +73,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public List<_RankPlayers> RankBasedPlayers;
 
+    private List<_RankPlayers> temp_list;
+
     #endregion
 
     #region NETWORKED OBJECTS
@@ -80,6 +82,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public string TimeLeft { get; set; }
+
+    private bool RaceStart;
+    private float timer = 0f;
     #endregion
 
     #region PRIVATE
@@ -123,6 +128,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         SceneData._Reset();
         namesJson._SetMyData();
 
+
+
         NetworkEventManager.e_countdown_start += _OnCounddownStart;
     }
 
@@ -143,6 +150,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         ResetAgrreePlayers = 0;
         MyWinNumber = 0;
+        RaceStart = true;
 
     }
 
@@ -166,11 +174,34 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             TimeLeft = (minutes) + " : " + seconds;
         }
 
-        //CHECK PLAYERS RANK
-        if (Input.GetKeyDown(KeyCode.T))
+
+
+
+        //CHECK THIS ONLY ON SERVER
+        if (!Runner.IsServer) return;
+        if (!RaceStart) return;
+
+        timer += Time.deltaTime;
+
+        if (timer > 1f)
         {
-            //CHECK RANK OF THE PLAYERS
-            RankBasedPlayers.OrderBy(item => item.MyDistance).ToList();
+            timer = 0f;
+
+            temp_list = new List<_RankPlayers>();
+            temp_list = RankBasedPlayers;
+
+            temp_list = temp_list.OrderByDescending(asd => asd.MyDistance).ToList();
+
+            int MyRank = 0;
+            foreach (var item in TotalPlayers)
+            {
+                if (!item.AI)
+                {
+                    MyRank = temp_list.FindIndex(asd => asd.PathNo == item.player.MyPathNumber);
+                    item.player._ChangingRanke(MyRank);
+                }
+            }
+
         }
 
     }
