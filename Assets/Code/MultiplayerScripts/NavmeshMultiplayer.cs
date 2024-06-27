@@ -109,6 +109,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             Q = RaceManager.instance.spawnPoints[MyPathNumber].rotation;
             _ChangeAnimationHere(_AnimState.Idle);
             CurruntIndex = 0;
+            RaceManager.instance._ResetRaceManager();
             Debug.Log("Reseting Me " + MyName);
         }
     }
@@ -232,7 +233,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             {
                 case _Tags.WinLine:
                     Debug.Log("WINLINE COLIDED" + other.tag + "    " + MyName);
-                    GetComponent<NavMeshAgent>().enabled = false;
+                    m_agent.enabled = false;
                     GetComponent<Collider>().enabled = false;
                     Rigidbody rb = GetComponent<Rigidbody>();
                     rb.isKinematic = true;
@@ -351,20 +352,30 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         MyPathNumber = pr;
     }
 
+    /// <summary>
+    /// THIS METHOD WILL BE CALLED WHEN RACE STARTS
+    /// </summary>
     public void _StartRun()
     {
+        //RESET VLAUES
+        CurruntIndex = 0;
+        RaceComplete = false;
+        GetComponent<Collider>().enabled = true;
+
         if (IsServer)
         {
             //Debug.Log(MyPathNumber);
+            m_agent.enabled = true;
             _InitilizePath();
             CurruntPos = _GetNextPos(move_positions[CurruntIndex]);
             _SetDestination();
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.isKinematic = false;
         }
         else
         {
             m_agent.enabled = false;
         }
-
         _ChangeAnimationHere(_AnimState.Run);
     }
 
@@ -418,8 +429,11 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             StartCoroutine(_WaitAndStopLuckChance());
         }
 
-        GenratedPet._ChangeSpeed(m_agent.speed);
-
+        //Changing animation speed
+        if (GenratedPet != null)
+        {
+            GenratedPet._ChangeSpeed(m_agent.speed);
+        }
         //Debug.Log("Calculating");
         //CALCULATING FOR SPEED FROM TAPING
         m_agent.speed = MyNetworkSpeed * NetworkedSetTap * SpeedController;
@@ -575,6 +589,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             G.player = this;
             RaceManager.instance.TotalPlayers.Add(G);
             RaceManager.instance.TotalNumberOfPlayers++;
+            RaceManager.instance.TotalRealPlayers++;
 
         }
         else

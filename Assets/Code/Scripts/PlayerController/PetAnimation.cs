@@ -24,6 +24,7 @@ public class PetAnimation : MonoBehaviour
                 AnimatorRef.SetBool(_Strings.IsSleeping, false);
                 AnimatorRef.SetBool(_Strings.IsSick, false);
                 AnimatorRef.SetBool(_Strings.Idle, true);
+                AnimatorRef.SetBool(_Strings.Jumping, false);
                 m_currunt_anim_state = _AnimState.Idle;
                 break;
 

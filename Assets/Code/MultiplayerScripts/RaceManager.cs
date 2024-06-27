@@ -58,6 +58,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public float TotalSeconds;
     [Space]
     public int TotalNumberOfPlayers;
+    public int TotalRealPlayers;
+    public int ResetAgrreePlayers;
     public int AIplayersCount;
     public int CompletePlayerCount;
     public int MyWinNumber;
@@ -357,8 +359,22 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             NetwrokUI.Instance._SetupList(_ss);
             _XpIncrimental(MyWinNumber);
             SceneData.ShowWelcomeScreen = true;
+            ResetAgrreePlayers = 0;
         }
     }
+
+    public void _ResetRaceManager()
+    {
+        ResetAgrreePlayers++;
+
+        if (ResetAgrreePlayers == TotalNumberOfPlayers)
+        {
+            Debug.Log("All Players agreed to match ");
+            Debug.Log("Start Game Now");
+            NetwrokUI.Instance.RPC_StartGame();
+        }
+    }
+
 
     public void _XpIncrimental(int _mywinno)
     {
@@ -510,6 +526,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 Runner.Despawn(p.Player);
                 GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
                 TotalNumberOfPlayers--;
+                TotalRealPlayers--;
             }
         }
     }
