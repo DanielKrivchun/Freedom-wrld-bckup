@@ -144,6 +144,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             int a = UnityEngine.Random.Range(0, 3);
             Debug.Log("Stumble point  " + a);
             RPC_SetStumbleObject(a);
+            PathNumber = 0;
         }
 
         ResetAgrreePlayers = 0;
@@ -478,10 +479,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     #region PATHNUMBER SETUP
     public int _GetPathNo()
     {
-        if (PathNumber <= 0)
-        {
-            PathNumber = 0;
-        }
         int a = PathNumber;
         PathNumber++;
         return a;
