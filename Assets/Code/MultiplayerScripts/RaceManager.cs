@@ -411,6 +411,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         MyWinNumber = 0;
         PathNumber = 0;
         CompletePlayerCount = 0;
+        RaceStart = false;
     }
 
     public void _ResetRaceManager()
@@ -420,12 +421,29 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         if (ResetAgrreePlayers == TotalRealPlayers)
         {
+            StartCoroutine(_ReplayGameAgain());
             Debug.Log("All Players agreed to match ");
             Debug.Log("Start Game Now");
-            //DE SPWAN ALL AI PLAYERS
-            _DespwanAllAIplayers();
-            NetwrokUI.Instance.RPC_StartGame();
         }
+    }
+
+    IEnumerator _ReplayGameAgain()
+    {
+        //DE SPWAN ALL AI PLAYERS
+        _DespwanAllAIplayers();
+        yield return new WaitForSecondsRealtime(1);
+
+        for (int i = 1; i <= 5; i++)
+        {
+            if (i>TotalRealPlayers)
+            {
+                _GenrateAIPlayer();
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        yield return new WaitForSecondsRealtime(1);
+        NetwrokUI.Instance.RPC_StartGame();
     }
 
 
@@ -567,9 +585,22 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 if (item.AI)
                 {
                     Destroy(item.aiplayer.gameObject);
-                    TotalPlayers.Remove(item);
+
                 }
             }
+
+            for (int i = 0; i < 5; i++)
+            {
+                foreach (var item in TotalPlayers)
+                {
+                    if (item.AI)
+                    {
+                        TotalPlayers.Remove(item);
+                        break;
+                    }
+                }
+            }
+
         }
     }
 
