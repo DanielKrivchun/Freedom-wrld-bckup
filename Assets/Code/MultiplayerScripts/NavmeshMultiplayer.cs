@@ -60,7 +60,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked] public int MyPathNumber { get; set; }
     [Networked] public string MyPrefabID { get; set; }
 
-    [Networked] public int MyRankNo { get; set; }
+    [Networked, OnChangedRender(nameof(_OnRankNumberChanged))]
+    public int MyRankNo { get; set; }
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
@@ -299,6 +300,14 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         _ChangeAnimationHere(_AnimState.Jump);
     }
 
+    private void _OnRankNumberChanged()
+    {
+        if (Utils.IsLocalPlayer(Object))
+        {
+            Debug.Log(MyName + "   " + MyRankNo);
+            NetworkEventManager._EventUpdateMyNo(MyRankNo);
+        }
+    }
 
     private void _OnWInNumberAlocated()
     {

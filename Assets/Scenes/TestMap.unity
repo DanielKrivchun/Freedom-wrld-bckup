@@ -28101,7 +28101,7 @@ GameObject:
   - component: {fileID: 577164347}
   - component: {fileID: 577164350}
   m_Layer: 0
-  m_Name: Rank (1)
+  m_Name: 2
   m_TagString: Rank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28150,7 +28150,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577164345}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -53082,7 +53082,7 @@ GameObject:
   - component: {fileID: 1157627950}
   - component: {fileID: 1157627953}
   m_Layer: 0
-  m_Name: Rank (2)
+  m_Name: 3
   m_TagString: Rank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53131,7 +53131,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157627948}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -61379,7 +61379,7 @@ GameObject:
   - component: {fileID: 1494777017}
   - component: {fileID: 1494777020}
   m_Layer: 0
-  m_Name: Rank (3)
+  m_Name: 4
   m_TagString: Rank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61428,7 +61428,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494777015}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -78360,7 +78360,7 @@ GameObject:
   - component: {fileID: 1958010190}
   - component: {fileID: 1958010193}
   m_Layer: 0
-  m_Name: Rank
+  m_Name: 1
   m_TagString: Rank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78409,7 +78409,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1958010188}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -82320,7 +82320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2106912559
 Transform:
   m_ObjectHideFlags: 0

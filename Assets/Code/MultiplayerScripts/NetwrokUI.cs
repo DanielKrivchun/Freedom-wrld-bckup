@@ -70,6 +70,7 @@ public class NetwrokUI : NetworkBehaviour
     {
         NetworkEventManager.e_win_event += _OnGameWon;
         NetworkEventManager.e_player_left += _PlayerLeft;
+        NetworkEventManager.e_updated_my_no += _UpdatedRank;
 
         LeaveButton.onClick.AddListener(_OnLeaveButton);
         InGameLeave.onClick.AddListener(_OnLeaveButton);
@@ -80,10 +81,13 @@ public class NetwrokUI : NetworkBehaviour
         No.onClick.AddListener(_No);
     }
 
+
+
     private void OnDisable()
     {
         NetworkEventManager.e_win_event -= _OnGameWon;
         NetworkEventManager.e_player_left -= _PlayerLeft;
+        NetworkEventManager.e_updated_my_no -= _UpdatedRank;
 
         InGameLeave.onClick.RemoveListener(_OnLeaveButton);
         LeaveButton.onClick.RemoveListener(_OnLeaveButton);
@@ -92,6 +96,11 @@ public class NetwrokUI : NetworkBehaviour
         ReplayButton.onClick.RemoveListener(_ReplayButtonClick);
         Yes.onClick.RemoveListener(_Yes);
         No.onClick.RemoveListener(_No);
+    }
+
+    private void _UpdatedRank(int _no)
+    {
+        CurruntRankNo.text = _no.ToString();
     }
 
     private void _Yes()
