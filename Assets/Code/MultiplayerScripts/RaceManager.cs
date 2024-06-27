@@ -435,7 +435,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         for (int i = 1; i <= 5; i++)
         {
-            if (i>TotalRealPlayers)
+            if (i > TotalRealPlayers)
             {
                 _GenrateAIPlayer();
                 yield return new WaitForEndOfFrame();
@@ -585,7 +585,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 if (item.AI)
                 {
                     Destroy(item.aiplayer.gameObject);
-
+                    TotalNumberOfPlayers--;
                 }
             }
 
