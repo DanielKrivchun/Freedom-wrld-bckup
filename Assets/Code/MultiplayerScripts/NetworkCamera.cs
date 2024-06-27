@@ -102,10 +102,8 @@ public class NetworkCamera : MonoBehaviour
 
         cam = _GetCamm("follocam");
         cam.gameObject.SetActive(false);
-
         cam = _GetCamm("startcam");
         cam.gameObject.SetActive(false);
-
         WinCamera.gameObject.SetActive(true);
         //FollowCam.gameObject.SetActive(false);
         Confetti.gameObject.SetActive(true);
