@@ -97,6 +97,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
+    public PathCreation.PathCreator Path;
+
     public static RaceManager instance;
 
     #region UNITY METHODS
@@ -660,6 +662,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         Debug.Log(playerObject.transform.position);
         playerObject.GetComponent<NetworkAIPlayer>()._SetUpMyInitialData(PathNumber);
         PathNumber++;
+    }
+
+    #endregion
+
+    #region RANK FINDER
+    public float _FindMyDistance(Vector3 _pos)
+    {
+        return Path.path.GetClosestDistanceAlongPath(_pos);
     }
 
     #endregion
