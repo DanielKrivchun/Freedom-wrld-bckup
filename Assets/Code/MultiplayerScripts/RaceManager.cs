@@ -84,7 +84,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public string TimeLeft { get; set; }
 
-    private bool RaceStart;
+    public bool RaceStart;
     private float timer = 0f;
     #endregion
 
