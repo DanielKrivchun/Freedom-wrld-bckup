@@ -376,7 +376,6 @@ public class NetworkAIPlayer : NetworkBehaviour
         nameText.text = _name;
     }
 
-
     private void _GenratePetPrefab()
     {
         Debug.Log("This works on Server  only  " + Runner.IsServer);
