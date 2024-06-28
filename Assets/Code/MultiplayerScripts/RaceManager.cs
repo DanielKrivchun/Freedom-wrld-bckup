@@ -766,6 +766,30 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
+    #region STUMBLE & JACK
+    public void _ActivateJack(int _jackno, int pathno)
+    {
+        Transform T = null;
+        switch (_jackno)
+        {
+            case 1:
+                T = StumblePoints_1[pathno].CannonPosition.transform;
+                T.DOLocalMoveY(0f, 0.2f).OnComplete(() =>
+                {
+                    StumblePoints_1[pathno].ParticleEffect.SetActive(true);
+                });
+                break;
+            case 2:
+                T = StumblePoints_1[pathno].CannonPosition.transform;
+                T.DOLocalMoveY(0f, 0.2f).OnComplete(() =>
+                {
+                    StumblePoints_1[pathno].ParticleEffect.SetActive(true);
+                });
+                break;
+        }
+    }
+    #endregion
+
     #region RPC CALLS
 
     [Rpc(RpcSources.All, RpcTargets.All)]

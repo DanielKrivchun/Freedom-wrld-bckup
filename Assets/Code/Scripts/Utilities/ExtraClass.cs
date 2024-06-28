@@ -18,7 +18,8 @@ public enum _AnimState
     Bath,
     Sleep,
     Sick,
-    Climbing
+    Climbing,
+    Stumble
 }
 
 public enum _Playertate
@@ -61,6 +62,7 @@ public struct _Tags
     public const string Land = "Land";
     public const string Climbing = "Climbing";
     public const string Jack = "Jack";
+    public const string JackSecond = "JackSecond";
     public const string Rank = "Rank";
 }
 

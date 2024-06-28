@@ -273,7 +273,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     _ChangeAnimationHere(_AnimState.Climbing);
                     break;
                 case _Tags.Jack:
-                    _ColidedWIthJack();
+                    _ColidedWIthJack(1);
+                    break;
+                case _Tags.JackSecond:
+                    _ColidedWIthJack(2);
                     break;
             }
         }
@@ -299,10 +302,17 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #endregion
 
     #region JACK STUMBLE
-    void _ColidedWIthJack()
+    void _ColidedWIthJack(int _jackno)
     {
-
+        RPC_ActivateJack(_jackno, MyPathNumber);
     }
+
+    IEnumerator _WaitAndStumble()
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+        luckchance = 5f;
+    }
+
     #endregion
 
     #region RANK FINDING
@@ -473,8 +483,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     IEnumerator _WaitAndStopLuckChance()
     {
-        yield return new WaitForSecondsRealtime(1f);
+        _ChangeAnimationHere(_AnimState.Stumble);
+        yield return new WaitForSecondsRealtime(1.5f);
         luckchance = 0f;
+        _ChangeAnimationHere(_AnimState.Run);
     }
 
     #endregion
@@ -559,6 +571,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         Debug.Log("I am sending RPC");
         _OnReciveConfigs(_json);
     }
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_ActivateJack(int JackNo, int Pathno)
+    {
+        racemanager._ActivateJack(JackNo, Pathno);
+    }
+
 
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_Stumble()

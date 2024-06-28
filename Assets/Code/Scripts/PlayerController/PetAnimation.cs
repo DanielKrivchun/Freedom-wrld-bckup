@@ -86,6 +86,10 @@ public class PetAnimation : MonoBehaviour
                 AnimatorRef.SetBool(_Strings.IsSleeping, true);
                 m_currunt_anim_state = _AnimState.Sleep;
                 break;
+            case _AnimState.Stumble:
+                AnimatorRef.SetFloat(_Strings.Velocity, 3f);
+                m_currunt_anim_state = _AnimState.Stumble;
+                break;
 
             default:
                 break;

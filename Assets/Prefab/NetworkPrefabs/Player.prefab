@@ -505,6 +505,7 @@ MonoBehaviour:
   IsServer: 0
   IsLocalPlayer: 0
   RaceComplete: 0
+  MyDistanceOnPath: 0
   NetworkedSetTap: 0
   MyNetworkSpeed: 0
   _MyName: 
@@ -512,6 +513,7 @@ MonoBehaviour:
   _MyPrefabID: 
   _MyWiningNumber: 0
   networkTransform: {fileID: 0}
+  _MyRankNo: 0
 --- !u!114 &8328347679902393475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,7 +567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6768042563068945089
 Transform:
   m_ObjectHideFlags: 0
