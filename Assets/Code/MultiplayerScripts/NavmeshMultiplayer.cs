@@ -71,6 +71,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked, OnChangedRender(nameof(_OnRankNumberChanged))]
     public int MyRankNo { get; set; }
 
+    private string terrain;
+
     public Quaternion Q { get; private set; }
 
     #endregion
@@ -118,8 +120,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
     }
     #endregion
-
-
 
     private void _OnStopStartPlayer(int _no)
     {
@@ -252,18 +252,22 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 case _Tags.Water:
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.swimming);
                     _ChangeAnimationHere(_AnimState.Swimming);
+                    terrain = _Tags.Water;
                     break;
                 case _Tags.Flying:
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.flying);
                     _ChangeAnimationHere(_AnimState.Flying);
+                    terrain = _Tags.Flying;
                     break;
                 case _Tags.Land:
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.running);
                     _ChangeAnimationHere(_AnimState.Run);
+                    terrain = _Tags.Land;
                     break;
                 case _Tags.Climbing:
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.climbing);
                     _ChangeAnimationHere(_AnimState.Climbing);
+                    terrain = _Tags.Climbing;
                     break;
                 case _Tags.Jack:
                     _ColidedWIthJack(1);
@@ -279,15 +283,19 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             {
                 case _Tags.Water:
                     _ChangeAnimationHere(_AnimState.Swimming);
+                    terrain = _Tags.Water;
                     break;
                 case _Tags.Flying:
                     _ChangeAnimationHere(_AnimState.Flying);
+                    terrain = _Tags.Flying;
                     break;
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
+                    terrain = _Tags.Land;
                     break;
                 case _Tags.Climbing:
                     _ChangeAnimationHere(_AnimState.Climbing);
+                    terrain = _Tags.Climbing;
                     break;
             }
         }
@@ -298,7 +306,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     void _ColidedWIthJack(int _jackno)
     {
         RPC_ActivateJack(_jackno, MyPathNumber);
-        luckchance = 5f;
     }
 
     IEnumerator _WaitAndStumble()
@@ -456,12 +463,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             if (luckchance >= 5f)
             {
                 //Debug.Log(" LuckChance hapning " + luckchance);
-                MyNetworkSpeed = 0.2f;
-                StartCoroutine(_WaitAndStopLuckChance());
+                MyNetworkSpeed = 0f;
+                RPC_LuckHanned();
             }
         }
-
-
         //Changing animation speed
         if (GenratedPet != null)
         {
@@ -481,13 +486,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
     }
 
-    IEnumerator _WaitAndStopLuckChance()
-    {
-        _ChangeAnimationHere(_AnimState.Stumble);
-        yield return new WaitForSecondsRealtime(RaceManagerRef.ChroutineTime);
-        luckchance = 0f;
-        _ChangeAnimationHere(_AnimState.Run);
-    }
+
 
     #endregion
 
@@ -574,14 +573,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_ActivateJack(int JackNo, int Pathno)
     {
+        luckchance = 5f;
         RaceManagerRef._ActivateJack(JackNo, Pathno);
-    }
-
-
-    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
-    public void RPC_Stumble()
-    {
-        _OnRecivedStumble();
     }
 
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
@@ -589,6 +582,39 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         _OnRecivedStumble();
     }
+
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
+    public void RPC_LuckHanned()
+    {
+        StartCoroutine(_WaitAndStopLuckChance());
+    }
+
+    IEnumerator _WaitAndStopLuckChance()
+    {
+        _ChangeAnimationHere(_AnimState.Stumble);
+        yield return new WaitForSecondsRealtime(RaceManagerRef.ChroutineTime);
+        luckchance = 0f;
+
+        switch (terrain)
+        {
+            case _Tags.Land:
+                _ChangeAnimationHere(_AnimState.Run);
+                break;
+            case _Tags.Water:
+                _ChangeAnimationHere(_AnimState.Swimming);
+                break;
+            case _Tags.Flying:
+                _ChangeAnimationHere(_AnimState.Flying);
+                break;
+            case _Tags.Climbing:
+                _ChangeAnimationHere(_AnimState.Climbing);
+                break;
+
+        }
+
+
+    }
+
 
     void _OnRecivedStumble()
     {
