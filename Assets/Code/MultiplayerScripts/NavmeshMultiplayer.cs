@@ -571,7 +571,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         Debug.Log("I am sending RPC");
         _OnReciveConfigs(_json);
     }
-    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_ActivateJack(int JackNo, int Pathno)
     {
         racemanager._ActivateJack(JackNo, Pathno);
