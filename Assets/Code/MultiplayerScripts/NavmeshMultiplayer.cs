@@ -487,19 +487,27 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 luckchance += Time.deltaTime;
                 if (luckchance >= 5f)
                 {
-                    RandomNumber = Random.Range(0f, 0.3f * Luck);
-
-                    if (RandomNumber <= 0.3f)
+                    if (!Stumbled)
                     {
-                        //Debug.Log(" LuckChance hapning " + luckchance);
-                        MyNetworkSpeed = 0f;
-                        if (!Stumbled)
+                        RandomNumber = Random.Range(0f, 0.3f * Luck);
+
+                        if (RandomNumber <= 0.3f)
                         {
+                            Debug.Log(" LuckChance hapning " + RandomNumber);
+                            MyNetworkSpeed = 0f;
                             Stumbled = true;
                             RPC_LuckHanned();
                         }
+                        else
+                        {
+                            luckchance = 0f;
+                        }
                     }
-                    luckchance = 0f;
+                    else
+                    {
+                        MyNetworkSpeed = 0f;
+                    }
+
                 }
             }
         }

@@ -31,6 +31,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     public List<Vector3> move_positions;
 
     private float RandomNumber;
+    private float RndomLuckChanceTime;
     #endregion
 
     #region Private variables
@@ -87,6 +88,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         {
             IsServer = true;
         }
+        RndomLuckChanceTime = Random.Range(5, 10);
         Speed = PetConfigs._GetMySpeed();
         m_agent.speed = Speed;
         StartCoroutine(_GenrateMyPrefab());
@@ -311,9 +313,9 @@ public class NetworkAIPlayer : NetworkBehaviour
             if (terrain == _Tags.Land)
             {
                 luckchance += Time.deltaTime;
-                if (luckchance >= 5f)
+                if (luckchance >= RndomLuckChanceTime)
                 {
-                    RandomNumber = Random.Range(0f, 0.6f);
+                    RandomNumber = Random.Range(0f, 1f);
 
 
                     if (RandomNumber <= 0.3f)
@@ -327,7 +329,11 @@ public class NetworkAIPlayer : NetworkBehaviour
                             RPC_LuckHanned();
                         }
                     }
-                    luckchance = 0f;
+                    else
+                    {
+
+                        luckchance = 0f;
+                    }
                 }
             }
         }
