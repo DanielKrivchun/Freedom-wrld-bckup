@@ -777,6 +777,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 T.DOLocalMoveY(0f, 0.2f).OnComplete(() =>
                 {
                     StumblePoints_1[pathno].ParticleEffect.SetActive(true);
+                    StartCoroutine(_WaitAndDisableCannon(T));
                 });
                 break;
             case 2:
@@ -788,6 +789,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 break;
         }
     }
+
+    IEnumerator _WaitAndDisableCannon(Transform obj)
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        obj.DOLocalMoveY(-2f, 0.1f);
+
+    }
+
     #endregion
 
     #region RPC CALLS
