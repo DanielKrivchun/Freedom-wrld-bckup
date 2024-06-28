@@ -65,6 +65,9 @@ public class NetworkCamera : MonoBehaviour
         cam.gameObject.SetActive(false);
         GameObject g = _GetCam("follocam");
         g.SetActive(false);
+        g = _GetCam("startracecam");
+        g.SetActive(false);
+        CurruntCam = _GetCam("startcam");
     }
 
     private void _FocusOnPlayer(int _no)
