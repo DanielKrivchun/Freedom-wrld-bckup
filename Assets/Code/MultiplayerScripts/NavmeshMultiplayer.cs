@@ -305,12 +305,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     void _ColidedWIthJack(int _jackno)
     {
         RPC_ActivateJack(_jackno, MyPathNumber);
+        luckchance = 5f;
     }
 
     IEnumerator _WaitAndStumble()
     {
         yield return new WaitForSecondsRealtime(0.2f);
-        luckchance = 5f;
+        luckchance = 6f;
     }
 
     #endregion
