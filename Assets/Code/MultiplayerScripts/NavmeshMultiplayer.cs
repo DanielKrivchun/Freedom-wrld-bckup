@@ -459,12 +459,15 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         if (RaceManagerRef.RaceStart)
         {
-            luckchance += Time.deltaTime;
-            if (luckchance >= 5f)
+            if (terrain == _Tags.Land)
             {
-                //Debug.Log(" LuckChance hapning " + luckchance);
-                MyNetworkSpeed = 0f;
-                RPC_LuckHanned();
+                //luckchance += Time.deltaTime;
+                if (luckchance >= 5f)
+                {
+                    //Debug.Log(" LuckChance hapning " + luckchance);
+                    MyNetworkSpeed = 0f;
+                    RPC_LuckHanned();
+                }
             }
         }
         //Changing animation speed
