@@ -66,7 +66,7 @@ public class UiManager : MonoBehaviour
     public bool GameStarted;
 
 
-    private float FillAmount;
+    public float FillAmount;
     private void OnEnable()
     {
         TapButton.onClick.AddListener(_Tap);
@@ -204,6 +204,12 @@ public class UiManager : MonoBehaviour
 
     void _SetArrowBasedMultiplier()
     {
+        if (FillAmount <= 0)
+        {
+            SteminaDrain = red_drain;
+            return;
+        }
+
         ypos = m_arrow.anchoredPosition.y;
 
         if (ypos >= -600f && ypos < -460f)
