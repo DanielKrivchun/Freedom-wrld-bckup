@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Beamable.Api.Notification.PubNubOp;
 
 public class NetworkCamera : MonoBehaviour
 {
@@ -39,12 +40,31 @@ public class NetworkCamera : MonoBehaviour
     {
         NetworkEventManager.e_camera_change += _CameraSetup;
         NetworkEventManager.e_focus_on_player += _FocusOnPlayer;
+        NetworkEventManager.e_get_set_go += _GameStarted;
     }
 
     private void OnDisable()
     {
+        NetworkEventManager.e_get_set_go -= _GameStarted;
         NetworkEventManager.e_camera_change -= _CameraSetup;
         NetworkEventManager.e_focus_on_player -= _FocusOnPlayer;
+    }
+
+    private void _GameStarted()
+    {
+        WinCamera.SetActive(false);
+        cam = _GetCamm("0");
+        cam.gameObject.SetActive(false);
+        cam = _GetCamm("1");
+        cam.gameObject.SetActive(false);
+        cam = _GetCamm("2");
+        cam.gameObject.SetActive(false);
+        cam = _GetCamm("3");
+        cam.gameObject.SetActive(false);
+        cam = _GetCamm("4");
+        cam.gameObject.SetActive(false);
+        GameObject g = _GetCam("follocam");
+        g.SetActive(false);
     }
 
     private void _FocusOnPlayer(int _no)
