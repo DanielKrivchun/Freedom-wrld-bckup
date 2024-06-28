@@ -106,6 +106,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
+    public float ChroutineTime;
+
     public PathCreation.PathCreator Path;
 
     public static RaceManager instance;
@@ -736,6 +738,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
     #endregion
+
+
 
     #region AI PLAYER
     void _CheckForAIPlayers()

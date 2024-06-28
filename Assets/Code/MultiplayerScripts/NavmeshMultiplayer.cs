@@ -455,7 +455,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             return;
         }
         ////CALCULATION FOR LUCK
-        //luckchance += Time.deltaTime;
+        luckchance += Time.deltaTime;
         if (luckchance >= 5f)
         {
             Debug.Log(" LuckChance hapning " + luckchance);
@@ -485,7 +485,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     IEnumerator _WaitAndStopLuckChance()
     {
         _ChangeAnimationHere(_AnimState.Stumble);
-        yield return new WaitForSecondsRealtime(1.5f);
+        yield return new WaitForSecondsRealtime(racemanager.ChroutineTime);
         luckchance = 0f;
         _ChangeAnimationHere(_AnimState.Run);
     }
