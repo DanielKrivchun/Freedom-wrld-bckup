@@ -73,6 +73,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     private string terrain = _Tags.Land;
 
+    private bool Stumbled = false;
+
     public Quaternion Q { get; private set; }
 
     #endregion
@@ -461,12 +463,16 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             if (terrain == _Tags.Land)
             {
-                //luckchance += Time.deltaTime;
+                luckchance += Time.deltaTime;
                 if (luckchance >= 5f)
                 {
                     //Debug.Log(" LuckChance hapning " + luckchance);
                     MyNetworkSpeed = 0f;
-                    RPC_LuckHanned();
+                    if (!Stumbled)
+                    {
+                        Stumbled = true;
+                        RPC_LuckHanned();
+                    }
                 }
             }
         }
@@ -577,7 +583,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public void RPC_ActivateJack(int JackNo, int Pathno)
     {
         RaceManagerRef._ActivateJack(JackNo, Pathno);
-        StartCoroutine(_WaitAndStopPlayer());
+        luckchance = 6f;
+        //StartCoroutine(_WaitAndStopPlayer());
     }
 
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
@@ -592,18 +599,19 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         StartCoroutine(_WaitAndStopLuckChance());
     }
 
-    IEnumerator _WaitAndStopPlayer()
-    {
-        yield return new WaitForSecondsRealtime(0.5f);
-        luckchance = 6f;
-    }
+    //IEnumerator _WaitAndStopPlayer()
+    //{
+    //    yield return new WaitForSecondsRealtime(0.25f);
+
+    //}
 
     IEnumerator _WaitAndStopLuckChance()
     {
+        Debug.Log("_WaitAndStopLuckChance");
         _ChangeAnimationHere(_AnimState.Stumble);
-        yield return new WaitForSecondsRealtime(RaceManagerRef.ChroutineTime);
+        yield return new WaitForSecondsRealtime(2);
         luckchance = 0f;
-
+        Stumbled = false;
         switch (terrain)
         {
             case _Tags.Land:

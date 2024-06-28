@@ -36,6 +36,7 @@ public class PetAnimation : MonoBehaviour
             case _AnimState.Run:
                 AnimatorRef.SetBool(_Strings.Idle, false);
                 AnimatorRef.SetFloat(_Strings.Velocity, 1f);
+                AnimatorRef.SetBool(_Strings.StumbleBool, false);
                 m_currunt_anim_state = _AnimState.Run;
                 break;
 
@@ -87,7 +88,8 @@ public class PetAnimation : MonoBehaviour
                 m_currunt_anim_state = _AnimState.Sleep;
                 break;
             case _AnimState.Stumble:
-                AnimatorRef.SetFloat(_Strings.Velocity, 3f);
+                AnimatorRef.SetFloat(_Strings.Velocity, 0f);
+                AnimatorRef.SetBool(_Strings.StumbleBool, true);
                 m_currunt_anim_state = _AnimState.Stumble;
                 break;
 
