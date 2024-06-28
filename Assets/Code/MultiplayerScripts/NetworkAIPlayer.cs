@@ -29,6 +29,8 @@ public class NetworkAIPlayer : NetworkBehaviour
     public NetworkString<_32> playerName;
     public PlayerRef playerRef;
     public List<Vector3> move_positions;
+
+    private float RandomNumber;
     #endregion
 
     #region Private variables
@@ -311,14 +313,21 @@ public class NetworkAIPlayer : NetworkBehaviour
                 luckchance += Time.deltaTime;
                 if (luckchance >= 5f)
                 {
-                    SpeedMul = 0f;
-                    //Debug.Log(" LuckChance hapning " + luckchance);
-                    m_agent.speed = Speed * SpeedMul;
-                    if (!Stumbled)
+                    RandomNumber = Random.Range(0f, 0.6f);
+
+
+                    if (RandomNumber <= 0.3f)
                     {
-                        Stumbled = true;
-                        RPC_LuckHanned();
+                        SpeedMul = 0f;
+                        //Debug.Log(" LuckChance hapning " + luckchance);
+                        m_agent.speed = Speed * SpeedMul;
+                        if (!Stumbled)
+                        {
+                            Stumbled = true;
+                            RPC_LuckHanned();
+                        }
                     }
+                    luckchance = 0f;
                 }
             }
         }

@@ -66,6 +66,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public int MyWiningNumber { get; set; }
 
     private float luckchance = 0f;
+    private float RandomNumber;
 
     public NetworkTransform networkTransform;
     private Vector3 pos;
@@ -227,6 +228,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         Luck = Mathf.Pow(2.718f, -1.5f * (playerconfigs.luck / 5000f));
         Inteligence = Mathf.Pow(2.718f, -1.5f * (playerconfigs.intelligence / 5000f));
+
+        //3
+        //0.9999
+        float a = Random.Range(0f, 0.3f * Luck);
+        float b = Random.Range(0f, 0.6f * Inteligence);
+
 
         Debug.Log(Luck);
         Debug.Log(Inteligence);
@@ -480,13 +487,19 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 luckchance += Time.deltaTime;
                 if (luckchance >= 5f)
                 {
-                    //Debug.Log(" LuckChance hapning " + luckchance);
-                    MyNetworkSpeed = 0f;
-                    if (!Stumbled)
+                    RandomNumber = Random.Range(0f, 0.3f * Luck);
+
+                    if (RandomNumber <= 0.3f)
                     {
-                        Stumbled = true;
-                        RPC_LuckHanned();
+                        //Debug.Log(" LuckChance hapning " + luckchance);
+                        MyNetworkSpeed = 0f;
+                        if (!Stumbled)
+                        {
+                            Stumbled = true;
+                            RPC_LuckHanned();
+                        }
                     }
+                    luckchance = 0f;
                 }
             }
         }
