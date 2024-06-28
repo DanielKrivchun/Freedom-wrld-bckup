@@ -31,6 +31,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     //public int MyRankNo;
     [Space]
     private float SpeedController = 1f;
+
+    [Space]
+    public float Luck;
+    public float Inteligence;
     #endregion
 
     #region Private variables
@@ -220,6 +224,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.running);
 
+
+        Luck = Mathf.Pow(2.718f, -1.5f * (playerconfigs.luck / 5000f));
+        Inteligence = Mathf.Pow(2.718f, -1.5f * (playerconfigs.intelligence / 5000f));
+
+        Debug.Log(Luck);
+        Debug.Log(Inteligence);
+
         NetworkEventManager._EventConfigUpdated();
     }
 
@@ -404,6 +415,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         CurruntIndex = 0;
         RaceComplete = false;
         GetComponent<Collider>().enabled = true;
+
 
         if (IsServer)
         {

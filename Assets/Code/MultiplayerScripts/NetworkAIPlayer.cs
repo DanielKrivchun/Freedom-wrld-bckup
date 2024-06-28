@@ -6,6 +6,7 @@ using UnityEngine;
 using static Unity.Collections.Unicode;
 using UnityEngine.AI;
 using DG.Tweening.Core.Easing;
+using static Beamable.Common.Constants.Features;
 
 public class NetworkAIPlayer : NetworkBehaviour
 {
@@ -53,9 +54,17 @@ public class NetworkAIPlayer : NetworkBehaviour
     public int SpeedController = 1;
     private Vector3 pos;
 
+    private bool Stumbled = false;
+
     public Quaternion Q { get; private set; }
     public float MyDistanceOnPath;
-    private RaceManager racemanager;
+    private RaceManager RaceManagerRef;
+
+    private float SpeedMul = 1f;
+
+    private string terrain = _Tags.Land;
+
+    private float luckchance = 0f;
     #endregion
 
     #region NETWORK FUCTIONS
@@ -70,14 +79,14 @@ public class NetworkAIPlayer : NetworkBehaviour
         NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
         networkTransform = GetComponent<NetworkTransform>();
         path_point = FindObjectOfType<PathPointManager>();
-        racemanager = RaceManager.instance;
+        RaceManagerRef = RaceManager.instance;
         SetLocalObjects();
-        _SetupConfigs();
         if (Runner.IsServer)
         {
             IsServer = true;
         }
         Speed = PetConfigs._GetMySpeed();
+        m_agent.speed = Speed;
         StartCoroutine(_GenrateMyPrefab());
     }
 
@@ -104,14 +113,6 @@ public class NetworkAIPlayer : NetworkBehaviour
         _GenratePetPrefab();
     }
 
-    /// <summary>
-    /// Remove random on Actual Project
-    /// </summary>
-    void _SetupConfigs()
-    {
-        m_agent.speed = Random.Range(3, 8);
-        m_agent.acceleration = Random.Range(15, Speed);
-    }
 
     private void SetLocalObjects()
     {
@@ -160,15 +161,25 @@ public class NetworkAIPlayer : NetworkBehaviour
                     break;
                 case _Tags.Water:
                     _ChangeAnimationHere(_AnimState.Swimming);
+                    terrain = _Tags.Water;
                     break;
                 case _Tags.Flying:
                     _ChangeAnimationHere(_AnimState.Flying);
+                    terrain = _Tags.Flying;
                     break;
                 case _Tags.Land:
                     _ChangeAnimationHere(_AnimState.Run);
+                    terrain = _Tags.Land;
                     break;
                 case _Tags.Climbing:
                     _ChangeAnimationHere(_AnimState.Climbing);
+                    terrain = _Tags.Climbing;
+                    break;
+                case _Tags.Jack:
+                    _ColidedWIthJack(1);
+                    break;
+                case _Tags.JackSecond:
+                    _ColidedWIthJack(2);
                     break;
             }
         }
@@ -190,6 +201,11 @@ public class NetworkAIPlayer : NetworkBehaviour
                     break;
             }
         }
+    }
+
+    void _ColidedWIthJack(int _jackno)
+    {
+        RPC_ActivateJack(_jackno, MyPathNumber);
     }
 
     private void _OnWInNumberAlocated()
@@ -288,8 +304,27 @@ public class NetworkAIPlayer : NetworkBehaviour
             return;
         }
 
-        MyDistanceOnPath = racemanager._FindMyDistance(transform.position);
-        racemanager.RankBasedPlayers[MyPathNumber].MyDistance = MyDistanceOnPath;
+        if (RaceManagerRef.RaceStart)
+        {
+            if (terrain == _Tags.Land)
+            {
+                luckchance += Time.deltaTime;
+                if (luckchance >= 5f)
+                {
+                    SpeedMul = 0f;
+                    //Debug.Log(" LuckChance hapning " + luckchance);
+                    m_agent.speed = Speed * SpeedMul;
+                    if (!Stumbled)
+                    {
+                        Stumbled = true;
+                        RPC_LuckHanned();
+                    }
+                }
+            }
+        }
+
+        MyDistanceOnPath = RaceManagerRef._FindMyDistance(transform.position);
+        RaceManagerRef.RankBasedPlayers[MyPathNumber].MyDistance = MyDistanceOnPath;
         //FIND DISTNACE HERE
         _CalculateDistance();
         if (m_distance < 1)
@@ -360,6 +395,46 @@ public class NetworkAIPlayer : NetworkBehaviour
         MyPrefabID = _prefabid;
         Debug.Log("My Prefab id is  " + _prefabid);
         _OnRecivedRPC();
+    }
+
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
+    public void RPC_ActivateJack(int JackNo, int Pathno)
+    {
+        RaceManagerRef._ActivateJack(JackNo, Pathno);
+        luckchance = 6f;
+        //StartCoroutine(_WaitAndStopPlayer());
+    }
+
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
+    public void RPC_LuckHanned()
+    {
+        StartCoroutine(_WaitAndStopLuckChance());
+    }
+
+    IEnumerator _WaitAndStopLuckChance()
+    {
+        Debug.Log("_WaitAndStopLuckChance");
+        _ChangeAnimationHere(_AnimState.Stumble);
+        yield return new WaitForSecondsRealtime(2);
+        luckchance = 0f;
+        Stumbled = false;
+        switch (terrain)
+        {
+            case _Tags.Land:
+                _ChangeAnimationHere(_AnimState.Run);
+                break;
+            case _Tags.Water:
+                _ChangeAnimationHere(_AnimState.Swimming);
+                break;
+            case _Tags.Flying:
+                _ChangeAnimationHere(_AnimState.Flying);
+                break;
+            case _Tags.Climbing:
+                _ChangeAnimationHere(_AnimState.Climbing);
+                break;
+        }
+        Speed = PetConfigs._GetMySpeed();
+        m_agent.speed = Speed;
     }
 
     void _OnRecivedRPC()

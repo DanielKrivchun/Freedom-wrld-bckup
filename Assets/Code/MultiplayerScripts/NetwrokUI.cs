@@ -223,6 +223,7 @@ public class NetwrokUI : NetworkBehaviour
     {
         startUI.SetActive(true);
         starGameButton.SetActive(true);
+        startUI.GetComponent<Image>().DOFade(0f, 0.2f);
     }
 
     public void _StartRace()
@@ -244,21 +245,21 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager._EventFocusOnPlayer(0);
         int a = 5;
         countdownText.text = a.ToString();
-        //yield return new WaitForSecondsRealtime(1.5f);
-        //NetworkEventManager._EventFocusOnPlayer(1);
-        //a--;
-        //countdownText.text = a.ToString();
-        //yield return new WaitForSecondsRealtime(1.5f);
-        //NetworkEventManager._EventFocusOnPlayer(2);
-        //a--;
-        //countdownText.text = a.ToString();
-        //yield return new WaitForSecondsRealtime(1.5f);
-        //NetworkEventManager._EventFocusOnPlayer(3);
-        //a--;
-        //countdownText.text = a.ToString();
-        //yield return new WaitForSecondsRealtime(1.5f);
-        //NetworkEventManager._EventFocusOnPlayer(4);
-        //a--;
+        yield return new WaitForSecondsRealtime(1.5f);
+        NetworkEventManager._EventFocusOnPlayer(1);
+        a--;
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1.5f);
+        NetworkEventManager._EventFocusOnPlayer(2);
+        a--;
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1.5f);
+        NetworkEventManager._EventFocusOnPlayer(3);
+        a--;
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1.5f);
+        NetworkEventManager._EventFocusOnPlayer(4);
+        a--;
         countdownText.text = a.ToString();
         yield return new WaitForSecondsRealtime(1.5f);
         a--;
