@@ -107,21 +107,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     }
 
 
-    #region RESET PLAYER
-    public void _ResetMe(string _name)
-    {
-        if (MyName == _name)
-        {
-            Debug.Log("Reseting Me " + MyName);
-            MyPathNumber = RaceManagerRef._GetPathNo();
-            pos = RaceManager.instance.spawnPoints[MyPathNumber].position;
-            Q = RaceManager.instance.spawnPoints[MyPathNumber].rotation;
-            _ChangeAnimationHere(_AnimState.Idle);
-            CurruntIndex = 0;
-            RaceManager.instance._ResetRaceManager();
-        }
-    }
-    #endregion
+
 
     private void _OnStopStartPlayer(int _no)
     {
@@ -187,6 +173,22 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         nameText.text = _name;
     }
 
+    #endregion
+
+    #region RESET PLAYER
+    public void _ResetMe(string _name)
+    {
+        if (MyName == _name)
+        {
+            Debug.Log("Reseting Me " + MyName);
+            MyPathNumber = RaceManagerRef._GetPathNo();
+            pos = RaceManager.instance.spawnPoints[MyPathNumber].position;
+            Q = RaceManager.instance.spawnPoints[MyPathNumber].rotation;
+            RPC_ChangeMyAnimation(0);
+            CurruntIndex = 0;
+            RaceManager.instance._ResetRaceManager();
+        }
+    }
     #endregion
 
     #region UNITY METHODS
@@ -599,11 +601,16 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         StartCoroutine(_WaitAndStopLuckChance());
     }
 
-    //IEnumerator _WaitAndStopPlayer()
-    //{
-    //    yield return new WaitForSecondsRealtime(0.25f);
-
-    //}
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
+    public void RPC_ChangeMyAnimation(int _animno)
+    {
+        switch (_animno)
+        {
+            case 0:
+                _ChangeAnimationHere(_AnimState.Idle);
+                break;
+        }
+    }
 
     IEnumerator _WaitAndStopLuckChance()
     {

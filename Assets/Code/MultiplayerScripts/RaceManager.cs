@@ -143,7 +143,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             int a = UnityEngine.Random.Range(0, 3);
             Debug.Log("Stumble point  " + a);
-            RPC_SetStumbleObject(a);
+            //RPC_SetStumbleObject(a);
             PathNumber = 0;
         }
 
@@ -737,8 +737,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
-
-
     #region AI PLAYER
     void _CheckForAIPlayers()
     {
@@ -817,16 +815,16 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     }
 
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_SetStumbleObject(int a)
-    {
-        _SetStumbleObjec(a);
-    }
+    //[Rpc(RpcSources.All, RpcTargets.All)]
+    //public void RPC_SetStumbleObject(int a)
+    //{
+    //    _SetStumbleObjec(a);
+    //}
 
-    void _SetStumbleObjec(int a)
-    {
-        //StumblePoints[a].gameObject.SetActive(true);
-    }
+    //void _SetStumbleObjec(int a)
+    //{
+    //    //StumblePoints[a].gameObject.SetActive(true);
+    //}
 
     #endregion
 }

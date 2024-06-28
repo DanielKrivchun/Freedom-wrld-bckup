@@ -118,6 +118,7 @@ public class NetwrokUI : NetworkBehaviour
     private void _No()
     {
         Debug.Log("Remove me from server and update path numbers");
+        _YesLeave();
     }
 
     private void _ReplayButtonClick()
