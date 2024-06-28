@@ -71,7 +71,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked, OnChangedRender(nameof(_OnRankNumberChanged))]
     public int MyRankNo { get; set; }
 
-    private string terrain;
+    private string terrain = _Tags.Land;
 
     public Quaternion Q { get; private set; }
 
