@@ -576,8 +576,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Rpc(sources: RpcSources.All, RpcTargets.All)]
     public void RPC_ActivateJack(int JackNo, int Pathno)
     {
-        luckchance = 5f;
         RaceManagerRef._ActivateJack(JackNo, Pathno);
+        StartCoroutine(_WaitAndStopPlayer());
     }
 
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
@@ -590,6 +590,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public void RPC_LuckHanned()
     {
         StartCoroutine(_WaitAndStopLuckChance());
+    }
+
+    IEnumerator _WaitAndStopPlayer()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        luckchance = 6f;
     }
 
     IEnumerator _WaitAndStopLuckChance()
@@ -614,8 +620,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 break;
 
         }
-
-
     }
 
 
