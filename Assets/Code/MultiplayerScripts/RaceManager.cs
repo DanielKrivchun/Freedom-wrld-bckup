@@ -149,7 +149,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         ResetAgrreePlayers = 0;
         MyWinNumber = 0;
-        RaceStart = true;
+
         CompletePlayerCount = 0;
         CurrntWinCount = 0;
     }
@@ -493,10 +493,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     #region ON RACE STARTS
     public void _StartGameForPlayers()
     {
-        //Debug.Log("_StartGameForPlayers");
         NetworkEventManager._EventStartGame();
         NetworkEventManager._EventCameraChange(_CamState.Follow);
         InputValue.m_enable_navmesh = true;
+        RaceStart = true;
     }
     #endregion
 
