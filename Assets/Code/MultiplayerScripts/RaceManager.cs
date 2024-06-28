@@ -26,7 +26,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public Transform[] WinPoints;
     [Space]
-    public Transform[] StumblePoints;
+    public _StumbleObjects[] StumblePoints_1;
+    public _StumbleObjects[] StumblePoints_2;
     [Space]
     [Header("Player configs")]
     [Header("NetworkRunner Prefab")]
@@ -127,7 +128,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         PrefabID = petdataref.petData.petPrefabID.ToString();
         SceneData._Reset();
         namesJson._SetMyData();
-
         NetworkEventManager.e_countdown_start += _OnCounddownStart;
     }
 
@@ -406,6 +406,47 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
 
+
+
+    public void _XpIncrimental(int _mywinno)
+    {
+        int mul = 1;
+        int coinstoadd = 0;
+        switch (_mywinno)
+        {
+            case 1:
+                mul = 50;
+                coinstoadd = 80;
+                break;
+            case 2:
+                mul = 30;
+                coinstoadd = 60;
+                break;
+            case 3:
+                mul = 20;
+                coinstoadd = 10;
+                break;
+        }
+        int newxp = (MyXP) + (1 / MyRank) * mul;
+        MyCoins += coinstoadd;
+        MyXP += newxp;
+        Debug.Log(newxp);
+        Debug.Log(coinstoadd);
+
+        SceneData.XpGained += newxp;
+        SceneData.CoinsGained += coinstoadd;
+
+        //SHOW TEXT
+        NetwrokUI.Instance._UpdatedText(coinstoadd, newxp);
+
+        //ADD COINS FROM BeamableInventoryManager AddCurrency
+        //AND XP WILL BE CALCULATED IN NEXT SCENE
+    }
+
+    #endregion
+
+    #region RESET ON GAME COMPLETE
+
     private void _ResetDataOnComplete()
     {
         ResetAgrreePlayers = 0;
@@ -447,43 +488,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         yield return new WaitForSecondsRealtime(1);
         NetwrokUI.Instance.RPC_StartGame();
     }
-
-
-    public void _XpIncrimental(int _mywinno)
-    {
-        int mul = 1;
-        int coinstoadd = 0;
-        switch (_mywinno)
-        {
-            case 1:
-                mul = 50;
-                coinstoadd = 80;
-                break;
-            case 2:
-                mul = 30;
-                coinstoadd = 60;
-                break;
-            case 3:
-                mul = 20;
-                coinstoadd = 10;
-                break;
-        }
-        int newxp = (MyXP) + (1 / MyRank) * mul;
-        MyCoins += coinstoadd;
-        MyXP += newxp;
-        Debug.Log(newxp);
-        Debug.Log(coinstoadd);
-
-        SceneData.XpGained += newxp;
-        SceneData.CoinsGained += coinstoadd;
-
-        //SHOW TEXT
-        NetwrokUI.Instance._UpdatedText(coinstoadd, newxp);
-
-        //ADD COINS FROM BeamableInventoryManager AddCurrency
-        //AND XP WILL BE CALCULATED IN NEXT SCENE
-    }
-
     #endregion
 
     #region ON RACE STARTS
@@ -786,7 +790,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     void _SetStumbleObjec(int a)
     {
-        StumblePoints[a].gameObject.SetActive(true);
+        //StumblePoints[a].gameObject.SetActive(true);
     }
 
     #endregion

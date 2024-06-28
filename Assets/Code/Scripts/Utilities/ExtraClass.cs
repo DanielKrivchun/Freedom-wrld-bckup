@@ -91,6 +91,14 @@ public class _RankPlayers
 
 }
 
+[System.Serializable]
+public class _StumbleObjects
+{
+    public GameObject MyColider;
+    public GameObject CannonPosition;
+    public GameObject ParticleEffect;
+}
+
 public static class Utils
 {
     public static bool IsLocalPlayer(NetworkObject networkObj)

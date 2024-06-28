@@ -238,9 +238,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     private void OnTriggerEnter(Collider other)
     {
-
         //Debug.Log(other.tag);
-
         if (Runner.IsServer)
         {
             switch (other.tag)
@@ -274,6 +272,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.climbing);
                     _ChangeAnimationHere(_AnimState.Climbing);
                     break;
+                case _Tags.Jack:
+                    _ColidedWIthJack();
+                    break;
             }
         }
         else
@@ -294,6 +295,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     break;
             }
         }
+    }
+    #endregion
+
+    #region JACK STUMBLE
+    void _ColidedWIthJack()
+    {
+
     }
     #endregion
 
