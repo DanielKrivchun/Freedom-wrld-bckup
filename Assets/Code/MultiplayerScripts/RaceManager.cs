@@ -781,10 +781,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 });
                 break;
             case 2:
-                T = StumblePoints_1[pathno].CannonPosition.transform;
+                T = StumblePoints_2[pathno].CannonPosition.transform;
                 T.DOLocalMoveY(0f, 0.2f).OnComplete(() =>
                 {
-                    StumblePoints_1[pathno].ParticleEffect.SetActive(true);
+                    StumblePoints_2[pathno].ParticleEffect.SetActive(true);
                 });
                 break;
         }

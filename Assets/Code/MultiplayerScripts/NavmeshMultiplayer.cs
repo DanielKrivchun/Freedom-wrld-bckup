@@ -477,7 +477,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             if (terrain == _Tags.Land)
             {
-                //luckchance += Time.deltaTime;
+                luckchance += Time.deltaTime;
                 if (luckchance >= 5f)
                 {
                     //Debug.Log(" LuckChance hapning " + luckchance);
