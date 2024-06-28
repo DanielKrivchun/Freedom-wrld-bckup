@@ -785,6 +785,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 T.DOLocalMoveY(0f, 0.2f).OnComplete(() =>
                 {
                     StumblePoints_2[pathno].ParticleEffect.SetActive(true);
+                    StartCoroutine(_WaitAndDisableCannon(T));
                 });
                 break;
         }
