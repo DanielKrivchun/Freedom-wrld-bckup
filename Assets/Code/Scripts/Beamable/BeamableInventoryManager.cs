@@ -69,8 +69,10 @@ namespace Beamable.InventoryService
 
             await _inventoryService.Update(inventoryUpdateBuilder).Then(obj =>
             {
-                Debug.Log($"AddCurrency() success.");
-                OnRefreshed.Invoke();
+                if (OnRefreshed != null) {
+                    Debug.Log($"AddCurrency() success.");
+                    OnRefreshed.Invoke();
+                }
             });
         }
 
