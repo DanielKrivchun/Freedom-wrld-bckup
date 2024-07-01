@@ -129,7 +129,7 @@ public class NetwrokUI : NetworkBehaviour
         await Utils._Waiter(200);
         button_waiter = false;
         _DisableReplay();
-        RPC_YesToReplay(RaceManager.instance.LocalPlayerNickname);
+        RPC_YesToReplay(RaceManager.instance.LocalnetworkID);
     }
 
     private void _DisableReplay()

@@ -56,6 +56,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #endregion
 
     #region NETWORKED OBJECTS
+
     [Networked] public string MyName { get; set; }
     [Networked] public int MyPathNumber { get; set; }
     [Networked] public string MyPrefabID { get; set; }
@@ -103,6 +104,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             m_agent.enabled = false;
         }
         StartCoroutine(_GenrateMyPrefab());
+        Debug.Log(Object.Id);
     }
 
     private void OnDestroy()
@@ -110,9 +112,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;
         NetworkEventManager.e_reset_player -= _ResetMe;
     }
-
-
-
 
     private void _OnStopStartPlayer(int _no)
     {
@@ -148,6 +147,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         if (Utils.IsLocalPlayer(Object))
         {
+            RaceManagerRef.LocalnetworkID = Object.Id.ToString();
             IsLocalPlayer = true;
             playerName = RaceManager.instance.LocalPlayerNickname;
             Debug.Log("Sending RPC with Name   " + playerName);
@@ -183,7 +183,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #region RESET PLAYER
     public void _ResetMe(string _name)
     {
-        if (MyName == _name)
+        if (Object.Id.ToString() == _name)
         {
             Debug.Log("Reseting Me " + MyName);
             MyPathNumber = RaceManagerRef._GetPathNo();

@@ -65,6 +65,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public int CompletePlayerCount;
     public int MyWinNumber;
     public string LocalPlayerNickname { get; private set; }
+    public string LocalnetworkID { get;  set; }
     [Space]
     public List<_AllPlayerData> GenratedPlayers;
     [Space]
