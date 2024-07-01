@@ -11,7 +11,7 @@ public class NetworkEventManager : MonoBehaviour
 
 
     public delegate void IntDelegateEvents(int _no);
-    public static event IntDelegateEvents e_win_event, e_focus_on_player, e_player_speed_change,e_updated_my_no;
+    public static event IntDelegateEvents e_win_event, e_focus_on_player, e_player_speed_change, e_updated_my_no;
 
     public delegate void CameraDelegateEvents(_CamState _CamState);
     public static event CameraDelegateEvents e_camera_change;
@@ -20,7 +20,9 @@ public class NetworkEventManager : MonoBehaviour
     public static event LookatEvent e_text_lookat;
 
     public delegate void StingEvent(string _s);
-    public static event StingEvent e_player_left, e_reset_player;
+    public static event StingEvent e_player_left;
+    public delegate void StingEventDouble(string _s, string _a);
+    public static event StingEventDouble e_reset_player;
 
 
     #region _EVENT INVOKERS
@@ -33,11 +35,11 @@ public class NetworkEventManager : MonoBehaviour
         }
     }
 
-    public static void _EventResetPlayerOnReplay(string _pname)
+    public static void _EventResetPlayerOnReplay(string _pname, string _id)
     {
         if (e_reset_player != null)
         {
-            e_reset_player(_pname);
+            e_reset_player(_pname, _id);
         }
     }
 

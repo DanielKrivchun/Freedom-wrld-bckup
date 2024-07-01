@@ -129,7 +129,7 @@ public class NetwrokUI : NetworkBehaviour
         await Utils._Waiter(200);
         button_waiter = false;
         _DisableReplay();
-        RPC_YesToReplay(RaceManager.instance.LocalnetworkID);
+        RPC_YesToReplay(RaceManagerRef.LocalPlayerNickname, RaceManagerRef.LocalnetworkID);
     }
 
     private void _DisableReplay()
@@ -159,7 +159,7 @@ public class NetwrokUI : NetworkBehaviour
 
         _DisableReplay();
         requestedReplay = true;
-        RPC_ReplayNotificationSend(RaceManager.instance.LocalPlayerNickname);
+        RPC_ReplayNotificationSend(RaceManagerRef.LocalPlayerNickname, RaceManagerRef.LocalnetworkID);
         NetworkEventManager._EventCameraChange(_CamState.InitialCam);
     }
 
@@ -353,7 +353,7 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region REPLAY METHOS
-    public void _ReplayRPCRecived(string _name)
+    public void _ReplayRPCRecived(string _name, string _id)
     {
         ReplayPopup.transform.localScale = Vector3.zero;
         ReplayCanvas.SetActive(true);
@@ -371,31 +371,31 @@ public class NetwrokUI : NetworkBehaviour
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_ReplayNotificationSend(string _pname)
+    public void RPC_ReplayNotificationSend(string _pname, string _id)
     {
         Debug.Log("Recived Replay Notification ");
-        _RecivedReplayNotification(_pname);
+        _RecivedReplayNotification(_pname, _id);
         NetworkEventManager._EventCameraChange(_CamState.InitialCam);
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_YesToReplay(string _name)
+    public void RPC_YesToReplay(string _name, string _id)
     {
         if (Runner.IsServer)
         {
-            NetworkEventManager._EventResetPlayerOnReplay(_name);
+            NetworkEventManager._EventResetPlayerOnReplay(_name, _id);
         }
     }
 
-    void _RecivedReplayNotification(string _name)
+    void _RecivedReplayNotification(string _name, string _id)
     {
         if (Runner.IsServer)
         {
-            NetworkEventManager._EventResetPlayerOnReplay(_name);
+            NetworkEventManager._EventResetPlayerOnReplay(_name, _id);
         }
 
         if (requestedReplay) return;
-        _ReplayRPCRecived(_name);
+        _ReplayRPCRecived(_name, _id);
     }
 
 

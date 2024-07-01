@@ -181,9 +181,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #endregion
 
     #region RESET PLAYER
-    public void _ResetMe(string _name)
+    public void _ResetMe(string _name, string _id)
     {
-        if (Object.Id.ToString() == _name)
+        Debug.Log(_name);
+        if (Object.Id.ToString() == _id)
         {
             Debug.Log("Reseting Me " + MyName);
             MyPathNumber = RaceManagerRef._GetPathNo();
