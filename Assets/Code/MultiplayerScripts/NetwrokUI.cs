@@ -226,6 +226,9 @@ public class NetwrokUI : NetworkBehaviour
         startUI.GetComponent<Image>().DOFade(0f, 0.2f);
     }
 
+
+    #region START GAME AND COUNTDOWN
+
     public void _StartRace()
     {
         Debug.Log("Start Race");
@@ -268,6 +271,7 @@ public class NetwrokUI : NetworkBehaviour
         //Debug.Log("Game Started Now");
         spawner._StartGameForPlayers();
     }
+    #endregion
 
     #region REPLAY METHOS
     public void _ReplayRPCRecived(string _name)

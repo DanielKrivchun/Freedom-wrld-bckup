@@ -1,5 +1,6 @@
 
 
+using DG.Tweening;
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
@@ -117,6 +118,20 @@ public static class Utils
         yield return new WaitForSecondsRealtime(animationLengt);
 
         parent.SetActive(activeStateAtTheEnd);
+    }
+
+    //DO TWEENER ANIMATIONS
+    public static void _DoUIPopup(Transform _t)
+    {
+        _t.DOScale(1f, 0.2f).SetEase(Ease.OutBack);
+    }
+
+    public static void _DoButtonAnimation(Transform _t)
+    {
+        _t.DOScale(1.1f, 0.1f).OnComplete(() =>
+        {
+            _t.DOScale(1f, 0.1f);
+        });
     }
 
     public static FoodItems IdentifyMyFoodType(string foodName)
