@@ -4,6 +4,7 @@ using DG.Tweening;
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public enum _AnimState
@@ -128,11 +129,26 @@ public static class Utils
 
     public static void _DoButtonAnimation(Transform _t)
     {
-        _t.DOScale(1.1f, 0.1f).OnComplete(() =>
+        _t.DOScale(1.1f, 0.1f).SetEase(Ease.InBack).OnComplete(() =>
         {
             _t.DOScale(1f, 0.1f);
         });
     }
+
+    public static void _DoButtonAnimation(Transform _t, GameObject _obj)
+    {
+        _t.DOScale(1.1f, 0.1f).OnComplete(() =>
+        {
+            _t.DOScale(1f, 0.1f);
+            _obj.SetActive(false);
+        });
+    }
+
+    public static async Task _Waiter(int m_mili_second_to_wait)
+    {
+        await Task.Delay(m_mili_second_to_wait);
+    }
+
 
     public static FoodItems IdentifyMyFoodType(string foodName)
     {

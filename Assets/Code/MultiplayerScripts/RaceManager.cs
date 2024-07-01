@@ -795,7 +795,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         yield return new WaitForSecondsRealtime(2f);
         obj.DOLocalMoveY(-2f, 0.1f);
-
+                
     }
 
     #endregion

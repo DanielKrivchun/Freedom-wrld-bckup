@@ -17,8 +17,9 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject LeavePopup;
     [Space]
     public GameObject LoadingPanel;
-    [Space]
-    public GameObject starGameButton;
+    [Header("JOIN ROOM")]
+    public GameObject JoinRoomPanel;
+    public GameObject StartGamePanel;
     [Header("Notification")]
     public GameObject NotificationPanel;
     public RectTransform NofificationObj;
@@ -41,9 +42,15 @@ public class NetwrokUI : NetworkBehaviour
     [Space]
     public List<WinContent> WinnerList;
     [Space]
-    public RaceManager spawner;
+    public RaceManager RaceManagerRef;
     [Space]
     [Header("Buttons")]
+    [Header("JOIN ROOM")]
+    public Button JoinRoomButton;
+    [Header("START GAME & AI PLAYER")]
+    public Button StartGameButton;
+    public Button AIPlayerButton;
+    [Space]
     public Button LeaveButton;
     public Button InGameLeave;
     public Button ContinueButton;
@@ -59,6 +66,8 @@ public class NetwrokUI : NetworkBehaviour
 
     private IEnumerator _ienumrator;
 
+    private bool button_waiter;
+
     private void Awake()
     {
         Instance = this;
@@ -68,10 +77,13 @@ public class NetwrokUI : NetworkBehaviour
 
     private void OnEnable()
     {
+        //EVENTS ARE ADDED HERE
         NetworkEventManager.e_win_event += _OnGameWon;
         NetworkEventManager.e_player_left += _PlayerLeft;
         NetworkEventManager.e_updated_my_no += _UpdatedRank;
 
+        //BUTTON LISTENERS
+        JoinRoomButton.onClick.AddListener(_JoinRoom);
         LeaveButton.onClick.AddListener(_OnLeaveButton);
         InGameLeave.onClick.AddListener(_OnLeaveButton);
         ContinueButton.onClick.AddListener(_ContinueRace);
@@ -79,6 +91,8 @@ public class NetwrokUI : NetworkBehaviour
         ReplayButton.onClick.AddListener(_ReplayButtonClick);
         Yes.onClick.AddListener(_Yes);
         No.onClick.AddListener(_No);
+        StartGameButton.onClick.AddListener(_StartRace);
+        AIPlayerButton.onClick.AddListener(_GenrateAIPlayer);
     }
 
 
@@ -89,6 +103,8 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_player_left -= _PlayerLeft;
         NetworkEventManager.e_updated_my_no -= _UpdatedRank;
 
+
+        JoinRoomButton.onClick.RemoveListener(_JoinRoom);
         InGameLeave.onClick.RemoveListener(_OnLeaveButton);
         LeaveButton.onClick.RemoveListener(_OnLeaveButton);
         ContinueButton.onClick.RemoveListener(_ContinueRace);
@@ -96,6 +112,8 @@ public class NetwrokUI : NetworkBehaviour
         ReplayButton.onClick.RemoveListener(_ReplayButtonClick);
         Yes.onClick.RemoveListener(_Yes);
         No.onClick.RemoveListener(_No);
+        StartGameButton.onClick.RemoveListener(_StartRace);
+        AIPlayerButton.onClick.RemoveListener(_GenrateAIPlayer);
     }
 
     private void _UpdatedRank(int _no)
@@ -103,8 +121,13 @@ public class NetwrokUI : NetworkBehaviour
         CurruntRankNo.text = _no.ToString();
     }
 
-    private void _Yes()
+    private async void _Yes()
     {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(Yes.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
         _DisableReplay();
         RPC_YesToReplay(RaceManager.instance.LocalPlayerNickname);
     }
@@ -115,19 +138,25 @@ public class NetwrokUI : NetworkBehaviour
         WinUI.gameObject.SetActive(false);
     }
 
-    private void _No()
+    private async void _No()
     {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(No.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
         Debug.Log("Remove me from server and update path numbers");
         _YesLeave();
     }
 
-    private void _ReplayButtonClick()
+    private async void _ReplayButtonClick()
     {
-        //RUN THIS ON SERVER
-        //if (Runner.IsServer)
-        //{
-        //    NetworkEventManager._EventResetPlayerOnReplay(RaceManager.instance.LocalPlayerNickname);
-        //}
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(ReplayButton.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
+
         _DisableReplay();
         requestedReplay = true;
         RPC_ReplayNotificationSend(RaceManager.instance.LocalPlayerNickname);
@@ -168,27 +197,43 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region LOCAL BUTTONS AND METHDOS
-    private void _OnLeaveButton()
+    private async void _OnLeaveButton()
     {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(LeaveButton.transform);
+        Utils._DoButtonAnimation(InGameLeave.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
         LeavePopup.transform.localScale = Vector3.zero;
         LeaveUI.SetActive(true);
         LeavePopup.transform.DOScale(1f, 0.5f);
     }
 
-    private void _ContinueRace()
+    private async void _ContinueRace()
     {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(ContinueButton.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
         LeaveUI.SetActive(false);
     }
 
-    private void _YesLeave()
+    private async void _YesLeave()
     {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(ExitButton.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
         SceneManager.LoadScene("PetCareScene");
     }
 
 
     #endregion
 
-
+    #region ON GAME WIN CODE BLOCK
     public void _SetupList(List<string> _s)
     {
         foreach (var item in _s)
@@ -213,26 +258,54 @@ public class NetwrokUI : NetworkBehaviour
         WinUI.SetActive(true);
         wintext.text = "You Finished: " + _no;
     }
+    #endregion
 
-    public void _JoinRoom()
+    #region BUTTON LISTENERS
+
+    public async void _JoinRoom()
     {
-        spawner._StartGame(Fusion.GameMode.AutoHostOrClient);
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(JoinRoomButton.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
+        JoinRoomPanel.SetActive(false);
+        RaceManagerRef._StartGame(GameMode.AutoHostOrClient);
+
     }
 
+    #endregion
+
+    #region CONNECTED TO PHOTON OPEN START UI
     public void _OpenStartUI()
     {
         startUI.SetActive(true);
-        starGameButton.SetActive(true);
+        StartGamePanel.SetActive(true);
         startUI.GetComponent<Image>().DOFade(0f, 0.2f);
     }
-
+    #endregion
 
     #region START GAME AND COUNTDOWN
 
-    public void _StartRace()
+    private async void _StartRace()
     {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(StartGameButton.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
         Debug.Log("Start Race");
         RPC_StartGame();
+    }
+
+    private async void _GenrateAIPlayer()
+    {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(AIPlayerButton.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
+        RaceManagerRef._GenrateAIPlayer();
     }
 
     public void _StartCountDown()
@@ -248,28 +321,34 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager._EventFocusOnPlayer(0);
         int a = 5;
         countdownText.text = a.ToString();
+        Utils._DoButtonAnimation(countdownText.transform);
         yield return new WaitForSecondsRealtime(1.5f);
         NetworkEventManager._EventFocusOnPlayer(1);
         a--;
         countdownText.text = a.ToString();
+        Utils._DoButtonAnimation(countdownText.transform);
         yield return new WaitForSecondsRealtime(1.5f);
         NetworkEventManager._EventFocusOnPlayer(2);
         a--;
         countdownText.text = a.ToString();
+        Utils._DoButtonAnimation(countdownText.transform);
         yield return new WaitForSecondsRealtime(1.5f);
         NetworkEventManager._EventFocusOnPlayer(3);
         a--;
         countdownText.text = a.ToString();
+        Utils._DoButtonAnimation(countdownText.transform);
         yield return new WaitForSecondsRealtime(1.5f);
         NetworkEventManager._EventFocusOnPlayer(4);
         a--;
         countdownText.text = a.ToString();
+        Utils._DoButtonAnimation(countdownText.transform);
         yield return new WaitForSecondsRealtime(1.5f);
         a--;
         countdownText.text = a.ToString();
+        Utils._DoButtonAnimation(countdownText.transform);
         countdownPanel.SetActive(false);
         //Debug.Log("Game Started Now");
-        spawner._StartGameForPlayers();
+        RaceManagerRef._StartGameForPlayers();
     }
     #endregion
 
