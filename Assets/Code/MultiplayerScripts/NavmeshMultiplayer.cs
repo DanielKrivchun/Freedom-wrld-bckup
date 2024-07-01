@@ -35,6 +35,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Space]
     public float Luck;
     public float Inteligence;
+
+    public float LuckMax { get; private set; }
+    public float InteligenceMax { get; private set; }
     #endregion
 
     #region Private variables
@@ -183,7 +186,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #region RESET PLAYER
     public void _ResetMe(string _name, string _id)
     {
-        Debug.Log(_name);
+        Debug.Log(_id + "   " + Object.Id);
         if (Object.Id.ToString() == _id)
         {
             Debug.Log("Reseting Me " + MyName);
@@ -232,8 +235,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         //3
         //0.9999
-        float a = Random.Range(0f, 0.3f * Luck);
-        float b = Random.Range(0f, 0.6f * Inteligence);
+        LuckMax = 0.3f * Luck;
+        InteligenceMax = 0.6f * Inteligence;
 
 
         Debug.Log(Luck);
@@ -293,10 +296,21 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     terrain = _Tags.Climbing;
                     break;
                 case _Tags.Jack:
-                    _ColidedWIthJack(1);
+                    //INTELIGENCE CHECK 
+                    RandomNumber = Random.Range(0f, 1f);
+                    if (RandomNumber <= InteligenceMax)
+                    {
+                        _ColidedWIthJack(1);
+                    }
                     break;
                 case _Tags.JackSecond:
-                    _ColidedWIthJack(2);
+                    RandomNumber = Random.Range(0f, 1f);
+
+                    if (RandomNumber <= InteligenceMax)
+                    {
+                        _ColidedWIthJack(2);
+                    }
+
                     break;
             }
         }
@@ -480,7 +494,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
         ////CALCULATION FOR LUCK
         ///
-
         if (RaceManagerRef.RaceStart)
         {
             if (terrain == _Tags.Land)
@@ -490,9 +503,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 {
                     if (!Stumbled)
                     {
-                        RandomNumber = Random.Range(0f, 0.3f * Luck);
+                        RandomNumber = Random.Range(0f, 1f);
 
-                        if (RandomNumber <= 0.3f)
+                        if (RandomNumber <= LuckMax)
                         {
                             Debug.Log(" LuckChance hapning " + RandomNumber);
                             MyNetworkSpeed = 0f;

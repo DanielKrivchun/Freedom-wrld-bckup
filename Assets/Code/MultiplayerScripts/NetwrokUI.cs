@@ -55,10 +55,16 @@ public class NetwrokUI : NetworkBehaviour
     public Button InGameLeave;
     public Button ContinueButton;
     public Button ExitButton;
+    [Space]
+    public Button TestButton;
     [Header("Reply")]
     public Button ReplayButton;
     public Button Yes;
     public Button No;
+    [Space]
+    [Space]
+    public float time;
+    public Ease EaseRef;
     [Space]
     private bool requestedReplay;
 
@@ -93,6 +99,7 @@ public class NetwrokUI : NetworkBehaviour
         No.onClick.AddListener(_No);
         StartGameButton.onClick.AddListener(_StartRace);
         AIPlayerButton.onClick.AddListener(_GenrateAIPlayer);
+        TestButton.onClick.AddListener(_TestButton);
     }
 
 
@@ -104,6 +111,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_updated_my_no -= _UpdatedRank;
 
 
+        TestButton.onClick.RemoveListener(_TestButton);
         JoinRoomButton.onClick.RemoveListener(_JoinRoom);
         InGameLeave.onClick.RemoveListener(_OnLeaveButton);
         LeaveButton.onClick.RemoveListener(_OnLeaveButton);
@@ -207,7 +215,8 @@ public class NetwrokUI : NetworkBehaviour
         button_waiter = false;
         LeavePopup.transform.localScale = Vector3.zero;
         LeaveUI.SetActive(true);
-        LeavePopup.transform.DOScale(1f, 0.5f);
+        Utils._DoUIPopup(LeavePopup.transform, time,EaseRef);
+        //LeavePopup.transform.DOScale(1f, 0.5f);
     }
 
     private async void _ContinueRace()
@@ -271,6 +280,16 @@ public class NetwrokUI : NetworkBehaviour
         button_waiter = false;
         JoinRoomPanel.SetActive(false);
         RaceManagerRef._StartGame(GameMode.AutoHostOrClient);
+
+    }
+
+    public async void _TestButton()
+    {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(TestButton.transform, EaseRef);
+        await Utils._Waiter(200);
+        button_waiter = false;
 
     }
 
@@ -348,6 +367,7 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(countdownText.transform);
         countdownPanel.SetActive(false);
         //Debug.Log("Game Started Now");
+        requestedReplay = false;
         RaceManagerRef._StartGameForPlayers();
     }
     #endregion

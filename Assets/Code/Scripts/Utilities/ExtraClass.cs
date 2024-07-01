@@ -122,14 +122,21 @@ public static class Utils
     }
 
     //DO TWEENER ANIMATIONS
-    public static void _DoUIPopup(Transform _t)
+    public static void _DoUIPopup(Transform _t, float _time ,Ease _e)
     {
-        _t.DOScale(1f, 0.2f).SetEase(Ease.OutBack);
+        _t.DOScale(1f, _time).SetEase(_e);
     }
 
     public static void _DoButtonAnimation(Transform _t)
     {
         _t.DOScale(1.1f, 0.1f).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            _t.DOScale(1f, 0.1f);
+        });
+    }
+    public static void _DoButtonAnimation(Transform _t, Ease _e)
+    {
+        _t.DOScale(1.1f, 0.1f).SetEase(_e).OnComplete(() =>
         {
             _t.DOScale(1f, 0.1f);
         });
