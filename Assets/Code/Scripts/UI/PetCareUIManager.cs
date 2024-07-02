@@ -206,6 +206,12 @@ public class PetCareUIManager : MonoBehaviour
         }
     }
 
+    //START RACE
+    public void _StartRace()
+    {
+        SceneManager.LoadScene(_Strings.RaceScene);
+    }
+
     //Pet Care button click event
     public void OnClickOfPetCareStateBtn(PetCareState selectedState)
     {

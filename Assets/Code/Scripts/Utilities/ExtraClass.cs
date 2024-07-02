@@ -54,6 +54,13 @@ public class _Strings
     public static string IsSick = "IsSick";
     public static string StumbleBool = "StumbleBool";
     public static string FoamBubble = "FoamBubble";
+
+    public static string XpToAdd = "XpToAdd";
+    public static string CoinsToAdd = "CoinsToAdd";
+
+
+    public static string RaceScene = "RaceScene";
+
 }
 
 public struct _Tags
@@ -103,6 +110,7 @@ public class _StumbleObjects
     public GameObject ParticleEffect;
 }
 
+
 public static class Utils
 {
     public static bool IsLocalPlayer(NetworkObject networkObj)
@@ -122,7 +130,7 @@ public static class Utils
     }
 
     //DO TWEENER ANIMATIONS
-    public static void _DoUIPopup(Transform _t, float _time ,Ease _e)
+    public static void _DoUIPopup(Transform _t, float _time, Ease _e)
     {
         _t.DOScale(1f, _time).SetEase(_e);
     }

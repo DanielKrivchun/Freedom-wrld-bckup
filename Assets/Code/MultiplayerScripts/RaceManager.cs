@@ -65,7 +65,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public int CompletePlayerCount;
     public int MyWinNumber;
     public string LocalPlayerNickname { get; private set; }
-    public string LocalnetworkID { get;  set; }
+    public string LocalnetworkID { get; set; }
     [Space]
     public List<_AllPlayerData> GenratedPlayers;
     [Space]
@@ -434,6 +434,15 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         Debug.Log(newxp);
         Debug.Log(coinstoadd);
 
+        int C = PlayerPrefs.GetInt(_Strings.CoinsToAdd);
+        int X = PlayerPrefs.GetInt(_Strings.XpToAdd);
+
+        C += coinstoadd;
+        X += newxp;
+
+        PlayerPrefs.SetInt(_Strings.CoinsToAdd, C);
+        PlayerPrefs.SetInt(_Strings.XpToAdd, X);
+
         SceneData.XpGained += newxp;
         SceneData.CoinsGained += coinstoadd;
 
@@ -796,7 +805,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         yield return new WaitForSecondsRealtime(2f);
         obj.DOLocalMoveY(-2f, 0.1f);
-                
+
     }
 
     #endregion
