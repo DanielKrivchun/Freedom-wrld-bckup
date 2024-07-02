@@ -36615,7 +36615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 3, z: -7}
+  m_FollowOffset: {x: 0, y: 3, z: -10}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -61171,8 +61171,8 @@ MonoBehaviour:
   AIPlayerButton: {fileID: 2023577745}
   LeaveButton: {fileID: 152120146}
   InGameLeave: {fileID: 1716774426}
-  ContinueButton: {fileID: 0}
-  ExitButton: {fileID: 0}
+  ContinueButton: {fileID: 707488289}
+  ExitButton: {fileID: 846459987}
   TestButton: {fileID: 2137391497}
   LeaveButtonWinUI: {fileID: 1770468075}
   ReplayButton: {fileID: 1907260091}
