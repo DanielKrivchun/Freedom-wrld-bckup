@@ -124,7 +124,6 @@ public class PetCareUIManager : MonoBehaviour
     public Text rankUpMsgTxt;
 
     [Header("Welcome Back From Race UI")]
-    public SceneSyncData sceneSyncData;
     public GameObject welcomeBackPanel;
     public Text earnedStatsTxt;
     public Text niceWorkTxt;
@@ -168,8 +167,9 @@ public class PetCareUIManager : MonoBehaviour
         msgList = new List<string>();
 
         //If show welcome is true then show UI
-        if(sceneSyncData.ShowWelcomeScreen)
+        if (PlayerPrefs.GetInt(_Strings.DatFromRaceScene) == 1)
         {
+            PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 0);
             ShowWelcomeBackFromRaceUI();
         }
     }
@@ -191,7 +191,7 @@ public class PetCareUIManager : MonoBehaviour
             careBtnHolder.SetActive(false);
 
             //If sleeping then on the sleep ui
-            if(!petDataRef.petData.sleepData.isSleeping)
+            if (!petDataRef.petData.sleepData.isSleeping)
             {
                 sleepPanel.SetActive(false);
             }
@@ -398,7 +398,7 @@ public class PetCareUIManager : MonoBehaviour
         }
         else
         {
-            notificationPopup.transform.DOScale(0.2f, 0.25f).OnComplete(() => notificationPopup.SetActive(false)); 
+            notificationPopup.transform.DOScale(0.2f, 0.25f).OnComplete(() => notificationPopup.SetActive(false));
         }
     }
     #endregion
@@ -425,22 +425,26 @@ public class PetCareUIManager : MonoBehaviour
     #region WELCOME BACK FROM RACE UI
     public void ShowWelcomeBackFromRaceUI()
     {
-        earnedStatsTxt.text = "• " + sceneSyncData.XpGained.ToString() + " XP\n"
-                            + "• " + sceneSyncData.CoinsGained.ToString() + " Coins";
+
+        int Coins = PlayerPrefs.GetInt(_Strings.CoinsToAdd);
+        int XP = PlayerPrefs.GetInt(_Strings.XpToAdd);
+
+        earnedStatsTxt.text = "• " + XP.ToString() + " XP\n"
+                            + "• " + Coins.ToString() + " Coins";
 
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
         welcomeBackPanel.SetActive(true);
 
-        SetRacingEarnedStats();
+        SetRacingEarnedStats(Coins, XP);
     }
 
-    public void SetRacingEarnedStats()
+    public void SetRacingEarnedStats(int _coins_to_add, int xp_to_add)
     {
         //XP
-        petStateManager.IncreaseXP(sceneSyncData.XpGained);
+        petStateManager.IncreaseXP(xp_to_add);
 
         //Add Coins
-        beamableInventoryManager.AddCurrency(sceneSyncData.CoinsGained); 
+        beamableInventoryManager.AddCurrency(_coins_to_add);
     }
     #endregion
 }

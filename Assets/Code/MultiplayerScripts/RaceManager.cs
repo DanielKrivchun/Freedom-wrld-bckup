@@ -41,8 +41,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public PetDataRef petdataref;
     [Space]
-    public SceneSyncData SceneData;
-    [Space]
     public NamesJson namesJson;
     [Space]
     public string PrefabID;
@@ -127,7 +125,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     private void Start()
     {
         PrefabID = petdataref.petData.petPrefabID.ToString();
-        SceneData._Reset();
+
         namesJson._SetMyData();
         NetworkEventManager.e_countdown_start += _OnCounddownStart;
     }
@@ -402,7 +400,6 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
             NetwrokUI.Instance._SetupList(_ss);
             _XpIncrimental(MyWinNumber);
-            SceneData.ShowWelcomeScreen = true;
             _ResetDataOnComplete();
         }
     }
@@ -442,9 +439,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         PlayerPrefs.SetInt(_Strings.CoinsToAdd, C);
         PlayerPrefs.SetInt(_Strings.XpToAdd, X);
-
-        SceneData.XpGained += newxp;
-        SceneData.CoinsGained += coinstoadd;
+        PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 1);
 
         //SHOW TEXT
         NetwrokUI.Instance._UpdatedText(coinstoadd, newxp);

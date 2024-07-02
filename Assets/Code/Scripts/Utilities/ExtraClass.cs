@@ -57,6 +57,7 @@ public class _Strings
 
     public static string XpToAdd = "XpToAdd";
     public static string CoinsToAdd = "CoinsToAdd";
+    public static string DatFromRaceScene = "DatFromRaceScene";
 
 
     public static string RaceScene = "RaceScene";
