@@ -132,8 +132,8 @@ public class NetworkAIPlayer : NetworkBehaviour
         playerName = MyName;
         Debug.Log("Sending RPC with Name   " + playerName);
         int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
-        //MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
-        MyPrefabID = "1";
+        MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
+        //MyPrefabID = "1";
         _SetName(playerName.ToString());
         gameObject.name = MyName.ToString();
     }
@@ -241,17 +241,6 @@ public class NetworkAIPlayer : NetworkBehaviour
         _ChangeAnimationHere(_AnimState.Jump);
     }
 
-    //private void _GenratePetPrefabOnWin()
-    //{
-    //    int temp = MyWiningNumber - 1;
-    //    Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-    //    GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), RaceManager.instance.WinPoints[temp]);
-    //    PetAnimation P = obj.GetComponent<PetAnimation>();
-    //    obj.transform.localPosition = Vector3.zero;
-    //    obj.transform.localRotation = Quaternion.identity;
-    //    P._ChangeAnimationState(_AnimState.Jump);
-    //}
-
     #endregion
 
     #region ANIMATION CAMERA AND EFFECTS
@@ -324,6 +313,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     #endregion
 
+    #region FIXED UPDATED
     /// <summary>
     /// NETWORKED CALLS
     /// </summary>
@@ -384,6 +374,7 @@ public class NetworkAIPlayer : NetworkBehaviour
             _ChangeCurruntPoint();
         }
     }
+    #endregion
 
     #region NAVMESH METHODS
     private void _ChangeCurruntPoint()
