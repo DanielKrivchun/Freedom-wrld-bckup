@@ -58,6 +58,7 @@ public class NetwrokUI : NetworkBehaviour
     [Space]
     public Button TestButton;
     [Header("Reply")]
+    public Button LeaveButtonWinUI;
     public Button ReplayButton;
     public Button Yes;
     public Button No;
@@ -91,6 +92,7 @@ public class NetwrokUI : NetworkBehaviour
         //BUTTON LISTENERS
         JoinRoomButton.onClick.AddListener(_JoinRoom);
         LeaveButton.onClick.AddListener(_OnLeaveButton);
+        LeaveButtonWinUI.onClick.AddListener(_OnLeaveButton);
         InGameLeave.onClick.AddListener(_OnLeaveButton);
         ContinueButton.onClick.AddListener(_ContinueRace);
         ExitButton.onClick.AddListener(_YesLeave);
@@ -111,6 +113,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_updated_my_no -= _UpdatedRank;
 
 
+        LeaveButtonWinUI.onClick.RemoveListener(_OnLeaveButton);
         TestButton.onClick.RemoveListener(_TestButton);
         JoinRoomButton.onClick.RemoveListener(_JoinRoom);
         InGameLeave.onClick.RemoveListener(_OnLeaveButton);
@@ -215,7 +218,7 @@ public class NetwrokUI : NetworkBehaviour
         button_waiter = false;
         LeavePopup.transform.localScale = Vector3.zero;
         LeaveUI.SetActive(true);
-        Utils._DoUIPopup(LeavePopup.transform, time,EaseRef);
+        Utils._DoUIPopup(LeavePopup.transform, time, EaseRef);
         //LeavePopup.transform.DOScale(1f, 0.5f);
     }
 

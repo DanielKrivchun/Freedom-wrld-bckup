@@ -424,6 +424,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 mul = 20;
                 coinstoadd = 10;
                 break;
+            case 4:
+                mul = 0;
+                break;
+            case 5:
+                mul = 0;
+                break;
         }
         int newxp = (MyXP) + (1 / MyRank) * mul;
         MyCoins += coinstoadd;

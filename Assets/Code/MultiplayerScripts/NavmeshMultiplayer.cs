@@ -416,7 +416,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private void _ChangeAnimationHere(_AnimState _state)
     {
         GenratedPet._ChangeAnimationState(_state);
-
         _ChangeParticleEffects(_state);
     }
 
