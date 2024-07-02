@@ -236,7 +236,7 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(ExitButton.transform);
         await Utils._Waiter(200);
         button_waiter = false;
-        SceneManager.LoadScene("PetCareScene");
+        SceneManager.LoadScene(_Strings.PetCareScene);
     }
 
 

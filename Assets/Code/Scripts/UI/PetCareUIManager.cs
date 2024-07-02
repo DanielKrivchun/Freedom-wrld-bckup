@@ -435,6 +435,15 @@ public class PetCareUIManager : MonoBehaviour
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
         welcomeBackPanel.SetActive(true);
 
+
+        PlayerPrefs.SetInt(_Strings.CoinsToAdd, 0);
+        PlayerPrefs.SetInt(_Strings.XpToAdd, 0);
+        PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 0);
+
+
+        Debug.Log("My XP incrimental is " + XP);
+        Debug.Log("My Coins incrimental is " + Coins);
+
         SetRacingEarnedStats(Coins, XP);
     }
 

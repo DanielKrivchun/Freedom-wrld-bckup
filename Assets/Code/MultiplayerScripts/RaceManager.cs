@@ -441,6 +441,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         PlayerPrefs.SetInt(_Strings.XpToAdd, X);
         PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 1);
 
+        Debug.Log("My XP incrimental is " + X);
+        Debug.Log("My Coins incrimental is " + C);
+
         //SHOW TEXT
         NetwrokUI.Instance._UpdatedText(coinstoadd, newxp);
 
