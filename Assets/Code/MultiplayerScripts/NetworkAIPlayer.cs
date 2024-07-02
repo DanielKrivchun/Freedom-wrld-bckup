@@ -248,6 +248,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     {
         //Debug.Log("Changed ANimation here");
         GenratedPet._ChangeAnimationState(_state);
+        _ChangeParticleEffects(_state);
     }
 
     private void _ChangeParticleEffects(_AnimState _state)
