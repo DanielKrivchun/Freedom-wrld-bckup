@@ -26,6 +26,12 @@ public class NetworkAIPlayer : NetworkBehaviour
     [Header("Script Refrence")]
     private PathPointManager path_point;
 
+    [Space]
+    public ParticleSystem FootDustEffect;
+    public ParticleSystem SwimmingEffect;
+    public ParticleSystem FlyingEffect;
+    public ParticleSystem Stunned;
+
     public NetworkString<_32> playerName;
     public PlayerRef playerRef;
     public List<Vector3> move_positions;
@@ -248,11 +254,42 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     #endregion
 
-    #region ANIMATION CAMERA
+    #region ANIMATION CAMERA AND EFFECTS
     private void _ChangeAnimationHere(_AnimState _state)
     {
         //Debug.Log("Changed ANimation here");
         GenratedPet._ChangeAnimationState(_state);
+    }
+
+    private void _ChangeParticleEffects(_AnimState _state)
+    {
+        switch (_state)
+        {
+            case _AnimState.Run:
+                FootDustEffect.gameObject.SetActive(true);
+                FlyingEffect.gameObject.SetActive(false);
+                SwimmingEffect.gameObject.SetActive(false);
+                Stunned.gameObject.SetActive(false);
+                break;
+            case _AnimState.Flying:
+                FlyingEffect.gameObject.SetActive(true);
+                SwimmingEffect.gameObject.SetActive(false);
+                FootDustEffect.gameObject.SetActive(false);
+                Stunned.gameObject.SetActive(false);
+                break;
+            case _AnimState.Swimming:
+                SwimmingEffect.gameObject.SetActive(true);
+                FlyingEffect.gameObject.SetActive(false);
+                FootDustEffect.gameObject.SetActive(false);
+                Stunned.gameObject.SetActive(false);
+                break;
+            case _AnimState.Stumble:
+                Stunned.gameObject.SetActive(true);
+                SwimmingEffect.gameObject.SetActive(false);
+                FlyingEffect.gameObject.SetActive(false);
+                FootDustEffect.gameObject.SetActive(false);
+                break;
+        }
     }
 
     void _SetupCamera()

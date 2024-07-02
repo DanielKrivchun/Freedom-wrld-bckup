@@ -127,11 +127,11 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         if (_no == 0)
         {
-            GenratedPet._ChangeAnimationState(_AnimState.Idle);
+            _ChangeAnimationHere(_AnimState.Idle);
         }
         else
         {
-            GenratedPet._ChangeAnimationState(_AnimState.Run);
+            _ChangeAnimationHere(_AnimState.Run);
         }
     }
 
@@ -412,7 +412,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     }
     #endregion
 
-    #region ANIMATION CAMERA
+    #region ANIMATION CAMERA AND EFFECTS
     private void _ChangeAnimationHere(_AnimState _state)
     {
         GenratedPet._ChangeAnimationState(_state);
