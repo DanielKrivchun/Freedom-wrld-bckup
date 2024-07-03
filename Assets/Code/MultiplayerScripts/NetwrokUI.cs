@@ -40,7 +40,8 @@ public class NetwrokUI : NetworkBehaviour
     [Space]
     public GameObject wincontent;
     [Space]
-    public List<WinContent> WinnerList;
+    public List<TextMeshPro> WinnerNames;
+    //public List<WinContent> WinnerList;
     [Space]
     public RaceManager RaceManagerRef;
     [Space]
@@ -255,12 +256,13 @@ public class NetwrokUI : NetworkBehaviour
 
         for (int i = 0; i < _s.Count; i++)
         {
-            WinnerList[i]._SetupMyData(_s[i]);
-            WinnerList[i].gameObject.SetActive(true);
-            WinnerList[i].transform.DOScale(1f, 0.5f);
+            WinnerNames[i].text = _s[i];
+            WinnerNames[i].gameObject.SetActive(true);
+            //WinnerList[i]._SetupMyData(_s[i]);
+            //WinnerList[i].transform.DOScale(1f, 0.5f);
         }
 
-        wincontent.gameObject.SetActive(true);
+        //wincontent.gameObject.SetActive(true);
     }
 
 

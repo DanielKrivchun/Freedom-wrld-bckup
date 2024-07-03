@@ -539,10 +539,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 luckchance += Time.deltaTime;
                 if (luckchance >= 5f)
                 {
-
-                    if (!inteligencecheck)
+                    Debug.Log("luckchance checking");
+                    if (inteligencecheck)
                     {
-                        inteligencecheck = true;
+                        inteligencecheck = false;
                         MyNetworkSpeed = 0f;
                         Stumbled = true;
                         RPC_LuckHanned();
@@ -550,7 +550,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     else if (!Stumbled)
                     {
                         RandomNumber = Random.Range(0f, 1f);
-                        Debug.Log(RandomNumber);
+                        Debug.Log(RandomNumber + " luck max " + LuckMax);
                         if (RandomNumber <= LuckMax)
                         {
                             Debug.Log(" LuckChance hapning " + RandomNumber);
