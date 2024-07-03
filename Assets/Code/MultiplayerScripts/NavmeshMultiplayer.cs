@@ -540,9 +540,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 if (luckchance >= 5f)
                 {
                     Debug.Log("luckchance checking");
-                    if (inteligencecheck)
+                    if (!inteligencecheck)
                     {
-                        inteligencecheck = false;
+                        inteligencecheck = true;
                         MyNetworkSpeed = 0f;
                         Stumbled = true;
                         RPC_LuckHanned();
