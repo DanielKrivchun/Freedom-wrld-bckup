@@ -61,7 +61,7 @@ public class UiManager : MonoBehaviour
     private float ypos;
 
     private float m_reset;
-
+    private bool StaminaDrained;
 
     public bool GameStarted;
 
@@ -70,7 +70,6 @@ public class UiManager : MonoBehaviour
     private void OnEnable()
     {
         TapButton.onClick.AddListener(_Tap);
-        Stumble.onClick.AddListener(_OnStumble);
         NetworkEventManager.e_config_updated += _ConfigUodated;
         NetworkEventManager.e_get_set_go += _StartStaminaBar;
         NetworkEventManager.e_win_event += _OnWon;
@@ -80,7 +79,6 @@ public class UiManager : MonoBehaviour
     private void OnDisable()
     {
         TapButton.onClick.RemoveListener(_Tap);
-        Stumble.onClick.RemoveListener(_OnStumble);
         NetworkEventManager.e_config_updated -= _ConfigUodated;
         NetworkEventManager.e_get_set_go -= _StartStaminaBar;
         NetworkEventManager.e_win_event -= _OnWon;
@@ -103,6 +101,9 @@ public class UiManager : MonoBehaviour
         //Calculate max stemina here
         MyStemina = PetConfigs.maxstemina;
         CurrnutStemina = MyStemina;
+        StaminaDrained = false;
+        FillAmount = 1f;
+        Filler.fillAmount = FillAmount;
         Debug.Log("_ConfigUodated");
     }
 
@@ -122,11 +123,6 @@ public class UiManager : MonoBehaviour
         m_last_time = m_currunt_time;
     }
 
-
-    public void _OnStumble()
-    {
-
-    }
 
     private void Start()
     {
@@ -204,11 +200,16 @@ public class UiManager : MonoBehaviour
 
     void _SetArrowBasedMultiplier()
     {
-        if (FillAmount <= 0)
+        if (FillAmount <= 0 && !StaminaDrained)
         {
+            StaminaDrained = true;
             SteminaDrain = red_drain;
+            PetConfigs.TapMultiplier = 0.8f;
+            TapButton.gameObject.SetActive(false);
             return;
         }
+
+        if (StaminaDrained) return;
 
         ypos = m_arrow.anchoredPosition.y;
 

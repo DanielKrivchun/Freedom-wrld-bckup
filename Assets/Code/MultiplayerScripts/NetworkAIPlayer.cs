@@ -354,7 +354,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
                     if (Inteligencecheck)
                     {
-                        Debug.Log(" Inteligencecheck hapning " + luckchance);
+                        //Debug.Log(" Inteligencecheck hapning " + luckchance);
                         SpeedMul = 0f;
                         m_agent.speed = Speed * SpeedMul;
                         Stumbled = true;
@@ -365,7 +365,7 @@ public class NetworkAIPlayer : NetworkBehaviour
                     {
                         if (RandomNumber <= 0.3f)
                         {
-                            Debug.Log(" LuckChance hapning " + RandomNumber);
+                            //Debug.Log(" LuckChance hapning " + RandomNumber);
                             SpeedMul = 0f;
                             Stumbled = true;
                             m_agent.speed = Speed * SpeedMul;

@@ -61,6 +61,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private NavMeshHit hit;
     private Vector3 finalPosition;
     private Vector3 WinPosition = Vector3.zero;
+
+    private bool CheckStumbleNow;
+
     #endregion
 
     #region NETWORKED OBJECTS
@@ -539,32 +542,38 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 luckchance += Time.deltaTime;
                 if (luckchance >= 5f)
                 {
-                    Debug.Log("luckchance checking");
-                    if (!inteligencecheck)
+                    if (inteligencecheck && !CheckStumbleNow)
                     {
-                        inteligencecheck = true;
+                        Debug.Log("inteligencecheck");
                         MyNetworkSpeed = 0f;
                         Stumbled = true;
+                        CheckStumbleNow = true;
                         RPC_LuckHanned();
                     }
                     else if (!Stumbled)
                     {
-                        RandomNumber = Random.Range(0f, 1f);
-                        Debug.Log(RandomNumber + " luck max " + LuckMax);
-                        if (RandomNumber <= LuckMax)
+                        if (!CheckStumbleNow)
                         {
-                            Debug.Log(" LuckChance hapning " + RandomNumber);
-                            MyNetworkSpeed = 0f;
-                            Stumbled = true;
-                            RPC_LuckHanned();
-                        }
-                        else
-                        {
-                            luckchance = 0f;
+                            RandomNumber = Random.Range(0f, 1f);
+                            Debug.Log(RandomNumber + " luck max " + LuckMax);
+                            if (RandomNumber <= LuckMax)
+                            {
+                                Debug.Log(" LuckChance hapning " + RandomNumber);
+                                MyNetworkSpeed = 0f;
+                                Stumbled = true;
+                                CheckStumbleNow = true;
+                                RPC_LuckHanned();
+                            }
+                            else
+                            {
+                                Debug.Log("luckchance Zero");
+                                luckchance = 0f;
+                            }
                         }
                     }
                     else
                     {
+                        Debug.Log("SpeedZero");
                         MyNetworkSpeed = 0f;
                     }
                 }
@@ -712,6 +721,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         luckchance = 0f;
         Stumbled = false;
         inteligencecheck = false;
+        CheckStumbleNow = false;
         switch (terrain)
         {
             case _Tags.Land:
