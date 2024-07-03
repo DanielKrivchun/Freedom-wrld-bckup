@@ -311,7 +311,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     break;
                 case _Tags.JackSecond:
                     RandomNumber = Random.Range(0f, 1f);
-
                     if (RandomNumber <= InteligenceMax)
                     {
                         _ColidedWIthJack(2);
@@ -541,8 +540,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 if (luckchance >= 5f)
                 {
 
-                    if (inteligencecheck)
+                    if (!inteligencecheck)
                     {
+                        inteligencecheck = true;
                         MyNetworkSpeed = 0f;
                         Stumbled = true;
                         RPC_LuckHanned();

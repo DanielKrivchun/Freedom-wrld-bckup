@@ -48,6 +48,8 @@ public class NetworkAIPlayer : NetworkBehaviour
     public bool IsLocalPlayer;
     public bool RaceComplete;
 
+    private bool Inteligencecheck;
+
     public NetworkTransform networkTransform;
     private NavMeshHit hit;
     private Vector3 finalPosition;
@@ -215,7 +217,12 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     void _ColidedWIthJack(int _jackno)
     {
-        RPC_ActivateJack(_jackno, MyPathNumber);
+        RandomNumber = Random.Range(0f, 1f);
+        if (RandomNumber <= 0.3f)
+        {
+            Inteligencecheck = true;
+            RPC_ActivateJack(_jackno, MyPathNumber);
+        }
     }
 
     private void _OnWInNumberAlocated()
@@ -345,22 +352,29 @@ public class NetworkAIPlayer : NetworkBehaviour
                 {
                     RandomNumber = Random.Range(0f, 1f);
 
-
-                    if (RandomNumber <= 0.3f)
+                    if (!Inteligencecheck)
                     {
+                        Debug.Log(" Inteligencecheck hapning " + luckchance);
                         SpeedMul = 0f;
-                        //Debug.Log(" LuckChance hapning " + luckchance);
                         m_agent.speed = Speed * SpeedMul;
-                        if (!Stumbled)
+                        Stumbled = true;
+                        Inteligencecheck = true;
+                        RPC_LuckHanned();
+                    }
+                    else if (!Stumbled)
+                    {
+                        if (RandomNumber <= 0.3f)
                         {
+                            Debug.Log(" LuckChance hapning " + RandomNumber);
+                            SpeedMul = 0f;
                             Stumbled = true;
+                            m_agent.speed = Speed * SpeedMul;
                             RPC_LuckHanned();
                         }
-                    }
-                    else
-                    {
-
-                        luckchance = 0f;
+                        else
+                        {
+                            luckchance = 0f;
+                        }
                     }
                 }
             }
@@ -445,7 +459,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     public void RPC_ActivateJack(int JackNo, int Pathno)
     {
         RaceManagerRef._ActivateJack(JackNo, Pathno);
-        luckchance = 6f;
+        luckchance = 15f;
         //StartCoroutine(_WaitAndStopPlayer());
     }
 
@@ -462,6 +476,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         yield return new WaitForSecondsRealtime(2);
         luckchance = 0f;
         Stumbled = false;
+        Inteligencecheck= false;
         switch (terrain)
         {
             case _Tags.Land:
