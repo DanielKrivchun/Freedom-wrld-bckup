@@ -19,7 +19,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Header("Script Refrence")]
     private PathPointManager path_point;
     [Space]
-    public ParticleSystem FootDustEffect;
+    public ParticleSystem FootDustEffect_1;
+    public ParticleSystem FootDustEffect_2;
     public ParticleSystem SwimmingEffect;
     public ParticleSystem FlyingEffect;
     public ParticleSystem Stunned;
@@ -62,7 +63,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private Vector3 finalPosition;
     private Vector3 WinPosition = Vector3.zero;
 
-    private bool CheckStumbleNow=false;
+    private bool CheckStumbleNow = false;
 
     #endregion
 
@@ -428,7 +429,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         switch (_state)
         {
             case _AnimState.Run:
-                FootDustEffect.gameObject.SetActive(true);
+                FootDustEffect_1.gameObject.SetActive(true);
+                FootDustEffect_2.gameObject.SetActive(true);
                 FlyingEffect.gameObject.SetActive(false);
                 SwimmingEffect.gameObject.SetActive(false);
                 Stunned.gameObject.SetActive(false);
@@ -436,20 +438,23 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             case _AnimState.Flying:
                 FlyingEffect.gameObject.SetActive(true);
                 SwimmingEffect.gameObject.SetActive(false);
-                FootDustEffect.gameObject.SetActive(false);
+                FootDustEffect_1.gameObject.SetActive(false);
+                FootDustEffect_2.gameObject.SetActive(false);
                 Stunned.gameObject.SetActive(false);
                 break;
             case _AnimState.Swimming:
                 SwimmingEffect.gameObject.SetActive(true);
                 FlyingEffect.gameObject.SetActive(false);
-                FootDustEffect.gameObject.SetActive(false);
+                FootDustEffect_1.gameObject.SetActive(false);
+                FootDustEffect_2.gameObject.SetActive(false);
                 Stunned.gameObject.SetActive(false);
                 break;
             case _AnimState.Stumble:
                 Stunned.gameObject.SetActive(true);
                 SwimmingEffect.gameObject.SetActive(false);
                 FlyingEffect.gameObject.SetActive(false);
-                FootDustEffect.gameObject.SetActive(false);
+                FootDustEffect_1.gameObject.SetActive(false);
+                FootDustEffect_2.gameObject.SetActive(false);
                 break;
         }
     }
