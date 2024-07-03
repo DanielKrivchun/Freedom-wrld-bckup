@@ -49,6 +49,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     public bool RaceComplete;
 
     private bool Inteligencecheck = false;
+    private bool CheckStumbleNow = false;
 
     public NetworkTransform networkTransform;
     private NavMeshHit hit;
@@ -352,22 +353,23 @@ public class NetworkAIPlayer : NetworkBehaviour
                 {
                     RandomNumber = Random.Range(0f, 1f);
 
-                    if (Inteligencecheck)
+                    if (Inteligencecheck && !CheckStumbleNow)
                     {
+                        CheckStumbleNow = true;
                         //Debug.Log(" Inteligencecheck hapning " + luckchance);
                         SpeedMul = 0f;
                         m_agent.speed = Speed * SpeedMul;
-                        Stumbled = true;
-                        Inteligencecheck = false;
+                        CheckStumbleNow = true;
                         RPC_LuckHanned();
                     }
-                    else if (!Stumbled)
+                    else if (!Stumbled && !CheckStumbleNow)
                     {
                         if (RandomNumber <= 0.3f)
                         {
                             //Debug.Log(" LuckChance hapning " + RandomNumber);
-                            SpeedMul = 0f;
                             Stumbled = true;
+                            CheckStumbleNow = true;
+                            SpeedMul = 0f;
                             m_agent.speed = Speed * SpeedMul;
                             RPC_LuckHanned();
                         }
@@ -477,6 +479,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         luckchance = 0f;
         Stumbled = false;
         Inteligencecheck = false;
+        CheckStumbleNow = false;
         switch (terrain)
         {
             case _Tags.Land:

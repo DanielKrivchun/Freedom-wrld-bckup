@@ -104,6 +104,7 @@ public class UiManager : MonoBehaviour
         StaminaDrained = false;
         FillAmount = 1f;
         Filler.fillAmount = FillAmount;
+        TapButton.gameObject.SetActive(true);
         Debug.Log("_ConfigUodated");
     }
 

@@ -62,7 +62,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private Vector3 finalPosition;
     private Vector3 WinPosition = Vector3.zero;
 
-    private bool CheckStumbleNow;
+    private bool CheckStumbleNow=false;
 
     #endregion
 
