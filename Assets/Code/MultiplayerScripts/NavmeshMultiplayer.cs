@@ -88,6 +88,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private string terrain = _Tags.Land;
 
     private bool Stumbled = false;
+    private bool inteligencecheck = false;
 
     public Quaternion Q { get; private set; }
 
@@ -168,7 +169,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             string s = JsonUtility.ToJson(RaceManager.instance._GetMyCOnfigs());
             Debug.Log(s + "    " + MyName);
             RPC_GetMyConfigs(s);
-
             _SetName(playerName.ToString());
             gameObject.name = MyName.ToString();
             _SetupCamera();
@@ -303,6 +303,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 case _Tags.Jack:
                     //INTELIGENCE CHECK 
                     RandomNumber = Random.Range(0f, 1f);
+                    Debug.Log(RandomNumber);
                     if (RandomNumber <= InteligenceMax)
                     {
                         _ColidedWIthJack(1);
@@ -347,6 +348,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #region JACK STUMBLE
     void _ColidedWIthJack(int _jackno)
     {
+        inteligencecheck = true;
         RPC_ActivateJack(_jackno, MyPathNumber);
     }
 
@@ -538,10 +540,17 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 luckchance += Time.deltaTime;
                 if (luckchance >= 5f)
                 {
-                    if (!Stumbled)
+
+                    if (inteligencecheck)
+                    {
+                        MyNetworkSpeed = 0f;
+                        Stumbled = true;
+                        RPC_LuckHanned();
+                    }
+                    else if (!Stumbled)
                     {
                         RandomNumber = Random.Range(0f, 1f);
-
+                        Debug.Log(RandomNumber);
                         if (RandomNumber <= LuckMax)
                         {
                             Debug.Log(" LuckChance hapning " + RandomNumber);
@@ -558,7 +567,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     {
                         MyNetworkSpeed = 0f;
                     }
-
                 }
             }
         }
@@ -703,6 +711,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         yield return new WaitForSecondsRealtime(2);
         luckchance = 0f;
         Stumbled = false;
+        inteligencecheck = false;
         switch (terrain)
         {
             case _Tags.Land:
