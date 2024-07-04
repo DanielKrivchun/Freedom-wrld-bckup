@@ -132,7 +132,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             networkPlayerObject.name = player.PlayerId.ToString();
             // Keep track of the player avatars for easy access
             //RPC_SetData(d);
-            networkCamera._SetUpCamera(networkPlayerObject.transform);
+            //networkCamera._SetUpCamera(networkPlayerObject.transform);
             //CHECK COUNT OF PLAYER HERE
             //networkPlayerObject.GetComponent<NavmeshMultiplayer>()._SetUpMyInitialData();
             int a = genratedPlayers.Count;

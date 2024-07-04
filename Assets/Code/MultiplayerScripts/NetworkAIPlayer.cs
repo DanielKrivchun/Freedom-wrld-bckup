@@ -27,7 +27,8 @@ public class NetworkAIPlayer : NetworkBehaviour
     private PathPointManager path_point;
 
     [Space]
-    public ParticleSystem FootDustEffect;
+    public ParticleSystem FootDustEffect_1;
+    public ParticleSystem FootDustEffect_2;
     public ParticleSystem SwimmingEffect;
     public ParticleSystem FlyingEffect;
     public ParticleSystem Stunned;
@@ -264,7 +265,8 @@ public class NetworkAIPlayer : NetworkBehaviour
         switch (_state)
         {
             case _AnimState.Run:
-                FootDustEffect.gameObject.SetActive(true);
+                FootDustEffect_1.gameObject.SetActive(true);
+                FootDustEffect_2.gameObject.SetActive(true);
                 FlyingEffect.gameObject.SetActive(false);
                 SwimmingEffect.gameObject.SetActive(false);
                 Stunned.gameObject.SetActive(false);
@@ -272,27 +274,25 @@ public class NetworkAIPlayer : NetworkBehaviour
             case _AnimState.Flying:
                 FlyingEffect.gameObject.SetActive(true);
                 SwimmingEffect.gameObject.SetActive(false);
-                FootDustEffect.gameObject.SetActive(false);
+                FootDustEffect_1.gameObject.SetActive(false);
+                FootDustEffect_2.gameObject.SetActive(false);
                 Stunned.gameObject.SetActive(false);
                 break;
             case _AnimState.Swimming:
                 SwimmingEffect.gameObject.SetActive(true);
                 FlyingEffect.gameObject.SetActive(false);
-                FootDustEffect.gameObject.SetActive(false);
+                FootDustEffect_1.gameObject.SetActive(false);
+                FootDustEffect_2.gameObject.SetActive(false);
                 Stunned.gameObject.SetActive(false);
                 break;
             case _AnimState.Stumble:
                 Stunned.gameObject.SetActive(true);
                 SwimmingEffect.gameObject.SetActive(false);
                 FlyingEffect.gameObject.SetActive(false);
-                FootDustEffect.gameObject.SetActive(false);
+                FootDustEffect_1.gameObject.SetActive(false);
+                FootDustEffect_2.gameObject.SetActive(false);
                 break;
         }
-    }
-
-    void _SetupCamera()
-    {
-        NetworkCamera.Instance._SetUpCamera(transform);
     }
     #endregion
 

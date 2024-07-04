@@ -12,8 +12,6 @@ public class NetworkCamera : MonoBehaviour
     public List<Transform> InitialTransforms;
     [Space]
     public List<_CamList> All_Cameras;
-    [Space]
-    public CinemachineFreeLook FollowCam;
 
     [Space]
     public CinemachineFreeLook WinCam;
@@ -115,14 +113,14 @@ public class NetworkCamera : MonoBehaviour
         return All_Cameras.Find(asd => asd.type == _camname).cam;
     }
 
-    public void _SetUpCamera(Transform _target)
+    public void _SetUpCamera(Transform _target, int PathNo)
     {
-        FollowCam.Follow = _target;
-        FollowCam.LookAt = _target;
-        FollowCam.gameObject.SetActive(true);
-        //cam = _GetCamm("follocam");
-        //cam.Follow = _target;
-        //cam.LookAt = _target;
+
+        Debug.Log(PathNo);
+
+        cam = _GetCamm("follocam");
+        cam.Follow = _target;
+        cam.LookAt = _target;
     }
 
     public void _ActiveWinScene()
