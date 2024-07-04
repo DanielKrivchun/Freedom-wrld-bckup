@@ -13,6 +13,9 @@ public class NetworkCamera : MonoBehaviour
     [Space]
     public List<_CamList> All_Cameras;
     [Space]
+    public CinemachineFreeLook FollowCam;
+
+    [Space]
     public CinemachineFreeLook WinCam;
     public GameObject WinCamera;
     [Space]
@@ -114,9 +117,12 @@ public class NetworkCamera : MonoBehaviour
 
     public void _SetUpCamera(Transform _target)
     {
-        cam = _GetCamm("follocam");
-        cam.Follow = _target;
-        cam.LookAt = _target;
+        FollowCam.Follow = _target;
+        FollowCam.LookAt = _target;
+        FollowCam.gameObject.SetActive(true);
+        //cam = _GetCamm("follocam");
+        //cam.Follow = _target;
+        //cam.LookAt = _target;
     }
 
     public void _ActiveWinScene()
