@@ -550,7 +550,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             {
                 if (!CheckStumbleNow)
                 {
-                    luckchance += Time.deltaTime;
+                    luckchance += Runner.DeltaTime;
                 }
 
                 if (luckchance >= 5f)
