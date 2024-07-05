@@ -218,13 +218,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private void OnEnable()
     {
         NetworkEventManager.e_get_set_go += _StartRun;
-        NetworkEventManager.e_game_complete += _GameComplete;
+        NetworkEventManager.e_diabled_names += _GameComplete;
     }
 
     private void OnDisable()
     {
         NetworkEventManager.e_get_set_go -= _StartRun;
-        NetworkEventManager.e_game_complete -= _GameComplete;
+        NetworkEventManager.e_diabled_names -= _GameComplete;
     }
 
     private void _GameComplete()
@@ -420,6 +420,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             NetworkCamera.Instance._ActiveWinScene();
             _ChangeAnimationHere(_AnimState.Jump);
             RaceManagerRef.MyWinNumber = MyWiningNumber;
+            NetworkEventManager._EventDisableNameTags();
         }
         else
         {
@@ -497,7 +498,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         RaceComplete = false;
         GetComponent<Collider>().enabled = true;
         luckchance = 0f;
-
+        NameTextObject.transform.localScale = Vector3.one;
         if (IsServer)
         {
             //Debug.Log(MyPathNumber);

@@ -434,7 +434,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             NetwrokUI.Instance._SetupList(_ss);
             _XpIncrimental(MyWinNumber);
             _ResetDataOnComplete();
-            NetworkEventManager._EventGameComplete();
+            NetworkEventManager._EventDisableNameTags();
         }
     }
 

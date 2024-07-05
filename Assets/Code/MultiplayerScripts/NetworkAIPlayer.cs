@@ -150,13 +150,13 @@ public class NetworkAIPlayer : NetworkBehaviour
     private void OnEnable()
     {
         NetworkEventManager.e_get_set_go += _StartRun;
-        NetworkEventManager.e_game_complete += _GameComplete;
+        NetworkEventManager.e_diabled_names += _GameComplete;
     }
 
     private void OnDisable()
     {
         NetworkEventManager.e_get_set_go -= _StartRun;
-        NetworkEventManager.e_game_complete -= _GameComplete;
+        NetworkEventManager.e_diabled_names -= _GameComplete;
     }
 
     private void _GameComplete()
