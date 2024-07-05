@@ -156,6 +156,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void _ClearUnwantedPlayers()
     {
+        TotalNumberOfPlayers = TotalPlayers.Count;
+
         for (int i = 0; i < 5; i++)
         {
             foreach (var item in TotalPlayers)
