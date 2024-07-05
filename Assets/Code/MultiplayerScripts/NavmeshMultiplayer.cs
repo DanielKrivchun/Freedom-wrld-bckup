@@ -557,7 +557,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 {
                     if (inteligencecheck && !CheckStumbleNow)
                     {
-                        luckchance = 0f;
                         Debug.Log("inteligencecheck");
                         MyNetworkSpeed = 0f;
                         Stumbled = true;
@@ -570,7 +569,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                         Debug.Log(RandomNumber + " luck max " + LuckMax);
                         if (RandomNumber <= LuckMax)
                         {
-                            luckchance = 0f;
                             MyNetworkSpeed = 0f;
                             Stumbled = true;
                             CheckStumbleNow = true;
@@ -736,8 +734,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         yield return new WaitForSecondsRealtime(2);
         Stumbled = false;
         inteligencecheck = false;
-        CheckStumbleNow = false;
         luckchance = 0f;
+        CheckStumbleNow = false;
         switch (terrain)
         {
             case _Tags.Land:

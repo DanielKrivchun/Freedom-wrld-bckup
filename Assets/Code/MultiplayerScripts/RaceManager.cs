@@ -166,6 +166,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                     if (item.aiplayer == null)
                     {
                         TotalPlayers.Remove(item);
+                        _ClearUnwantedPlayers();
+                        return;
                     }
                 }
                 else
@@ -174,10 +176,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                     if (item.player == null)
                     {
                         TotalPlayers.Remove(item);
+                        _ClearUnwantedPlayers();
+                        return;
                     }
                 }
-
-
             }
         }
     }
