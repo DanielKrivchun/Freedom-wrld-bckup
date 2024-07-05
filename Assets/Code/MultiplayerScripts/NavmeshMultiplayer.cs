@@ -295,6 +295,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     terrain = _Tags.Flying;
                     break;
                 case _Tags.Land:
+                    luckchance = 0f;
                     MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.running);
                     _ChangeAnimationHere(_AnimState.Run);
                     terrain = _Tags.Land;
@@ -483,7 +484,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         CurruntIndex = 0;
         RaceComplete = false;
         GetComponent<Collider>().enabled = true;
-
+        luckchance = 0f;
 
         if (IsServer)
         {

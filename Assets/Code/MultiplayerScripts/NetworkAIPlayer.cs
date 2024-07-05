@@ -306,6 +306,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     {
         if (IsServer)
         {
+            luckchance = 0f;
             Debug.Log(MyPathNumber);
             _InitilizePath();
             m_currunt_pos = _GetNextPos(move_positions[m_currunt_index]);

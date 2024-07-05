@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,20 +10,22 @@ public class NetworkCamera : MonoBehaviour
 {
     public CinemachineBrain Brain;
     [Space]
-    public List<Transform> InitialTransforms;
+    //public List<Transform> InitialTransforms;
     [Space]
     public List<_CamList> All_Cameras;
-
     [Space]
     public CinemachineFreeLook WinCam;
     public GameObject WinCamera;
+    [Space]
+    public Transform StartPoint;
+    public Transform EndPoint;
     [Space]
     public List<_CamCofigs> CamConfigs;
     [Space]
     public GameObject Confetti;
 
     public GameObject CurruntCam;
-    private CinemachineVirtualCamera cam;
+    private CinemachineVirtualCamera Cam;
 
     public static NetworkCamera Instance;
     private void Awake()
@@ -54,16 +57,8 @@ public class NetworkCamera : MonoBehaviour
     private void _GameStarted()
     {
         WinCamera.SetActive(false);
-        cam = _GetCamm("0");
-        cam.gameObject.SetActive(false);
-        cam = _GetCamm("1");
-        cam.gameObject.SetActive(false);
-        cam = _GetCamm("2");
-        cam.gameObject.SetActive(false);
-        cam = _GetCamm("3");
-        cam.gameObject.SetActive(false);
-        cam = _GetCamm("4");
-        cam.gameObject.SetActive(false);
+        Cam = _GetCamm("0");
+        Cam.gameObject.SetActive(false);
         GameObject g = _GetCam("follocam");
         g.SetActive(false);
         g = _GetCam("startracecam");
@@ -73,11 +68,9 @@ public class NetworkCamera : MonoBehaviour
 
     private void _FocusOnPlayer(int _no)
     {
-        Debug.Log(_no);
-        cam = _GetCamm(_no.ToString());
-        cam.gameObject.SetActive(true);
-        cam.Follow = InitialTransforms[_no];
-        cam.LookAt = InitialTransforms[_no];
+        Cam = _GetCamm("0");
+        Cam.gameObject.SetActive(true);
+        Cam.transform.DOMove(EndPoint.position, 8f);
     }
 
     private void _CameraSetup(_CamState _CamState)
@@ -85,8 +78,8 @@ public class NetworkCamera : MonoBehaviour
         switch (_CamState)
         {
             case _CamState.InitialCam:
-                cam = _GetCamm("startcam");
-                cam.gameObject.SetActive(true);
+                Cam = _GetCamm("startcam");
+                Cam.gameObject.SetActive(true);
                 NetworkEventManager._EventTextLookat(null);
                 break;
             case _CamState.Start:
@@ -110,6 +103,7 @@ public class NetworkCamera : MonoBehaviour
 
     CinemachineVirtualCamera _GetCamm(string _camname)
     {
+        Debug.Log(_camname);
         return All_Cameras.Find(asd => asd.type == _camname).cam;
     }
 
@@ -117,20 +111,19 @@ public class NetworkCamera : MonoBehaviour
     {
 
         Debug.Log(PathNo);
-
-        cam = _GetCamm("follocam");
-        cam.Follow = _target;
-        cam.LookAt = _target;
+        Cam = _GetCamm("follocam");
+        Cam.Follow = _target;
+        Cam.LookAt = _target;
     }
 
     public void _ActiveWinScene()
     {
         NetworkEventManager._EventTextLookat(WinCam.transform);
 
-        cam = _GetCamm("follocam");
-        cam.gameObject.SetActive(false);
-        cam = _GetCamm("startcam");
-        cam.gameObject.SetActive(false);
+        Cam = _GetCamm("follocam");
+        Cam.gameObject.SetActive(false);
+        Cam = _GetCamm("startcam");
+        Cam.gameObject.SetActive(false);
         WinCamera.gameObject.SetActive(true);
         //FollowCam.gameObject.SetActive(false);
         Confetti.gameObject.SetActive(true);

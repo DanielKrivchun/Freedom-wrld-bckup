@@ -307,6 +307,11 @@ public class NetwrokUI : NetworkBehaviour
         StartGamePanel.SetActive(true);
         startUI.GetComponent<Image>().DOFade(0f, 0.2f);
     }
+
+    public void _StartUIforClients()
+    {
+        startUI.GetComponent<Image>().DOFade(0f, 0.2f);
+    }
     #endregion
 
     #region START GAME AND COUNTDOWN
@@ -345,33 +350,27 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager._EventFocusOnPlayer(0);
         int a = 5;
         countdownText.text = a.ToString();
-        Utils._DoButtonAnimation(countdownText.transform);
-        yield return new WaitForSecondsRealtime(1.5f);
-        NetworkEventManager._EventFocusOnPlayer(1);
-        a--;
-        countdownText.text = a.ToString();
-        Utils._DoButtonAnimation(countdownText.transform);
-        yield return new WaitForSecondsRealtime(1.5f);
-        NetworkEventManager._EventFocusOnPlayer(2);
-        a--;
-        countdownText.text = a.ToString();
-        Utils._DoButtonAnimation(countdownText.transform);
-        yield return new WaitForSecondsRealtime(1.5f);
-        NetworkEventManager._EventFocusOnPlayer(3);
-        a--;
-        countdownText.text = a.ToString();
-        Utils._DoButtonAnimation(countdownText.transform);
-        yield return new WaitForSecondsRealtime(1.5f);
-        NetworkEventManager._EventFocusOnPlayer(4);
-        a--;
-        countdownText.text = a.ToString();
-        Utils._DoButtonAnimation(countdownText.transform);
         yield return new WaitForSecondsRealtime(1.5f);
         a--;
-        countdownText.text = a.ToString();
         Utils._DoButtonAnimation(countdownText.transform);
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1.5f);
+        a--;
+        Utils._DoButtonAnimation(countdownText.transform);
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1.5f);
+        a--;
+        Utils._DoButtonAnimation(countdownText.transform);
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1.5f);
+        a--;
+        Utils._DoButtonAnimation(countdownText.transform);
+        countdownText.text = a.ToString();
+        yield return new WaitForSecondsRealtime(1.5f);
+        a--;
+        Utils._DoButtonAnimation(countdownText.transform);
+        countdownText.text = a.ToString();
         countdownPanel.SetActive(false);
-        //Debug.Log("Game Started Now");
         requestedReplay = false;
         RaceManagerRef._StartGameForPlayers();
     }

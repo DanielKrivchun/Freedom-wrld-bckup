@@ -561,6 +561,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                 NetwrokUI.Instance._OpenStartUI();
             }
         }
+        else
+        {
+            NetwrokUI.Instance._StartUIforClients();
+        }
     }
 
     void _SpwanPlayerCalculations(PlayerRef _playerRef, int _pathno, Vector3 _spwanpos)
