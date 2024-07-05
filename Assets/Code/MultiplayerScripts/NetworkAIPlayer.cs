@@ -25,7 +25,8 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     [Header("Script Refrence")]
     private PathPointManager path_point;
-
+    [Space]
+    public GameObject NameTextObject;
     [Space]
     public ParticleSystem FootDustEffect_1;
     public ParticleSystem FootDustEffect_2;
@@ -88,7 +89,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     private void Start()
     {
-        Debug.Log("WORKED");
+        //Debug.Log("WORKED");
         NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
         networkTransform = GetComponent<NetworkTransform>();
         path_point = FindObjectOfType<PathPointManager>();
@@ -123,18 +124,18 @@ public class NetworkAIPlayer : NetworkBehaviour
     IEnumerator _GenrateMyPrefab()
     {
         yield return new WaitForSecondsRealtime(1f);
-        Debug.Log("This Choroutine Worked " + gameObject.name);
+        //Debug.Log("This Choroutine Worked " + gameObject.name);
         _GenratePetPrefab();
     }
 
 
     private void SetLocalObjects()
     {
-        Debug.Log("I am Local Player");
+        //Debug.Log("I am Local Player");
         IsLocalPlayer = true;
         MyName = RaceManager.instance.namesJson._GetNames();
         playerName = MyName;
-        Debug.Log("Sending RPC with Name   " + playerName);
+        //Debug.Log("Sending RPC with Name   " + playerName);
         int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
         MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
         //MyPrefabID = "1";
@@ -149,11 +150,18 @@ public class NetworkAIPlayer : NetworkBehaviour
     private void OnEnable()
     {
         NetworkEventManager.e_get_set_go += _StartRun;
+        NetworkEventManager.e_game_complete += _GameComplete;
     }
 
     private void OnDisable()
     {
         NetworkEventManager.e_get_set_go -= _StartRun;
+        NetworkEventManager.e_game_complete -= _GameComplete;
+    }
+
+    private void _GameComplete()
+    {
+        NameTextObject.transform.localScale = Vector3.zero;
     }
     #endregion
 

@@ -19,6 +19,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Header("Script Refrence")]
     private PathPointManager path_point;
     [Space]
+    public GameObject NameTextObject;
+    [Space]
     public ParticleSystem FootDustEffect_1;
     public ParticleSystem FootDustEffect_2;
     public ParticleSystem SwimmingEffect;
@@ -206,6 +208,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             CurruntIndex = 0;
             MyWiningNumber = 0;
             RaceManager.instance._ResetRaceManager();
+            NameTextObject.transform.localScale = Vector3.one;
         }
     }
     #endregion
@@ -215,11 +218,18 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private void OnEnable()
     {
         NetworkEventManager.e_get_set_go += _StartRun;
+        NetworkEventManager.e_game_complete += _GameComplete;
     }
 
     private void OnDisable()
     {
         NetworkEventManager.e_get_set_go -= _StartRun;
+        NetworkEventManager.e_game_complete -= _GameComplete;
+    }
+
+    private void _GameComplete()
+    {
+        NameTextObject.transform.localScale = Vector3.zero;
     }
     #endregion
 
@@ -417,7 +427,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             _ChangeAnimationHere(_AnimState.Jump);
         }
         RaceManagerRef._CheckAllPlayerCompleted();
-
     }
     #endregion
 

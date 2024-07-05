@@ -434,6 +434,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             NetwrokUI.Instance._SetupList(_ss);
             _XpIncrimental(MyWinNumber);
             _ResetDataOnComplete();
+            NetworkEventManager._EventGameComplete();
         }
     }
 
@@ -797,6 +798,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void _GenrateAIPlayer()
     {
+        if (TotalNumberOfPlayers == 5) return;
         Debug.Log("AI player genration");
         Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
         Debug.Log(spawnPoint);

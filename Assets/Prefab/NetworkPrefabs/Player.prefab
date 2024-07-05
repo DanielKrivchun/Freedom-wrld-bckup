@@ -485,6 +485,7 @@ MonoBehaviour:
   nameText: {fileID: 1881986423725643747}
   m_agent: {fileID: 1920933005764420817}
   GenratedPet: {fileID: 0}
+  NameTextObject: {fileID: 407612358081451923}
   FootDustEffect_1: {fileID: 2706768703538622743}
   FootDustEffect_2: {fileID: 8158584971924365486}
   SwimmingEffect: {fileID: 4685547138155629386}
@@ -520,6 +521,7 @@ MonoBehaviour:
   _MyPathNumber: 0
   _MyPrefabID: 
   _MyWiningNumber: 0
+  luckchance: 0
   networkTransform: {fileID: 0}
   _MyRankNo: 0
 --- !u!114 &8328347679902393475

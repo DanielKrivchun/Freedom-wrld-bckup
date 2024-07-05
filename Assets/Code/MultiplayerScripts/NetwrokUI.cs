@@ -87,6 +87,7 @@ public class NetwrokUI : NetworkBehaviour
     {
         //EVENTS ARE ADDED HERE
         NetworkEventManager.e_win_event += _OnGameWon;
+        NetworkEventManager.e_get_set_go += _ResetOnStart;
         NetworkEventManager.e_player_left += _PlayerLeft;
         NetworkEventManager.e_updated_my_no += _UpdatedRank;
 
@@ -111,6 +112,7 @@ public class NetwrokUI : NetworkBehaviour
     {
         NetworkEventManager.e_win_event -= _OnGameWon;
         NetworkEventManager.e_player_left -= _PlayerLeft;
+        NetworkEventManager.e_get_set_go -= _ResetOnStart;
         NetworkEventManager.e_updated_my_no -= _UpdatedRank;
 
 
@@ -126,6 +128,14 @@ public class NetwrokUI : NetworkBehaviour
         No.onClick.RemoveListener(_No);
         StartGameButton.onClick.RemoveListener(_StartRace);
         AIPlayerButton.onClick.RemoveListener(_GenrateAIPlayer);
+    }
+
+    private void _ResetOnStart()
+    {
+        foreach (var item in WinnerNames)
+        {
+            item.text = "";
+        }
     }
 
     private void _UpdatedRank(int _no)

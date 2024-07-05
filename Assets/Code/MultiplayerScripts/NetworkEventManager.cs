@@ -7,7 +7,7 @@ using static Beamable.Api.Notification.PubNubOp;
 public class NetworkEventManager : MonoBehaviour
 {
     public delegate void SimpleDelegateEvents();
-    public static event SimpleDelegateEvents e_get_set_go, e_config_updated, e_countdown_start, e_activae_stumble;
+    public static event SimpleDelegateEvents e_get_set_go, e_config_updated, e_countdown_start, e_activae_stumble,e_game_complete;
 
 
     public delegate void IntDelegateEvents(int _no);
@@ -26,6 +26,14 @@ public class NetworkEventManager : MonoBehaviour
 
 
     #region _EVENT INVOKERS
+
+    public static void _EventGameComplete()
+    {
+        if (e_game_complete != null)
+        {
+            e_game_complete();
+        }
+    }
 
     public static void _EventUpdateMyNo(int _no)
     {
