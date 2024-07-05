@@ -151,6 +151,35 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         CompletePlayerCount = 0;
         CurrntWinCount = 0;
+        _ClearUnwantedPlayers();
+    }
+
+    private void _ClearUnwantedPlayers()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            foreach (var item in TotalPlayers)
+            {
+
+                if (item.AI)
+                {
+                    if (item.aiplayer == null)
+                    {
+                        TotalPlayers.Remove(item);
+                    }
+                }
+                else
+                {
+
+                    if (item.player == null)
+                    {
+                        TotalPlayers.Remove(item);
+                    }
+                }
+
+
+            }
+        }
     }
 
     #endregion

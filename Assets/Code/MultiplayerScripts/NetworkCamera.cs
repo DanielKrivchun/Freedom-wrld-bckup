@@ -85,7 +85,7 @@ public class NetworkCamera : MonoBehaviour
                 Cam = _GetCamm("startcam");
                 Cam.gameObject.SetActive(true);
                 CurruntCam = Cam.gameObject;
-                NetworkEventManager._EventTextLookat(null);
+                NetworkEventManager._EventTextLookat(CurruntCam.transform);
                 break;
             case _CamState.Start:
                 CurruntCam = _GetCam("startracecam");
