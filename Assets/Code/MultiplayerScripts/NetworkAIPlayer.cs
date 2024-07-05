@@ -526,6 +526,10 @@ public class NetworkAIPlayer : NetworkBehaviour
         Debug.Log("This works on Server  only  " + Runner.IsServer);
         if (GenratedPet == null)
         {
+            if (MyPrefabID == "")
+            {
+                MyPrefabID = "2";
+            }
             Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
