@@ -249,6 +249,8 @@ public class NetwrokUI : NetworkBehaviour
     #region ON GAME WIN CODE BLOCK
     public void _SetupList(List<string> _s)
     {
+        Debug.Log(_s);
+
         foreach (var item in _s)
         {
             Debug.Log(item);

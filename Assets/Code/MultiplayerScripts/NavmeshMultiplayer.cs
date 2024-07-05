@@ -78,7 +78,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
 
-    private float luckchance = 0f;
+    public float luckchance = 0f;
     private float RandomNumber;
 
     public NetworkTransform networkTransform;

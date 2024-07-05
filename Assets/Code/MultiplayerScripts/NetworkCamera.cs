@@ -78,8 +78,13 @@ public class NetworkCamera : MonoBehaviour
         switch (_CamState)
         {
             case _CamState.InitialCam:
+                WinCamera.SetActive(false);
+                Cam = _GetCamm("0");
+                Cam.transform.DOMove(StartPoint.position, 8f);
+
                 Cam = _GetCamm("startcam");
                 Cam.gameObject.SetActive(true);
+                CurruntCam = Cam.gameObject;
                 NetworkEventManager._EventTextLookat(null);
                 break;
             case _CamState.Start:
