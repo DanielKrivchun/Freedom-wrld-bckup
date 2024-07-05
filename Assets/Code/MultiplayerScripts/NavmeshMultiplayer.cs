@@ -367,7 +367,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #region RANK FINDING
     public void _ChangingRanke(int _Myrank)
     {
-        Debug.Log("My Ranke is changed " + MyName);
+        //Debug.Log("My Ranke is changed " + MyName);
         _Myrank += 1;
         MyRankNo = _Myrank;
     }
@@ -392,7 +392,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         if (Utils.IsLocalPlayer(Object))
         {
-            Debug.Log(MyName + "   " + MyRankNo);
+            //Debug.Log(MyName + "   " + MyRankNo);
             NetworkEventManager._EventUpdateMyNo(MyRankNo);
         }
     }
@@ -545,7 +545,11 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         {
             if (terrain == _Tags.Land)
             {
-                luckchance += Time.deltaTime;
+                if (!CheckStumbleNow)
+                {
+                    luckchance += Time.deltaTime;
+                }
+
                 if (luckchance >= 5f)
                 {
                     if (inteligencecheck && !CheckStumbleNow)
@@ -556,31 +560,32 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                         CheckStumbleNow = true;
                         RPC_LuckHanned();
                     }
-                    else if (!Stumbled)
+                    else if (!Stumbled && !CheckStumbleNow)
                     {
-                        if (!CheckStumbleNow)
+                        RandomNumber = Random.Range(0f, 1f);
+                        Debug.Log(RandomNumber + " luck max " + LuckMax);
+                        if (RandomNumber <= LuckMax)
                         {
-                            RandomNumber = Random.Range(0f, 1f);
-                            Debug.Log(RandomNumber + " luck max " + LuckMax);
-                            if (RandomNumber <= LuckMax)
-                            {
-                                Debug.Log(" LuckChance hapning " + RandomNumber);
-                                MyNetworkSpeed = 0f;
-                                Stumbled = true;
-                                CheckStumbleNow = true;
-                                RPC_LuckHanned();
-                            }
-                            else
-                            {
-                                Debug.Log("luckchance Zero");
-                                luckchance = 0f;
-                            }
+                            MyNetworkSpeed = 0f;
+                            Stumbled = true;
+                            CheckStumbleNow = true;
+                            RPC_LuckHanned();
                         }
+                        else
+                        {
+                            Debug.Log("luckchance Zero");
+                            luckchance = 0f;
+                        }
+                    }
+                    else if (CheckStumbleNow)
+                    {
+                        //Debug.Log("SpeedZero");
+                        MyNetworkSpeed = 0f;
                     }
                     else
                     {
-                        Debug.Log("SpeedZero");
-                        MyNetworkSpeed = 0f;
+                        Debug.Log("luckchance Zero");
+                        luckchance = 0f;
                     }
                 }
             }
@@ -724,10 +729,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         Debug.Log("_WaitAndStopLuckChance");
         _ChangeAnimationHere(_AnimState.Stumble);
         yield return new WaitForSecondsRealtime(2);
-        luckchance = 0f;
         Stumbled = false;
         inteligencecheck = false;
         CheckStumbleNow = false;
+        luckchance = 0f;
         switch (terrain)
         {
             case _Tags.Land:

@@ -357,7 +357,6 @@ public class NetworkAIPlayer : NetworkBehaviour
                     if (Inteligencecheck && !CheckStumbleNow)
                     {
                         CheckStumbleNow = true;
-                        //Debug.Log(" Inteligencecheck hapning " + luckchance);
                         SpeedMul = 0f;
                         m_agent.speed = Speed * SpeedMul;
                         CheckStumbleNow = true;
@@ -474,7 +473,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     IEnumerator _WaitAndStopLuckChance()
     {
-        Debug.Log("_WaitAndStopLuckChance");
+        //Debug.Log("_WaitAndStopLuckChance");
         _ChangeAnimationHere(_AnimState.Stumble);
         yield return new WaitForSecondsRealtime(2);
         luckchance = 0f;
