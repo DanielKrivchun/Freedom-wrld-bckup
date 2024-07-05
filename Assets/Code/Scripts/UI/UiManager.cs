@@ -55,7 +55,6 @@ public class UiManager : MonoBehaviour
     public float value = 0;
     [Space]
     public Button TapButton;
-    public Button Stumble;
 
 
     private float ypos;
@@ -73,7 +72,6 @@ public class UiManager : MonoBehaviour
         NetworkEventManager.e_config_updated += _ConfigUodated;
         NetworkEventManager.e_get_set_go += _StartStaminaBar;
         NetworkEventManager.e_win_event += _OnWon;
-        NetworkEventManager.e_activae_stumble += _ActivateStumble;
     }
 
     private void OnDisable()
@@ -82,13 +80,8 @@ public class UiManager : MonoBehaviour
         NetworkEventManager.e_config_updated -= _ConfigUodated;
         NetworkEventManager.e_get_set_go -= _StartStaminaBar;
         NetworkEventManager.e_win_event -= _OnWon;
-        NetworkEventManager.e_activae_stumble -= _ActivateStumble;
     }
 
-    private void _ActivateStumble()
-    {
-        Stumble.gameObject.SetActive(true);
-    }
 
     private void _OnWon(int _no)
     {
@@ -110,6 +103,7 @@ public class UiManager : MonoBehaviour
 
     private void _StartStaminaBar()
     {
+        _ConfigUodated();
         PetNameText.text = RaceManager.instance.LocalPlayerNickname + "'s" + " Pet";
         GameStarted = true;
         InGmmeUI.SetActive(true);

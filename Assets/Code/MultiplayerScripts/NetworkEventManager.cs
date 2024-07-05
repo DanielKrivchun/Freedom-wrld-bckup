@@ -50,14 +50,6 @@ public class NetworkEventManager : MonoBehaviour
             e_reset_player(_pname, _id);
         }
     }
-
-    public static void _EvantActivateStuble()
-    {
-        if (e_activae_stumble != null)
-        {
-            e_activae_stumble();
-        }
-    }
     public static void _EventPlayerLeft(string _s)
     {
         if (e_player_left != null)
