@@ -204,6 +204,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             Q = RaceManager.instance.spawnPoints[MyPathNumber].rotation;
             RPC_ChangeMyAnimation(0);
             CurruntIndex = 0;
+            MyWiningNumber = 0;
             RaceManager.instance._ResetRaceManager();
         }
     }
@@ -399,6 +400,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     private void _OnWInNumberAlocated()
     {
+        if (!RaceManagerRef.RaceStart) return;
+
         if (Utils.IsLocalPlayer(Object))
         {
             Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
@@ -406,14 +409,14 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             NetwrokUI.Instance.WinUI.SetActive(true);
             NetworkCamera.Instance._ActiveWinScene();
             _ChangeAnimationHere(_AnimState.Jump);
-            RaceManager.instance.MyWinNumber = MyWiningNumber;
+            RaceManagerRef.MyWinNumber = MyWiningNumber;
         }
         else
         {
             Debug.Log("Chaning animation for all other " + MyName);
             _ChangeAnimationHere(_AnimState.Jump);
         }
-        RaceManager.instance._CheckAllPlayerCompleted();
+        RaceManagerRef._CheckAllPlayerCompleted();
 
     }
     #endregion
@@ -554,6 +557,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 {
                     if (inteligencecheck && !CheckStumbleNow)
                     {
+                        luckchance = 0f;
                         Debug.Log("inteligencecheck");
                         MyNetworkSpeed = 0f;
                         Stumbled = true;
@@ -566,6 +570,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                         Debug.Log(RandomNumber + " luck max " + LuckMax);
                         if (RandomNumber <= LuckMax)
                         {
+                            luckchance = 0f;
                             MyNetworkSpeed = 0f;
                             Stumbled = true;
                             CheckStumbleNow = true;
