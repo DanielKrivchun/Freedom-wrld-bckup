@@ -66,12 +66,17 @@ public class BK_EnvironmentManager : MonoBehaviour
         matrices = new Matrix4x4[volumeSamples];
     }
 
-    void Update()
+    private void Start()
     {
         UpdateEnvironment();
         UpdateCloudsVolume();
         UpdateLighting();
     }
+
+    //void Update()
+    //{
+
+    //}
 
     private void UpdateEnvironment()
     {
