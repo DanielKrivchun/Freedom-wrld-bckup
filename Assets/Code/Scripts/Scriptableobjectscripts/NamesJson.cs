@@ -5,31 +5,35 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NamesJson", menuName = "ScriptableObject/NamesJson", order = 100)]
 public class NamesJson : ScriptableObject
 {
-    public _FakeUsers RandomNames;
+    public _FakeUsers AINames;
 
-    private List<int> usedNames;
+    [HideInInspector]
+    public List<int> usedNames;
 
-    public void _SetMyData()
+    public async void _SetMyData()
     {
         TextAsset s = Resources.Load("Names") as TextAsset;
-        RandomNames = JsonUtility.FromJson<_FakeUsers>(s.ToString());
+        AINames = JsonUtility.FromJson<_FakeUsers>(s.ToString());
+        await Utils._Waiter(500);
     }
 
     public string _GetNames()
     {
         int a = _GetRandomNumber();
 
+        Debug.Log("Random Number " + a);
         if (usedNames.Contains(a))
         {
             a = _GetRandomNumber();
         }
 
-        return RandomNames.Names[a];
+        return AINames.Names[a];
     }
 
     private int _GetRandomNumber()
     {
-        return Random.Range(0, RandomNames.Names.Count);
+        Debug.Log("Name list count " + AINames.Names.Count);
+        return Random.Range(0, AINames.Names.Count);
     }
 
 }

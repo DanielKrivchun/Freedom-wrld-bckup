@@ -126,7 +126,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         PrefabID = petdataref.petData.petPrefabID.ToString();
 
-        namesJson._SetMyData();
+        namesJson.usedNames.Clear();
         NetworkEventManager.e_countdown_start += _OnCounddownStart;
     }
 

@@ -124,7 +124,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     IEnumerator _GenrateMyPrefab()
     {
         yield return new WaitForSecondsRealtime(1f);
-        //Debug.Log("This Choroutine Worked " + gameObject.name);
+        Debug.Log("This Choroutine Worked " + gameObject.name);
         _GenratePetPrefab();
     }
 

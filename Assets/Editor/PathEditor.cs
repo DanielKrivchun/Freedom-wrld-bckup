@@ -26,5 +26,12 @@ public class PathEditor : Editor
             Target._Reset();
         }
 
+        if (GUILayout.Button("Genrate Names"))
+        {
+            RaceManager race = FindObjectOfType<RaceManager>();
+
+            race.namesJson._SetMyData();
+        }
+
     }
 }
