@@ -209,6 +209,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             MyWiningNumber = 0;
             RaceManager.instance._ResetRaceManager();
             NameTextObject.transform.localScale = Vector3.one;
+            _SetupCamera();
         }
     }
     #endregion
@@ -290,6 +291,12 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     rb.isKinematic = true;
                     MyWiningNumber = RaceManager.instance._GetMyWinningNo();
                     RaceComplete = true;
+
+                    if (IsLocalPlayer)
+                    {
+                        NetworkEventManager._EventCameraChange(_CamState.DisableFollow);
+                    }
+
                     int temp = MyWiningNumber - 1;
                     pos = RaceManager.instance.WinPoints[temp].position;
                     Q = RaceManager.instance.WinPoints[temp].rotation;

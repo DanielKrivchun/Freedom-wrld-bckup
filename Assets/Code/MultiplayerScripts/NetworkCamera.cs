@@ -99,6 +99,11 @@ public class NetworkCamera : MonoBehaviour
                 CurruntCam.SetActive(true);
                 NetworkEventManager._EventTextLookat(CurruntCam.transform);
                 break;
+            case _CamState.DisableFollow:
+                Cam = _GetCamm("follocam");
+                Cam.Follow = null;
+                Cam.LookAt = null;
+                break;
         }
     }
 
@@ -148,7 +153,8 @@ public enum _CamState
     none,
     Start,
     Follow,
-    InitialCam
+    InitialCam,
+    DisableFollow
 }
 
 [System.Serializable]
