@@ -475,7 +475,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
             List<string> _ss = new List<string>();
 
-            for (int i = 1; i < CompletePlayerCount + 1; i++)
+            for (int i = 1; i < TotalNumberOfPlayers + 1; i++)
             {
                 foreach (var item in TotalPlayers)
                 {
@@ -484,11 +484,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                         if (item.player.MyWiningNumber == 0)
                         {
                             _ss.Add("");
+                            break;
                         }
 
                         if (i == item.player.MyWiningNumber)
                         {
                             _ss.Add(item.player.MyName);
+                            break;
                         }
                     }
                     else
@@ -496,10 +498,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                         if (item.aiplayer.MyWiningNumber == 0)
                         {
                             _ss.Add("");
+                            break;
                         }
                         if (i == item.aiplayer.MyWiningNumber)
                         {
                             _ss.Add(item.aiplayer.MyName);
+                            break;
                         }
                     }
                 }
