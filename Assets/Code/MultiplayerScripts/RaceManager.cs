@@ -124,7 +124,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void Start()
     {
+#if !UNITY_EDITOR
         Application.targetFrameRate = 60;
+#endif
         PrefabID = petdataref.petData.petPrefabID.ToString();
 
         namesJson.usedNames.Clear();
