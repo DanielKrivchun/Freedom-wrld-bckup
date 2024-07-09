@@ -470,6 +470,43 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             _ResetDataOnComplete();
             NetworkEventManager._EventDisableNameTags();
         }
+        else
+        {
+
+            List<string> _ss = new List<string>();
+
+            for (int i = 1; i < CompletePlayerCount + 1; i++)
+            {
+                foreach (var item in TotalPlayers)
+                {
+                    if (!item.AI)
+                    {
+                        if (item.player.MyWiningNumber == 0)
+                        {
+                            _ss.Add("");
+                        }
+
+                        if (i == item.player.MyWiningNumber)
+                        {
+                            _ss.Add(item.player.MyName);
+                        }
+                    }
+                    else
+                    {
+                        if (item.aiplayer.MyWiningNumber == 0)
+                        {
+                            _ss.Add("");
+                        }
+                        if (i == item.aiplayer.MyWiningNumber)
+                        {
+                            _ss.Add(item.aiplayer.MyName);
+                        }
+                    }
+                }
+            }
+
+            NetwrokUI.Instance._SetupList(_ss);
+        }
     }
 
 

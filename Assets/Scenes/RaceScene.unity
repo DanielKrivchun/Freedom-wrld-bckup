@@ -24745,7 +24745,7 @@ MonoBehaviour:
   MyStemina: 0
   CurrnutStemina: 0
   m_clicking: 0
-  DowngradeSpeed: 5
+  DowngradeSpeed: 1
   UpwordSpeed: 2
   SteminaDrain: 0.005
   m_reset_t: 0.5
@@ -56345,7 +56345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1231343760
 RectTransform:
   m_ObjectHideFlags: 0
@@ -57275,7 +57275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1251572674
 RectTransform:
   m_ObjectHideFlags: 0
