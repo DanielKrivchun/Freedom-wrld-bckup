@@ -185,13 +185,13 @@ public class NetwrokUI : NetworkBehaviour
         _DisableReplay();
         requestedReplay = true;
         RPC_ReplayNotificationSend(RaceManagerRef.LocalPlayerNickname, RaceManagerRef.LocalnetworkID);
-        NetworkEventManager._EventCameraChange(_CamState.InitialCam);
+        NetworkEventManager._EventCameraChange(_CamState.Start);
     }
 
 
     private async void _WaitAndDisableLoadingPanel()
     {
-        await Utils._Waiter(500);
+        await Utils._Waiter(2500);
         LoadingPanel.SetActive(false);
     }
 

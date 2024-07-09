@@ -63,7 +63,7 @@ public class NetworkCamera : MonoBehaviour
         g.SetActive(false);
         g = _GetCam("startracecam");
         g.SetActive(false);
-        CurruntCam = _GetCam("startcam");
+        CurruntCam = _GetCam("startracecam");
     }
 
     private void _FocusOnPlayer(int _no)

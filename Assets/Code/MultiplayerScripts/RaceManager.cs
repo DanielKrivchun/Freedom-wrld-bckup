@@ -902,7 +902,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         _PlayerLeftDetails(_name);
     }
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(RpcSources.All, RpcTargets.InputAuthority)]
     public void RPC_PlayerFinishedRace()
     {
         List<string> _ss = new List<string>();
@@ -916,11 +916,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                     if (item.player.MyWiningNumber == 0)
                     {
                         _ss.Add("");
+                        break;
                     }
 
                     if (i == item.player.MyWiningNumber)
                     {
                         _ss.Add(item.player.MyName);
+                        break;
                     }
                 }
                 else
@@ -928,11 +930,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                     if (item.aiplayer.MyWiningNumber == 0)
                     {
                         _ss.Add("");
+                        break;
 
                     }
                     if (i == item.aiplayer.MyWiningNumber)
                     {
                         _ss.Add(item.aiplayer.MyName);
+                        break;
                     }
                 }
             }
