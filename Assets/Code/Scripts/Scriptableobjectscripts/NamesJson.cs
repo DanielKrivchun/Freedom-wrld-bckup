@@ -38,10 +38,6 @@ public class NamesJson : ScriptableObject
 
 }
 
-[System.Serializable]
-public class _FakeUsers
-{
-    public List<string> Names;
-}
+
 
 

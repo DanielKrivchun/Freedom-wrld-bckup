@@ -133,7 +133,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     {
         //Debug.Log("I am Local Player");
         IsLocalPlayer = true;
-        MyName = RaceManager.instance.namesJson._GetNames();
+        MyName = RaceManager.instance._GetNames();
         playerName = MyName;
         int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
         Debug.Log("MyPrefabID   " + a);

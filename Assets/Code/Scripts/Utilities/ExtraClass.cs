@@ -77,6 +77,12 @@ public struct _Tags
     public const string Rank = "Rank";
 }
 
+[System.Serializable]
+public class _FakeUsers
+{
+    public List<string> Names;
+}
+
 public enum PetCareState
 {
     None,

@@ -30,7 +30,7 @@ public class PathEditor : Editor
         {
             RaceManager race = FindObjectOfType<RaceManager>();
 
-            race.namesJson._SetMyData();
+            race._SetMyData();
         }
 
     }

@@ -57275,7 +57275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1251572674
 RectTransform:
   m_ObjectHideFlags: 0
@@ -67131,7 +67131,7 @@ MonoBehaviour:
   m_text: Speed
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -67194,7 +67194,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1606495675
@@ -67770,7 +67770,260 @@ MonoBehaviour:
     RawGuidValue: 21b714a97843c4f42b5bd1df6de0dc6e
   PetPrefabHolder: {fileID: 11400000, guid: 389266f003d81b448810020effc29434, type: 2}
   petdataref: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
-  namesJson: {fileID: 11400000, guid: b04c93e61d10b6d4ab6218a9a8a33d4f, type: 2}
+  AINames:
+    Names:
+    - Bolt
+    - Whisker
+    - Zoom
+    - Swift
+    - Racer
+    - Dash
+    - Speedy
+    - Turbo
+    - Fleet
+    - Blitz
+    - Lightning
+    - Sonic
+    - Quick
+    - Flash
+    - Rapid
+    - Claws
+    - Paws
+    - Tail
+    - Fur
+    - Rex
+    - Pup
+    - Whiskers
+    - Runner
+    - Cheeta
+    - Luna
+    - Comet
+    - Nova
+    - Storm
+    - Jet
+    - Echo
+    - Shadow
+    - Zephyr
+    - Rocket
+    - Blaze
+    - Vortex
+    - Dash
+    - Arrow
+    - Dynamo
+    - Spark
+    - Tornado
+    - Breeze
+    - Bullet
+    - Flare
+    - Glide
+    - Mist
+    - Glimmer
+    - Sprint
+    - Zoomer
+    - Tracker
+    - Dasher
+    - Swiftie
+    - Speedster
+    - Pouncer
+    - Quicksilver
+    - Fleetfoot
+    - Velocity
+    - Snapper
+    - Zippy
+    - Bouncer
+    - Rapid
+    - Blink
+    - Quickstep
+    - Zipper
+    - Scooter
+    - Skipper
+    - Hopper
+    - Pouncer
+    - Zigzag
+    - Charger
+    - Racer
+    - Jumper
+    - Slider
+    - Zap
+    - Zing
+    - Dart
+    - Peppy
+    - Lively
+    - Zest
+    - Sizzle
+    - Gallop
+    - Leap
+    - Whiz
+    - Flash
+    - Skip
+    - Skitter
+    - Scurry
+    - Chase
+    - Burst
+    - Wiggle
+    - Strider
+    - Zoomy
+    - Spur
+    - Dizzy
+    - Gusto
+    - Nimble
+    - Blip
+    - Pelt
+    - Dashy
+    - Flicker
+    - Swiftly
+    - Zap
+    - Flick
+    - Vroom
+    - Swish
+    - Sprint
+    - Rush
+    - Bluster
+    - Bolt
+    - Scoot
+    - Flit
+    - Flick
+    - Scamper
+    - Zest
+    - Bustle
+    - Swoosh
+    - Wriggle
+    - Whirl
+    - Swoop
+    - Hustle
+    - Wiggle
+    - Frolic
+    - Jiggle
+    - Frenzy
+    - Jolt
+    - Dodge
+    - Wheeze
+    - Cruise
+    - Twist
+    - Whirl
+    - Swoosh
+    - Bounce
+    - Spin
+    - Breezy
+    - Buzzy
+    - Flutter
+    - Hurry
+    - Twirl
+    - Ripple
+    - Speedy
+    - Fly
+    - Blow
+    - Skim
+    - Race
+    - Roam
+    - Lope
+    - Blink
+    - Roll
+    - Zoom
+    - Dart
+    - Skid
+    - Float
+    - Brisk
+    - Rise
+    - Jump
+    - Glide
+    - Gallo
+    - Slip
+    - Shimmy
+    - Sway
+    - Shake
+    - Wobble
+    - Swerve
+    - Glide
+    - Zoom
+    - Rise
+    - Rush
+    - Wander
+    - Slide
+    - Bounce
+    - Streak
+    - Buzz
+    - Dive
+    - Hurdle
+    - Glide
+    - Shift
+    - Surge
+    - Weave
+    - Pace
+    - Dash
+    - Sprint
+    - Stride
+    - Pulse
+    - Blast
+    - Hustle
+    - Trot
+    - Gust
+    - Wobble
+    - Flit
+    - Flutter
+    - Bolt
+    - Bounce
+    - Jog
+    - Burst
+    - Glide
+    - Dash
+    - Roar
+    - Stride
+    - Dance
+    - Flick
+    - Leap
+    - Speed
+    - Rise
+    - Glide
+    - Hurdle
+    - Hustle
+    - Pace
+    - Sprint
+    - Trot
+    - Twist
+    - Wiggle
+    - Zip
+    - Zigzag
+    - Skate
+    - Rush
+    - Hoop
+    - Drift
+    - Whirl
+    - Race
+    - Burst
+    - Flash
+    - Jump
+    - Bolt
+    - Sprint
+    - Hustle
+    - Roar
+    - Leap
+    - Speed
+    - Jog
+    - Rush
+    - Hoop
+    - Drift
+    - Whirl
+    - Race
+    - Burst
+    - Flash
+    - Jump
+    - Bolt
+    - Sprint
+    - Hustle
+    - Roar
+    - Leap
+    - Speed
+    - Jog
+    - Rush
+    - Hoop
+    - Drift
+    - Whirl
+    - Race
+    - Burst
+    - Flash
+    - Jump
+  usedNames: 
   PrefabID: 3
   CurrntWinCount: 0
   Min: 50
@@ -80444,7 +80697,7 @@ MonoBehaviour:
   m_text: Leave
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -80507,7 +80760,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1886053859

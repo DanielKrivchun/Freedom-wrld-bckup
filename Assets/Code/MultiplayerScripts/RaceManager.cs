@@ -41,7 +41,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     [Space]
     public PetDataRef petdataref;
     [Space]
-    public NamesJson namesJson;
+    public _FakeUsers AINames;
+    public List<int> usedNames;
+    //[Space]
+    //public NamesJson namesJson;
     [Space]
     public string PrefabID;
     [Space]
@@ -129,7 +132,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 #endif
         PrefabID = petdataref.petData.petPrefabID.ToString();
 
-        namesJson.usedNames.Clear();
+        usedNames.Clear();
         NetworkEventManager.e_countdown_start += _OnCounddownStart;
     }
 
@@ -151,7 +154,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         ResetAgrreePlayers = 0;
         MyWinNumber = 0;
-
+        usedNames.Clear();
         CompletePlayerCount = 0;
         CurrntWinCount = 0;
         _ClearUnwantedPlayers();
@@ -189,6 +192,34 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    #endregion
+
+    #region AI PLAYER NAMES
+    public async void _SetMyData()
+    {
+        TextAsset s = Resources.Load("Names") as TextAsset;
+        AINames = JsonUtility.FromJson<_FakeUsers>(s.ToString());
+        await Utils._Waiter(500);
+    }
+
+    public string _GetNames()
+    {
+        int a = _GetRandomNumber();
+
+        Debug.Log("Random Number " + a);
+        if (usedNames.Contains(a))
+        {
+            a = _GetRandomNumber();
+        }
+
+        return AINames.Names[a];
+    }
+
+    private int _GetRandomNumber()
+    {
+        Debug.Log("Name list count " + AINames.Names.Count);
+        return UnityEngine.Random.Range(0, AINames.Names.Count);
+    }
     #endregion
 
     #region AFK KICKING FIXED UPDATE
