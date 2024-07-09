@@ -50965,7 +50965,12 @@ PrefabInstance:
     - target: {fileID: 6098997961078397388, guid: 2b95f06b9759a014db840cb89f599592,
         type: 3}
       propertyPath: m_LODs.Array.data[1].screenRelativeHeight
-      value: 0.14793076
+      value: 0.46339753
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098997961078397388, guid: 2b95f06b9759a014db840cb89f599592,
+        type: 3}
+      propertyPath: m_LODs.Array.data[2].screenRelativeHeight
+      value: 0.34568912
       objectReference: {fileID: 0}
     - target: {fileID: 8194535984065997477, guid: 2b95f06b9759a014db840cb89f599592,
         type: 3}
@@ -67489,7 +67494,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!154 &1613148700
 TerrainCollider:
   m_ObjectHideFlags: 0
