@@ -390,12 +390,13 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             GameMode = mode,
             //CustomLobbyName = "MyLobby",
             PlayerCount = 5,
+            IsVisible = true,
             Scene = scene,
             SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>(),
             SessionProperties = customProps,
             CustomPhotonAppSettings = appSettings
-
         });
+
 
     }
 
@@ -473,7 +474,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         else
         {
 
-            RPC_PlayerFInishedRace();
+            RPC_PlayerFinishedRace();
         }
     }
 
@@ -580,6 +581,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     #region ON RACE STARTS
     public void _StartGameForPlayers()
     {
+        networkRunnerInstance.SessionInfo.IsVisible = false;
         NetworkEventManager._EventStartGame();
         NetworkEventManager._EventCameraChange(_CamState.Follow);
         InputValue.m_enable_navmesh = true;
@@ -901,7 +903,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_PlayerFInishedRace()
+    public void RPC_PlayerFinishedRace()
     {
         List<string> _ss = new List<string>();
 
@@ -914,13 +916,11 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                     if (item.player.MyWiningNumber == 0)
                     {
                         _ss.Add("");
-                        break;
                     }
 
                     if (i == item.player.MyWiningNumber)
                     {
                         _ss.Add(item.player.MyName);
-                        break;
                     }
                 }
                 else
@@ -928,12 +928,11 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                     if (item.aiplayer.MyWiningNumber == 0)
                     {
                         _ss.Add("");
-                        break;
+
                     }
                     if (i == item.aiplayer.MyWiningNumber)
                     {
                         _ss.Add(item.aiplayer.MyName);
-                        break;
                     }
                 }
             }

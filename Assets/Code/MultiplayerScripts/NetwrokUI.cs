@@ -150,6 +150,8 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(Yes.transform);
         await Utils._Waiter(200);
         button_waiter = false;
+        LoadingPanel.SetActive(true);
+        _WaitAndDisableLoadingPanel();
         _DisableReplay();
         RPC_YesToReplay(RaceManagerRef.LocalPlayerNickname, RaceManagerRef.LocalnetworkID);
     }
@@ -178,11 +180,19 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(ReplayButton.transform);
         await Utils._Waiter(200);
         button_waiter = false;
-
+        LoadingPanel.SetActive(true);
+        _WaitAndDisableLoadingPanel();
         _DisableReplay();
         requestedReplay = true;
         RPC_ReplayNotificationSend(RaceManagerRef.LocalPlayerNickname, RaceManagerRef.LocalnetworkID);
         NetworkEventManager._EventCameraChange(_CamState.InitialCam);
+    }
+
+
+    private async void _WaitAndDisableLoadingPanel()
+    {
+        await Utils._Waiter(500);
+        LoadingPanel.SetActive(false);
     }
 
     private async void _PlayerLeft(string _s)
@@ -259,8 +269,6 @@ public class NetwrokUI : NetworkBehaviour
     #region ON GAME WIN CODE BLOCK
     public void _SetupList(List<string> _s)
     {
-        Debug.Log(_s);
-
         foreach (var item in _s)
         {
             Debug.Log(item);

@@ -15021,6 +15021,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanonBase
       objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16797,6 +16802,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CanonBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28535,6 +28545,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanonBase
       objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29624,6 +29639,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CanonBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -45288,6 +45308,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanonBase
       objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -52297,6 +52322,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CanonBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -61500,6 +61530,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CanonBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -73071,6 +73106,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanonBase
       objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -78180,6 +78220,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanonBase
       objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -82376,6 +82421,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanonBase
       objectReference: {fileID: 0}
+    - target: {fileID: 2053595973439152274, guid: 70e15a662c463fc4e849e82b859ab2eb,
+        type: 3}
+      propertyPath: stopAction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -86562,7 +86612,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2106912559
 Transform:
   m_ObjectHideFlags: 0
