@@ -902,7 +902,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         _PlayerLeftDetails(_name);
     }
 
-    [Rpc(RpcSources.All, RpcTargets.All)]
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_PlayerFinishedRace()
     {
         List<string> _ss = new List<string>();
