@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 239572669}
   m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -17866,19 +17866,7 @@ MonoBehaviour:
   WinCamera: {fileID: 925941005}
   StartPoint: {fileID: 1128569671}
   EndPoint: {fileID: 1727156980}
-  CamConfigs:
-  - Target: {fileID: 0}
-    BodyType: 
-    Offset: {x: 0, y: 0}
-    AimType: 
-  - Target: {fileID: 0}
-    BodyType: 
-    Offset: {x: 0, y: 0}
-    AimType: 
-  - Target: {fileID: 0}
-    BodyType: 
-    Offset: {x: 0, y: 0}
-    AimType: 
+  CamConfigs: []
   Confetti: {fileID: 1033826462}
   CurruntCam: {fileID: 770873910}
 --- !u!1 &298210138
@@ -47251,7 +47239,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904485830}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -48482,7 +48470,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946742732}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -50968,6 +50956,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098997961078397388, guid: 2b95f06b9759a014db840cb89f599592,
+        type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.5251357
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098997961078397388, guid: 2b95f06b9759a014db840cb89f599592,
+        type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.14793076
       objectReference: {fileID: 0}
     - target: {fileID: 8194535984065997477, guid: 2b95f06b9759a014db840cb89f599592,
         type: 3}
@@ -65794,7 +65792,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1578876854}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 0
@@ -67511,7 +67509,7 @@ TerrainCollider:
   m_Enabled: 0
   serializedVersion: 2
   m_TerrainData: {fileID: 15600000, guid: 2b4d53552f52579438b4035e190751ce, type: 2}
-  m_EnableTreeColliders: 1
+  m_EnableTreeColliders: 0
 --- !u!218 &1613148701
 Terrain:
   m_ObjectHideFlags: 0
@@ -69931,7 +69929,7 @@ TerrainCollider:
   m_Enabled: 0
   serializedVersion: 2
   m_TerrainData: {fileID: 15600000, guid: 08172c51f28788e49980f8cbfa06216c, type: 2}
-  m_EnableTreeColliders: 1
+  m_EnableTreeColliders: 0
 --- !u!218 &1692289109
 Terrain:
   m_ObjectHideFlags: 0
@@ -69939,7 +69937,7 @@ Terrain:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692289106}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: 08172c51f28788e49980f8cbfa06216c, type: 2}
   m_TreeDistance: 5000

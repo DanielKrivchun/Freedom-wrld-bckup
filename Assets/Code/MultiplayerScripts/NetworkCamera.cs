@@ -91,6 +91,7 @@ public class NetworkCamera : MonoBehaviour
                 CurruntCam = _GetCam("startracecam");
                 CurruntCam.SetActive(true);
                 NetworkEventManager._EventTextLookat(CurruntCam.transform);
+                _WaitAndDisbaleCam(_GetCam("startcam"));
                 break;
 
             case _CamState.Follow:
@@ -100,6 +101,13 @@ public class NetworkCamera : MonoBehaviour
                 break;
         }
     }
+
+    async void _WaitAndDisbaleCam(GameObject _obj)
+    {
+        await Utils._Waiter(500);
+        _obj.SetActive(false);
+    }
+
 
     GameObject _GetCam(string _camname)
     {

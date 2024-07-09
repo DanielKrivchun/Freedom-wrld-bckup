@@ -124,7 +124,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void Start()
     {
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
         PrefabID = petdataref.petData.petPrefabID.ToString();
 
         namesJson.usedNames.Clear();
