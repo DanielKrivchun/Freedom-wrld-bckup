@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1353617140858656491}
   - component: {fileID: 7364108114158579070}
   - component: {fileID: 7333400080339603396}
-  - component: {fileID: 2676454668902797261}
   m_Layer: 0
   m_Name: PineTree01_LOD0
   m_TagString: Untagged
@@ -85,29 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &2676454668902797261
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6344693859414415791}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.13440186
-  m_Height: 6.273711
-  m_Direction: 1
-  m_Center: {x: 0.053427726, y: 3.0058675, z: -0.02598551}
 --- !u!1 &6639836336208844693
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,11 +132,11 @@ LODGroup:
   m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.121775754
+  - screenRelativeHeight: 0.5953272
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7333400080339603396}
-  - screenRelativeHeight: 0.01
+  - screenRelativeHeight: 0.2834445
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7771221059409610328}

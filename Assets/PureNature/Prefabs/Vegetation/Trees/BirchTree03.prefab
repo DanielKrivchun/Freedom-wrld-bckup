@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4911938893134042969}
   - component: {fileID: 1972273009439012011}
   - component: {fileID: 6247184148201726330}
-  - component: {fileID: 1429302479054152287}
   m_Layer: 0
   m_Name: BirchTree03_LOD0
   m_TagString: Untagged
@@ -85,29 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &1429302479054152287
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2313197425492175299}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.13281299
-  m_Height: 4.470183
-  m_Direction: 1
-  m_Center: {x: -0.015040502, y: 2.101794, z: -0.020222664}
 --- !u!1 &7678580636575697617
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,11 +132,11 @@ LODGroup:
   m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.10095692
+  - screenRelativeHeight: 0.4989817
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6247184148201726330}
-  - screenRelativeHeight: 0.01
+  - screenRelativeHeight: 0.18605131
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3170904585748485405}
