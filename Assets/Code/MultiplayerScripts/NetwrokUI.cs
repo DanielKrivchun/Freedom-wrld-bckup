@@ -98,6 +98,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_updated_my_no += _UpdatedRank;
         NetworkEventManager.e_network_errors += _NetworkError;
         NetworkEventManager.e_host_migration_done += _HostMigrated;
+        NetworkEventManager.e_game_complete += _GameIsComplete;
 
         //BUTTON LISTENERS
         JoinRoomButton.onClick.AddListener(_JoinRoom);
@@ -125,6 +126,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_updated_my_no -= _UpdatedRank;
         NetworkEventManager.e_network_errors -= _NetworkError;
         NetworkEventManager.e_host_migration_done -= _HostMigrated;
+        NetworkEventManager.e_game_complete -= _GameIsComplete;
 
 
         LeaveButtonWinUI.onClick.RemoveListener(_OnLeaveButton);
@@ -140,6 +142,15 @@ public class NetwrokUI : NetworkBehaviour
         StartGameButton.onClick.RemoveListener(_StartRace);
         AIPlayerButton.onClick.RemoveListener(_GenrateAIPlayer);
         HomeButton.onClick.RemoveListener(_GoingHome);
+    }
+
+    private void _GameIsComplete()
+    {
+        if (RaceManager.instance.TotalRealPlayers >= 2)
+        {
+            ReplayButton.gameObject.SetActive(true);
+        }
+
     }
 
     private void _HostMigrated()
@@ -216,6 +227,13 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(ReplayButton.transform);
         await Utils._Waiter(200);
         button_waiter = false;
+
+        if (RaceManager.instance.TotalRealPlayers <= 1)
+        {
+            NetworkEventManager._EventNetworkErrors(_Strings.Error);
+            return;
+        }
+
         LoadingPanel.SetActive(true);
         _WaitAndDisableLoadingPanel();
         _DisableReplay();
@@ -319,6 +337,12 @@ public class NetwrokUI : NetworkBehaviour
         }
 
         //wincontent.gameObject.SetActive(true);
+    }
+
+
+    public void _SetMyNameOnPodium(int _no, string _name)
+    {
+        WinnerNames[_no].text = _name;
     }
 
 

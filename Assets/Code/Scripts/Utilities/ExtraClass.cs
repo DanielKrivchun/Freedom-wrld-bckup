@@ -64,11 +64,13 @@ public class _Strings
     public static string PetCareScene = "PetCareScene";
 
 
-    public static string InternetError = "InternetError";
-    public  const string InternetErrorSolved = "InternetErrorSolved";
+    public static string InternetError = "Connection Error";
+    //public const string InternetErrorSolved = "InternetErrorSolved";
+    public const string Error = "Connection Error";
 
 
 }
+
 
 public struct _Tags
 {

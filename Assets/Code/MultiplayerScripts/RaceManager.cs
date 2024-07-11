@@ -492,13 +492,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             }
             _ResetDataOnComplete();
             NetworkEventManager._EventDisableNameTags();
-        }
-        else
-        {
-
-            RPC_PlayerFinishedRace();
+            NetworkEventManager._EventGameComplete();
         }
     }
+
 
 
 
@@ -1019,48 +1016,48 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         _PlayerLeftDetails(_name);
     }
 
-    [Rpc(RpcSources.All, RpcTargets.InputAuthority)]
-    public void RPC_PlayerFinishedRace()
-    {
-        List<string> _ss = new List<string>();
+    //[Rpc(RpcSources.All, RpcTargets.InputAuthority)]
+    //public void RPC_PlayerFinishedRace()
+    //{
+    //    List<string> _ss = new List<string>();
 
-        for (int i = 1; i < TotalNumberOfPlayers + 1; i++)
-        {
-            foreach (var item in TotalPlayers)
-            {
-                if (!item.AI)
-                {
-                    if (item.player.MyWiningNumber == 0)
-                    {
-                        _ss.Add("");
-                        break;
-                    }
+    //    for (int i = 1; i < TotalNumberOfPlayers + 1; i++)
+    //    {
+    //        foreach (var item in TotalPlayers)
+    //        {
+    //            if (!item.AI)
+    //            {
+    //                if (item.player.MyWiningNumber == 0)
+    //                {
+    //                    _ss.Add("");
+    //                    break;
+    //                }
 
-                    if (i == item.player.MyWiningNumber)
-                    {
-                        _ss.Add(item.player.MyName);
-                        break;
-                    }
-                }
-                else
-                {
-                    if (item.aiplayer.MyWiningNumber == 0)
-                    {
-                        _ss.Add("");
-                        break;
+    //                if (i == item.player.MyWiningNumber)
+    //                {
+    //                    _ss.Add(item.player.MyName);
+    //                    break;
+    //                }
+    //            }
+    //            else
+    //            {
+    //                if (item.aiplayer.MyWiningNumber == 0)
+    //                {
+    //                    _ss.Add("");
+    //                    break;
 
-                    }
-                    if (i == item.aiplayer.MyWiningNumber)
-                    {
-                        _ss.Add(item.aiplayer.MyName);
-                        break;
-                    }
-                }
-            }
-        }
+    //                }
+    //                if (i == item.aiplayer.MyWiningNumber)
+    //                {
+    //                    _ss.Add(item.aiplayer.MyName);
+    //                    break;
+    //                }
+    //            }
+    //        }
+    //    }
 
-        NetwrokUI.Instance._SetupList(_ss);
-    }
+    //    NetwrokUI.Instance._SetupList(_ss);
+    //}
 
     void _PlayerLeftDetails(string s)
     {
