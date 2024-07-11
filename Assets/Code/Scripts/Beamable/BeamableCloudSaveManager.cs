@@ -48,10 +48,8 @@ namespace Beamable.CloudSavingService
 
         [Header("Pet Care Data Reference")]
         public PetDataRef petDataRef;
-
         [Space]
         public SimpleGameEvent loadGameData;
-
         [Space]
         public SimpleGameEvent petCreationEvent;
 
@@ -108,6 +106,8 @@ namespace Beamable.CloudSavingService
             _beamContext = BeamContext.Default;
             await _beamContext.OnReady;
 
+            await _beamContext.Api.CloudSavingService.Init();
+
             Debug.Log($"_beamContext.PlayerId = {_beamContext.PlayerId}");
 
             _cloudSavingService = _beamContext.Api.CloudSavingService;
@@ -132,13 +132,13 @@ namespace Beamable.CloudSavingService
                 throw new Exception("Cannot call Init() when " + $"isInitializing = {_cloudSavingService.isInitializing}");
             }
 
-            if(LoadData() != null)
+            if (LoadData() != null)
             {
                 Debug.Log("Data not null!");
                 petDataRef.petData = LoadData();
                 Refresh();
 
-               loadGameData.Raise();
+                loadGameData.Raise();
             }
             else
             {
@@ -167,11 +167,11 @@ namespace Beamable.CloudSavingService
                                         1, 0, 100);
 
             // Create leaderboard entry
-            await _LeaderboardServiceClient.CreateEntry(
-                playerId,
-                petDataRef.petData.petname,
-                petDataRef.petData.rank,
-                (int)Math.Round(petDataRef.petData.xp));
+            //await _LeaderboardServiceClient.CreateEntry(
+            //    playerId,
+            //    petDataRef.petData.petname,
+            //    petDataRef.petData.rank,
+            //    (int)Math.Round(petDataRef.petData.xp));
 
             beamableCloudSavingData.petDataLocal = petDataRef.petData;
             SaveData(beamableCloudSavingData.petDataLocal);

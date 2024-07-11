@@ -787,6 +787,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
+
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
