@@ -65,6 +65,7 @@ public class _Strings
 
 
     public static string InternetError = "InternetError";
+    public  const string InternetErrorSolved = "InternetErrorSolved";
 
 
 }

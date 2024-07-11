@@ -810,9 +810,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public async void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
         Debug.Log("OnHostMigration");
-
         await runner.Shutdown(shutdownReason: ShutdownReason.HostMigration);
-
         FindObjectOfType<RaceManager>()._StartHostMigration(hostMigrationToken);
 
     }
@@ -821,6 +819,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         networkRunnerInstance = Instantiate(NetworkRunnerPrefab);
         networkRunnerInstance.name = "Migrated Ruunner";
+        //networkRunnerInstance.AddCallbacks(this);
         Debug.Log("Host migration started");
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
 
@@ -850,14 +849,16 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             if (resumeobject.TryGetBehaviour<NavmeshMultiplayer>(out var player))
             {
-                runner.Spawn(resumeobject, position: player.transform.position, rotation: player.transform.rotation, onBeforeSpawned: (runner, newtnetworkobject) =>
+                runner.Spawn(resumeobject, position: player.MyPos, rotation: player.transform.rotation, onBeforeSpawned: (runner, newtnetworkobject) =>
                 {
+                    Debug.Log("Worked");
                     newtnetworkobject.CopyStateFrom(resumeobject);
                 });
             }
         }
 
         Debug.Log("_HostmigrationResume Completed");
+        NetworkEventManager._EventNetworkErrors(_Strings.InternetErrorSolved);
     }
 
 

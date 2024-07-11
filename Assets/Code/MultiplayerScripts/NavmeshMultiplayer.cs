@@ -75,6 +75,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked] public int MyPathNumber { get; set; }
     [Networked] public string MyPrefabID { get; set; }
 
+    [Networked] public Vector3 MyPos { get; set; }
 
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
@@ -574,7 +575,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                 {
                     if (inteligencecheck && !CheckStumbleNow)
                     {
-                        Debug.Log("inteligencecheck");
+                        //Debug.Log("inteligencecheck");
                         MyNetworkSpeed = 0f;
                         Stumbled = true;
                         CheckStumbleNow = true;
@@ -583,7 +584,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     else if (!Stumbled && !CheckStumbleNow)
                     {
                         RandomNumber = Random.Range(0f, 1f);
-                        Debug.Log(RandomNumber + " luck max " + LuckMax);
+                        //Debug.Log(RandomNumber + " luck max " + LuckMax);
                         if (RandomNumber <= LuckMax)
                         {
                             MyNetworkSpeed = 0f;
@@ -623,6 +624,8 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         MyDistanceOnPath = RaceManagerRef._FindMyDistance(transform.position);
         RaceManagerRef.RankBasedPlayers[MyPathNumber].MyDistance = MyDistanceOnPath;
         _CalculateDistance();
+
+        MyPos = transform.position;
         if (Distance < 4f)
         {
             _ChangeCurruntPoint();
@@ -746,7 +749,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     IEnumerator _WaitAndStopLuckChance()
     {
-        Debug.Log("_WaitAndStopLuckChance");
+        //Debug.Log("_WaitAndStopLuckChance");
         _ChangeAnimationHere(_AnimState.Stumble);
         yield return new WaitForSecondsRealtime(2);
         Stumbled = false;
