@@ -98,7 +98,7 @@ public class UiManager : MonoBehaviour
         FillAmount = 1f;
         Filler.fillAmount = FillAmount;
         TapButton.gameObject.SetActive(true);
-        Debug.Log("_ConfigUodated");
+        //Debug.Log("_ConfigUodated");
     }
 
     private void _StartStaminaBar()

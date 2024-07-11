@@ -182,7 +182,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
             //RPC FOR SENDING CONFIGS
             string s = JsonUtility.ToJson(RaceManager.instance._GetMyCOnfigs());
-            Debug.Log(s + "    " + MyName);
+            //Debug.Log(s + "    " + MyName);
             RPC_GetMyConfigs(s);
             _SetName(playerName.ToString());
             gameObject.name = MyName.ToString();
@@ -269,7 +269,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         InteligenceMax = 0.6f * Inteligence;
 
 
-        Debug.Log(Luck);
+        //Debug.Log(Luck);
         Debug.Log(Inteligence);
 
         NetworkEventManager._EventConfigUpdated();
@@ -722,7 +722,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     private void RPC_GetMyConfigs(string _json)
     {
-        Debug.Log("I am sending RPC");
+        //Debug.Log("I am sending RPC");
         _OnReciveConfigs(_json);
     }
     [Rpc(sources: RpcSources.All, RpcTargets.All)]

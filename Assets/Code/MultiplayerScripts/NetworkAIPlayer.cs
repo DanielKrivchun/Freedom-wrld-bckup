@@ -6,8 +6,6 @@ using UnityEngine;
 using static Unity.Collections.Unicode;
 using UnityEngine.AI;
 using DG.Tweening.Core.Easing;
-using static Beamable.Common.Constants.Features;
-using static UnityEditor.PlayerSettings;
 
 public class NetworkAIPlayer : NetworkBehaviour
 {
