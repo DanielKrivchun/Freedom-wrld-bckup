@@ -240,8 +240,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             hours = Mathf.FloorToInt(TotalSeconds / 3600);
             minutes = Mathf.FloorToInt(TotalSeconds / 60);
             seconds = Mathf.FloorToInt(TotalSeconds % 60);
-            TimeLeft = "Game Will Start In:<b>" + string.Format("{0:00}:{1:00}", minutes, seconds) + "</b>";
-
+            TimeLeft = string.Format("{0:00}:{1:00}", minutes, seconds);
 
             if (seconds < 10f && !aigenration)
             {
@@ -304,7 +303,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public const string MAP_PROP_KEY = "C1";
     private void _OnTimerChanged()
     {
-        gamestarttimer.text = TimeLeft;
+        gamestarttimer.text = "Game will start in..." + TimeLeft;
     }
 
     public void _SelectRegion(int typedText)
