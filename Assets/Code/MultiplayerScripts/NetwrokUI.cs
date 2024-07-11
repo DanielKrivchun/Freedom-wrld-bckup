@@ -152,17 +152,17 @@ public class NetwrokUI : NetworkBehaviour
 
     private void _NetworkError(string _s)
     {
+        ErrorPopup.transform.localScale = Vector3.zero;
+        ErrorUI.SetActive(true);
+        ErrorText.text = _s;
+        ErrorPopup.transform.DOScale(1f, 0.5f);
+
         switch (_s)
         {
             case _Strings.InternetErrorSolved:
                 ErrorUI.SetActive(false);
                 return;
         }
-
-        ErrorPopup.transform.localScale = Vector3.zero;
-        ErrorUI.SetActive(true);
-        ErrorText.text = _s;
-        ErrorPopup.transform.DOScale(1f, 0.5f);
     }
 
     private void _ResetOnStart()

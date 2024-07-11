@@ -855,6 +855,15 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                     newtnetworkobject.CopyStateFrom(resumeobject);
                 });
             }
+
+            if (resumeobject.TryGetBehaviour<NetworkAIPlayer>(out var netorkai))
+            {
+                runner.Spawn(resumeobject, position: netorkai.transform.position, rotation: netorkai.transform.rotation, onBeforeSpawned: (runner, newtnetworkobject) =>
+                {
+                    Debug.Log("Worked");
+                    newtnetworkobject.CopyStateFrom(resumeobject);
+                });
+            }
         }
 
         Debug.Log("_HostmigrationResume Completed");

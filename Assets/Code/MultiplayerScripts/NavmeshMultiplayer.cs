@@ -594,7 +594,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                         }
                         else
                         {
-                            Debug.Log("luckchance Zero");
+                            //Debug.Log("luckchance Zero");
                             luckchance = 0f;
                         }
                     }
@@ -605,7 +605,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     }
                     else
                     {
-                        Debug.Log("luckchance Zero");
+                        //Debug.Log("luckchance Zero");
                         luckchance = 0f;
                     }
                 }
@@ -710,7 +710,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         _OnRecivedRPC();
     }
 
-    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, RpcTargets.All)]
     private void RPC_GetMyConfigs(string _json)
     {
         Debug.Log("I am sending RPC");
