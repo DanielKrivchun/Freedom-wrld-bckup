@@ -822,24 +822,40 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         Debug.Log("Host migration started");
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
 
-        var clienttask = _InitilizeNetworkRunner(networkRunnerInstance, GameMode.AutoHostOrClient, NetAddress.Any(), scene, null);
+        var clienttask = _InitilizeNetworkRunnerHostMigration(networkRunnerInstance, hostMigrationToken);
     }
 
 
-    protected virtual Task _InitilizeNetworkRunner(NetworkRunner runner, GameMode mode, NetAddress address, SceneRef scene, Action<NetworkRunner> initilized)
+    protected virtual Task _InitilizeNetworkRunnerHostMigration(NetworkRunner runner, HostMigrationToken hostmigretiontoken)
     {
         runner.ProvideInput = true;
 
         return networkRunnerInstance.StartGame(new StartGameArgs
         {
-            GameMode = mode,
-            Address = address,
-            IsVisible = false,
-            Scene = scene,
             SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>(),
-
+            HostMigrationToken = hostmigretiontoken,
+            HostMigrationResume = _HostmigrationResume
         });
 
+    }
+
+    void _HostmigrationResume(NetworkRunner runner)
+    {
+        Debug.Log("_HostmigrationResume Started");
+
+
+        foreach (var resumeobject in runner.GetResumeSnapshotNetworkObjects())
+        {
+            if (resumeobject.TryGetBehaviour<NavmeshMultiplayer>(out var player))
+            {
+                runner.Spawn(resumeobject, position: player.transform.position, rotation: player.transform.rotation, onBeforeSpawned: (runner, newtnetworkobject) => 
+                {
+                    newtnetworkobject.CopyStateFrom(resumeobject);
+                });
+            }
+        }
+
+        Debug.Log("_HostmigrationResume Completed");
     }
 
 
