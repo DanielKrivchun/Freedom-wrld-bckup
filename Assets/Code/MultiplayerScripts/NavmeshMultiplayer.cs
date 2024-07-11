@@ -347,7 +347,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     {
                         _ColidedWIthJack(2);
                     }
-
                     break;
             }
         }
