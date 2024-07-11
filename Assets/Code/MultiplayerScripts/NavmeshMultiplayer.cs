@@ -443,6 +443,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             Debug.Log("Chaning animation for all other " + MyName);
             _ChangeAnimationHere(_AnimState.Jump);
         }
+        NetwrokUI.Instance._SetMyNameOnPodium(MyWiningNumber, MyName);
         RaceManagerRef._CheckAllPlayerCompleted();
     }
     #endregion
