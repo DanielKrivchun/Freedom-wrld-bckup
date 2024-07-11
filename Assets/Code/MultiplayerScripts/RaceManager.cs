@@ -772,6 +772,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
         Debug.Log("OnShutdown");
+        NetworkEventManager._EventNetworkErrors(_Strings.InternetError);
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
@@ -848,7 +849,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             if (resumeobject.TryGetBehaviour<NavmeshMultiplayer>(out var player))
             {
-                runner.Spawn(resumeobject, position: player.transform.position, rotation: player.transform.rotation, onBeforeSpawned: (runner, newtnetworkobject) => 
+                runner.Spawn(resumeobject, position: player.transform.position, rotation: player.transform.rotation, onBeforeSpawned: (runner, newtnetworkobject) =>
                 {
                     newtnetworkobject.CopyStateFrom(resumeobject);
                 });

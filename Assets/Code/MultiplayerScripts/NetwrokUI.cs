@@ -28,6 +28,12 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject ReplayCanvas;
     public RectTransform ReplayPopup;
     public TextMeshProUGUI ReplayText;
+    [Header("Internet Connection")]
+    public GameObject ErrorUI;
+    public RectTransform ErrorPopup;
+    public TextMeshProUGUI ErrorText;
+    [Space]
+    public Button HomeButton;
     [Space]
     [Header("In-Game Text")]
     public TextMeshProUGUI countdownText;
@@ -90,6 +96,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_get_set_go += _ResetOnStart;
         NetworkEventManager.e_player_left += _PlayerLeft;
         NetworkEventManager.e_updated_my_no += _UpdatedRank;
+        NetworkEventManager.e_network_errors += _NetworkError;
 
         //BUTTON LISTENERS
         JoinRoomButton.onClick.AddListener(_JoinRoom);
@@ -104,6 +111,7 @@ public class NetwrokUI : NetworkBehaviour
         StartGameButton.onClick.AddListener(_StartRace);
         AIPlayerButton.onClick.AddListener(_GenrateAIPlayer);
         TestButton.onClick.AddListener(_TestButton);
+        HomeButton.onClick.AddListener(_GoingHome);
     }
 
 
@@ -114,6 +122,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_player_left -= _PlayerLeft;
         NetworkEventManager.e_get_set_go -= _ResetOnStart;
         NetworkEventManager.e_updated_my_no -= _UpdatedRank;
+        NetworkEventManager.e_network_errors -= _NetworkError;
 
 
         LeaveButtonWinUI.onClick.RemoveListener(_OnLeaveButton);
@@ -128,6 +137,25 @@ public class NetwrokUI : NetworkBehaviour
         No.onClick.RemoveListener(_No);
         StartGameButton.onClick.RemoveListener(_StartRace);
         AIPlayerButton.onClick.RemoveListener(_GenrateAIPlayer);
+        HomeButton.onClick.RemoveListener(_GoingHome);
+    }
+
+    private async void _GoingHome()
+    {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(Yes.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
+        SceneManager.LoadScene(_Strings.PetCareScene);
+    }
+
+    private void _NetworkError(string _s)
+    {
+        ErrorPopup.transform.localScale = Vector3.zero;
+        ErrorUI.SetActive(true);
+        ErrorText.text = _s;
+        ErrorPopup.transform.DOScale(1f, 0.5f);
     }
 
     private void _ResetOnStart()

@@ -63,6 +63,10 @@ public class _Strings
     public static string RaceScene = "RaceScene";
     public static string PetCareScene = "PetCareScene";
 
+
+    public static string InternetError = "InternetError";
+
+
 }
 
 public struct _Tags
