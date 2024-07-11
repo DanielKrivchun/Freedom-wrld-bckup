@@ -13,6 +13,8 @@ using Fusion.Photon.Realtime;
 using UnityEngine.UI;
 using DG.Tweening;
 using Unity.Mathematics;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
 
@@ -769,7 +771,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-
+        Debug.Log("OnShutdown");
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
@@ -779,7 +781,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
-
+        Debug.Log("OnDisconnectedFromServer");
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
@@ -788,6 +790,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
+        Debug.Log("OnConnectFailed");
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
@@ -802,10 +805,43 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
     }
 
-    public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
+    public async void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
+        Debug.Log("OnHostMigration");
+
+        await runner.Shutdown(shutdownReason: ShutdownReason.HostMigration);
+
+        FindObjectOfType<RaceManager>()._StartHostMigration(hostMigrationToken);
 
     }
+
+    private void _StartHostMigration(HostMigrationToken hostMigrationToken)
+    {
+        networkRunnerInstance = Instantiate(NetworkRunnerPrefab);
+        networkRunnerInstance.name = "Migrated Ruunner";
+        Debug.Log("Host migration started");
+        var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
+
+        var clienttask = _InitilizeNetworkRunner(networkRunnerInstance, GameMode.AutoHostOrClient, NetAddress.Any(), scene, null);
+    }
+
+
+    protected virtual Task _InitilizeNetworkRunner(NetworkRunner runner, GameMode mode, NetAddress address, SceneRef scene, Action<NetworkRunner> initilized)
+    {
+        runner.ProvideInput = true;
+
+        return networkRunnerInstance.StartGame(new StartGameArgs
+        {
+            GameMode = mode,
+            Address = address,
+            IsVisible = false,
+            Scene = scene,
+            SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>(),
+
+        });
+
+    }
+
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
     {
