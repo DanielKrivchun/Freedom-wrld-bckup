@@ -121,7 +121,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             m_agent.enabled = false;
         }
         StartCoroutine(_GenrateMyPrefab());
-        Debug.Log(Object.Id);
+        //Debug.Log(Object.Id);
     }
 
     private void OnDestroy()

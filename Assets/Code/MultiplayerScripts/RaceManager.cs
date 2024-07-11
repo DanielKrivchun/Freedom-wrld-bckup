@@ -154,7 +154,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         if (Runner.IsServer)
         {
             int a = UnityEngine.Random.Range(0, 3);
-            Debug.Log("Stumble point  " + a);
+            //Debug.Log("Stumble point  " + a);
             //RPC_SetStumbleObject(a);
             PathNumber = 0;
         }
@@ -245,16 +245,22 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             seconds = Mathf.FloorToInt(TotalSeconds % 60);
             TimeLeft = string.Format("{0:00}:{1:00}", minutes, seconds);
 
-            if (seconds < 10f && !aigenration)
+            if (Runner != null)
             {
-                aigenration = true;
-                StartCoroutine(_GenrateAIPlayerSlowly());
-            }
+                if (minutes <= 0 && Runner.IsServer)
+                {
+                    if (seconds < 10f && !aigenration)
+                    {
+                        aigenration = true;
+                        StartCoroutine(_GenrateAIPlayerSlowly());
+                    }
 
-            if (seconds <= 0 && !startgamenow)
-            {
-                startgamenow = true;
-                NetwrokUI.Instance._StartRace();
+                    if (seconds <= 0 && !startgamenow)
+                    {
+                        startgamenow = true;
+                        NetwrokUI.Instance._StartRace();
+                    }
+                }
             }
         }
     }
@@ -457,7 +463,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     {
         CompletePlayerCount++;
 
-        Debug.Log(CompletePlayerCount + "    " + TotalNumberOfPlayers);
+        //Debug.Log(CompletePlayerCount + "    " + TotalNumberOfPlayers);
 
 
         if (CompletePlayerCount == TotalNumberOfPlayers)

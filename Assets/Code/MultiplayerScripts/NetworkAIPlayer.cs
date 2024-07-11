@@ -240,7 +240,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     private void _OnWInNumberAlocated()
     {
-        Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
+        //Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
         _ChangeAnimationHere(_AnimState.Jump);
         RaceManagerRef._CheckAllPlayerCompleted();
         NetwrokUI.Instance._SetMyNameOnPodium(MyWiningNumber, MyName);
@@ -248,7 +248,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     private IEnumerator SetMyWinPosition()
     {
-        Debug.Log("SetMyWinPosition");
+        //Debug.Log("SetMyWinPosition");
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         yield return new WaitForSecondsRealtime(0.2f);
@@ -530,14 +530,14 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     private void _GenratePetPrefab()
     {
-        Debug.Log("This works on Server  only  " + Runner.IsServer);
+        //Debug.Log("This works on Server  only  " + Runner.IsServer);
         if (GenratedPet == null)
         {
             if (MyPrefabID == "")
             {
                 MyPrefabID = "2";
             }
-            Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
+            //Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
             gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.AnimatorRef;
