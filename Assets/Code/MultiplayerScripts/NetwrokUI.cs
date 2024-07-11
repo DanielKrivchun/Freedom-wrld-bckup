@@ -372,7 +372,7 @@ public class NetwrokUI : NetworkBehaviour
 
     #region START GAME AND COUNTDOWN
 
-    private async void _StartRace()
+    public async void _StartRace()
     {
         if (button_waiter) return;
         button_waiter = true;

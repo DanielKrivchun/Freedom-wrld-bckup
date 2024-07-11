@@ -67,6 +67,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public int AIplayersCount;
     public int CompletePlayerCount;
     public int MyWinNumber;
+
+    private bool XpCalculations;
     public string LocalPlayerNickname { get; private set; }
     public string LocalnetworkID { get; set; }
     [Space]
@@ -81,6 +83,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     private List<_RankPlayers> temp_list;
 
     private bool aigenration;
+    private bool startgamenow;
 
     #endregion
 
@@ -246,6 +249,12 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             {
                 aigenration = true;
                 StartCoroutine(_GenrateAIPlayerSlowly());
+            }
+
+            if (seconds <= 0 && !startgamenow)
+            {
+                startgamenow = true;
+                NetwrokUI.Instance._StartRace();
             }
         }
     }
@@ -450,6 +459,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         Debug.Log(CompletePlayerCount + "    " + TotalNumberOfPlayers);
 
+
         if (CompletePlayerCount == TotalNumberOfPlayers)
         {
             List<string> _ss = new List<string>();
@@ -476,7 +486,10 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             }
 
             NetwrokUI.Instance._SetupList(_ss);
-            _XpIncrimental(MyWinNumber);
+            if (XpCalculations)
+            {
+                _XpIncrimental(MyWinNumber);
+            }
             _ResetDataOnComplete();
             NetworkEventManager._EventDisableNameTags();
         }
@@ -529,6 +542,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         PlayerPrefs.SetInt(_Strings.CoinsToAdd, C);
         PlayerPrefs.SetInt(_Strings.XpToAdd, X);
         PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 1);
+
+
 
         Debug.Log("My XP incrimental is " + X);
         Debug.Log("My Coins incrimental is " + C);
@@ -595,6 +610,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         NetworkEventManager._EventCameraChange(_CamState.Follow);
         InputValue.m_enable_navmesh = true;
         RaceStart = true;
+        if (TotalRealPlayers >= 2)
+        {
+            XpCalculations = true;
+        }
+        else
+        {
+            XpCalculations = false;
+        }
     }
     #endregion
 
