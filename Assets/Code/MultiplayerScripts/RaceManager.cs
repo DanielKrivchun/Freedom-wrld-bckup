@@ -651,7 +651,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             if (TotalNumberOfPlayers >= 5)
             {
                 TotalNumberOfPlayers--;
-                Debug.Log("Players are morethen 5 or 5 ");
+                //Debug.Log("Players are morethen 5 or 5 ");
                 //REMOVE AI PLAYER HERE AND ADD REAL PLAYER
                 int newpathno = _DespwanAIplayer();
                 Vector3 spwanp = spawnPoints[newpathno].transform.position;
@@ -959,8 +959,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void _GenrateAIPlayer()
     {
-        if (TotalNumberOfPlayers == 5) return;
-        Debug.Log("AI player genration "+PathNumber);
+        if (PathNumber == 5) return;
+        Debug.Log("AI player genration " + PathNumber);
         Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
         Debug.Log(spawnPoint);
         NetworkObject playerObject = Runner.Spawn(AIPlayer, spawnPoint, Quaternion.identity);
