@@ -258,7 +258,11 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
                     if (seconds <= 0 && !startgamenow)
                     {
                         startgamenow = true;
-                        NetwrokUI.Instance._StartRace();
+
+                        if (!RaceStart)
+                        {
+                            NetwrokUI.Instance._StartRace();
+                        }
                     }
                 }
             }
