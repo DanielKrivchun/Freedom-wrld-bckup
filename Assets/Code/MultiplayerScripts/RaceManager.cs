@@ -867,7 +867,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
 
         Debug.Log("_HostmigrationResume Completed");
-        NetworkEventManager._EventNetworkErrors(_Strings.InternetErrorSolved);
+        NetworkEventManager._EventHostMigrationDone();
     }
 
 

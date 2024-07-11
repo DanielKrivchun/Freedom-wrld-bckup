@@ -106,6 +106,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
         NetworkEventManager.e_reset_player += _ResetMe;
+        NetworkEventManager.e_host_migration_done += _HostMigrated;
         RaceManagerRef = RaceManager.instance;
         path_point = FindObjectOfType<PathPointManager>();
         SetLocalObjects();
@@ -127,6 +128,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;
         NetworkEventManager.e_reset_player -= _ResetMe;
+        NetworkEventManager.e_host_migration_done -= _HostMigrated;
+    }
+
+    private void _HostMigrated()
+    {
+        string s = JsonUtility.ToJson(RaceManager.instance._GetMyCOnfigs());
+        RPC_GetMyConfigs(s);
     }
 
     private void _OnStopStartPlayer(int _no)
@@ -710,7 +718,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         _OnRecivedRPC();
     }
 
-    [Rpc(sources: RpcSources.All, RpcTargets.All)]
+    [Rpc(sources: RpcSources.InputAuthority, RpcTargets.All)]
     private void RPC_GetMyConfigs(string _json)
     {
         Debug.Log("I am sending RPC");

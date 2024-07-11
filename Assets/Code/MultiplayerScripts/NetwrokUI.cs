@@ -97,6 +97,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_player_left += _PlayerLeft;
         NetworkEventManager.e_updated_my_no += _UpdatedRank;
         NetworkEventManager.e_network_errors += _NetworkError;
+        NetworkEventManager.e_host_migration_done += _HostMigrated;
 
         //BUTTON LISTENERS
         JoinRoomButton.onClick.AddListener(_JoinRoom);
@@ -123,6 +124,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_get_set_go -= _ResetOnStart;
         NetworkEventManager.e_updated_my_no -= _UpdatedRank;
         NetworkEventManager.e_network_errors -= _NetworkError;
+        NetworkEventManager.e_host_migration_done -= _HostMigrated;
 
 
         LeaveButtonWinUI.onClick.RemoveListener(_OnLeaveButton);
@@ -138,6 +140,12 @@ public class NetwrokUI : NetworkBehaviour
         StartGameButton.onClick.RemoveListener(_StartRace);
         AIPlayerButton.onClick.RemoveListener(_GenrateAIPlayer);
         HomeButton.onClick.RemoveListener(_GoingHome);
+    }
+
+    private void _HostMigrated()
+    {
+        Debug.Log("Host is migrated to me ");
+        ErrorUI.SetActive(false);
     }
 
     private async void _GoingHome()
@@ -156,13 +164,6 @@ public class NetwrokUI : NetworkBehaviour
         ErrorUI.SetActive(true);
         ErrorText.text = _s;
         ErrorPopup.transform.DOScale(1f, 0.5f);
-
-        switch (_s)
-        {
-            case _Strings.InternetErrorSolved:
-                ErrorUI.SetActive(false);
-                return;
-        }
     }
 
     private void _ResetOnStart()

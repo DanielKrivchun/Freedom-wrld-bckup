@@ -7,6 +7,7 @@ using static Unity.Collections.Unicode;
 using UnityEngine.AI;
 using DG.Tweening.Core.Easing;
 using static Beamable.Common.Constants.Features;
+using static UnityEditor.PlayerSettings;
 
 public class NetworkAIPlayer : NetworkBehaviour
 {
@@ -62,6 +63,8 @@ public class NetworkAIPlayer : NetworkBehaviour
     [Networked] public string MyName { get; set; }
     [Networked] public int MyPathNumber { get; set; }
     [Networked] public string MyPrefabID { get; set; }
+
+    [Networked] public Vector3 MyPos { get; set; }
 
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
@@ -392,6 +395,9 @@ public class NetworkAIPlayer : NetworkBehaviour
 
         MyDistanceOnPath = RaceManagerRef._FindMyDistance(transform.position);
         RaceManagerRef.RankBasedPlayers[MyPathNumber].MyDistance = MyDistanceOnPath;
+
+        MyPos = transform.position;
+
         //FIND DISTNACE HERE
         _CalculateDistance();
         if (m_distance < 1)
