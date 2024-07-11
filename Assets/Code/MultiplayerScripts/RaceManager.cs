@@ -574,6 +574,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         CompletePlayerCount = 0;
         RaceStart = false;
         CurrntWinCount = 0;
+        AFKCheck = true;
     }
 
     public void _ResetRaceManager()
@@ -617,6 +618,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         NetworkEventManager._EventCameraChange(_CamState.Follow);
         InputValue.m_enable_navmesh = true;
         RaceStart = true;
+        startgamenow = true;
+        aigenration = true;
         if (TotalRealPlayers >= 2)
         {
             XpCalculations = true;
