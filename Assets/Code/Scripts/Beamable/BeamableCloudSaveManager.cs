@@ -45,11 +45,14 @@ namespace Beamable.CloudSavingService
         private Api.CloudSaving.CloudSavingService _cloudSavingService;
         private readonly BeamableCloudSavingData beamableCloudSavingData = new BeamableCloudSavingData();
         private LeaderboardServiceClient _LeaderboardServiceClient = null;
+        private ExtraPlayerDataServiceClient _ExtraPlayerDataServiceClient = null;
 
         [Header("Pet Care Data Reference")]
         public PetDataRef petDataRef;
+
         [Space]
         public SimpleGameEvent loadGameData;
+
         [Space]
         public SimpleGameEvent petCreationEvent;
 
@@ -97,6 +100,7 @@ namespace Beamable.CloudSavingService
             SetupBeamable();
 
             _LeaderboardServiceClient = new LeaderboardServiceClient();
+            _ExtraPlayerDataServiceClient = new ExtraPlayerDataServiceClient();
         }
 
         #region BEAMABLE SETUP
@@ -155,7 +159,7 @@ namespace Beamable.CloudSavingService
         {
             _beamContext = BeamContext.Default;
             await _beamContext.OnReady;
-            string playerId = _beamContext.PlayerId.ToString();
+            long playerId = _beamContext.PlayerId;
             string currentTime;
 
             DateTime serverTimeNow = await getServerTime.GetCurrentTimeTask();
@@ -167,11 +171,11 @@ namespace Beamable.CloudSavingService
                                         1, 0, 100);
 
             // Create leaderboard entry
-            //await _LeaderboardServiceClient.CreateEntry(
-            //    playerId,
-            //    petDataRef.petData.petname,
-            //    petDataRef.petData.rank,
-            //    (int)Math.Round(petDataRef.petData.xp));
+            await _LeaderboardServiceClient.CreateEntry(
+                playerId.ToString(),
+                petDataRef.petData.petname,
+                petDataRef.petData.rank,
+                (int)Math.Round(petDataRef.petData.xp));
 
             beamableCloudSavingData.petDataLocal = petDataRef.petData;
             SaveData(beamableCloudSavingData.petDataLocal);

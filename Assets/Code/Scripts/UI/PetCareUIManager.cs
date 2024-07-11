@@ -6,6 +6,7 @@ using DG.Tweening;
 using Beamable.CloudSavingService;
 using UnityEngine.SceneManagement;
 using Beamable.InventoryService;
+using Beamable.Server.Clients;
 
 public class PetCareUIManager : MonoBehaviour
 {
@@ -137,6 +138,9 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Script Ref")]
     public PetCareStateManager petStateManager;
     public BeamableInventoryManager beamableInventoryManager;
+    public ExtraPlayerDataManager extraPlayerDataManager;
+
+    private ExtraPlayerDataServiceClient _ExtraPlayerDataServiceClient = null;
 
     private int msgIndex;
     private List<string> msgList;
@@ -165,6 +169,8 @@ public class PetCareUIManager : MonoBehaviour
     private void Start()
     {
         msgList = new List<string>();
+
+        _ExtraPlayerDataServiceClient = new ExtraPlayerDataServiceClient();
 
         //If show welcome is true then show UI
         if (PlayerPrefs.GetInt(_Strings.DatFromRaceScene) == 1)
@@ -455,5 +461,18 @@ public class PetCareUIManager : MonoBehaviour
         //Add Coins
         beamableInventoryManager.AddCurrency(_coins_to_add);
     }
+    #endregion
+
+    #region TUTORIAL UI
+
+    public async void PlayTutorial(string tutorial)
+    {
+        //string data = await extraPlayerDataManager.GetValueByKey(tutorial);
+        //string data = await extraPlayerDataManager.ExtraPlayerDataService();
+        Debug.Log($"Data is EQUAL TO: {await extraPlayerDataManager.ExtraPlayerDataService()}");
+
+        //Debug.Log($"Tutorial Value is EQUAL TO: {data}");
+    }
+
     #endregion
 }

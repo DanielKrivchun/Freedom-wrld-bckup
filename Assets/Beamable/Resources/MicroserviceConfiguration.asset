@@ -12,7 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a96b3852b93843ef94fc3401214399e, type: 3}
   m_Name: MicroserviceConfiguration
   m_EditorClassIdentifier: 
-  Microservices: []
+  Microservices:
+  - ServiceName: LeaderboardService
+    Enabled: 1
+    Archived: 0
+    TemplateId: small
+    CustomDockerFileStrings: 
+    IncludeDebugTools: 0
+    DebugData:
+      Username: root
+      Password: Password!
+      SshPort: 11100
+    LastBuiltCheckSum: 
+    RobotId: 
+  - ServiceName: ExtraPlayerDataService
+    Enabled: 1
+    Archived: 0
+    TemplateId: small
+    CustomDockerFileStrings: 
+    IncludeDebugTools: 0
+    DebugData:
+      Username: root
+      Password: Password!
+      SshPort: 11101
+    LastBuiltCheckSum: 
+    RobotId: 
   StorageObjects:
   - StorageName: LeaderboardEntry
     StorageType: mongov1
@@ -23,8 +47,230 @@ MonoBehaviour:
     LocalUIPort: 13100
     LocalInitUser: beamable
     LocalInitPass: beamable
-  ServiceCodeHandlesOnLastDomainReload: []
-  LastBuiltDockerImagesCodeHandles: []
+  - StorageName: LeaderboardStorage
+    StorageType: mongov1
+    Enabled: 1
+    Archived: 0
+    TemplateId: small
+    LocalDataPort: 12102
+    LocalUIPort: 13102
+    LocalInitUser: beamable
+    LocalInitPass: beamable
+  - StorageName: ExtraPlayerData
+    StorageType: mongov1
+    Enabled: 1
+    Archived: 0
+    TemplateId: small
+    LocalDataPort: 12102
+    LocalUIPort: 13102
+    LocalInitUser: beamable
+    LocalInitPass: beamable
+  - StorageName: ExtraPlayerDataStorage
+    StorageType: mongov1
+    Enabled: 1
+    Archived: 0
+    TemplateId: small
+    LocalDataPort: 12101
+    LocalUIPort: 13101
+    LocalInitUser: beamable
+    LocalInitPass: beamable
+  ServiceCodeHandlesOnLastDomainReload:
+  - ServiceName: ExtraPlayerDataService
+    CodeClass: 1
+    CodeDirectory: Assets\Beamable\Microservices\ExtraPlayerDataService
+    AsmDefInfo:
+      Name: Beamable.Microservice.ExtraPlayerDataService
+      References:
+      - Unity.Beamable.Runtime.Common
+      - Unity.Beamable.Server.Runtime
+      - Unity.Beamable.Server.Runtime.Shared
+      - Unity.Beamable
+      - Beamable.SmallerJSON
+      - Unity.Beamable.Server.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Mocks
+      - Unity.Beamable.Customer.Common
+      - Beamable.Storage.ExtraPlayerDataStorage
+      DllReferences:
+      - DnsClient.dll
+      - MongoDB.Bson.dll
+      - MongoDB.Driver.Core.dll
+      - MongoDB.Driver.dll
+      - MongoDB.Libmongocrypt.dll
+      - System.Buffers.dll
+      - System.Runtime.CompilerServices.Unsafe.dll
+      - SharpCompress.dll
+      Location: Assets/Beamable/Microservices/ExtraPlayerDataService/Beamable.Microservice.ExtraPlayerDataService.asmdef
+      IncludePlatforms: []
+      AutoReferenced: 0
+    Checksum: 9B26DBCBF4D45B03F9DC324A3801D288
+  - ServiceName: ExtraPlayerDataStorage
+    CodeClass: 2
+    CodeDirectory: Assets\Beamable\StorageObjects\ExtraPlayerDataStorage
+    AsmDefInfo:
+      Name: Beamable.Storage.ExtraPlayerDataStorage
+      References:
+      - Unity.Beamable.Runtime.Common
+      - Unity.Beamable.Server.Runtime
+      - Unity.Beamable.Server.Runtime.Shared
+      - Unity.Beamable
+      - Beamable.SmallerJSON
+      - Unity.Beamable.Server.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Mocks
+      - Unity.Beamable.Customer.Common
+      DllReferences:
+      - DnsClient.dll
+      - MongoDB.Bson.dll
+      - MongoDB.Driver.Core.dll
+      - MongoDB.Driver.dll
+      - MongoDB.Libmongocrypt.dll
+      - System.Buffers.dll
+      - System.Runtime.CompilerServices.Unsafe.dll
+      - SharpCompress.dll
+      Location: Assets/Beamable/StorageObjects/ExtraPlayerDataStorage/Beamable.Storage.ExtraPlayerDataStorage.asmdef
+      IncludePlatforms: []
+      AutoReferenced: 0
+    Checksum: 1507FAE1D1CD8F3B67D4CF4D99798276
+  - ServiceName: LeaderboardService
+    CodeClass: 1
+    CodeDirectory: Assets\Beamable\Microservices\LeaderboardService
+    AsmDefInfo:
+      Name: Beamable.Microservice.LeaderboardService
+      References:
+      - Unity.Beamable.Runtime.Common
+      - Unity.Beamable.Server.Runtime
+      - Unity.Beamable.Server.Runtime.Shared
+      - Unity.Beamable
+      - Beamable.SmallerJSON
+      - Unity.Beamable.Server.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Mocks
+      - Unity.Beamable.Customer.Common
+      - Beamable.Storage.LeaderboardStorage
+      DllReferences:
+      - DnsClient.dll
+      - MongoDB.Bson.dll
+      - MongoDB.Driver.Core.dll
+      - MongoDB.Driver.dll
+      - MongoDB.Libmongocrypt.dll
+      - System.Buffers.dll
+      - System.Runtime.CompilerServices.Unsafe.dll
+      - SharpCompress.dll
+      Location: Assets/Beamable/Microservices/LeaderboardService/Beamable.Microservice.LeaderboardService.asmdef
+      IncludePlatforms: []
+      AutoReferenced: 0
+    Checksum: 56601C0F9210380D21D707668DF3500B
+  - ServiceName: LeaderboardStorage
+    CodeClass: 2
+    CodeDirectory: Assets\Beamable\StorageObjects\LeaderboardStorage
+    AsmDefInfo:
+      Name: Beamable.Storage.LeaderboardStorage
+      References:
+      - Unity.Beamable.Runtime.Common
+      - Unity.Beamable.Server.Runtime
+      - Unity.Beamable.Server.Runtime.Shared
+      - Unity.Beamable
+      - Beamable.SmallerJSON
+      - Unity.Beamable.Server.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Mocks
+      - Unity.Beamable.Customer.Common
+      DllReferences:
+      - DnsClient.dll
+      - MongoDB.Bson.dll
+      - MongoDB.Driver.Core.dll
+      - MongoDB.Driver.dll
+      - MongoDB.Libmongocrypt.dll
+      - System.Buffers.dll
+      - System.Runtime.CompilerServices.Unsafe.dll
+      - SharpCompress.dll
+      Location: Assets/Beamable/StorageObjects/LeaderboardStorage/Beamable.Storage.LeaderboardStorage.asmdef
+      IncludePlatforms: []
+      AutoReferenced: 0
+    Checksum: F0931207025F40DC76C1824E8DD6E4F6
+  - ServiceName: Unity.Beamable.Customer.Common
+    CodeClass: 3
+    CodeDirectory: Assets\Beamable\Common
+    AsmDefInfo:
+      Name: Unity.Beamable.Customer.Common
+      References:
+      - Unity.Beamable.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Mocks
+      - Beamable.SmallerJSON
+      DllReferences: []
+      Location: Assets/Beamable/Common/Unity.Beamable.Customer.Common.asmdef
+      IncludePlatforms: []
+      AutoReferenced: 0
+    Checksum: 0AF7513C323127F6C61058ED2EB16B80
+  LastBuiltDockerImagesCodeHandles:
+  - ServiceName: ExtraPlayerDataService
+    CodeClass: 1
+    CodeDirectory: Assets\Beamable\Microservices\ExtraPlayerDataService
+    AsmDefInfo:
+      Name: Beamable.Microservice.ExtraPlayerDataService
+      References:
+      - Unity.Beamable.Runtime.Common
+      - Unity.Beamable.Server.Runtime
+      - Unity.Beamable.Server.Runtime.Shared
+      - Unity.Beamable
+      - Beamable.SmallerJSON
+      - Unity.Beamable.Server.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Mocks
+      - Unity.Beamable.Customer.Common
+      - Beamable.Storage.ExtraPlayerDataStorage
+      DllReferences:
+      - DnsClient.dll
+      - MongoDB.Bson.dll
+      - MongoDB.Driver.Core.dll
+      - MongoDB.Driver.dll
+      - MongoDB.Libmongocrypt.dll
+      - System.Buffers.dll
+      - System.Runtime.CompilerServices.Unsafe.dll
+      - SharpCompress.dll
+      Location: Assets/Beamable/Microservices/ExtraPlayerDataService/Beamable.Microservice.ExtraPlayerDataService.asmdef
+      IncludePlatforms: []
+      AutoReferenced: 0
+    Checksum: 9B26DBCBF4D45B03F9DC324A3801D288
+  - ServiceName: Unity.Beamable.Customer.Common
+    CodeClass: 3
+    CodeDirectory: Assets\Beamable\Common
+    AsmDefInfo:
+      Name: Unity.Beamable.Customer.Common
+      References:
+      - Unity.Beamable.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Mocks
+      - Beamable.SmallerJSON
+      DllReferences: []
+      Location: Assets/Beamable/Common/Unity.Beamable.Customer.Common.asmdef
+      IncludePlatforms: []
+      AutoReferenced: 0
+    Checksum: 0AF7513C323127F6C61058ED2EB16B80
+  - ServiceName: ExtraPlayerDataStorage
+    CodeClass: 2
+    CodeDirectory: Assets\Beamable\StorageObjects\ExtraPlayerDataStorage
+    AsmDefInfo:
+      Name: Beamable.Storage.ExtraPlayerDataStorage
+      References:
+      - Unity.Beamable.Runtime.Common
+      - Unity.Beamable.Server.Runtime
+      - Unity.Beamable.Server.Runtime.Shared
+      - Unity.Beamable
+      - Beamable.SmallerJSON
+      - Unity.Beamable.Server.Runtime.Common
+      - Unity.Beamable.Server.Runtime.Mocks
+      - Unity.Beamable.Customer.Common
+      DllReferences:
+      - DnsClient.dll
+      - MongoDB.Bson.dll
+      - MongoDB.Driver.Core.dll
+      - MongoDB.Driver.dll
+      - MongoDB.Libmongocrypt.dll
+      - System.Buffers.dll
+      - System.Runtime.CompilerServices.Unsafe.dll
+      - SharpCompress.dll
+      Location: Assets/Beamable/StorageObjects/ExtraPlayerDataStorage/Beamable.Storage.ExtraPlayerDataStorage.asmdef
+      IncludePlatforms: []
+      AutoReferenced: 0
+    Checksum: 1507FAE1D1CD8F3B67D4CF4D99798276
   CustomContainerPrefix: 
   AutoReferenceContent: 0
   AutoBuildCommonAssembly: 1
