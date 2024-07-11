@@ -80,12 +80,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private List<_RankPlayers> temp_list;
 
+    private bool aigenration;
+
     #endregion
 
     #region NETWORKED OBJECTS
     [Networked] public int PathNumber { get; set; }
 
-    [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
+    [Networked, OnChangedRender(nameof(_OnTimerChanged))]
     public string TimeLeft { get; set; }
 
     public bool RaceStart;
@@ -235,11 +237,17 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         if (networkRunnerInstance != null && networkRunnerInstance.IsServer)
         {
             TotalSeconds -= Time.deltaTime;
-
             hours = Mathf.FloorToInt(TotalSeconds / 3600);
             minutes = Mathf.FloorToInt(TotalSeconds / 60);
             seconds = Mathf.FloorToInt(TotalSeconds % 60);
-            TimeLeft = (minutes) + " : " + seconds;
+            TimeLeft = "Game Will Start In:<b>" + string.Format("{0:00}:{1:00}", minutes, seconds) + "</b>";
+
+
+            if (seconds < 10f && !aigenration)
+            {
+                aigenration = true;
+                StartCoroutine(_GenrateAIPlayerSlowly());
+            }
         }
     }
 
@@ -294,9 +302,9 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     #region GAME START AND MATCHMAKING
     public const string ELO_PROP_KEY = "C0";
     public const string MAP_PROP_KEY = "C1";
-    private void _OnWInNumberAlocated()
+    private void _OnTimerChanged()
     {
-        gamestarttimer.text = "Game Will Start In :" + TimeLeft;
+        gamestarttimer.text = TimeLeft;
     }
 
     public void _SelectRegion(int typedText)
@@ -637,11 +645,34 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             {
                 NetwrokUI.Instance._OpenStartUI();
             }
+
+            _RacePlayersCalculation();
+
         }
         else
         {
             NetwrokUI.Instance._StartUIforClients();
         }
+    }
+
+
+    void _RacePlayersCalculation()
+    {
+        if (TotalRealPlayers >= 2)
+        {
+            StartCoroutine(_GenrateAIPlayerSlowly());
+        }
+    }
+
+    IEnumerator _GenrateAIPlayerSlowly()
+    {
+
+        for (int i = 0; i < 5; i++)
+        {
+            yield return new WaitForSecondsRealtime(0.2f);
+            _GenrateAIPlayer();
+        }
+        NetwrokUI.Instance.StartGameButton.gameObject.SetActive(true);
     }
 
     void _SpwanPlayerCalculations(PlayerRef _playerRef, int _pathno, Vector3 _spwanpos)
