@@ -960,7 +960,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     public void _GenrateAIPlayer()
     {
         if (TotalNumberOfPlayers == 5) return;
-        Debug.Log("AI player genration");
+        Debug.Log("AI player genration "+PathNumber);
         Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
         Debug.Log(spawnPoint);
         NetworkObject playerObject = Runner.Spawn(AIPlayer, spawnPoint, Quaternion.identity);

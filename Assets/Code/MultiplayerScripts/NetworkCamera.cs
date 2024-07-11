@@ -121,7 +121,7 @@ public class NetworkCamera : MonoBehaviour
 
     CinemachineVirtualCamera _GetCamm(string _camname)
     {
-        Debug.Log(_camname);
+        //Debug.Log(_camname);
         return All_Cameras.Find(asd => asd.type == _camname).cam;
     }
 

@@ -342,7 +342,8 @@ public class NetwrokUI : NetworkBehaviour
 
     public void _SetMyNameOnPodium(int _no, string _name)
     {
-        WinnerNames[_no].text = _name;
+        Debug.Log("No " + _no);
+        WinnerNames[_no - 1].text = _name;
     }
 
 
