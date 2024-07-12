@@ -82,6 +82,8 @@ public class NetwrokUI : NetworkBehaviour
 
     private bool button_waiter;
 
+    private bool LeavedGame;
+
     private void Awake()
     {
         Instance = this;
@@ -199,6 +201,7 @@ public class NetwrokUI : NetworkBehaviour
 
     private void _NetworkError(string _s)
     {
+        if (LeavedGame) return;
         ErrorPopup.transform.localScale = Vector3.zero;
         ErrorUI.SetActive(true);
         ErrorText.text = _s;
@@ -315,6 +318,7 @@ public class NetwrokUI : NetworkBehaviour
 
     private async void _YesLeave()
     {
+        LeavedGame = true;
         if (button_waiter) return;
         button_waiter = true;
         Utils._DoButtonAnimation(ExitButton.transform);

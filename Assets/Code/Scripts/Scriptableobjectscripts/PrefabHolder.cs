@@ -10,7 +10,7 @@ public class PrefabHolder : ScriptableObject
     //Give pet prefabe GameObject using PetID
     public GameObject _GetMyPrefab(string _pet_id)
     {
-        Debug.Log(_pet_id);
+        //Debug.Log(_pet_id);
         return PetPrefabs.Find(asd => asd.PrefabId == _pet_id).PetPrefab;
     }
 }

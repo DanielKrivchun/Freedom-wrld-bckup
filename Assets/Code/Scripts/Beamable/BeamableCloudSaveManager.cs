@@ -76,7 +76,6 @@ namespace Beamable.CloudSavingService
         }
         #endregion
 
-
         //  Unity Methods  --------------------------------
         private void Awake()
         {
@@ -304,7 +303,6 @@ namespace Beamable.CloudSavingService
             petCreationEvent.Raise();*/
         }
         #endregion
-
 
         #region SAVING DATA ON APPLICATION STATE
         private void OnApplicationPause(bool pause)
