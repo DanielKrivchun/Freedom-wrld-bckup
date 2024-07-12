@@ -711,7 +711,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         playerName = nickname;
         MyPrefabID = _prefabid;
-        Debug.Log("My Prefab id is  " + _prefabid);
+        //Debug.Log("My Prefab id is  " + _prefabid);
         _OnRecivedRPC();
     }
 
@@ -788,14 +788,14 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     private void _OnReciveConfigs(string _j)
     {
-        Debug.Log("I recived RPC  " + gameObject.name + "   " + _j);
+        //Debug.Log("I recived RPC  " + gameObject.name + "   " + _j);
         playerconfigs = JsonUtility.FromJson<_PlayerConfigs>(_j);
         _SetMyConfigs();
     }
 
     void _OnRecivedRPC()
     {
-        Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
+        //Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
         MyName = playerName.ToString();
         _SetName(MyName);
         gameObject.name = MyName;

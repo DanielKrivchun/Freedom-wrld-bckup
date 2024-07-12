@@ -83,7 +83,7 @@ public class RaceManager : NetworkBehaviour
     private List<_RankPlayers> temp_list;
 
     private bool aigenration;
-    private bool startgamenow;
+    public bool startgamenow;
 
     #endregion
 
@@ -243,7 +243,7 @@ public class RaceManager : NetworkBehaviour
             _CheckForAFK();
         }
 
-        if (networkRunnerInstance != null && networkRunnerInstance.IsServer)
+        if (networkRunnerInstance != null && networkRunnerInstance.IsServer && !RaceStart)
         {
             TotalSeconds -= Time.deltaTime;
             hours = Mathf.FloorToInt(TotalSeconds / 3600);

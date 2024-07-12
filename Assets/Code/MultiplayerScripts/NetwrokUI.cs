@@ -408,6 +408,7 @@ public class NetwrokUI : NetworkBehaviour
         await Utils._Waiter(200);
         button_waiter = false;
         Debug.Log("Start Race");
+        RaceManagerRef.startgamenow = true;
         RPC_StartGame();
     }
 
