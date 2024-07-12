@@ -346,7 +346,6 @@ public class NetwrokUI : NetworkBehaviour
         }
     }
 
-
     public void _SetMyNameOnPodium(int _no, string _name)
     {
         Debug.Log("No " + _no);
@@ -441,21 +440,21 @@ public class NetwrokUI : NetworkBehaviour
         countdownText.text = a.ToString();
         yield return new WaitForSecondsRealtime(1.5f);
         a--;
-        Utils._DoButtonAnimation(countdownText.transform);
-        countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1.5f);
-        a--;
-        Utils._DoButtonAnimation(countdownText.transform);
-        countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1.5f);
-        a--;
-        Utils._DoButtonAnimation(countdownText.transform);
-        countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1.5f);
-        a--;
-        Utils._DoButtonAnimation(countdownText.transform);
-        countdownText.text = a.ToString();
-        yield return new WaitForSecondsRealtime(1.5f);
+        //Utils._DoButtonAnimation(countdownText.transform);
+        //countdownText.text = a.ToString();
+        //yield return new WaitForSecondsRealtime(1.5f);
+        //a--;
+        //Utils._DoButtonAnimation(countdownText.transform);
+        //countdownText.text = a.ToString();
+        //yield return new WaitForSecondsRealtime(1.5f);
+        //a--;
+        //Utils._DoButtonAnimation(countdownText.transform);
+        //countdownText.text = a.ToString();
+        //yield return new WaitForSecondsRealtime(1.5f);
+        //a--;
+        //Utils._DoButtonAnimation(countdownText.transform);
+        //countdownText.text = a.ToString();
+        //yield return new WaitForSecondsRealtime(1.5f);
         a--;
         Utils._DoButtonAnimation(countdownText.transform);
         countdownText.text = a.ToString();

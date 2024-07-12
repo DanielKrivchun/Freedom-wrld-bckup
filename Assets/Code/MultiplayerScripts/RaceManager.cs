@@ -541,6 +541,11 @@ public class RaceManager : NetworkBehaviour
             {
                 _XpIncrimental(MyWinNumber);
             }
+            else
+            {
+                //SHOW TEXT
+                NetwrokUI.Instance._UpdatedText(0, 0);
+            }
             _ResetDataOnComplete();
             NetworkEventManager._EventDisableNameTags();
             NetworkEventManager._EventGameComplete();
