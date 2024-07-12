@@ -102,6 +102,7 @@ public class RunnerHandller : MonoBehaviour, INetworkRunnerCallbacks
     {
         Debug.Log("OnHostMigration");
         NetworkEventManager._EventNetworkErrors(_Strings.InternetError);
+        return;
         await runner.Shutdown(shutdownReason: ShutdownReason.HostMigration);
         FindObjectOfType<RunnerHandller>()._StartHostMigration(hostMigrationToken);
 

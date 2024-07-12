@@ -460,7 +460,6 @@ public class RaceManager : NetworkBehaviour
 
     #endregion
 
-
     #region INPUT SET
     public void _InputSet(InputAction.CallbackContext context)
     {
@@ -683,6 +682,7 @@ public class RaceManager : NetworkBehaviour
 
     public void _SpawnPlayer(PlayerRef playerRef)
     {
+        if (Runner == null) return;
         if (Runner.IsServer)
         {
             //CHECK HERE FOR TOTAL NULBER OF PLAYERS
@@ -819,8 +819,6 @@ public class RaceManager : NetworkBehaviour
         }
     }
     #endregion
-
-
 
     #region AI PLAYER
     void _CheckForAIPlayers()
