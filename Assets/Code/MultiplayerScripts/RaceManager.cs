@@ -288,7 +288,7 @@ public class RaceManager : NetworkBehaviour
             int MyRank = 0;
             foreach (var item in TotalPlayers)
             {
-                if (!item.AI)
+                if (!item.AI && item.player != null)
                 {
                     MyRank = temp_list.FindIndex(asd => asd.PathNo == item.player.MyPathNumber);
                     item.player._ChangingRanke(MyRank);
@@ -497,8 +497,7 @@ public class RaceManager : NetworkBehaviour
     {
         CompletePlayerCount++;
 
-        //Debug.Log(CompletePlayerCount + "    " + TotalNumberOfPlayers);
-
+        Debug.Log(CompletePlayerCount + "    " + TotalNumberOfPlayers);
 
         if (CompletePlayerCount == TotalNumberOfPlayers)
         {
@@ -815,14 +814,20 @@ public class RaceManager : NetworkBehaviour
                 //NOTIFY TO PLAYER WHICH PLAYER LEFT
                 Debug.Log(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
                 RPC_PlayerLeftNofirication(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
+
+                _ClearUnwantedPlayers();
+
                 Runner.Despawn(p.Player);
                 GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
                 TotalNumberOfPlayers--;
                 TotalRealPlayers--;
+
+
             }
         }
         else
         {
+            TotalRealPlayers--;
             TotalNumberOfPlayers--;
         }
     }
