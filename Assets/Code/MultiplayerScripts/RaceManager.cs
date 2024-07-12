@@ -516,11 +516,6 @@ public class RaceManager : NetworkBehaviour
                                 _ss.Add(item.player.MyName);
                             }
                         }
-                        else
-                        {
-                            _ss.Add("");
-                        }
-
 
                     }
                     else
@@ -823,13 +818,11 @@ public class RaceManager : NetworkBehaviour
                 //NOTIFY TO PLAYER WHICH PLAYER LEFT
                 Debug.Log(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
                 RPC_PlayerLeftNofirication(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
-
-                _ClearUnwantedPlayers();
-
                 Runner.Despawn(p.Player);
                 GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
                 TotalNumberOfPlayers--;
                 TotalRealPlayers--;
+                _ClearUnwantedPlayers();
 
 
             }
