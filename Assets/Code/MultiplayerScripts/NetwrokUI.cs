@@ -13,8 +13,11 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject startUI;
     public GameObject WinUI;
     public GameObject countdownPanel;
+    [Header("Leave UI")]
     public GameObject LeaveUI;
     public GameObject LeavePopup;
+    public GameObject LeaveText;
+    public GameObject WinLeaveText;
     [Space]
     public GameObject LoadingPanel;
     [Header("JOIN ROOM")]
@@ -105,7 +108,7 @@ public class NetwrokUI : NetworkBehaviour
         //BUTTON LISTENERS
         JoinRoomButton.onClick.AddListener(_JoinRoom);
         LeaveButton.onClick.AddListener(_OnLeaveButton);
-        LeaveButtonWinUI.onClick.AddListener(_OnLeaveButton);
+        LeaveButtonWinUI.onClick.AddListener(_OnWinLeave);
         InGameLeave.onClick.AddListener(_OnLeaveButton);
         ContinueButton.onClick.AddListener(_ContinueRace);
         ExitButton.onClick.AddListener(_YesLeave);
@@ -131,7 +134,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_game_complete -= _GameIsComplete;
 
 
-        LeaveButtonWinUI.onClick.RemoveListener(_OnLeaveButton);
+        LeaveButtonWinUI.onClick.RemoveListener(_OnWinLeave);
         TestButton.onClick.RemoveListener(_TestButton);
         JoinRoomButton.onClick.RemoveListener(_JoinRoom);
         InGameLeave.onClick.RemoveListener(_OnLeaveButton);
@@ -292,6 +295,23 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region LOCAL BUTTONS AND METHDOS
+
+
+    private async void _OnWinLeave()
+    {
+        if (button_waiter) return;
+        button_waiter = true;
+        Utils._DoButtonAnimation(LeaveButton.transform);
+        Utils._DoButtonAnimation(InGameLeave.transform);
+        await Utils._Waiter(200);
+        button_waiter = false;
+        WinLeaveText.SetActive(true);
+        LeaveText.SetActive(false);
+        LeavePopup.transform.localScale = Vector3.zero;
+        LeaveUI.SetActive(true);
+        Utils._DoUIPopup(LeavePopup.transform, time, EaseRef);
+    }
+
     private async void _OnLeaveButton()
     {
         if (button_waiter) return;
@@ -300,6 +320,8 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(InGameLeave.transform);
         await Utils._Waiter(200);
         button_waiter = false;
+        WinLeaveText.SetActive(false);
+        LeaveText.SetActive(true);
         LeavePopup.transform.localScale = Vector3.zero;
         LeaveUI.SetActive(true);
         Utils._DoUIPopup(LeavePopup.transform, time, EaseRef);

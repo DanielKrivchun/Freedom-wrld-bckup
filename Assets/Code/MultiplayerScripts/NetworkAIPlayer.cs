@@ -241,7 +241,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         //Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
         _ChangeAnimationHere(_AnimState.Jump);
         RaceManagerRef._CheckAllPlayerCompleted();
-        NetwrokUI.Instance._SetMyNameOnPodium(MyWiningNumber, MyName);
+        NetwrokUI.Instance._SetMyNameOnPodium(MyWiningNumber, MyName + " AI");
     }
 
     private IEnumerator SetMyWinPosition()

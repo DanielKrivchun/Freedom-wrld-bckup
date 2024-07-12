@@ -530,7 +530,7 @@ public class RaceManager : NetworkBehaviour
                     {
                         if (i == item.aiplayer.MyWiningNumber)
                         {
-                            _ss.Add(item.aiplayer.MyName);
+                            _ss.Add(item.aiplayer.MyName+" AI");
                         }
                     }
                 }
