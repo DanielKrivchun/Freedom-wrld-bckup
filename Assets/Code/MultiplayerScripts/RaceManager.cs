@@ -797,6 +797,10 @@ public class RaceManager : NetworkBehaviour
             }
 
         }
+        else
+        {
+            TotalNumberOfPlayers = TotalRealPlayers;
+        }
     }
 
     public void _DespawnPlayer(PlayerRef playerRef)
@@ -816,6 +820,10 @@ public class RaceManager : NetworkBehaviour
                 TotalNumberOfPlayers--;
                 TotalRealPlayers--;
             }
+        }
+        else
+        {
+            TotalNumberOfPlayers--;
         }
     }
     #endregion

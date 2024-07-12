@@ -1,6 +1,5 @@
 using Beamable.Server;
 using System.Collections.Generic;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ExtraPlayerDataList", menuName = "ScriptableObject/ExtraPlayerDataList", order = 1)]

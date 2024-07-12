@@ -171,11 +171,11 @@ namespace Beamable.CloudSavingService
                                         1, 0, 100);
 
             // Create leaderboard entry
-            await _LeaderboardServiceClient.CreateEntry(
-                playerId.ToString(),
-                petDataRef.petData.petname,
-                petDataRef.petData.rank,
-                (int)Math.Round(petDataRef.petData.xp));
+            //await _LeaderboardServiceClient.CreateEntry(
+            //    playerId.ToString(),
+            //    petDataRef.petData.petname,
+            //    petDataRef.petData.rank,
+            //    (int)Math.Round(petDataRef.petData.xp));
 
             beamableCloudSavingData.petDataLocal = petDataRef.petData;
             SaveData(beamableCloudSavingData.petDataLocal);
