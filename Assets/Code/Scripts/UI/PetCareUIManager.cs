@@ -435,8 +435,8 @@ public class PetCareUIManager : MonoBehaviour
         int Coins = PlayerPrefs.GetInt(_Strings.CoinsToAdd);
         int XP = PlayerPrefs.GetInt(_Strings.XpToAdd);
 
-        earnedStatsTxt.text = "• " + XP.ToString() + " XP\n"
-                            + "• " + Coins.ToString() + " Coins";
+        earnedStatsTxt.text = "ï¿½ " + XP.ToString() + " XP\n"
+                            + "ï¿½ " + Coins.ToString() + " Coins";
 
         niceWorkTxt.text = "Nice work, " + petDataRef.petData.petname + "!";
         welcomeBackPanel.SetActive(true);

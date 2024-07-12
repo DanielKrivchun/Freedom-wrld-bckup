@@ -9,9 +9,9 @@ namespace Beamable.Server
 	{
 	}
 
-    public class ExtraPlayerData : StorageDocument
+    public class ExtraPlayerData 
     {
-        //public ObjectId Id;
+        public ObjectId Id;
         public string playerId;
         public int introTutorial;
         public int eatTutorial;

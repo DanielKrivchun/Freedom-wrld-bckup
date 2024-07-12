@@ -32,19 +32,11 @@ public class ExtraPlayerDataManager : MonoBehaviour
     public async void Start()
     {
         _ExtraPlayerDataServiceClient = new ExtraPlayerDataServiceClient();
-        //await ExtraPlayerDataService();
+        await SaveDataFromPrefs();
+        await ExtraPlayerDataService();
         Debug.Log($"Data manager running: {extraPlayerDataListSO.extraPlayerData.playerId}");
-        await UpdatePlayerEntry("1766823754227713", 1, 1, 1, 1);
     }
 
-    public async Task UpdatePlayerEntry(string playerId, int introTutorial, int eatTutorial, int showerTutorial, int inventoryTutorial)
-    {
-        //await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId(playerId, introTutorial, eatTutorial, showerTutorial, inventoryTutorial);
-
-        await _ExtraPlayerDataServiceClient.UpdateEntryTest(extraPlayerDataListSO.extraPlayerData.objectId, "1766823754227713");
-
-        //Debug.Log($"Updating Player Entry: PlayerId: {playerId}, IntroTutorial: {introTutorial}, EatTutorial: {eatTutorial}, ShowerTutorial: {showerTutorial}, InventoryTutorial: {inventoryTutorial}");
-    }
 
     public async Task<List<ExtraPlayerData>> ExtraPlayerDataService()
     {
@@ -71,7 +63,7 @@ public class ExtraPlayerDataManager : MonoBehaviour
         // Parse json string to .net
         JObject parsedJson = JObject.Parse(jsonEntry);
 
-        string objectId = (string)parsedJson["_id"];
+        string objectId = (string)parsedJson["Id"];
         string playerId = (string)parsedJson["playerId"];
         int introTutorial = (int)parsedJson["introTutorial"];
         int eatTutorial = (int)parsedJson["eatTutorial"];
@@ -82,12 +74,6 @@ public class ExtraPlayerDataManager : MonoBehaviour
                 new ExtraPlayerData { objectId = objectId, playerId = playerId, introTutorial = introTutorial, eatTutorial = eatTutorial, showerTutorial = showerTutorial, inventoryTutorial = inventoryTutorial }
             );
 
-        // Log each entry in the list
-        foreach (var entry in entryList)
-        {
-            Debug.Log($"ObjectId: {entry.objectId} PlayerId: {entry.playerId}, IntroTutorial: {entry.introTutorial}, EatTutorial: {entry.eatTutorial}, ShowerTutorial: {entry.showerTutorial}, InventoryTutorial: {entry.inventoryTutorial}");
-        }
-
         
         // Add the entries to the ScriptableObject
         if (extraPlayerDataListSO != null)
@@ -95,8 +81,6 @@ public class ExtraPlayerDataManager : MonoBehaviour
             foreach (var entry in entryList)
             {
                 extraPlayerDataListSO.SetAllExtraPlayerData(entry.objectId, entry.playerId, entry.introTutorial, entry.eatTutorial, entry.showerTutorial, entry.inventoryTutorial);
-
-                Debug.Log($"Added: {entry.playerId} to the Scriptable object");
             }
 
         }
@@ -109,13 +93,12 @@ public class ExtraPlayerDataManager : MonoBehaviour
 
     }
 
-    private async void OnApplicationPause(bool pause)
+    private void OnApplicationPause(bool pause)
     {
         if (pause)
         {
             Debug.Log("Saving Data on Pause...");
-            //await UpdatePlayerEntry(extraPlayerDataListSO.extraPlayerData.playerId, 1, 1, 1, 1);
-            await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId("1766823754227713", 1, 1, 1, 1);
+            _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId(extraPlayerDataListSO.extraPlayerData.playerId, extraPlayerDataListSO.extraPlayerData.introTutorial, extraPlayerDataListSO.extraPlayerData.eatTutorial, extraPlayerDataListSO.extraPlayerData.showerTutorial, extraPlayerDataListSO.extraPlayerData.inventoryTutorial);
         }
         else
         {
@@ -126,10 +109,34 @@ public class ExtraPlayerDataManager : MonoBehaviour
         }
     }
 
-    private async void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
+        if (extraPlayerDataListSO != null && extraPlayerDataListSO.extraPlayerData != null)
+        {
+            PlayerPrefs.SetInt("IntroTutorial", extraPlayerDataListSO.extraPlayerData.introTutorial);
+            PlayerPrefs.SetInt("EatTutorial", extraPlayerDataListSO.extraPlayerData.eatTutorial);
+            PlayerPrefs.SetInt("ShowerTutorial", extraPlayerDataListSO.extraPlayerData.showerTutorial);
+            PlayerPrefs.SetInt("InventoryTutorial", extraPlayerDataListSO.extraPlayerData.inventoryTutorial);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            Debug.LogError("extraPlayerDataListSO or extraPlayerDataListSO.extraPlayerData is null.");
+        }
+
         Debug.Log("Saving Data on Quit...");
-        //await UpdatePlayerEntry(extraPlayerDataListSO.extraPlayerData.playerId, 1, 1, 1, 1);
-        //await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId(extraPlayerDataListSO.extraPlayerData.playerId, 1, 1, 1, 1);
+    }
+
+    private async Task SaveDataFromPrefs()
+    {
+        if (_ExtraPlayerDataServiceClient != null)
+        {
+            await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId("1769056389726209", PlayerPrefs.GetInt("IntroTutorial", 0), PlayerPrefs.GetInt("EatTutorial", 0), PlayerPrefs.GetInt("ShowerTutorial", 0), PlayerPrefs.GetInt("InventoryTutorial", 0));
+            Debug.Log("Pushing data from playerprefs to ExtraPlayerData storage");
+        }
+        else
+        {
+            Debug.LogError("extraPlayerDataListSO or extraPlayerDataListSO.extraPlayerData is null.");
+        }
     }
 }

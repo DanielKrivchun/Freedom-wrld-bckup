@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Beamable.Microservices
@@ -61,16 +62,15 @@ namespace Beamable.Microservices
         {
             try
             {
-                // Declare "LeaderboardStorage" collection
                 var db = await Storage.GetDatabase<ExtraPlayerDataStorage>();
-                var collection = db.GetCollection<ExtraPlayerData>("ExtraPlayerData");
+                var collection = db.GetCollection<ExtraPlayerData>("ExtraPlayerDataStorage");
                 var filter = Builders<ExtraPlayerData>.Filter.Eq("playerId", _playerId);
-                var update = Builders<ExtraPlayerData>.Update.Set(_tutorialDone, 1);
+                var update = Builders<ExtraPlayerData>.Update.Set(_tutorialDone, 0);
 
                 // Update petRank data
                 collection.UpdateOne(filter, update);
 
-                Debug.Log("Updated player entry");
+                Debug.Log("Updated player tutorial");
             }
             catch (Exception e)
             {
@@ -81,24 +81,23 @@ namespace Beamable.Microservices
         }
 
         [ClientCallable]
-        public async void UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial)
+        public async Task UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial)
         {
             try
             {
                 // Declare "ExtraPlayerDataStorage" collection
                 var db = await Storage.GetDatabase<ExtraPlayerDataStorage>();
-                var collection = db.GetCollection<ExtraPlayerData>("ExtraPlayerData");
+                var collection = db.GetCollection<ExtraPlayerData>("ExtraPlayerDataStorage");
 
-                var filter = Builders<ExtraPlayerData>.Filter.Eq("Id", "66881db136782f3c03103692");
+                var filter = Builders<ExtraPlayerData>.Filter.Eq("playerId", _playerId);
                 var update = Builders<ExtraPlayerData>.Update
-                    .Set("playerId", _playerId)
                     .Set("introTutorial", _introTutorial)
                     .Set("eatTutorial", _eatTutorial)
                     .Set("showerTutorial", _showerTutorial)
                     .Set("inventoryTutorial", _inventoryTutorial);
 
                 // Update the document in the collection
-                var result = await collection.UpdateOneAsync(filter, update);
+                var result = collection.UpdateOne(filter, update);
 
                 // Check if the update was acknowledged and successful
                 if (result.IsAcknowledged && result.ModifiedCount > 0)
@@ -110,7 +109,7 @@ namespace Beamable.Microservices
                     Debug.LogWarning($"No document found with playerId {_playerId} to update.");
                 }
 
-                //Debug.Log($"This is what the result is: {result}");
+                Debug.Log($"This is what the result is: {result}");
             }
             catch (Exception e)
             {
@@ -118,30 +117,6 @@ namespace Beamable.Microservices
             }
         }
 
-        [ClientCallable]
-        public async void UpdateEntryTest(string _id, string _playerId)
-        {
-            Debug.Log("Trying to update the entry? Maybe it worked maybe it didn't??????");
-
-            var updateData = new ExtraPlayerData
-            {
-                playerId = "1766823754227713",
-                introTutorial = 1,
-                eatTutorial = 1,
-                showerTutorial = 1,
-                inventoryTutorial = 1
-            };
-
-            try
-            {   
-                await Storage.Update<ExtraPlayerDataStorage, ExtraPlayerData>(_id, updateData);
-                Debug.Log("Update successful");
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Update failed: {ex.ToString()}");
-            }
-        }
 
         [ClientCallable]
         public async Promise<string> GetEntryByPlayerId(string playerId)

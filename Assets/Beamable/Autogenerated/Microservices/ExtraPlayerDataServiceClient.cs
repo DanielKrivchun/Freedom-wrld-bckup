@@ -79,7 +79,7 @@ namespace Beamable.Server.Clients
         /// Call the UpdateEntryByPlayerId method on the ExtraPlayerDataService microservice
         /// <see cref="Beamable.Microservices.ExtraPlayerDataService.UpdateEntryByPlayerId"/>
         /// </summary>
-        public Beamable.Common.Promise<Beamable.Common.Unit> UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial)
+        public Beamable.Common.Promise<System.Threading.Tasks.Task> UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial)
         {
             object raw__playerId = _playerId;
             object raw__introTutorial = _introTutorial;
@@ -92,21 +92,7 @@ namespace Beamable.Server.Clients
             serializedFields.Add("_eatTutorial", raw__eatTutorial);
             serializedFields.Add("_showerTutorial", raw__showerTutorial);
             serializedFields.Add("_inventoryTutorial", raw__inventoryTutorial);
-            return this.Request<Beamable.Common.Unit>("ExtraPlayerDataService", "UpdateEntryByPlayerId", serializedFields);
-        }
-        
-        /// <summary>
-        /// Call the UpdateEntryTest method on the ExtraPlayerDataService microservice
-        /// <see cref="Beamable.Microservices.ExtraPlayerDataService.UpdateEntryTest"/>
-        /// </summary>
-        public Beamable.Common.Promise<Beamable.Common.Unit> UpdateEntryTest(string _id, string _playerId)
-        {
-            object raw__id = _id;
-            object raw__playerId = _playerId;
-            System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
-            serializedFields.Add("_id", raw__id);
-            serializedFields.Add("_playerId", raw__playerId);
-            return this.Request<Beamable.Common.Unit>("ExtraPlayerDataService", "UpdateEntryTest", serializedFields);
+            return this.Request<System.Threading.Tasks.Task>("ExtraPlayerDataService", "UpdateEntryByPlayerId", serializedFields);
         }
         
         /// <summary>

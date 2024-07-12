@@ -53464,6 +53464,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
+  extraPlayerDataListSO: {fileID: 11400000, guid: 26f47326f4dcd0e47bd8412b6f9cb257,
+    type: 2}
   petCareEvent: {fileID: 11400000, guid: bd2b54c069ee59c45a83b9dc1da49fe8, type: 2}
   loadingCanvas: {fileID: 756163872}
   petCreationPanelMain: {fileID: 571229393}
@@ -53533,6 +53535,7 @@ MonoBehaviour:
   sleepPanel: {fileID: 487682064}
   petStateManager: {fileID: 743679602}
   beamableInventoryManager: {fileID: 1456848200}
+  extraPlayerDataManager: {fileID: 0}
 --- !u!4 &1334679534
 Transform:
   m_ObjectHideFlags: 0
@@ -67036,6 +67039,52 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1636729312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1636729314}
+  - component: {fileID: 1636729313}
+  m_Layer: 0
+  m_Name: ExtraPlayerDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1636729313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636729312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c8194d49a68f54c8f8849de53ff236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  extraPlayerDataListSO: {fileID: 11400000, guid: 26f47326f4dcd0e47bd8412b6f9cb257,
+    type: 2}
+--- !u!4 &1636729314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636729312}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38.893364, y: 32.984047, z: -47.2746}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1637787425
 GameObject:
   m_ObjectHideFlags: 0
@@ -87828,3 +87877,4 @@ SceneRoots:
   - {fileID: 2068893946}
   - {fileID: 1010321458}
   - {fileID: 1456848201}
+  - {fileID: 1636729314}
