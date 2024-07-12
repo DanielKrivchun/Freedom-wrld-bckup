@@ -165,11 +165,17 @@ public class RaceManager : NetworkBehaviour
         CompletePlayerCount = 0;
         CurrntWinCount = 0;
         _ClearUnwantedPlayers();
+        StartCoroutine(_WaitAndCountPlayers());
+    }
+
+    IEnumerator _WaitAndCountPlayers()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        TotalNumberOfPlayers = TotalPlayers.Count;
     }
 
     private void _ClearUnwantedPlayers()
     {
-        TotalNumberOfPlayers = TotalPlayers.Count;
 
         for (int i = 0; i < 5; i++)
         {
@@ -187,9 +193,9 @@ public class RaceManager : NetworkBehaviour
                 }
                 else
                 {
-
                     if (item.player == null)
                     {
+                        Debug.Log("Removed player");
                         TotalPlayers.Remove(item);
                         _ClearUnwantedPlayers();
                         return;
@@ -197,6 +203,7 @@ public class RaceManager : NetworkBehaviour
                 }
             }
         }
+
     }
     #endregion
 
@@ -309,7 +316,7 @@ public class RaceManager : NetworkBehaviour
 
         if (Timer > 20f)
         {
-            Debug.LogError("I AM  AFK KICK ME  NOW");
+            //Debug.LogError("I AM  AFK KICK ME  NOW");
         }
     }
 
@@ -820,18 +827,12 @@ public class RaceManager : NetworkBehaviour
                 RPC_PlayerLeftNofirication(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
                 Runner.Despawn(p.Player);
                 GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
-                TotalNumberOfPlayers--;
-                TotalRealPlayers--;
                 _ClearUnwantedPlayers();
-
-
             }
         }
-        else
-        {
-            TotalRealPlayers--;
-            TotalNumberOfPlayers--;
-        }
+
+        TotalRealPlayers--;
+        TotalNumberOfPlayers--;
     }
     #endregion
 
