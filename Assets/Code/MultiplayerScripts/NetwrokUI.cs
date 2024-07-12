@@ -144,6 +144,9 @@ public class NetwrokUI : NetworkBehaviour
         HomeButton.onClick.RemoveListener(_GoingHome);
     }
 
+    #endregion
+
+    #region EVENT CALLBACKS
     private void _GameIsComplete()
     {
         if (RaceManager.instance.TotalRealPlayers >= 2)
@@ -159,6 +162,28 @@ public class NetwrokUI : NetworkBehaviour
         //ErrorUI.SetActive(false);
     }
 
+    private async void _PlayerLeft(string _s)
+    {
+        NotificationText.text = _s + " is left";
+        NotificationPanel.SetActive(true);
+        NofificationObj.DOAnchorPosY(-50f, 1f);
+
+        if (_ienumrator != null)
+        {
+            StopCoroutine(_ienumrator);
+        }
+
+        _ienumrator = _DisableNotification();
+        StartCoroutine(_ienumrator);
+    }
+
+    IEnumerator _DisableNotification()
+    {
+        yield return new WaitForSecondsRealtime(5f);
+        NofificationObj.DOAnchorPosY(1000f, 1f);
+        _ienumrator = null;
+    }
+    #endregion
 
     #region BUTTON LISTENERS
     private async void _GoingHome()
@@ -250,30 +275,6 @@ public class NetwrokUI : NetworkBehaviour
     {
         await Utils._Waiter(2500);
         LoadingPanel.SetActive(false);
-    }
-
-    #endregion
-
-    private async void _PlayerLeft(string _s)
-    {
-        NotificationText.text = _s + " is left";
-        NotificationPanel.SetActive(true);
-        NofificationObj.DOAnchorPosY(-50f, 1f);
-
-        if (_ienumrator != null)
-        {
-            StopCoroutine(_ienumrator);
-        }
-
-        _ienumrator = _DisableNotification();
-        StartCoroutine(_ienumrator);
-    }
-
-    IEnumerator _DisableNotification()
-    {
-        yield return new WaitForSecondsRealtime(5f);
-        NofificationObj.DOAnchorPosY(1000f, 1f);
-        _ienumrator = null;
     }
 
     #endregion

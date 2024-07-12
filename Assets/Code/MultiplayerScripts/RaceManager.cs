@@ -148,15 +148,14 @@ public class RaceManager : NetworkBehaviour
     {
         NetworkEventManager.e_countdown_start -= _OnCounddownStart;
     }
+    #endregion
 
-
+    #region EVENT CALLBACKS
     private void _OnCounddownStart()
     {
         if (Runner.IsServer)
         {
             int a = UnityEngine.Random.Range(0, 3);
-            //Debug.Log("Stumble point  " + a);
-            //RPC_SetStumbleObject(a);
             PathNumber = 0;
         }
 
@@ -199,7 +198,6 @@ public class RaceManager : NetworkBehaviour
             }
         }
     }
-
     #endregion
 
     #region AI PLAYER NAMES
@@ -462,13 +460,15 @@ public class RaceManager : NetworkBehaviour
 
     #endregion
 
+
+    #region INPUT SET
     public void _InputSet(InputAction.CallbackContext context)
     {
         m_input = context.ReadValue<Vector2>();
         runnerhandller.m_input = m_input;
 
     }
-
+    #endregion
 
     #region PLAYER SYNC
     /// <summary>
