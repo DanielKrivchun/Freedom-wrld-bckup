@@ -300,12 +300,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
                     rb.isKinematic = true;
                     MyWiningNumber = RaceManager.instance._GetMyWinningNo();
                     RaceComplete = true;
-
                     if (IsLocalPlayer)
                     {
                         NetworkEventManager._EventCameraChange(_CamState.DisableFollow);
                     }
-
                     int temp = MyWiningNumber - 1;
                     pos = RaceManager.instance.WinPoints[temp].position;
                     Q = RaceManager.instance.WinPoints[temp].rotation;

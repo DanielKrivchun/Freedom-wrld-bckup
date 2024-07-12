@@ -265,7 +265,6 @@ public class RaceManager : NetworkBehaviour
                     if (seconds <= 0 && !startgamenow)
                     {
                         startgamenow = true;
-
                         if (!RaceStart)
                         {
                             NetwrokUI.Instance._StartRace();
@@ -530,7 +529,7 @@ public class RaceManager : NetworkBehaviour
                     {
                         if (i == item.aiplayer.MyWiningNumber)
                         {
-                            _ss.Add(item.aiplayer.MyName+" AI");
+                            _ss.Add(item.aiplayer.MyName + " AI");
                         }
                     }
                 }
@@ -747,7 +746,7 @@ public class RaceManager : NetworkBehaviour
         networkRunnerInstance.SessionInfo.IsVisible = false;
         for (int i = 0; i < 5; i++)
         {
-            yield return new WaitForSecondsRealtime(0.2f);
+            yield return new WaitForSecondsRealtime(0.1f);
             _GenrateAIPlayer();
         }
         NetwrokUI.Instance.StartGameButton.gameObject.SetActive(true);
