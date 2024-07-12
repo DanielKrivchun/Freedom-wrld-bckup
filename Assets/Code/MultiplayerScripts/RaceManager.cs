@@ -137,6 +137,7 @@ public class RaceManager : NetworkBehaviour
     {
 #if !UNITY_EDITOR
         Application.targetFrameRate = 60;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #endif
         PrefabID = petdataref.petData.petPrefabID.ToString();
 
@@ -689,7 +690,6 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region PLAYER SPWANR AND DESPWAN
-
     public void _SpawnPlayer(PlayerRef playerRef)
     {
         if (Runner == null) return;
