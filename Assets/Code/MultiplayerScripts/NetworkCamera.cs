@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Beamable.Api.Notification.PubNubOp;
 
 public class NetworkCamera : MonoBehaviour
 {
@@ -30,14 +29,7 @@ public class NetworkCamera : MonoBehaviour
     public static NetworkCamera Instance;
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(Instance.gameObject);
-        }
+        Instance = this;
     }
 
     private void OnEnable()
@@ -130,8 +122,10 @@ public class NetworkCamera : MonoBehaviour
 
         Debug.Log(PathNo);
         Cam = _GetCamm("follocam");
-        Cam.Follow = _target;
-        Cam.LookAt = _target;
+        CameraFollower cameraFollower = Cam.GetComponent<CameraFollower>();
+        cameraFollower.player = _target;
+        //Cam.Follow = _target;
+        //Cam.LookAt = _target;
     }
 
     public void _ActiveWinScene()
