@@ -639,9 +639,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             _ChangeCurruntPoint();
         }
     }
-
-
-
     #endregion
 
     #region GETPLAYER INPUT

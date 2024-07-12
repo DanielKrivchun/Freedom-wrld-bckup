@@ -15,7 +15,7 @@ using DG.Tweening;
 using Unity.Mathematics;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
-public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
+public class RaceManager : NetworkBehaviour
 {
 
     #region PUBLIC
@@ -99,13 +99,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #region PRIVATE
 
-    private Vector2 m_input;
+    public Vector2 m_input;
 
     private bool AFKCheck;
     private float Timer;
     [Space]
     private float match_start_timer;
     private NetworkRunner networkRunnerInstance;
+    private RunnerHandller runnerhandller;
 
     private string selected_region = "";
     private int hours;
@@ -392,7 +393,8 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
             Debug.Log("Instantiated my object  " + mode);
             networkRunnerInstance = Instantiate(NetworkRunnerPrefab);
         }
-        networkRunnerInstance.AddCallbacks(this);
+        runnerhandller = networkRunnerInstance.GetComponent<RunnerHandller>();
+        networkRunnerInstance.AddCallbacks(runnerhandller);
         networkRunnerInstance.ProvideInput = true;
 
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
@@ -438,6 +440,14 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
 
     #endregion
+
+    public void _InputSet(InputAction.CallbackContext context)
+    {
+        m_input = context.ReadValue<Vector2>();
+        runnerhandller.m_input = m_input;
+
+    }
+
 
     #region PLAYER SYNC
     /// <summary>
@@ -650,7 +660,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     #region PLAYER SPWANR AND DESPWAN
 
-    private void _SpawnPlayer(PlayerRef playerRef)
+    public void _SpawnPlayer(PlayerRef playerRef)
     {
         if (Runner.IsServer)
         {
@@ -698,7 +708,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     IEnumerator _GenrateAIPlayerSlowly()
     {
-
+        networkRunnerInstance.SessionInfo.IsVisible = false;
         for (int i = 0; i < 5; i++)
         {
             yield return new WaitForSecondsRealtime(0.2f);
@@ -768,7 +778,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
 
-    private void _DespawnPlayer(PlayerRef playerRef)
+    public void _DespawnPlayer(PlayerRef playerRef)
     {
         if (Runner.IsServer)
         {
@@ -789,173 +799,7 @@ public class RaceManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
     #endregion
 
-    #region INetworkRunnerCallbacks ALSO SETTING INPUT OVER HERE
 
-    //FOR INPUTx
-    public void _InputSet(InputAction.CallbackContext context)
-    {
-        m_input = context.ReadValue<Vector2>();
-
-    }
-
-    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
-    {
-
-    }
-
-    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
-    {
-    }
-
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
-    {
-
-        //CHECK OF ROOM IS FULL IF FULL THEN DESPWAN PLAYER
-        _SpawnPlayer(player);
-        //CHECKING FOR AI PLAYER COUNT
-    }
-
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
-    {
-        _DespawnPlayer(player);
-    }
-
-    public void OnInput(NetworkRunner runner, NetworkInput input)
-    {
-        var data = new NetworkInputData();
-        data.direction = m_input;
-        input.Set(data);
-    }
-
-    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
-    {
-
-    }
-
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
-    {
-        Debug.Log("OnShutdown");
-        NetworkEventManager._EventNetworkErrors(_Strings.InternetError);
-    }
-
-    public void OnConnectedToServer(NetworkRunner runner)
-    {
-
-    }
-
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
-    {
-        Debug.Log("OnDisconnectedFromServer");
-    }
-
-    public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
-    {
-
-    }
-
-    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
-    {
-        Debug.Log("OnConnectFailed");
-    }
-
-    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
-    {
-    }
-
-    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
-    {
-    }
-
-    public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
-    {
-    }
-
-    public async void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
-    {
-        Debug.Log("OnHostMigration");
-        await runner.Shutdown(shutdownReason: ShutdownReason.HostMigration);
-        FindObjectOfType<RaceManager>()._StartHostMigration(hostMigrationToken);
-
-    }
-
-    private void _StartHostMigration(HostMigrationToken hostMigrationToken)
-    {
-        networkRunnerInstance = Instantiate(NetworkRunnerPrefab);
-        networkRunnerInstance.name = "Migrated Ruunner";
-        //networkRunnerInstance.AddCallbacks(this);
-        Debug.Log("Host migration started");
-        var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
-
-        var clienttask = _InitilizeNetworkRunnerHostMigration(networkRunnerInstance, hostMigrationToken);
-    }
-
-
-    protected virtual Task _InitilizeNetworkRunnerHostMigration(NetworkRunner runner, HostMigrationToken hostmigretiontoken)
-    {
-        runner.ProvideInput = true;
-
-        return networkRunnerInstance.StartGame(new StartGameArgs
-        {
-            SceneManager = networkRunnerInstance.GetComponent<NetworkSceneManagerDefault>(),
-            HostMigrationToken = hostmigretiontoken,
-            HostMigrationResume = _HostmigrationResume
-        });
-
-    }
-
-    void _HostmigrationResume(NetworkRunner runner)
-    {
-        Debug.Log("_HostmigrationResume Started");
-
-
-        foreach (var resumeobject in runner.GetResumeSnapshotNetworkObjects())
-        {
-            if (resumeobject.TryGetBehaviour<NavmeshMultiplayer>(out var player))
-            {
-                runner.Spawn(resumeobject, position: player.MyPos, rotation: player.transform.rotation, onBeforeSpawned: (runner, newtnetworkobject) =>
-                {
-                    Debug.Log("Worked");
-                    newtnetworkobject.CopyStateFrom(resumeobject);
-                });
-            }
-
-            if (resumeobject.TryGetBehaviour<NetworkAIPlayer>(out var netorkai))
-            {
-                runner.Spawn(resumeobject, position: netorkai.transform.position, rotation: netorkai.transform.rotation, onBeforeSpawned: (runner, newtnetworkobject) =>
-                {
-                    Debug.Log("Worked");
-                    newtnetworkobject.CopyStateFrom(resumeobject);
-                });
-            }
-        }
-
-        Debug.Log("_HostmigrationResume Completed");
-        NetworkEventManager._EventHostMigrationDone();
-    }
-
-
-    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
-    {
-
-    }
-
-    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
-    {
-
-    }
-
-    public void OnSceneLoadDone(NetworkRunner runner)
-    {
-
-    }
-
-    public void OnSceneLoadStart(NetworkRunner runner)
-    {
-
-    }
-
-
-    #endregion
 
     #region AI PLAYER
     void _CheckForAIPlayers()

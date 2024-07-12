@@ -125,7 +125,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     IEnumerator _GenrateMyPrefab()
     {
         yield return new WaitForSecondsRealtime(1f);
-        Debug.Log("This Choroutine Worked " + gameObject.name);
+        //Debug.Log("This Choroutine Worked " + gameObject.name);
         _GenratePetPrefab();
     }
 
@@ -137,7 +137,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         MyName = RaceManager.instance._GetNames();
         playerName = MyName;
         int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
-        Debug.Log("MyPrefabID   " + a);
+        //Debug.Log("MyPrefabID   " + a);
         MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
         //MyPrefabID = "1";
         _SetName(playerName.ToString());

@@ -156,7 +156,7 @@ public class NetwrokUI : NetworkBehaviour
     private void _HostMigrated()
     {
         Debug.Log("Host is migrated to me ");
-        ErrorUI.SetActive(false);
+        //ErrorUI.SetActive(false);
     }
 
     private async void _GoingHome()
