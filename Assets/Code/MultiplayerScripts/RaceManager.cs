@@ -441,6 +441,27 @@ public class RaceManager : NetworkBehaviour
 
     #endregion
 
+    #region LEAVE GAME
+    public async Task _LeaveGame()
+    {
+        if (networkRunnerInstance != null)
+        {
+            if (Runner.IsServer)
+            {
+                Debug.Log("Host leaved");
+                await networkRunnerInstance.Shutdown(shutdownReason: ShutdownReason.HostMigration);
+            }
+            else
+            {
+                Debug.Log("Client leaved");
+                await networkRunnerInstance.Shutdown(shutdownReason: ShutdownReason.GameClosed);
+            }
+
+        }
+    }
+
+    #endregion
+
     public void _InputSet(InputAction.CallbackContext context)
     {
         m_input = context.ReadValue<Vector2>();

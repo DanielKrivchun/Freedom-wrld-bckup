@@ -159,12 +159,15 @@ public class NetwrokUI : NetworkBehaviour
         //ErrorUI.SetActive(false);
     }
 
+
+    #region BUTTON LISTENERS
     private async void _GoingHome()
     {
         if (button_waiter) return;
         button_waiter = true;
         Utils._DoButtonAnimation(Yes.transform);
         await Utils._Waiter(200);
+        await RaceManager.instance._LeaveGame();
         button_waiter = false;
         SceneManager.LoadScene(_Strings.PetCareScene);
     }
@@ -249,6 +252,8 @@ public class NetwrokUI : NetworkBehaviour
         LoadingPanel.SetActive(false);
     }
 
+    #endregion
+
     private async void _PlayerLeft(string _s)
     {
         NotificationText.text = _s + " is left";
@@ -313,6 +318,7 @@ public class NetwrokUI : NetworkBehaviour
         button_waiter = true;
         Utils._DoButtonAnimation(ExitButton.transform);
         await Utils._Waiter(200);
+        await RaceManager.instance._LeaveGame();
         button_waiter = false;
         SceneManager.LoadScene(_Strings.PetCareScene);
     }
@@ -332,11 +338,7 @@ public class NetwrokUI : NetworkBehaviour
         {
             WinnerNames[i].text = _s[i];
             WinnerNames[i].gameObject.SetActive(true);
-            //WinnerList[i]._SetupMyData(_s[i]);
-            //WinnerList[i].transform.DOScale(1f, 0.5f);
         }
-
-        //wincontent.gameObject.SetActive(true);
     }
 
 
