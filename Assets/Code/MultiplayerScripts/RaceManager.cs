@@ -509,10 +509,19 @@ public class RaceManager : NetworkBehaviour
                 {
                     if (!item.AI)
                     {
-                        if (i == item.player.MyWiningNumber)
+                        if (item.player != null)
                         {
-                            _ss.Add(item.player.MyName);
+                            if (i == item.player.MyWiningNumber)
+                            {
+                                _ss.Add(item.player.MyName);
+                            }
                         }
+                        else
+                        {
+                            _ss.Add("");
+                        }
+
+
                     }
                     else
                     {
