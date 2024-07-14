@@ -131,7 +131,10 @@ public class ExtraPlayerDataManager : MonoBehaviour
     {
         if (_ExtraPlayerDataServiceClient != null)
         {
-            await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId("1769056389726209", PlayerPrefs.GetInt("IntroTutorial", 0), PlayerPrefs.GetInt("EatTutorial", 0), PlayerPrefs.GetInt("ShowerTutorial", 0), PlayerPrefs.GetInt("InventoryTutorial", 0));
+            var beamContext = BeamContext.Default;
+            await beamContext.OnReady;
+
+            await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId(beamContext.PlayerId.ToString(), PlayerPrefs.GetInt("IntroTutorial", 0), PlayerPrefs.GetInt("EatTutorial", 0), PlayerPrefs.GetInt("ShowerTutorial", 0), PlayerPrefs.GetInt("InventoryTutorial", 0));
             Debug.Log("Pushing data from playerprefs to ExtraPlayerData storage");
         }
         else

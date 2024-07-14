@@ -15,6 +15,9 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Pet Care Data Reference")]
     public PetDataRef petDataRef;
 
+    [Header("Extra Player Data Reference")]
+    public ExtraPlayerDataListSO extraPlayerDataRef;
+
     [Space]
     public GameEventState petCareEvent;
 
@@ -26,6 +29,9 @@ public class PetCareUIManager : MonoBehaviour
     public GameObject eggSelectionPanel;
     public GameObject welcomePanel;
     public GameObject setPetDetailsPanel;
+
+    [Header("Tutorial UI")]
+    public GameObject introTutorialPanel;
 
     [Header("Pet Welcome Panel UI")]
     public Image selectedEggPet;
@@ -350,6 +356,12 @@ public class PetCareUIManager : MonoBehaviour
                                                             (int)swimmingSliderPetCreation.value, (int)intelligenceSliderPetCreation.value, (int)luckSliderPetCreation.value);
             setPetDetailsPanel.SetActive(false);
             petCreationPanelMain.SetActive(false);
+
+            if (extraPlayerDataRef.extraPlayerData.introTutorial == 0)
+            {
+                introTutorialPanel.SetActive(true);
+                extraPlayerDataRef.extraPlayerData.introTutorial = 1;
+            }
         }
     }
 
