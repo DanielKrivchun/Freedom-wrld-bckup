@@ -54,6 +54,11 @@ public class ErrorUI : MonoBehaviour
                 ReconnectingObj.SetActive(false);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+
+        }
     }
 
     private async void _GoingHome()

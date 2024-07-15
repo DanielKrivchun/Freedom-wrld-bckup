@@ -19,14 +19,17 @@ public class RaceManager : NetworkBehaviour
 {
 
     #region PUBLIC
-    public InputValue InputValue;
+    [Header("UI OBJECTS")]
     public TextMeshProUGUI gamestarttimer;
     [Space]
     public TMP_Dropdown dropdown;
     [Space]
+    [Header("SPWAN POSITION TRANSFORMS")]
     public Transform[] spawnPoints;
     [Space]
+    [Header("WIN POSITION TRANSFORMS")]
     public Transform[] WinPoints;
+    [Header("STUMBLE POINTS TRANSFORMS")]
     [Space]
     public _StumbleObjects[] StumblePoints_1;
     public _StumbleObjects[] StumblePoints_2;
@@ -38,13 +41,12 @@ public class RaceManager : NetworkBehaviour
     public NetworkPrefabRef PlayerPrefab = NetworkPrefabRef.Empty;
     [Header("AIPlayer Prefab")]
     public NetworkPrefabRef AIPlayer;
+    [Header("SCRIPTABLE OBJECTS")]
     [Space]
+    public InputValue InputValue;
     public PrefabHolder PetPrefabHolder;
-    [Space]
     public PetDataRef petdataref;
     [Space]
-    public _FakeUsers AINames;
-    public List<int> usedNames;
     //[Space]
     //public NamesJson namesJson;
     [Space]
@@ -52,25 +54,32 @@ public class RaceManager : NetworkBehaviour
     [Space]
     public int CurrntWinCount;
     [Space]
-    public int Min;
-    public int Max;
+    [Header("COINS AND XP")]
     [Space]
     public int MyRank;
     public int MyXP;
     public int MyCoins;
     [Space]
     public float TotalSeconds;
+    [Header("GAME VARIABLES")]
     [Space]
     public int TotalNumberOfPlayers;
     public int TotalRealPlayers;
+    //COUNT MATCHES WHEN PLAYER AGREES TO REPLAY
     public int ResetAgrreePlayers;
-    public int AIplayersCount;
+    //TO CHECK COUNT OF GAME COMPLETE 
     public int CompletePlayerCount;
+    //LOCAL PLAYER WIN NUMBER
     public int MyWinNumber;
 
-    private bool XpCalculations;
     public string LocalPlayerNickname { get; private set; }
     public string LocalnetworkID { get; set; }
+    //PUBLIC BOOLS
+    public bool startgamenow;
+    [Header("LISTS")]
+    public _FakeUsers AINames;
+    [Space]
+    public List<int> usedNames;
     [Space]
     public List<_AllPlayerData> GenratedPlayers;
     [Space]
@@ -79,13 +88,14 @@ public class RaceManager : NetworkBehaviour
     public List<_AIplayerDetails> AIplayerDetails;
     [Space]
     public List<_RankPlayers> RankBasedPlayers;
-
-    private List<_RankPlayers> temp_list;
-
-    private bool aigenration;
-    public bool startgamenow;
+    [Header("PATH OBJECT")]
+    public PathCreation.PathCreator Path;
 
     #endregion
+
+    public bool RaceStart;
+
+    //GENERICS
 
     #region NETWORKED OBJECTS
     [Networked] public int PathNumber { get; set; }
@@ -93,30 +103,33 @@ public class RaceManager : NetworkBehaviour
     [Networked, OnChangedRender(nameof(_OnTimerChanged))]
     public string TimeLeft { get; set; }
 
-    public bool RaceStart;
-    private float timer = 0f;
+    public Vector2 m_input;
     #endregion
 
     #region PRIVATE
 
-    public Vector2 m_input;
+    private bool aigenration;
+    private bool XpCalculations;
 
-    private bool AFKCheck;
+    private float timer = 0f;
     private float Timer;
-    [Space]
     private float match_start_timer;
-    private NetworkRunner networkRunnerInstance;
-    private RunnerHandller runnerhandller;
 
     private string selected_region = "";
+
+    private bool AFKCheck;
+
+    private int Max = 50;
+    private int Min = 50;
     private int hours;
     private int minutes;
     private int seconds;
 
+    private RunnerHandller runnerhandller;
+    private NetworkRunner networkRunnerInstance;
+    private List<_RankPlayers> temp_list;
 
     #endregion
-
-    public PathCreation.PathCreator Path;
 
     public static RaceManager instance;
 
@@ -241,9 +254,11 @@ public class RaceManager : NetworkBehaviour
     {
         if (AFKCheck)
         {
+            //THIS WILL RUN TO CHECK AFK 
             _CheckForAFK();
         }
 
+        //CODE FOR  CHECKING TIMER BASED RACE START
         if (networkRunnerInstance != null && networkRunnerInstance.IsServer && !RaceStart)
         {
             TotalSeconds -= Time.deltaTime;
@@ -275,6 +290,9 @@ public class RaceManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// NETWORK FIXED UPDATED 
+    /// </summary>
     public override void FixedUpdateNetwork()
     {
         //CHECK THIS ONLY ON SERVER
@@ -284,6 +302,7 @@ public class RaceManager : NetworkBehaviour
 
         timer += Time.deltaTime;
 
+        //THIS CODE WILL CALCULATE RANK OF THE PLAYER RUNTIME
         if (timer > 5f)
         {
             timer = 0f;

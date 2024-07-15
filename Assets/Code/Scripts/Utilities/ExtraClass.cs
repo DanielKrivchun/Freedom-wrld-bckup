@@ -68,8 +68,6 @@ public class _Strings
     public const string ServerError = "Disconnected from server.";
     public const string ConnectuonFailed = "Connectiton Failed.";
     public const string LeftOnlyOnePlay = "All players left the game.";
-
-
 }
 
 

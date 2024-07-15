@@ -12,8 +12,18 @@ public class RunnerHandller : MonoBehaviour, INetworkRunnerCallbacks
 {
     private NetworkRunner networkRunnerInstance;
 
-    public RaceManager raceManager;
     public Vector2 m_input;
+
+
+    private RaceManager raceManagerref;
+
+    #region UNITY METHODS
+    void Start()
+    {
+        raceManagerref = FindObjectOfType<RaceManager>();
+    }
+    #endregion
+
     #region INetworkRunnerCallbacks ALSO SETTING INPUT OVER HERE
 
     //FOR INPUTx
@@ -36,19 +46,19 @@ public class RunnerHandller : MonoBehaviour, INetworkRunnerCallbacks
     {
 
         //CHECK OF ROOM IS FULL IF FULL THEN DESPWAN PLAYER
-        RaceManager.instance._SpawnPlayer(player);
+        raceManagerref._SpawnPlayer(player);
         //CHECKING FOR AI PLAYER COUNT
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        RaceManager.instance._DespawnPlayer(player);
+        raceManagerref._DespawnPlayer(player);
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
-        data.direction = RaceManager.instance.m_input;
+        data.direction = raceManagerref.m_input;
         input.Set(data);
     }
 
@@ -131,7 +141,7 @@ public class RunnerHandller : MonoBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
-
+    #region HOST MIGRATION
     public void _StartHostMigration(HostMigrationToken hostMigrationToken)
     {
         networkRunnerInstance = Instantiate(RaceManager.instance.NetworkRunnerPrefab);
@@ -184,5 +194,7 @@ public class RunnerHandller : MonoBehaviour, INetworkRunnerCallbacks
         Debug.Log("_HostmigrationResume Completed");
         NetworkEventManager._EventHostMigrationDone();
     }
+
+    #endregion
 
 }
