@@ -732,7 +732,6 @@ public class RaceManager : NetworkBehaviour
         }
     }
 
-
     void _RacePlayersCalculation()
     {
         if (TotalRealPlayers >= 2)

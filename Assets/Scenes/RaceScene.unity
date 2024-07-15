@@ -520,11 +520,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  distance: 5
+  distance: 6.5
   height: 3.5
   shoulderOffset: 0
-  HeightOffSet: {x: 0, y: -1, z: 0}
-  smoothTime: 1.5
+  HeightOffSet: {x: 0, y: -2, z: 0}
+  smoothTime: 0.2
 --- !u!1 &33399494
 GameObject:
   m_ObjectHideFlags: 0
@@ -2872,7 +2872,7 @@ GameObject:
   - component: {fileID: 91838778}
   - component: {fileID: 91838777}
   m_Layer: 5
-  m_Name: Leave (1)
+  m_Name: Reconnecting Leave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
