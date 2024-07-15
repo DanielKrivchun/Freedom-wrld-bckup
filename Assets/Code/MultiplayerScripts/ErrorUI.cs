@@ -25,6 +25,8 @@ public class ErrorUI : MonoBehaviour
     private bool CheckForConnection;
     private float deltaTime = 0.0f;
     private float fps;
+
+    private bool LeavingToHome;
     private void OnEnable()
     {
         NetworkEventManager.e_network_errors += _NetworkError;
@@ -57,6 +59,7 @@ public class ErrorUI : MonoBehaviour
     private async void _GoingHome()
     {
         if (button_waiter) return;
+        LeavingToHome = true;
         button_waiter = true;
         Utils._DoButtonAnimation(HomeButton.transform);
         Utils._DoButtonAnimation(LeaveButton.transform);
@@ -71,6 +74,7 @@ public class ErrorUI : MonoBehaviour
 
     private void _NetworkError(string _s)
     {
+        if (LeavingToHome) return;
         if (NetwrokUI.Instance.LeavedGame) return;
         ErrorPopup.transform.localScale = Vector3.zero;
         ErrorUIObject.SetActive(true);

@@ -60,7 +60,7 @@ public class RunnerHandller : MonoBehaviour, INetworkRunnerCallbacks
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
         Debug.Log("OnShutdown");
-        NetworkEventManager._EventNetworkErrors(_Strings.InternetError);
+        NetworkEventManager._EventNetworkErrors(_Strings.ServerError);
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
@@ -71,7 +71,7 @@ public class RunnerHandller : MonoBehaviour, INetworkRunnerCallbacks
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
         Debug.Log("OnDisconnectedFromServer");
-        NetworkEventManager._EventNetworkErrors(_Strings.InternetError);
+        NetworkEventManager._EventNetworkErrors(_Strings.ServerError);
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
@@ -82,7 +82,7 @@ public class RunnerHandller : MonoBehaviour, INetworkRunnerCallbacks
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
         Debug.Log("OnConnectFailed");
-        NetworkEventManager._EventNetworkErrors(_Strings.InternetError);
+        NetworkEventManager._EventNetworkErrors(_Strings.ConnectuonFailed);
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
@@ -101,7 +101,7 @@ public class RunnerHandller : MonoBehaviour, INetworkRunnerCallbacks
     public async void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
         Debug.Log("OnHostMigration");
-        NetworkEventManager._EventNetworkErrors(_Strings.InternetError);
+        NetworkEventManager._EventNetworkErrors(_Strings.HostMigrated);
         return;
         await runner.Shutdown(shutdownReason: ShutdownReason.HostMigration);
         FindObjectOfType<RunnerHandller>()._StartHostMigration(hostMigrationToken);

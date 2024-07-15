@@ -64,9 +64,10 @@ public class _Strings
     public static string PetCareScene = "PetCareScene";
 
 
-    public static string InternetError = "Connection Error";
-    //public const string InternetErrorSolved = "InternetErrorSolved";
-    public const string Error = "Connection Error";
+    public static string HostMigrated = "You have been disconnected from the race and cannot rejoin.";
+    public const string ServerError = "Disconnected from server.";
+    public const string ConnectuonFailed = "Connectiton Failed.";
+    public const string LeftOnlyOnePlay = "All players left the game.";
 
 
 }

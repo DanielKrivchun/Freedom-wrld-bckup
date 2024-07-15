@@ -32,7 +32,7 @@ public class NetwrokUI : NetworkBehaviour
     public RectTransform ReplayPopup;
     public TextMeshProUGUI ReplayText;
 
-  
+
     [Space]
     [Header("In-Game Text")]
     public TextMeshProUGUI countdownText;
@@ -97,7 +97,7 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager.e_get_set_go += _ResetOnStart;
         NetworkEventManager.e_player_left += _PlayerLeft;
         NetworkEventManager.e_updated_my_no += _UpdatedRank;
-    
+
         NetworkEventManager.e_host_migration_done += _HostMigrated;
         NetworkEventManager.e_game_complete += _GameIsComplete;
 
@@ -114,7 +114,7 @@ public class NetwrokUI : NetworkBehaviour
         StartGameButton.onClick.AddListener(_StartRace);
         AIPlayerButton.onClick.AddListener(_GenrateAIPlayer);
         TestButton.onClick.AddListener(_TestButton);
-  
+
     }
 
 
@@ -142,7 +142,7 @@ public class NetwrokUI : NetworkBehaviour
         No.onClick.RemoveListener(_No);
         StartGameButton.onClick.RemoveListener(_StartRace);
         AIPlayerButton.onClick.RemoveListener(_GenrateAIPlayer);
-  
+
     }
 
     #endregion
@@ -244,7 +244,7 @@ public class NetwrokUI : NetworkBehaviour
 
         if (RaceManager.instance.TotalRealPlayers <= 1)
         {
-            NetworkEventManager._EventNetworkErrors(_Strings.Error);
+            NetworkEventManager._EventNetworkErrors(_Strings.LeftOnlyOnePlay);
             return;
         }
 
