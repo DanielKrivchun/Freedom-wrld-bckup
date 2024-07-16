@@ -804,8 +804,6 @@ public class RaceManager : NetworkBehaviour
             {
                 NetwrokUI.Instance._OpenStartUI();
             }
-            _RacePlayersCalculation();
-
         }
         else
         {
@@ -813,16 +811,6 @@ public class RaceManager : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// COUNTING REAL PLAYERS TO GENRATE AI PLAYERS
-    /// </summary>
-    void _RacePlayersCalculation()
-    {
-        if (TotalRealPlayers >= 2)
-        {
-            StartCoroutine(_GenrateAIPlayerSlowly());
-        }
-    }
     /// <summary>
     /// CHROUTINE THAT GENRATES AI PLAYERS
     /// </summary>
@@ -833,7 +821,9 @@ public class RaceManager : NetworkBehaviour
 
         yield return new WaitForSecondsRealtime(2f);
 
-        for (int i = 0; i < 5; i++)
+        int a = 5 - TotalNumberOfPlayers;
+
+        for (int i = 0; i < a; i++)
         {
             yield return new WaitForSecondsRealtime(0.1f);
 
