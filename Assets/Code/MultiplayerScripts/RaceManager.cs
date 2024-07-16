@@ -776,9 +776,20 @@ public class RaceManager : NetworkBehaviour
                 TotalNumberOfPlayers--;
                 //Debug.Log("Players are morethen 5 or 5 ");
                 //REMOVE AI PLAYER HERE AND ADD REAL PLAYER
-                int newpathno = _DespwanAIplayer();
-                Vector3 spwanp = spawnPoints[newpathno].transform.position;
-                _SpwanPlayerCalculations(playerRef, newpathno, spwanp);
+                if (KickedPlayersPathNumber.Count > 0)
+                {
+                    int ppp = KickedPlayersPathNumber[0];
+                    KickedPlayersPathNumber.RemoveAt(0);
+                    Vector3 spwanp = spawnPoints[ppp].transform.position;
+                    _SpwanPlayerCalculations(playerRef, ppp, spwanp);
+                }
+                else
+                {
+                    int newpathno = _DespwanAIplayer();
+                    Vector3 spwanp = spawnPoints[newpathno].transform.position;
+                    _SpwanPlayerCalculations(playerRef, newpathno, spwanp);
+                }
+
                 return;
             }
 
@@ -949,7 +960,7 @@ public class RaceManager : NetworkBehaviour
     /// </summary>
     public void _GenrateAIPlayer(int pathno)
     {
-        Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
+        Vector3 spawnPoint = spawnPoints[pathno].transform.position;
         NetworkObject playerObject = Runner.Spawn(AIPlayer, spawnPoint, Quaternion.identity);
         playerObject.GetComponent<NetworkTransform>().transform.position = spawnPoint;
         Debug.Log(playerObject.transform.position);
