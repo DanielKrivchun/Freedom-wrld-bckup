@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class PathPointManager : MonoBehaviour
 {
-
+    //LIST WHICH CONTAINS ALL 5 PATH POINTS POSITIONS
     public List<_PrePositions> prePositions;
-
 
     public bool m_randomized;
     public int StraightNo;
@@ -39,9 +38,15 @@ public class PathPointManager : MonoBehaviour
 
 #endif
 
+    ///ONLY FOR EDITOR SCRIPT FUNCTIONS
+
 #if UNITY_EDITOR
+    /// <summary>
+    /// LINE REDRER PREFAB ONLY FOR EDITOR 
+    /// </summary>
     public List<GameObject> Lines;
     [Space]
+    [Header("ADD PARENT OBJECTS OF PATH POINTS IN THIS LIST")]
     public List<Transform> PathParents;
 
     public void _GenratePathLines()
@@ -63,7 +68,9 @@ public class PathPointManager : MonoBehaviour
         m_line.SetPositions(m_v.ToArray());
 
     }
-
+    /// <summary>
+    /// RESET LINE RENDRERS
+    /// </summary>
     public void _Reset()
     {
         foreach (var item in Lines)

@@ -114,7 +114,6 @@ public class RaceManager : NetworkBehaviour
 
     private bool aigenration;
     private bool XpCalculations;
-    public bool TryingToReplay;
 
     private float timer = 0f;
     private float Timer;
@@ -1032,16 +1031,17 @@ public class RaceManager : NetworkBehaviour
     {
         Debug.Log("I am Getting  Details  " + s);
         NetworkEventManager._EventPlayerLeft(s);
-        //NetworkEventManager._EventOnStopPlayer(1);
-
-        if (Runner.IsServer)
+        if (Runner.IsServer && !RaceStart)
         {
             StartCoroutine(_WaitandCHeckReplayOptions());
         }
-
-        
     }
 
+
+    /// <summary>
+    /// THIS WORKS WHEN GAME REPLAY HAPPENS
+    /// </summary>
+    /// <returns></returns>
     IEnumerator _WaitandCHeckReplayOptions()
     {
 

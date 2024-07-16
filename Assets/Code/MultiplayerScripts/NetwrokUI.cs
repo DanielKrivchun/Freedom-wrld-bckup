@@ -266,7 +266,7 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(ReplayButton.transform);
         await Utils._Waiter(200);
         button_waiter = false;
-        RaceManagerRef.TryingToReplay = true;
+  
         if (RaceManager.instance.TotalRealPlayers <= 1)
         {
             NetworkEventManager._EventNetworkErrors(_Strings.LeftOnlyOnePlay);
