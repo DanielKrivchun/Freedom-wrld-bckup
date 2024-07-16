@@ -226,10 +226,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     public void _CleientReset(string _name, string _id)
     {
-        if (Object.Id.ToString() == _id)
-        {
-            NameTextObject.transform.localScale = Vector3.one;
-        }
+        NameTextObject.transform.localScale = Vector3.one;
     }
     #endregion
 

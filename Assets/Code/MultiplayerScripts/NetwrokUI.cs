@@ -471,6 +471,14 @@ public class NetwrokUI : NetworkBehaviour
         countdownPanel.SetActive(true);
         StartCoroutine(_StartedCountDown());
         NetworkEventManager._EventStartCountDown();
+        _ResetUI();
+    }
+
+    void _ResetUI()
+    {
+        wintext.text = "";
+        Cointext.text = "";
+        Xptext.text = "";
     }
 
     /// <summary>
