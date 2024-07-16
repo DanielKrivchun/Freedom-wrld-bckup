@@ -251,8 +251,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         PetConfigs.MyCoins = playerconfigs.mycoins;
         PetConfigs.maxstemina = playerconfigs.maxStamina;
 
-        RaceManager.instance.MyXP = PetConfigs.MyXp;
-        RaceManager.instance.MyCoins = PetConfigs.MyCoins;
 
         MySpeed = PetConfigs.BaseSpeed + _GetMyStateMultiplier(playerconfigs.running);
 

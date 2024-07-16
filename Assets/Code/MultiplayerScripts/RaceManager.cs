@@ -57,8 +57,8 @@ public class RaceManager : NetworkBehaviour
     [Header("COINS AND XP")]
     [Space]
     public int MyRank;
-    public int MyXP;
-    public int MyCoins;
+    //public int MyXP;
+    //public int MyCoins;
     [Space]
     public float TotalSeconds;
     [Header("GAME VARIABLES")]
@@ -405,8 +405,8 @@ public class RaceManager : NetworkBehaviour
     {
         //GET MY NAME XP AND COINS OVER HERE
         LocalPlayerNickname = petdataref.petData.petname;
-        MyXP = (int)petdataref.petData.xp;
-        MyRank = (int)petdataref.petData.rank;
+        //MyXP = (int)petdataref.petData.xp;
+        MyRank = petdataref.petData.rank;
 
         //DEFAULT SELECTED REGIOUN IS ASIA
         if (selected_region.Length <= 0)
@@ -527,7 +527,7 @@ public class RaceManager : NetworkBehaviour
         P.luck = petdataref.petData.luck;
         P.rank = petdataref.petData.rank;
         P.maxStamina = petdataref.petData.maxStamina;
-        P.mycoins = MyCoins;
+        //P.mycoins = MyCoins;
         P.xp = petdataref.petData.xp;
         return P;
     }
@@ -621,9 +621,7 @@ public class RaceManager : NetworkBehaviour
                 mul = 0;
                 break;
         }
-        int newxp = (MyXP) + (1 / MyRank) * mul;
-        MyCoins += coinstoadd;
-        MyXP += newxp;
+        int newxp = (1 / MyRank) * mul;
         Debug.Log(newxp);
         Debug.Log(coinstoadd);
 
