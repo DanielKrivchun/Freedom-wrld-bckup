@@ -12,7 +12,7 @@ public class NetworkEventManager : MonoBehaviour
 
 
     public delegate void IntDelegateEvents(int _no);
-    public static event IntDelegateEvents e_win_event, e_focus_on_player, e_player_speed_change, e_updated_my_no;
+    public static event IntDelegateEvents e_win_event, e_focus_on_player, e_updated_my_no;
 
     public delegate void CameraDelegateEvents(_CamState _CamState);
     public static event CameraDelegateEvents e_camera_change;
@@ -88,13 +88,13 @@ public class NetworkEventManager : MonoBehaviour
         }
     }
 
-    public static void _EventOnStopPlayer(int _a)
-    {
-        if (e_player_speed_change != null)
-        {
-            e_player_speed_change(_a);
-        }
-    }
+    //public static void _EventOnStopPlayer(int _a)
+    //{
+    //    if (e_player_speed_change != null)
+    //    {
+    //        e_player_speed_change(_a);
+    //    }
+    //}
 
     public static void _EventTextLookat(Transform _t)
     {

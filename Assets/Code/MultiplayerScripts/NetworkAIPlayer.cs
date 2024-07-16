@@ -85,13 +85,13 @@ public class NetworkAIPlayer : NetworkBehaviour
     #region NETWORK FUCTIONS
     private void OnDestroy()
     {
-        NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;
+        //NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;
     }
 
     private void Start()
     {
         //Debug.Log("WORKED");
-        NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
+        //NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
         networkTransform = GetComponent<NetworkTransform>();
         path_point = FindObjectOfType<PathPointManager>();
         RaceManagerRef = RaceManager.instance;

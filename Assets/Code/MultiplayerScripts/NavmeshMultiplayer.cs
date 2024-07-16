@@ -101,7 +101,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #region NETWORK FUCTIONS
     public override void Spawned() // fusionun startı
     {
-        NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
+        //NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
         NetworkEventManager.e_reset_player += _ResetMe;
         NetworkEventManager.e_reset_on_client += _CleientReset;
         NetworkEventManager.e_host_migration_done += _HostMigrated;
@@ -125,7 +125,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     private void OnDestroy()
     {
         NetworkEventManager.e_reset_on_client -= _CleientReset;
-        NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;
+        //NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;
         NetworkEventManager.e_reset_player -= _ResetMe;
         NetworkEventManager.e_host_migration_done -= _HostMigrated;
     }

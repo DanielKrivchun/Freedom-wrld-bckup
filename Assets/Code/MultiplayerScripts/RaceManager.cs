@@ -1032,7 +1032,34 @@ public class RaceManager : NetworkBehaviour
     {
         Debug.Log("I am Getting  Details  " + s);
         NetworkEventManager._EventPlayerLeft(s);
-        NetworkEventManager._EventOnStopPlayer(1);
+        //NetworkEventManager._EventOnStopPlayer(1);
+
+        if (Runner.IsServer)
+        {
+            StartCoroutine(_WaitandCHeckReplayOptions());
+        }
+
+        
     }
+
+    IEnumerator _WaitandCHeckReplayOptions()
+    {
+
+        yield return new WaitForSecondsRealtime(3f);
+
+        if (TotalRealPlayers <= 1)
+        {
+            NetworkEventManager._EventNetworkErrors(_Strings.LeftOnlyOnePlay);
+            yield break;
+        }
+
+        if (TotalRealPlayers == ResetAgrreePlayers)
+        {
+
+            _ReplayGameFromUIManager();
+        }
+
+    }
+
     #endregion
 }
