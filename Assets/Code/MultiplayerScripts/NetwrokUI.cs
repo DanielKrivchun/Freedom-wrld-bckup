@@ -215,10 +215,19 @@ public class NetwrokUI : NetworkBehaviour
         _ienumrator = _DisableNotification();
         StartCoroutine(_ienumrator);
 
+        StartCoroutine(_WaitandCHeckReplayOptions());   
+
+    }
+
+    IEnumerator _WaitandCHeckReplayOptions()
+    {
+
+        yield return new WaitForSecondsRealtime(3f);
+
         if (RaceManagerRef.TotalRealPlayers <= 1)
         {
             NetworkEventManager._EventNetworkErrors(_Strings.LeftOnlyOnePlay);
-            return;
+            yield break;
         }
 
         if (RaceManagerRef.TotalRealPlayers == RaceManagerRef.ResetAgrreePlayers)
