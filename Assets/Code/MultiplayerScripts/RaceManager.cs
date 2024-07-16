@@ -233,7 +233,7 @@ public class RaceManager : NetworkBehaviour
     {
         int a = _GetRandomNumber();
 
-        Debug.Log("Random Number " + a);
+        //Debug.Log("Random Number " + a);
         if (usedNames.Contains(a))
         {
             a = _GetRandomNumber();
@@ -244,7 +244,7 @@ public class RaceManager : NetworkBehaviour
 
     private int _GetRandomNumber()
     {
-        Debug.Log("Name list count " + AINames.Names.Count);
+        //Debug.Log("Name list count " + AINames.Names.Count);
         return UnityEngine.Random.Range(0, AINames.Names.Count);
     }
     #endregion
@@ -343,13 +343,19 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region GAME START AND MATCHMAKING
-    public const string ELO_PROP_KEY = "C0";
-    public const string MAP_PROP_KEY = "C1";
+
+    /// <summary>
+    /// THIS IS FOR TIMER COUNTDOWN CHANGED
+    /// </summary>
     private void _OnTimerChanged()
     {
         gamestarttimer.text = "Game will start in..." + TimeLeft;
     }
 
+    /// <summary>
+    /// SELECTING REGIOUN
+    /// </summary>
+    /// <param name="typedText"></param>
     public void _SelectRegion(int typedText)
     {
         Debug.Log(typedText);
@@ -401,8 +407,7 @@ public class RaceManager : NetworkBehaviour
         MyXP = (int)petdataref.petData.xp;
         MyRank = (int)petdataref.petData.rank;
 
-
-
+        //DEFAULT SELECTED REGIOUN IS ASIA
         if (selected_region.Length <= 0)
         {
             Debug.LogError("SELECT REGION");
@@ -439,6 +444,7 @@ public class RaceManager : NetworkBehaviour
         customProps["RANK"] = _GetMyRank();
         Debug.Log("MY RANK " + MyRank);
 
+        //THIS WILL START GAME FUSION
         await networkRunnerInstance.StartGame(new StartGameArgs
         {
             GameMode = mode,
@@ -454,6 +460,7 @@ public class RaceManager : NetworkBehaviour
 
     }
 
+    //GETTING RANK
     string _GetMyRank()
     {
         if (MyRank < 50)
@@ -466,6 +473,10 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region LEAVE GAME
+    /// <summary>
+    /// LEAVE GAME DESTROY NETWORK OBJECTS
+    /// </summary>
+    /// <returns></returns>
     public async Task _LeaveGame()
     {
         if (networkRunnerInstance != null)
@@ -487,6 +498,10 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region INPUT SET
+    /// <summary>
+    /// INPUT IS SET BUY INPUT MANAGER
+    /// </summary>
+    /// <param name="context"></param>
     public void _InputSet(InputAction.CallbackContext context)
     {
         m_input = context.ReadValue<Vector2>();
@@ -519,6 +534,10 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region ON RACE COMPLETE CACLULATION CP AND COINS
+
+    /// <summary>
+    /// CHECK FOR ALL PLAYER COMPLETES GAME OR NOT
+    /// </summary>
     public void _CheckAllPlayerCompleted()
     {
         CompletePlayerCount++;
@@ -553,7 +572,7 @@ public class RaceManager : NetworkBehaviour
                     }
                 }
             }
-
+            //SET NAMES AND RANK OF THE PLAYER IN UI
             NetwrokUI.Instance._SetupList(_ss);
             if (XpCalculations)
             {
@@ -572,7 +591,10 @@ public class RaceManager : NetworkBehaviour
 
 
 
-
+    /// <summary>
+    /// XP AND COINS CALCULATIONS
+    /// </summary>
+    /// <param name="_mywinno"></param>
     public void _XpIncrimental(int _mywinno)
     {
         int mul = 1;
@@ -628,8 +650,11 @@ public class RaceManager : NetworkBehaviour
 
     #endregion
 
-    #region RESET ON GAME COMPLETE
+    #region RESET ON GAME COMPLETE AND REPLAY
 
+    /// <summary>
+    /// RESET GAME DATA ON REPLAY
+    /// </summary>
     private void _ResetDataOnComplete()
     {
         ResetAgrreePlayers = 0;
@@ -641,6 +666,9 @@ public class RaceManager : NetworkBehaviour
         AFKCheck = true;
     }
 
+    /// <summary>
+    /// RACE MANABER RESET 
+    /// </summary>
     public void _ResetRaceManager()
     {
         Debug.Log(ResetAgrreePlayers);
@@ -654,6 +682,11 @@ public class RaceManager : NetworkBehaviour
         }
     }
 
+
+    /// <summary>
+    /// REPLAY GAME AGAIN STARTS THE RACE
+    /// </summary>
+    /// <returns></returns>
     IEnumerator _ReplayGameAgain()
     {
         //DE SPWAN ALL AI PLAYERS
@@ -675,6 +708,10 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region ON RACE STARTS
+
+    /// <summary>
+    /// THIS FUNCTION STARTS GAME FOR ALL PLAYERS IN SERVER
+    /// </summary>
     public void _StartGameForPlayers()
     {
         networkRunnerInstance.SessionInfo.IsVisible = false;
@@ -696,6 +733,10 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region PATHNUMBER SETUP
+    /// <summary>
+    /// ASSIGN PATH NUMBER FOR ALL PLAYER BY SERVER 
+    /// </summary>
+    /// <returns></returns>
     public int _GetPathNo()
     {
         int a = PathNumber;
@@ -705,6 +746,10 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region WIN LOGIC
+    /// <summary>
+    /// ASSIGN WIN NUMBER ON SERVER
+    /// </summary>
+    /// <returns></returns>
     public int _GetMyWinningNo()
     {
         CurrntWinCount++;
@@ -713,6 +758,10 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region PLAYER SPWANR AND DESPWAN
+    /// <summary>
+    /// PLAYER PREFAB GET SPWAN AND DATA GET ADDED INTO LISTS
+    /// </summary>
+    /// <param name="playerRef"></param>
     public void _SpawnPlayer(PlayerRef playerRef)
     {
         if (Runner == null) return;
@@ -751,6 +800,9 @@ public class RaceManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// COUNTING REAL PLAYERS TO GENRATE AI PLAYERS
+    /// </summary>
     void _RacePlayersCalculation()
     {
         if (TotalRealPlayers >= 2)
@@ -758,7 +810,10 @@ public class RaceManager : NetworkBehaviour
             StartCoroutine(_GenrateAIPlayerSlowly());
         }
     }
-
+    /// <summary>
+    /// CHROUTINE THAT GENRATES AI PLAYERS
+    /// </summary>
+    /// <returns></returns>
     IEnumerator _GenrateAIPlayerSlowly()
     {
         networkRunnerInstance.SessionInfo.IsVisible = false;
@@ -782,6 +837,11 @@ public class RaceManager : NetworkBehaviour
         GenratedPlayers.Add(d);
     }
 
+
+    /// <summary>
+    /// REMOVES AI PLAYER FROM GAME 
+    /// </summary>
+    /// <returns></returns>
     private int _DespwanAIplayer()
     {
         if (Runner.IsServer)
@@ -802,7 +862,9 @@ public class RaceManager : NetworkBehaviour
         Debug.Log("No AI player Found");
         return 4;
     }
-
+    /// <summary>
+    /// REMOVES ALL AI PLAYES FROM GAME
+    /// </summary>
     private void _DespwanAllAIplayers()
     {
         if (Runner.IsServer)
@@ -835,6 +897,10 @@ public class RaceManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// REMOVES REAL PLAYER FROM GAME
+    /// </summary>
+    /// <param name="playerRef"></param>
     public void _DespawnPlayer(PlayerRef playerRef)
     {
         if (Runner.IsServer)
@@ -859,18 +925,14 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region AI PLAYER
-    void _CheckForAIPlayers()
-    {
-        Debug.Log("Checking For AI Players");
-        //RPC_GetAIDetails();
-    }
 
+    /// <summary>
+    /// GENRATE AI PLAYER INTO GAME CALLED BY SERVER ONLY
+    /// </summary>
     public void _GenrateAIPlayer()
     {
         if (PathNumber == 5) return;
-        Debug.Log("AI player genration " + PathNumber);
         Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
-        Debug.Log(spawnPoint);
         NetworkObject playerObject = Runner.Spawn(AIPlayer, spawnPoint, Quaternion.identity);
         playerObject.GetComponent<NetworkTransform>().transform.position = spawnPoint;
         Debug.Log(playerObject.transform.position);
@@ -881,6 +943,11 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region RANK FINDER
+    /// <summary>
+    /// FINDING DISTANCE TO CHECK CURRUNT RANK OF THE PLAYER
+    /// </summary>
+    /// <param name="_pos"></param>
+    /// <returns></returns>
     public float _FindMyDistance(Vector3 _pos)
     {
         return Path.path.GetClosestDistanceAlongPath(_pos);
@@ -889,6 +956,11 @@ public class RaceManager : NetworkBehaviour
     #endregion
 
     #region STUMBLE & JACK
+    /// <summary>
+    /// ACTIVATING JACK OBJECT IN SCENE
+    /// </summary>
+    /// <param name="_jackno"></param>
+    /// <param name="pathno"></param>
     public void _ActivateJack(int _jackno, int pathno)
     {
         Transform T = null;
@@ -924,73 +996,21 @@ public class RaceManager : NetworkBehaviour
 
     #region RPC CALLS
 
+    /// <summary>
+    /// THIS WILL CALL RPC CALL WHEN ANY PLAYER LEFT GAME
+    /// </summary>
+    /// <param name="_name"></param>
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_PlayerLeftNofirication(string _name)
     {
         _PlayerLeftDetails(_name);
     }
 
-    //[Rpc(RpcSources.All, RpcTargets.InputAuthority)]
-    //public void RPC_PlayerFinishedRace()
-    //{
-    //    List<string> _ss = new List<string>();
-
-    //    for (int i = 1; i < TotalNumberOfPlayers + 1; i++)
-    //    {
-    //        foreach (var item in TotalPlayers)
-    //        {
-    //            if (!item.AI)
-    //            {
-    //                if (item.player.MyWiningNumber == 0)
-    //                {
-    //                    _ss.Add("");
-    //                    break;
-    //                }
-
-    //                if (i == item.player.MyWiningNumber)
-    //                {
-    //                    _ss.Add(item.player.MyName);
-    //                    break;
-    //                }
-    //            }
-    //            else
-    //            {
-    //                if (item.aiplayer.MyWiningNumber == 0)
-    //                {
-    //                    _ss.Add("");
-    //                    break;
-
-    //                }
-    //                if (i == item.aiplayer.MyWiningNumber)
-    //                {
-    //                    _ss.Add(item.aiplayer.MyName);
-    //                    break;
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    NetwrokUI.Instance._SetupList(_ss);
-    //}
-
     void _PlayerLeftDetails(string s)
     {
         Debug.Log("I am Getting  Details  " + s);
         NetworkEventManager._EventPlayerLeft(s);
         NetworkEventManager._EventOnStopPlayer(1);
-
     }
-
-    //[Rpc(RpcSources.All, RpcTargets.All)]
-    //public void RPC_SetStumbleObject(int a)
-    //{
-    //    _SetStumbleObjec(a);
-    //}
-
-    //void _SetStumbleObjec(int a)
-    //{
-    //    //StumblePoints[a].gameObject.SetActive(true);
-    //}
-
     #endregion
 }

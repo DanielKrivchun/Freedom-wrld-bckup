@@ -7,26 +7,28 @@ using UnityEngine;
 
 public class NetworkCamera : MonoBehaviour
 {
-    public CinemachineBrain Brain;
-    [Space]
-    //public List<Transform> InitialTransforms;
-    [Space]
+    #region VARIABLES
+    //LIST OF ALL CAMERA WHERE CAMERA CAN BE GET BY THEIR NAMES
     public List<_CamList> All_Cameras;
     [Space]
+    //WIN CAMERA OBJECTS
     public CinemachineFreeLook WinCam;
     public GameObject WinCamera;
     [Space]
+    ///TRAGSFORM TO ANIMATE START RACE CAMERA
     public Transform StartPoint;
     public Transform EndPoint;
     [Space]
-    public List<_CamCofigs> CamConfigs;
-    [Space]
+    //CONFETTI ON GAME WIN
     public GameObject Confetti;
 
     public GameObject CurruntCam;
     private CinemachineVirtualCamera Cam;
+    #endregion
 
     public static NetworkCamera Instance;
+
+    #region UNITY METHODS
     private void Awake()
     {
         Instance = this;
@@ -45,7 +47,9 @@ public class NetworkCamera : MonoBehaviour
         NetworkEventManager.e_camera_change -= _CameraSetup;
         NetworkEventManager.e_focus_on_player -= _FocusOnPlayer;
     }
+    #endregion
 
+    #region EVENT CALLBACKS
     private void _GameStarted()
     {
         WinCamera.SetActive(false);
@@ -65,6 +69,10 @@ public class NetworkCamera : MonoBehaviour
         Cam.transform.DOMove(EndPoint.position, 8f);
     }
 
+    /// <summary>
+    /// CALLED BY EVENT AND ACTIVATES CAMERA
+    /// </summary>
+    /// <param name="_CamState"></param>
     private void _CameraSetup(_CamState _CamState)
     {
         switch (_CamState)
@@ -99,6 +107,9 @@ public class NetworkCamera : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region CAM UTILITIES
     async void _WaitAndDisbaleCam(GameObject _obj)
     {
         await Utils._Waiter(500);
@@ -116,16 +127,20 @@ public class NetworkCamera : MonoBehaviour
         //Debug.Log(_camname);
         return All_Cameras.Find(asd => asd.type == _camname).cam;
     }
+    #endregion
 
+    #region FOLOW CAMERA REGIOION AND WIN SCENE ACTIVATION
+    /// <summary>
+    /// SETTING UP FOLLOW CAMERA
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <param name="PathNo"></param>
     public void _SetUpCamera(Transform _target, int PathNo)
     {
-
         Debug.Log(PathNo);
         Cam = _GetCamm("follocam");
         CameraFollower cameraFollower = Cam.GetComponent<CameraFollower>();
-        cameraFollower.player = _target;
-        //Cam.Follow = _target;
-        //Cam.LookAt = _target;
+        cameraFollower.target_transform = _target;
     }
 
     public void _ActiveWinScene()
@@ -140,7 +155,10 @@ public class NetworkCamera : MonoBehaviour
         //FollowCam.gameObject.SetActive(false);
         Confetti.gameObject.SetActive(true);
     }
+    #endregion
 }
+
+#region CLASS AND ENUMS
 
 public enum _CamState
 {
@@ -152,20 +170,9 @@ public enum _CamState
 }
 
 [System.Serializable]
-public class _CamCofigs
-{
-    public GameObject Target;
-    [Header("Boddy Variables")]
-    public string BodyType;
-    public Vector2 Offset;
-
-    public string AimType;
-
-}
-
-[System.Serializable]
 public class _CamList
 {
     public string type;
     public CinemachineVirtualCamera cam;
 }
+#endregion

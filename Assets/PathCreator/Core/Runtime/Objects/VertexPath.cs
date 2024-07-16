@@ -41,7 +41,15 @@ namespace PathCreation
         const float minVertexSpacing = .01f;
 
         Transform transform;
-
+        private float minSqrDst;
+        private Vector3 closestPoint;
+        private int closestSegmentIndexA;
+        private int closestSegmentIndexB;
+        private int ArrayCount;
+        private Vector3 closestPointOnSegment;
+        private float sqrDst;
+        private float closestSegmentLength;
+        private float t;
         #endregion
 
         #region Constructors
@@ -341,19 +349,20 @@ namespace PathCreation
         /// Calculate time data for closest point on the path from given world point
         TimeOnPathData CalculateClosestPointOnPathData(Vector3 worldPoint)
         {
-            float minSqrDst = float.MaxValue;
-            Vector3 closestPoint = Vector3.zero;
-            int closestSegmentIndexA = 0;
-            int closestSegmentIndexB = 0;
+            minSqrDst = float.MaxValue;
+            closestPoint = Vector3.zero;
+            closestSegmentIndexA = 0;
+            closestSegmentIndexB = 0;
 
-            for (int i = 0; i < localPoints.Length; i++)
+            ArrayCount = localPoints.Length;
+            for (int i = 0; i < ArrayCount; i++)
             {
                 int nextI = i + 1;
-                if (nextI >= localPoints.Length)
+                if (nextI >= ArrayCount)
                 {
                     if (isClosedLoop)
                     {
-                        nextI %= localPoints.Length;
+                        nextI %= ArrayCount;
                     }
                     else
                     {
@@ -361,8 +370,8 @@ namespace PathCreation
                     }
                 }
 
-                Vector3 closestPointOnSegment = MathUtility.ClosestPointOnLineSegment(worldPoint, GetPoint(i), GetPoint(nextI));
-                float sqrDst = (worldPoint - closestPointOnSegment).sqrMagnitude;
+                closestPointOnSegment = MathUtility.ClosestPointOnLineSegment(worldPoint, GetPoint(i), GetPoint(nextI));
+                sqrDst = (worldPoint - closestPointOnSegment).sqrMagnitude;
                 if (sqrDst < minSqrDst)
                 {
                     minSqrDst = sqrDst;
@@ -372,8 +381,8 @@ namespace PathCreation
                 }
 
             }
-            float closestSegmentLength = (GetPoint(closestSegmentIndexA) - GetPoint(closestSegmentIndexB)).magnitude;
-            float t = (closestPoint - GetPoint(closestSegmentIndexA)).magnitude / closestSegmentLength;
+            closestSegmentLength = (GetPoint(closestSegmentIndexA) - GetPoint(closestSegmentIndexB)).magnitude;
+            t = (closestPoint - GetPoint(closestSegmentIndexA)).magnitude / closestSegmentLength;
             return new TimeOnPathData(closestSegmentIndexA, closestSegmentIndexB, t);
         }
 

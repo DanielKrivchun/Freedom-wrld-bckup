@@ -9,63 +9,60 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    private float m_diff;
-
-    float m_last_time = 0;
-    float m_currunt_time = 0;
-
-    [Space]
+    [Header("UI OBJECTS")]
     public GameObject InGmmeUI;
     public TextMeshProUGUI PetNameText;
     [Space]
     public RectTransform m_arrow;
-    [Space]
     public Image Filler;
-    [Space]
+    [Header("SCRIPTABLE OBJECTS")]
     public PetConfigs PetConfigs;
 
-    public float MyStemina;
-    public float CurrnutStemina;
-
-    private Vector2 m_initial_pos;
-    //MAX POSITION WILL GO HERE
-    //LOW POS WILL BE ALWAYS ZERO AS ACNCOR SET
-    private float m_max_y_pos = 600f;
-
-    public bool m_clicking;
-
-    private Vector2 m_pos;
-    public float DowngradeSpeed;
-    public float UpwordSpeed;
+    public float DowngradeSpeed = 1f;
+    public float UpwordSpeed = 2f;
     [Space]
     public float SteminaDrain;
 
-
-    private float red_drain = 0.005f;
-    private float yellow_drain = 0f;
-    private float greem_drain = 0.01f;
+    [Header("FLOAT AND VALUES STEMINA BAR VALUE MANAGER")]
+    public float Incrimental = 0.3F;
+    public float Decrimental = 0.1F;
 
     [Space]
     public float m_reset_t;
 
-    [Space]
-    public float Incrimental;
-    public float Decrimental;
-    [Space]
-    public float value = 0;
-    [Space]
+    [Header("UI BUTTONS")]
     public Button TapButton;
 
-
+    #region PRIVATE VARIABLES
+    private float red_drain = 0.005f;
+    private float yellow_drain = 0f;
+    private float greem_drain = 0.01f;
     private float ypos;
-
     private float m_reset;
+    private float m_diff;
+    private float m_last_time = 0;
+    private float m_currunt_time = 0;
+    private float FillAmount;
+    private float m_max_y_pos = 600f;
+    private float MyStemina;
+    private float CurrnutStemina;
+
+    private bool m_clicking = false;
     private bool StaminaDrained;
+    private bool GameStarted;
 
-    public bool GameStarted;
+    private Vector2 m_initial_pos;
+    private Vector2 m_pos;
+    #endregion
 
-
-    public float FillAmount;
+    #region UNITY METHODS
+    private void Start()
+    {
+        m_pos = m_arrow.anchoredPosition;
+        m_last_time = Time.time;
+        m_currunt_time = Time.time;
+        m_initial_pos = m_arrow.anchoredPosition;
+    }
     private void OnEnable()
     {
         TapButton.onClick.AddListener(_Tap);
@@ -83,50 +80,6 @@ public class UiManager : MonoBehaviour
     }
 
 
-    private void _OnWon(int _no)
-    {
-        GameStarted = false;
-        InGmmeUI.SetActive(false);
-    }
-
-    private void _ConfigUodated()
-    {
-        //Calculate max stemina here
-        MyStemina = PetConfigs.maxstemina;
-        CurrnutStemina = MyStemina;
-        StaminaDrained = false;
-        FillAmount = 1f;
-        Filler.fillAmount = FillAmount;
-        TapButton.gameObject.SetActive(true);
-        //Debug.Log("_ConfigUodated");
-    }
-
-    private void _StartStaminaBar()
-    {
-        _ConfigUodated();
-        PetNameText.text = RaceManager.instance.LocalPlayerNickname + "'s" + " Pet";
-        GameStarted = true;
-        InGmmeUI.SetActive(true);
-    }
-
-    private void _Tap()
-    {
-        m_reset = 0f;
-        m_clicking = true;
-        m_currunt_time = Time.time;
-        m_diff = m_currunt_time - m_last_time;
-        m_last_time = m_currunt_time;
-    }
-
-
-    private void Start()
-    {
-        m_pos = m_arrow.anchoredPosition;
-        m_last_time = Time.time;
-        m_currunt_time = Time.time;
-        m_initial_pos = m_arrow.anchoredPosition;
-    }
-
     private void Update()
     {
         if (!GameStarted) return;
@@ -142,7 +95,7 @@ public class UiManager : MonoBehaviour
         }
         else
         {
-            value -= Decrimental;
+            //value -= Decrimental;
             _MoveArrowToInitialPos();
         }
 
@@ -154,7 +107,62 @@ public class UiManager : MonoBehaviour
             _SteminaChanges();
         }
     }
+    #endregion
 
+    #region EVENT LISTENERS 
+
+    /// <summary>
+    /// ON GAME WON
+    /// </summary>
+    /// <param name="_no"></param>
+    private void _OnWon(int _no)
+    {
+        GameStarted = false;
+        InGmmeUI.SetActive(false);
+    }
+
+    /// <summary>
+    /// WHEN PLAYER CONFIGURATION GETS UPDATED
+    /// </summary>
+    private void _ConfigUodated()
+    {
+        //Calculate max stemina here
+        MyStemina = PetConfigs.maxstemina;
+        CurrnutStemina = MyStemina;
+        StaminaDrained = false;
+        FillAmount = 1f;
+        Filler.fillAmount = FillAmount;
+        TapButton.gameObject.SetActive(true);
+        //Debug.Log("_ConfigUodated");
+    }
+
+    /// <summary>
+    /// STARTING TAP BUTTON STEMINA BAR
+    /// </summary>
+    private void _StartStaminaBar()
+    {
+        _ConfigUodated();
+        PetNameText.text = RaceManager.instance.LocalPlayerNickname + "'s" + " Pet";
+        GameStarted = true;
+        InGmmeUI.SetActive(true);
+    }
+    #endregion
+
+    #region BUTTON LISTENER
+    /// <summary>
+    /// TAP TAP BUTTON LISTENER
+    /// </summary>
+    private void _Tap()
+    {
+        m_reset = 0f;
+        m_clicking = true;
+        m_currunt_time = Time.time;
+        m_diff = m_currunt_time - m_last_time;
+        m_last_time = m_currunt_time;
+    }
+    #endregion
+
+    #region ARROW AND STEMINA BAR CALCULATIONS
     void _SteminaChanges()
     {
         CurrnutStemina -= SteminaDrain;
@@ -162,23 +170,14 @@ public class UiManager : MonoBehaviour
         Filler.fillAmount = FillAmount;
     }
 
-
-
-    void _ChckClcker()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            m_reset = 0f;
-            m_clicking = true;
-            value += Incrimental;
-        }
-    }
-
-
     void _MoveArrowToInitialPos()
     {
         m_arrow.anchoredPosition = Vector2.Lerp(m_arrow.anchoredPosition, m_initial_pos, DowngradeSpeed * Time.deltaTime);
     }
+
+    /// <summary>
+    /// MOVE ARROW BASED ON SPEED
+    /// </summary>
     void _MoveArrow()
     {
         if (m_diff > 1.5f)
@@ -189,10 +188,11 @@ public class UiManager : MonoBehaviour
         //CALCULATION HERE
         m_pos.y = -(m_max_y_pos) * (m_diff) / (1.5f);
         m_arrow.anchoredPosition = Vector2.Lerp(m_arrow.anchoredPosition, m_pos, UpwordSpeed * Time.deltaTime);
-
-
     }
 
+    /// <summary>
+    /// MULTIPLAYER GETS SET OVER HER
+    /// </summary>
     void _SetArrowBasedMultiplier()
     {
         if (FillAmount <= 0 && !StaminaDrained)
@@ -240,6 +240,6 @@ public class UiManager : MonoBehaviour
             return;
         }
     }
-
+    #endregion
 
 }

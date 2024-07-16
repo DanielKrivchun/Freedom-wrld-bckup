@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class NetwrokUI : NetworkBehaviour
 {
+    [Header("UI OBJECTS")]
     public GameObject startUI;
     public GameObject WinUI;
     public GameObject countdownPanel;
@@ -31,8 +32,6 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject ReplayCanvas;
     public RectTransform ReplayPopup;
     public TextMeshProUGUI ReplayText;
-
-
     [Space]
     [Header("In-Game Text")]
     public TextMeshProUGUI countdownText;
@@ -46,7 +45,6 @@ public class NetwrokUI : NetworkBehaviour
     public GameObject wincontent;
     [Space]
     public List<TextMeshPro> WinnerNames;
-    //public List<WinContent> WinnerList;
     [Space]
     public RaceManager RaceManagerRef;
     [Space]
@@ -83,12 +81,13 @@ public class NetwrokUI : NetworkBehaviour
 
     public bool LeavedGame;
 
+    #region UNITY METHODS
     private void Awake()
     {
         Instance = this;
     }
 
-    #region UNITY METHODS
+
 
     private void OnEnable()
     {
@@ -148,6 +147,19 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region EVENT CALLBACKS
+    /// <summary>
+    /// CALLBACK WHEN GAME WIN
+    /// </summary>
+    /// <param name="_no"></param>
+    private void _OnGameWon(int _no)
+    {
+        WinUI.SetActive(true);
+        wintext.text = "You Finished: " + _no;
+    }
+
+    /// <summary>
+    /// CALLBACK ON GAME COMPLETE
+    /// </summary>
     private void _GameIsComplete()
     {
         if (RaceManager.instance.TotalRealPlayers >= 2)
@@ -157,11 +169,35 @@ public class NetwrokUI : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// ON HOST MIGRATION
+    /// </summary>
     private void _HostMigrated()
     {
         Debug.Log("Host is migrated to me ");
-        //ErrorUI.SetActive(false);
+
     }
+
+    /// <summary>
+    /// RESET NAMES ON PODIAM ON START OF THE GAME
+    /// </summary>
+    private void _ResetOnStart()
+    {
+        foreach (var item in WinnerNames)
+        {
+            item.text = "";
+        }
+    }
+
+    /// <summary>
+    /// RANK WILL BE UPDATED ON THIS
+    /// </summary>
+    /// <param name="_no"></param>
+    private void _UpdatedRank(int _no)
+    {
+        CurruntRankNo.text = _no.ToString();
+    }
+
 
     private async void _PlayerLeft(string _s)
     {
@@ -187,22 +223,6 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region BUTTON LISTENERS
-
-
-
-
-    private void _ResetOnStart()
-    {
-        foreach (var item in WinnerNames)
-        {
-            item.text = "";
-        }
-    }
-
-    private void _UpdatedRank(int _no)
-    {
-        CurruntRankNo.text = _no.ToString();
-    }
 
     private async void _Yes()
     {
@@ -275,8 +295,6 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region LOCAL BUTTONS AND METHDOS
-
-
     private async void _OnWinLeave()
     {
         if (button_waiter) return;
@@ -334,6 +352,10 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region ON GAME WIN CODE BLOCK
+    /// <summary>
+    /// WINNER PLAYER NAMES GET SET OVER HERE
+    /// </summary>
+    /// <param name="_s"></param>
     public void _SetupList(List<string> _s)
     {
         foreach (var item in _s)
@@ -348,23 +370,24 @@ public class NetwrokUI : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// SET NAME OF PLAYER WHO FINISHES GAME ON PODIUM
+    /// </summary>
+    /// <param name="_no"></param>
+    /// <param name="_name"></param>
     public void _SetMyNameOnPodium(int _no, string _name)
     {
         Debug.Log("No " + _no);
         WinnerNames[_no - 1].text = _name;
     }
 
-
-
-    private void _OnGameWon(int _no)
-    {
-        WinUI.SetActive(true);
-        wintext.text = "You Finished: " + _no;
-    }
     #endregion
 
     #region BUTTON LISTENERS
 
+    /// <summary>
+    /// PHOTON ROOM JOINING ON BUTTON
+    /// </summary>
     public async void _JoinRoom()
     {
         if (button_waiter) return;
@@ -390,6 +413,9 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region CONNECTED TO PHOTON OPEN START UI
+    /// <summary>
+    /// ON START OF THE GAME START UI GET;S ACTIVATED
+    /// </summary>
     public void _OpenStartUI()
     {
         startUI.SetActive(true);
@@ -397,6 +423,9 @@ public class NetwrokUI : NetworkBehaviour
         startUI.GetComponent<Image>().DOFade(0f, 0.2f);
     }
 
+    /// <summary>
+    /// CLIENT START UI GET'S FADED 
+    /// </summary>
     public void _StartUIforClients()
     {
         startUI.GetComponent<Image>().DOFade(0f, 0.2f);
@@ -404,7 +433,9 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region START GAME AND COUNTDOWN
-
+    /// <summary>
+    /// STARTING RACE OF THE GAME 
+    /// </summary>
     public async void _StartRace()
     {
         if (button_waiter) return;
@@ -416,7 +447,9 @@ public class NetwrokUI : NetworkBehaviour
         RaceManagerRef.startgamenow = true;
         RPC_StartGame();
     }
-
+    /// <summary>
+    /// AI PLAYER GENRATION BUTTON
+    /// </summary>
     private async void _GenrateAIPlayer()
     {
         if (button_waiter) return;
@@ -427,6 +460,9 @@ public class NetwrokUI : NetworkBehaviour
         RaceManagerRef._GenrateAIPlayer();
     }
 
+    /// <summary>
+    /// COUNT DOWN CALLED BY RPC 
+    /// </summary>
     public void _StartCountDown()
     {
         startUI.SetActive(false);
@@ -435,6 +471,10 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager._EventStartCountDown();
     }
 
+    /// <summary>
+    /// CHROUTINE FOR COUNTDOWN
+    /// </summary>
+    /// <returns></returns>
     IEnumerator _StartedCountDown()
     {
         NetworkEventManager._EventFocusOnPlayer(0);
@@ -467,6 +507,11 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region REPLAY METHOS
+    /// <summary>
+    /// RPC RECIVED 
+    /// </summary>
+    /// <param name="_name"></param>
+    /// <param name="_id"></param>
     public void _ReplayRPCRecived(string _name, string _id)
     {
         ReplayPopup.transform.localScale = Vector3.zero;
@@ -477,6 +522,9 @@ public class NetwrokUI : NetworkBehaviour
     #endregion
 
     #region RPC Remote Procedure Call
+    /// <summary>
+    /// START GAME RPC CALLED BY CLIENT OR HOST
+    /// </summary>
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_StartGame()
     {
@@ -484,6 +532,11 @@ public class NetwrokUI : NetworkBehaviour
         _StartCountDown();
     }
 
+    /// <summary>
+    /// REPLAY NOTIFICATION RPC CALL
+    /// </summary>
+    /// <param name="_pname"></param>
+    /// <param name="_id"></param>
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_ReplayNotificationSend(string _pname, string _id)
     {
@@ -492,6 +545,11 @@ public class NetwrokUI : NetworkBehaviour
         NetworkEventManager._EventCameraChange(_CamState.InitialCam);
     }
 
+    /// <summary>
+    /// YES TO REPLAY RPC CALL
+    /// </summary>
+    /// <param name="_name"></param>
+    /// <param name="_id"></param>
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_YesToReplay(string _name, string _id)
     {
@@ -501,6 +559,11 @@ public class NetwrokUI : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// CALLBACK ON REPLAY NOTIFICATION
+    /// </summary>
+    /// <param name="_name"></param>
+    /// <param name="_id"></param>
     void _RecivedReplayNotification(string _name, string _id)
     {
         if (Runner.IsServer)
@@ -511,8 +574,5 @@ public class NetwrokUI : NetworkBehaviour
         if (requestedReplay) return;
         _ReplayRPCRecived(_name, _id);
     }
-
-
-
     #endregion
 }
