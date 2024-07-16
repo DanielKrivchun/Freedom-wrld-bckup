@@ -35,7 +35,7 @@ public class NetwrokUI : NetworkBehaviour
     [Space]
     [Header("In-Game Text")]
     public TextMeshProUGUI countdownText;
-
+    public GameObject RankBG;
     public TextMeshProUGUI CurruntRankNo;
     [Header("WIN SCREEN")]
     public TextMeshProUGUI wintext;
@@ -195,6 +195,10 @@ public class NetwrokUI : NetworkBehaviour
     /// <param name="_no"></param>
     private void _UpdatedRank(int _no)
     {
+        if (!RankBG.activeSelf)
+        {
+            RankBG.SetActive(true);
+        }
         CurruntRankNo.text = _no.ToString();
     }
 

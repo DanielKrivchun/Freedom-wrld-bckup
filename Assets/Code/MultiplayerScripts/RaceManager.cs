@@ -793,7 +793,6 @@ public class RaceManager : NetworkBehaviour
             {
                 NetwrokUI.Instance._OpenStartUI();
             }
-
             _RacePlayersCalculation();
 
         }

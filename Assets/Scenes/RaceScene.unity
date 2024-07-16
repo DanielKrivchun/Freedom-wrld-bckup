@@ -1771,7 +1771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.34901962}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -47618,7 +47618,6 @@ GameObject:
   m_Component:
   - component: {fileID: 881902725}
   - component: {fileID: 881902727}
-  - component: {fileID: 881902726}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -47646,36 +47645,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &881902726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 881902724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.9019608}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &881902727
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -62159,6 +62128,7 @@ MonoBehaviour:
   ReplayPopup: {fileID: 931495917}
   ReplayText: {fileID: 93347561}
   countdownText: {fileID: 214364470}
+  RankBG: {fileID: 1354070864}
   CurruntRankNo: {fileID: 82093960}
   wintext: {fileID: 515348892}
   Cointext: {fileID: 1244621479}
@@ -62331,12 +62301,12 @@ GameObject:
   - component: {fileID: 1354070867}
   - component: {fileID: 1354070866}
   m_Layer: 5
-  m_Name: Image
+  m_Name: RankBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1354070865
 RectTransform:
   m_ObjectHideFlags: 0
@@ -69311,7 +69281,7 @@ MonoBehaviour:
   MyRank: 1000
   MyXP: 0
   MyCoins: 0
-  TotalSeconds: 15
+  TotalSeconds: 30
   TotalNumberOfPlayers: 0
   TotalRealPlayers: 0
   ResetAgrreePlayers: 0
@@ -88845,7 +88815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2106912559
 Transform:
   m_ObjectHideFlags: 0
