@@ -458,7 +458,8 @@ public class RaceManager : NetworkBehaviour
             CustomPhotonAppSettings = appSettings
         });
 
-
+        Debug.Log("Game Started");
+        NetwrokUI.Instance.LoadingPanel.SetActive(false);
     }
 
     //GETTING RANK

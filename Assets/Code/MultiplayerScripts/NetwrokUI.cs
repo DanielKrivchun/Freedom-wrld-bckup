@@ -395,13 +395,13 @@ public class NetwrokUI : NetworkBehaviour
     public async void _JoinRoom()
     {
         if (button_waiter) return;
+        LoadingPanel.SetActive(true);
         button_waiter = true;
         Utils._DoButtonAnimation(JoinRoomButton.transform);
         await Utils._Waiter(200);
         button_waiter = false;
         JoinRoomPanel.SetActive(false);
         RaceManagerRef._StartGame(GameMode.AutoHostOrClient);
-
     }
 
     public async void _TestButton()

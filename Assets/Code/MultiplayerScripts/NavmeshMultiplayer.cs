@@ -487,7 +487,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     void _SetupCamera()
     {
         NetworkCamera.Instance._SetUpCamera(transform, MyPathNumber);
-
         //DO START ANIMATION
         NetworkEventManager._EventCameraChange(_CamState.Start);
     }
