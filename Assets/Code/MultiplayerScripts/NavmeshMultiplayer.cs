@@ -628,7 +628,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         _CalculateDistance();
 
         MyPos = transform.position;
-        if (Distance < 4f)
+        if (Distance < 1f)
         {
             _ChangeCurruntPoint();
         }
