@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class ErrorUI : MonoBehaviour
 {
+    #region VARIABLES
     [Header("Internet Connection")]
     public GameObject ErrorUIObject;
     public RectTransform ErrorPopup;
@@ -27,6 +28,10 @@ public class ErrorUI : MonoBehaviour
     private float fps;
 
     private bool LeavingToHome;
+
+    #endregion
+
+    #region UNITY METHODS
     private void OnEnable()
     {
         NetworkEventManager.e_network_errors += _NetworkError;
@@ -54,13 +59,10 @@ public class ErrorUI : MonoBehaviour
                 ReconnectingObj.SetActive(false);
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-
-        }
     }
+    #endregion
 
+    #region BUTTON CALLBACK AND EVENT CALLBACKS
     private async void _GoingHome()
     {
         if (button_waiter) return;
@@ -86,10 +88,26 @@ public class ErrorUI : MonoBehaviour
         ErrorText.text = _s;
         ErrorPopup.transform.DOScale(1f, 0.5f);
     }
+    #endregion
+
+    #region UNITY LISTENERES FOR BACKGROUND CODE
 
     void OnApplicationFocus(bool hasFocus)
     {
-        isPaused = !hasFocus;
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            isPaused = !hasFocus;
+
+            if (isPaused)
+            {
+                ReconnectingObj.SetActive(true);
+            }
+            else
+            {
+                CheckForConnection = true;
+            }
+        }
+
     }
 
     void OnApplicationPause(bool pauseStatus)
@@ -106,5 +124,6 @@ public class ErrorUI : MonoBehaviour
         }
 
     }
+    #endregion;
 
 }

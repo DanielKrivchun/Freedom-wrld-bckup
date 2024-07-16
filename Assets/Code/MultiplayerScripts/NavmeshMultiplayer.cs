@@ -34,11 +34,9 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public _PlayerConfigs playerconfigs;
     [Space]
     public float MySpeed;
-    public float MyStamina;
     [Space]
-    //public int MyRankNo;
+    public float luckchance = 0f;
     [Space]
-    private float SpeedController = 1f;
 
     [Space]
     public float Luck;
@@ -55,11 +53,10 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     public bool IsServer;
     public bool IsLocalPlayer;
     public bool RaceComplete;
-    [Space]
     public float MyDistanceOnPath;
-    [Space]
     public float NetworkedSetTap;
     public float MyNetworkSpeed;
+    private float SpeedController = 1f;
 
     private NavMeshHit hit;
     private Vector3 finalPosition;
@@ -81,7 +78,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     [Networked, OnChangedRender(nameof(_OnWInNumberAlocated))]
     public int MyWiningNumber { get; set; }
 
-    public float luckchance = 0f;
+
     private float RandomNumber;
 
     public NetworkTransform networkTransform;

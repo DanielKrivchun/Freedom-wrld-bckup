@@ -7,8 +7,9 @@ using System;
 
 public class LocalInputPoller : NetworkBehaviour, INetworkRunnerCallbacks
 {
-    public NavmeshMultiplayer player; // dataya ulaşmak için playercontrollera ulaşıyoruz.
+    public NavmeshMultiplayer player;
 
+    #region PHOTON CALLBACKS
     public override void Spawned()
     {
         // This logic checks if the player is the LOCAL PLAYER (local machine)
@@ -20,7 +21,7 @@ public class LocalInputPoller : NetworkBehaviour, INetworkRunnerCallbacks
     }
 
     //Only if local we get input callback, no need to check
-    public void OnInput(NetworkRunner runner, NetworkInput input) 
+    public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         if (runner != null && runner.IsRunning)
         {
@@ -108,4 +109,5 @@ public class LocalInputPoller : NetworkBehaviour, INetworkRunnerCallbacks
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
     {
     }
+    #endregion
 }
