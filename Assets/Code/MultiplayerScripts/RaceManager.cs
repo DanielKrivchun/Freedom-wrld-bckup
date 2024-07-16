@@ -91,6 +91,8 @@ public class RaceManager : NetworkBehaviour
     [Header("PATH OBJECT")]
     public PathCreation.PathCreator Path;
 
+
+
     #endregion
 
     public bool RaceStart;
@@ -112,6 +114,7 @@ public class RaceManager : NetworkBehaviour
 
     private bool aigenration;
     private bool XpCalculations;
+    public bool TryingToReplay;
 
     private float timer = 0f;
     private float Timer;
@@ -672,13 +675,17 @@ public class RaceManager : NetworkBehaviour
     {
         Debug.Log(ResetAgrreePlayers);
         ResetAgrreePlayers++;
-
         if (ResetAgrreePlayers == TotalRealPlayers)
         {
             StartCoroutine(_ReplayGameAgain());
             Debug.Log("All Players agreed to match ");
             Debug.Log("Start Game Now");
         }
+    }
+
+    public void _ReplayGameFromUIManager()
+    {
+
     }
 
 

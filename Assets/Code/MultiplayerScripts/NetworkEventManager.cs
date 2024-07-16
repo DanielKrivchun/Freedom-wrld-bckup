@@ -25,9 +25,7 @@ public class NetworkEventManager : MonoBehaviour
     public delegate void StingEventDouble(string _s, string _a);
     public static event StingEventDouble e_reset_player, e_reset_on_client;
 
-
     #region _EVENT INVOKERS
-
     public static void _EventHostMigrationDone()
     {
         if (e_host_migration_done != null)

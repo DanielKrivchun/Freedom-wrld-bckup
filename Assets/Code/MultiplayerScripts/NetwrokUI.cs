@@ -214,6 +214,18 @@ public class NetwrokUI : NetworkBehaviour
 
         _ienumrator = _DisableNotification();
         StartCoroutine(_ienumrator);
+
+        if (RaceManagerRef.TotalRealPlayers <= 1)
+        {
+            NetworkEventManager._EventNetworkErrors(_Strings.LeftOnlyOnePlay);
+            return;
+        }
+
+        if (RaceManagerRef.TotalRealPlayers == RaceManagerRef.ResetAgrreePlayers)
+        {
+            RaceManagerRef._ReplayGameFromUIManager();
+        }
+
     }
 
     IEnumerator _DisableNotification()
@@ -263,7 +275,7 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(ReplayButton.transform);
         await Utils._Waiter(200);
         button_waiter = false;
-
+        RaceManagerRef.TryingToReplay = true;
         if (RaceManager.instance.TotalRealPlayers <= 1)
         {
             NetworkEventManager._EventNetworkErrors(_Strings.LeftOnlyOnePlay);
