@@ -457,7 +457,7 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(AIPlayerButton.transform);
         await Utils._Waiter(200);
         button_waiter = false;
-        RaceManagerRef._GenrateAIPlayer();
+        //RaceManagerRef._GenrateAIPlayer();
     }
 
     /// <summary>

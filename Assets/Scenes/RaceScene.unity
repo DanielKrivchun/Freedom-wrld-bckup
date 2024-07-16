@@ -519,7 +519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70948d44550dad4fa6343ccc4eaaced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  target_transform: {fileID: 0}
   distance: 6.5
   height: 3.5
   shoulderOffset: 0
@@ -1408,7 +1408,7 @@ Transform:
   m_GameObject: {fileID: 59228367}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.44, y: 4.98, z: 11.1}
+  m_LocalPosition: {x: -9.747999, y: 4.98, z: 11.191003}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1421,7 +1421,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59228367}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -18302,7 +18302,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e682b8a8084eaa4fb6fffb4c41e3d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Brain: {fileID: 1247974831}
   All_Cameras:
   - type: startcam
     cam: {fileID: 770873911}
@@ -18316,7 +18315,6 @@ MonoBehaviour:
   WinCamera: {fileID: 925941005}
   StartPoint: {fileID: 1128569671}
   EndPoint: {fileID: 1727156980}
-  CamConfigs: []
   Confetti: {fileID: 1033826462}
   CurruntCam: {fileID: 770873910}
 --- !u!1 &298210138
@@ -25202,19 +25200,13 @@ MonoBehaviour:
   m_arrow: {fileID: 926774166}
   Filler: {fileID: 1800517816}
   PetConfigs: {fileID: 11400000, guid: 2726ba940c4abc448a48f08f07cc4bb2, type: 2}
-  MyStemina: 0
-  CurrnutStemina: 0
-  m_clicking: 0
   DowngradeSpeed: 1
   UpwordSpeed: 2
   SteminaDrain: 0.005
-  m_reset_t: 0.5
   Incrimental: 0.3
   Decrimental: 0.1
-  value: 0
+  m_reset_t: 0.5
   TapButton: {fileID: 954603310}
-  GameStarted: 0
-  FillAmount: 0
 --- !u!4 &384342717
 Transform:
   m_ObjectHideFlags: 0
@@ -64964,7 +64956,7 @@ Transform:
   m_GameObject: {fileID: 1476317995}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 4.98, z: 10.881}
+  m_LocalPosition: {x: -4.48, y: 4.98, z: 10.972001}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -64977,7 +64969,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476317995}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -68965,7 +68957,7 @@ Transform:
   m_GameObject: {fileID: 1611520053}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.67, y: 4.98, z: 10.98}
+  m_LocalPosition: {x: -6.154, y: 4.98, z: 11.071}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68978,7 +68970,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611520053}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -69055,7 +69047,7 @@ TerrainCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_TerrainData: {fileID: 15600000, guid: 2b4d53552f52579438b4035e190751ce, type: 2}
   m_EnableTreeColliders: 0
@@ -69258,7 +69250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e716a02f9dbdb4887e8c7fd94379ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputValue: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
   gamestarttimer: {fileID: 683390191}
   dropdown: {fileID: 1579786361}
   spawnPoints:
@@ -69312,8 +69303,21 @@ MonoBehaviour:
     RawGuidValue: 98791bcba3fedd3418e7d06ec2967b49
   AIPlayer:
     RawGuidValue: 21b714a97843c4f42b5bd1df6de0dc6e
+  InputValue: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
   PetPrefabHolder: {fileID: 11400000, guid: 389266f003d81b448810020effc29434, type: 2}
   petdataref: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
+  PrefabID: 3
+  CurrntWinCount: 0
+  MyRank: 1000
+  MyXP: 0
+  MyCoins: 0
+  TotalSeconds: 15
+  TotalNumberOfPlayers: 0
+  TotalRealPlayers: 0
+  ResetAgrreePlayers: 0
+  CompletePlayerCount: 0
+  MyWinNumber: 0
+  startgamenow: 0
   AINames:
     Names:
     - Bolt
@@ -69568,20 +69572,6 @@ MonoBehaviour:
     - Flash
     - Jump
   usedNames: 
-  PrefabID: 3
-  CurrntWinCount: 0
-  Min: 50
-  Max: 50
-  MyRank: 1000
-  MyXP: 0
-  MyCoins: 0
-  TotalSeconds: 30
-  TotalNumberOfPlayers: 0
-  TotalRealPlayers: 0
-  ResetAgrreePlayers: 0
-  AIplayersCount: 0
-  CompletePlayerCount: 0
-  MyWinNumber: 0
   GenratedPlayers: []
   TotalPlayers: []
   AIplayerDetails: []
@@ -69596,12 +69586,12 @@ MonoBehaviour:
     MyDistance: 0
   - PathNo: 4
     MyDistance: 0
-  startgamenow: 0
-  _PathNumber: 0
-  _TimeLeft: 
-  RaceStart: 0
-  m_input: {x: 0, y: 0}
   Path: {fileID: 1967101955}
+  RaceStart: 0
+  _PathNumber: 0
+  KickedPlayersPathNumber: 
+  _TimeLeft: 
+  m_input: {x: 0, y: 0}
 --- !u!4 &1620809135
 Transform:
   m_ObjectHideFlags: 0
@@ -73931,7 +73921,7 @@ Transform:
   m_GameObject: {fileID: 1745903843}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.54, y: 4.98, z: 11.07}
+  m_LocalPosition: {x: -7.947, y: 4.98, z: 11.161}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73944,7 +73934,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745903843}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -74990,7 +74980,7 @@ Transform:
   m_GameObject: {fileID: 1782767779}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.29, y: 4.98, z: 10.799}
+  m_LocalPosition: {x: -2.68, y: 4.98, z: 10.89}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -75003,7 +74993,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782767779}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -85467,6 +85457,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 8689940612300637286, guid: 3e7e7fe7b1dc7b147989cf6d9976b159,
+        type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.018657776
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 159808122332912886, guid: 3e7e7fe7b1dc7b147989cf6d9976b159, type: 3}
     m_RemovedGameObjects: []
@@ -86420,6 +86415,11 @@ PrefabInstance:
         type: 3}
       propertyPath: volumeSize
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926623616552158096, guid: f8e4ed5f108f01d4f8a3113e26ddb3a1,
+        type: 3}
+      propertyPath: baseWindPower
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1926623616552158096, guid: f8e4ed5f108f01d4f8a3113e26ddb3a1,
         type: 3}
@@ -88845,7 +88845,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2106912559
 Transform:
   m_ObjectHideFlags: 0
@@ -89279,12 +89279,12 @@ PrefabInstance:
     - target: {fileID: 3436297088175674246, guid: 54d9f8a7e45bf2b45bd950c3d6602823,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.13742
+      value: 23.53
       objectReference: {fileID: 0}
     - target: {fileID: 3436297088175674246, guid: 54d9f8a7e45bf2b45bd950c3d6602823,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.5800004
+      value: 6.93
       objectReference: {fileID: 0}
     - target: {fileID: 3436297088175674246, guid: 54d9f8a7e45bf2b45bd950c3d6602823,
         type: 3}

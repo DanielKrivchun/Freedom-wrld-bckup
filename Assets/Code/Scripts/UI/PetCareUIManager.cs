@@ -181,6 +181,7 @@ public class PetCareUIManager : MonoBehaviour
         //If show welcome is true then show UI
         if (PlayerPrefs.GetInt(_Strings.DatFromRaceScene) == 1)
         {
+            Debug.Log("Showing wellcome back popup");
             PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 0);
             ShowWelcomeBackFromRaceUI();
         }

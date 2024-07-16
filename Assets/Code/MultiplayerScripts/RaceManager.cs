@@ -100,6 +100,8 @@ public class RaceManager : NetworkBehaviour
     #region NETWORKED OBJECTS
     [Networked] public int PathNumber { get; set; }
 
+    public List<int> KickedPlayersPathNumber;
+
     [Networked, OnChangedRender(nameof(_OnTimerChanged))]
     public string TimeLeft { get; set; }
 
@@ -153,7 +155,6 @@ public class RaceManager : NetworkBehaviour
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #endif
         PrefabID = petdataref.petData.petPrefabID.ToString();
-
         usedNames.Clear();
         NetworkEventManager.e_countdown_start += _OnCounddownStart;
     }
@@ -697,7 +698,9 @@ public class RaceManager : NetworkBehaviour
         {
             if (i > TotalRealPlayers)
             {
-                _GenrateAIPlayer();
+
+                _GenrateAIPlayer(PathNumber);
+                PathNumber++;
                 yield return new WaitForEndOfFrame();
             }
         }
@@ -817,10 +820,14 @@ public class RaceManager : NetworkBehaviour
     IEnumerator _GenrateAIPlayerSlowly()
     {
         networkRunnerInstance.SessionInfo.IsVisible = false;
+
+        yield return new WaitForSecondsRealtime(2f);
+
         for (int i = 0; i < 5; i++)
         {
             yield return new WaitForSecondsRealtime(0.1f);
-            _GenrateAIPlayer();
+            _GenrateAIPlayer(PathNumber);
+            PathNumber++;
         }
         NetwrokUI.Instance.StartGameButton.gameObject.SetActive(true);
     }
@@ -913,12 +920,13 @@ public class RaceManager : NetworkBehaviour
                 //NOTIFY TO PLAYER WHICH PLAYER LEFT
                 Debug.Log(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
                 RPC_PlayerLeftNofirication(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
+                int pathn = p.Player.GetComponent<NavmeshMultiplayer>().MyPathNumber;
                 Runner.Despawn(p.Player);
                 GenratedPlayers.Remove(GenratedPlayers.Find(asd => asd.playerRef == playerRef));
                 _ClearUnwantedPlayers();
+                KickedPlayersPathNumber.Add(pathn);
             }
         }
-
         TotalRealPlayers--;
         TotalNumberOfPlayers--;
     }
@@ -929,15 +937,14 @@ public class RaceManager : NetworkBehaviour
     /// <summary>
     /// GENRATE AI PLAYER INTO GAME CALLED BY SERVER ONLY
     /// </summary>
-    public void _GenrateAIPlayer()
+    public void _GenrateAIPlayer(int pathno)
     {
         if (PathNumber == 5) return;
         Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
         NetworkObject playerObject = Runner.Spawn(AIPlayer, spawnPoint, Quaternion.identity);
         playerObject.GetComponent<NetworkTransform>().transform.position = spawnPoint;
         Debug.Log(playerObject.transform.position);
-        playerObject.GetComponent<NetworkAIPlayer>()._SetUpMyInitialData(PathNumber);
-        PathNumber++;
+        playerObject.GetComponent<NetworkAIPlayer>()._SetUpMyInitialData(pathno);
     }
 
     #endregion
