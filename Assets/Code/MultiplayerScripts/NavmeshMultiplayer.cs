@@ -103,6 +103,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     {
         NetworkEventManager.e_player_speed_change += _OnStopStartPlayer;
         NetworkEventManager.e_reset_player += _ResetMe;
+        NetworkEventManager.e_reset_on_client += _CleientReset;
         NetworkEventManager.e_host_migration_done += _HostMigrated;
         RaceManagerRef = RaceManager.instance;
         path_point = FindObjectOfType<PathPointManager>();
@@ -123,6 +124,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     private void OnDestroy()
     {
+        NetworkEventManager.e_reset_on_client -= _CleientReset;
         NetworkEventManager.e_player_speed_change -= _OnStopStartPlayer;
         NetworkEventManager.e_reset_player -= _ResetMe;
         NetworkEventManager.e_host_migration_done -= _HostMigrated;
@@ -215,7 +217,18 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             MyWiningNumber = 0;
             RaceManager.instance._ResetRaceManager();
             NameTextObject.transform.localScale = Vector3.one;
-            _SetupCamera();
+            if (IsLocalPlayer)
+            {
+                _SetupCamera();
+            }
+        }
+    }
+
+    public void _CleientReset(string _name, string _id)
+    {
+        if (Object.Id.ToString() == _id)
+        {
+            NameTextObject.transform.localScale = Vector3.one;
         }
     }
     #endregion

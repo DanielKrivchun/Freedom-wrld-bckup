@@ -559,6 +559,10 @@ public class NetwrokUI : NetworkBehaviour
         {
             NetworkEventManager._EventResetPlayerOnReplay(_name, _id);
         }
+        else
+        {
+            NetworkEventManager._EventResetClientData(_name, _id);
+        }
     }
 
     /// <summary>

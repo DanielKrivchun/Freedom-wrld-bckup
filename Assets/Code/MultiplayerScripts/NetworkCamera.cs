@@ -145,6 +145,7 @@ public class NetworkCamera : MonoBehaviour
 
     public void _ActiveWinScene()
     {
+        Debug.Log("WIn scene activated");
         NetworkEventManager._EventTextLookat(WinCam.transform);
 
         Cam = _GetCamm("follocam");

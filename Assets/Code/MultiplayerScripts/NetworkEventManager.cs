@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 using static Beamable.Api.Notification.PubNubOp;
 
 public class NetworkEventManager : MonoBehaviour
 {
     public delegate void SimpleDelegateEvents();
-    public static event SimpleDelegateEvents e_get_set_go, e_config_updated, e_countdown_start, e_activae_stumble, e_diabled_names, e_host_migration_done,e_game_complete;
+    public static event SimpleDelegateEvents e_get_set_go, e_config_updated, e_countdown_start, e_activae_stumble, e_diabled_names, e_host_migration_done, e_game_complete;
 
 
     public delegate void IntDelegateEvents(int _no);
@@ -22,7 +23,7 @@ public class NetworkEventManager : MonoBehaviour
     public delegate void StingEvent(string _s);
     public static event StingEvent e_player_left, e_network_errors;
     public delegate void StingEventDouble(string _s, string _a);
-    public static event StingEventDouble e_reset_player;
+    public static event StingEventDouble e_reset_player, e_reset_on_client;
 
 
     #region _EVENT INVOKERS
@@ -52,7 +53,7 @@ public class NetworkEventManager : MonoBehaviour
 
     public static void _EventGameComplete()
     {
-        if(e_game_complete != null)
+        if (e_game_complete != null)
         {
             e_game_complete();
         }
@@ -71,6 +72,14 @@ public class NetworkEventManager : MonoBehaviour
         if (e_reset_player != null)
         {
             e_reset_player(_pname, _id);
+        }
+    }
+
+    public static void _EventResetClientData(string _pname, string _id)
+    {
+        if (e_reset_on_client != null)
+        {
+            e_reset_on_client(_pname, _id);
         }
     }
     public static void _EventPlayerLeft(string _s)
