@@ -457,7 +457,6 @@ public class RaceManager : NetworkBehaviour
             SessionProperties = customProps,
             CustomPhotonAppSettings = appSettings
         });
-
         Debug.Log("Game Started");
         NetwrokUI.Instance.LoadingPanel.SetActive(false);
     }
@@ -826,8 +825,19 @@ public class RaceManager : NetworkBehaviour
         for (int i = 0; i < 5; i++)
         {
             yield return new WaitForSecondsRealtime(0.1f);
-            _GenrateAIPlayer(PathNumber);
-            PathNumber++;
+
+            if (KickedPlayersPathNumber.Count > 0)
+            {
+                int ppp = KickedPlayersPathNumber[0];
+                KickedPlayersPathNumber.RemoveAt(0);
+                _GenrateAIPlayer(ppp);
+            }
+            else
+            {
+                _GenrateAIPlayer(PathNumber);
+                PathNumber++;
+            }
+
         }
         NetwrokUI.Instance.StartGameButton.gameObject.SetActive(true);
     }
@@ -939,7 +949,6 @@ public class RaceManager : NetworkBehaviour
     /// </summary>
     public void _GenrateAIPlayer(int pathno)
     {
-        if (PathNumber == 5) return;
         Vector3 spawnPoint = spawnPoints[PathNumber].transform.position;
         NetworkObject playerObject = Runner.Spawn(AIPlayer, spawnPoint, Quaternion.identity);
         playerObject.GetComponent<NetworkTransform>().transform.position = spawnPoint;

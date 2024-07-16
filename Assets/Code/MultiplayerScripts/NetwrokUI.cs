@@ -87,8 +87,6 @@ public class NetwrokUI : NetworkBehaviour
         Instance = this;
     }
 
-
-
     private void OnEnable()
     {
         //EVENTS ARE ADDED HERE
