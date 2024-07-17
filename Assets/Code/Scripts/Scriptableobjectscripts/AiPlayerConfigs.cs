@@ -14,6 +14,13 @@ public class AiPlayerConfigs : ScriptableObject
         return Configs[a].m_speed;
     }
 
+    public float _GetSPeedBasedOnPlayerSpeed(float _player_speed)
+    {
+        float min = _player_speed - Random.Range(0f, 3f);
+        float max = _player_speed - Random.Range(0f, 3f);
+        return Random.Range(min, max);
+    }
+
 }
 
 [System.Serializable]

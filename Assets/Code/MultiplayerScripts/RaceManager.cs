@@ -461,11 +461,51 @@ public class RaceManager : NetworkBehaviour
     //GETTING RANK
     string _GetMyRank()
     {
-        if (MyRank < 50)
+        if (MyRank < 25)
         {
             return "A";
         }
-        return "B";
+        else if (MyRank < 50)
+        {
+            return "B";
+        }
+        else if (MyRank < 75)
+        {
+            return "C";
+
+        }
+        else if (MyRank < 100)
+        {
+
+            return "D";
+        }
+        else if (MyRank < 150)
+        {
+
+            return "E";
+        }
+        else if (MyRank < 200)
+        {
+
+            return "F";
+        }
+        else if (MyRank < 250)
+        {
+            return "G";
+
+        }
+        else if (MyRank < 300)
+        {
+
+            return "H";
+        }
+        else if (MyRank > 300)
+        {
+
+            return "I";
+        }
+
+        return "J";
     }
 
     #endregion
