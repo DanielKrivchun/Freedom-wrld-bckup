@@ -266,7 +266,7 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(ReplayButton.transform);
         await Utils._Waiter(200);
         button_waiter = false;
-  
+
         if (RaceManager.instance.TotalRealPlayers <= 1)
         {
             NetworkEventManager._EventNetworkErrors(_Strings.LeftOnlyOnePlay);
@@ -541,7 +541,7 @@ public class NetwrokUI : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_StartGame()
     {
-        Debug.Log("Started Game now");
+        //Debug.Log("Started Game now");
         _StartCountDown();
     }
 
@@ -555,7 +555,7 @@ public class NetwrokUI : NetworkBehaviour
     {
         Debug.Log("Recived Replay Notification ");
         _RecivedReplayNotification(_pname, _id);
-        //NetworkEventManager._EventCameraChange(_CamState.InitialCam);
+        NetworkEventManager._EventCameraChange(_CamState.InitialCam);
     }
 
     /// <summary>
@@ -568,10 +568,12 @@ public class NetwrokUI : NetworkBehaviour
     {
         if (Runner.IsServer)
         {
+            NetworkEventManager._EventCameraChange(_CamState.Start);
             NetworkEventManager._EventResetPlayerOnReplay(_name, _id);
         }
         else
         {
+            NetworkEventManager._EventCameraChange(_CamState.Start);
             NetworkEventManager._EventResetClientData(_name, _id);
         }
     }
