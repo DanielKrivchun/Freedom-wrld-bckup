@@ -159,7 +159,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             yield return null;
         }
 
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.1f);
         //Debug.Log("This Choroutine Worked " + gameObject.name);
         _GenratePetPrefab();
     }

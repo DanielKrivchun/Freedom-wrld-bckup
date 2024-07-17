@@ -102,8 +102,9 @@ public class NetworkAIPlayer : NetworkBehaviour
         if (Runner.IsServer)
         {
             IsServer = true;
-            StartCoroutine(_GenrateMyPrefab());
+
         }
+        StartCoroutine(_GenrateMyPrefab());
     }
 
     private void _OnStopStartPlayer(int _no)
@@ -124,7 +125,12 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     IEnumerator _GenrateMyPrefab()
     {
-        yield return new WaitForSecondsRealtime(1f);
+        while (MyPrefabID.Length <= 0)
+        {
+            Debug.Log("Waiting now ");
+            yield return null;
+        }
+        yield return new WaitForSecondsRealtime(0.1f);
         //Debug.Log("This Choroutine Worked " + gameObject.name);
         _GenratePetPrefab();
     }
@@ -490,7 +496,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         MyName = playerName.ToString();
         _SetName(MyName);
         gameObject.name = MyName;
-        _GenratePetPrefab();
+        StartCoroutine(_GenrateMyPrefab());
     }
 
     IEnumerator _WaitAndStopLuckChance()
@@ -530,7 +536,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     private async void _GenratePetPrefab()
     {
-        //Debug.Log("This works on Server  only  " + Runner.IsServer);
+        Debug.Log("This works on Server  only  " + Runner.IsServer);
         if (GenratedPet == null)
         {
             if (MyPrefabID == "")
