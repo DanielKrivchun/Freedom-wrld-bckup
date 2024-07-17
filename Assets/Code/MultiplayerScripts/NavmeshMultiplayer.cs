@@ -152,6 +152,13 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     IEnumerator _GenrateMyPrefab()
     {
+
+        while (MyPrefabID.Length <= 0)
+        {
+            Debug.Log("Waiting now ");
+            yield return null;
+        }
+
         yield return new WaitForSecondsRealtime(1f);
         //Debug.Log("This Choroutine Worked " + gameObject.name);
         _GenratePetPrefab();
@@ -797,7 +804,6 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
     void _OnRecivedRPC()
     {
-        //Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
         MyName = playerName.ToString();
         _SetName(MyName);
         gameObject.name = MyName;

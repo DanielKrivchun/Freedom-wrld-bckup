@@ -48,16 +48,19 @@ public class PetAnimation : MonoBehaviour
 
             case _AnimState.Flying:
                 AnimatorRef.SetFloat(_Strings.Velocity, 2f);
+                AnimatorRef.SetBool(_Strings.StumbleBool, false);
                 m_currunt_anim_state = _AnimState.Flying;
                 break;
 
             case _AnimState.Swimming:
                 AnimatorRef.SetFloat(_Strings.Velocity, 1.5f);
+                AnimatorRef.SetBool(_Strings.StumbleBool, false);
                 m_currunt_anim_state = _AnimState.Swimming;
                 break;
 
             case _AnimState.Climbing:
                 AnimatorRef.SetFloat(_Strings.Velocity, 2.5f);
+                AnimatorRef.SetBool(_Strings.StumbleBool, false);
                 m_currunt_anim_state = _AnimState.Climbing;
                 break;
 

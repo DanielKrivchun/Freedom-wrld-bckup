@@ -96,14 +96,14 @@ public class NetworkAIPlayer : NetworkBehaviour
         path_point = FindObjectOfType<PathPointManager>();
         RaceManagerRef = RaceManager.instance;
         SetLocalObjects();
-        if (Runner.IsServer)
-        {
-            IsServer = true;
-        }
         RndomLuckChanceTime = Random.Range(5, 10);
         Speed = PetConfigs._GetMySpeed();
         m_agent.speed = Speed;
-        StartCoroutine(_GenrateMyPrefab());
+        if (Runner.IsServer)
+        {
+            IsServer = true;
+            StartCoroutine(_GenrateMyPrefab());
+        }
     }
 
     private void _OnStopStartPlayer(int _no)
@@ -484,6 +484,15 @@ public class NetworkAIPlayer : NetworkBehaviour
         StartCoroutine(_WaitAndStopLuckChance());
     }
 
+    void _OnRecivedRPC()
+    {
+        Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
+        MyName = playerName.ToString();
+        _SetName(MyName);
+        gameObject.name = MyName;
+        _GenratePetPrefab();
+    }
+
     IEnumerator _WaitAndStopLuckChance()
     {
         //Debug.Log("_WaitAndStopLuckChance");
@@ -512,21 +521,14 @@ public class NetworkAIPlayer : NetworkBehaviour
         m_agent.speed = Speed;
     }
 
-    void _OnRecivedRPC()
-    {
-        Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
-        MyName = playerName.ToString();
-        _SetName(MyName);
-        gameObject.name = MyName;
-        _GenratePetPrefab();
-    }
+
 
     void _SetName(string _name)
     {
         nameText.text = _name;
     }
 
-    private void _GenratePetPrefab()
+    private async void _GenratePetPrefab()
     {
         //Debug.Log("This works on Server  only  " + Runner.IsServer);
         if (GenratedPet == null)
@@ -535,6 +537,8 @@ public class NetworkAIPlayer : NetworkBehaviour
             {
                 MyPrefabID = "2";
             }
+            await Utils._Waiter(100);
+
             //Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
             GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
