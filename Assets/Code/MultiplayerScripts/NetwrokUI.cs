@@ -555,7 +555,7 @@ public class NetwrokUI : NetworkBehaviour
     {
         Debug.Log("Recived Replay Notification ");
         _RecivedReplayNotification(_pname, _id);
-        NetworkEventManager._EventCameraChange(_CamState.InitialCam);
+        //NetworkEventManager._EventCameraChange(_CamState.InitialCam);
     }
 
     /// <summary>

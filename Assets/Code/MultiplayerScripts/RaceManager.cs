@@ -684,7 +684,7 @@ public class RaceManager : NetworkBehaviour
 
     public void _ReplayGameFromUIManager()
     {
-
+        StartCoroutine(_ReplayGameAgain());
     }
 
 
@@ -1031,8 +1031,13 @@ public class RaceManager : NetworkBehaviour
     {
         Debug.Log("I am Getting  Details  " + s);
         NetworkEventManager._EventPlayerLeft(s);
+
+        Debug.Log(Runner.IsServer);
+        Debug.Log(RaceStart);
+
         if (Runner.IsServer && !RaceStart)
         {
+            Debug.Log("run this");
             StartCoroutine(_WaitandCHeckReplayOptions());
         }
     }
@@ -1044,8 +1049,10 @@ public class RaceManager : NetworkBehaviour
     /// <returns></returns>
     IEnumerator _WaitandCHeckReplayOptions()
     {
-
         yield return new WaitForSecondsRealtime(3f);
+
+        Debug.Log(TotalRealPlayers);
+        Debug.Log(ResetAgrreePlayers);
 
         if (TotalRealPlayers <= 1)
         {
@@ -1055,7 +1062,6 @@ public class RaceManager : NetworkBehaviour
 
         if (TotalRealPlayers == ResetAgrreePlayers)
         {
-
             _ReplayGameFromUIManager();
         }
 
