@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class UiManager : MonoBehaviour
     public float DowngradeSpeed = 1f;
     public float UpwordSpeed = 2f;
     [Space]
-    public float SteminaDrain;
+    public float SteminaDrain = 0.005f;
 
     [Header("FLOAT AND VALUES STEMINA BAR VALUE MANAGER")]
     public float Incrimental = 0.3F;
@@ -34,9 +35,9 @@ public class UiManager : MonoBehaviour
     public Button TapButton;
 
     #region PRIVATE VARIABLES
-    private float red_drain = 0.005f;
-    private float yellow_drain = 0f;
-    private float greem_drain = 0.01f;
+    public float red_drain = 0.005f;
+    public float yellow_drain = 0f;
+    public float greem_drain = 0.01f;
     private float ypos;
     private float m_reset;
     private float m_diff;
@@ -58,6 +59,12 @@ public class UiManager : MonoBehaviour
     #region UNITY METHODS
     private void Start()
     {
+#if UNITY_EDITOR
+        SteminaDrain = 0.005f;
+        red_drain = 0.005f;
+        greem_drain = 0.01f;
+#endif
+
         m_pos = m_arrow.anchoredPosition;
         m_last_time = Time.time;
         m_currunt_time = Time.time;
@@ -79,11 +86,11 @@ public class UiManager : MonoBehaviour
         NetworkEventManager.e_win_event -= _OnWon;
     }
 
-
     private void Update()
     {
         if (!GameStarted) return;
-        m_reset += Time.deltaTime;
+
+        m_reset += Time.deltaTime * 0.5f;
         if (m_reset > m_reset_t)
         {
             m_clicking = false;
@@ -110,7 +117,6 @@ public class UiManager : MonoBehaviour
     #endregion
 
     #region EVENT LISTENERS 
-
     /// <summary>
     /// ON GAME WON
     /// </summary>
@@ -184,7 +190,6 @@ public class UiManager : MonoBehaviour
         {
             m_diff = 1.5f;
         }
-
         //CALCULATION HERE
         m_pos.y = -(m_max_y_pos) * (m_diff) / (1.5f);
         m_arrow.anchoredPosition = Vector2.Lerp(m_arrow.anchoredPosition, m_pos, UpwordSpeed * Time.deltaTime);

@@ -25302,6 +25302,10 @@ MonoBehaviour:
   Decrimental: 0.1
   m_reset_t: 0.5
   TapButton: {fileID: 954603310}
+  red_drain: 0.005
+  yellow_drain: 0
+  greem_drain: 0.01
+  FillAmount: 0
 --- !u!4 &384342717
 Transform:
   m_ObjectHideFlags: 0
@@ -51232,7 +51236,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: JOINING ROOM...
+  m_Text: JOINING...
 --- !u!222 &977540300
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -71051,6 +71055,7 @@ MonoBehaviour:
   CompletePlayerCount: 0
   MyWinNumber: 0
   startgamenow: 0
+  RaceStart: 0
   AINames:
     Names:
     - Bolt
@@ -71320,7 +71325,6 @@ MonoBehaviour:
   - PathNo: 4
     MyDistance: 0
   Path: {fileID: 1967101955}
-  RaceStart: 0
   _PathNumber: 0
   KickedPlayersPathNumber: 
   _TimeLeft: 
@@ -90894,7 +90898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2106912559
 Transform:
   m_ObjectHideFlags: 0

@@ -155,7 +155,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         while (MyPrefabID.Length <= 0)
         {
-            Debug.Log("Waiting now ");
+            //Debug.Log("Waiting now ");
             yield return null;
         }
 
@@ -282,7 +282,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
 
         //Debug.Log(Luck);
-        Debug.Log(Inteligence);
+        //Debug.Log(Inteligence);
 
         NetworkEventManager._EventConfigUpdated();
     }
@@ -412,7 +412,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
     #region WIN LOGC 
     private IEnumerator SetMyWinPosition()
     {
-        Debug.Log("SetMyWinPosition " + MyName);
+        //Debug.Log("SetMyWinPosition " + MyName);
 
         yield return new WaitForSecondsRealtime(0.2f);
 
@@ -420,7 +420,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         //_GenratePetPrefabOnWin();
         //WinPosition = pos;
         yield return new WaitForEndOfFrame();
-        Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
+        //Debug.Log("Position Set now Just Play win animation over here " + gameObject.name);
         _ChangeAnimationHere(_AnimState.Jump);
     }
 
@@ -449,7 +449,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         }
         else
         {
-            Debug.Log("Chaning animation for all other " + MyName);
+            //Debug.Log("Chaning animation for all other " + MyName);
             _ChangeAnimationHere(_AnimState.Jump);
         }
         NetwrokUI.Instance._SetMyNameOnPodium(MyWiningNumber, MyName);
@@ -807,7 +807,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         MyName = playerName.ToString();
         _SetName(MyName);
         gameObject.name = MyName;
-        _GenratePetPrefab();
+        StartCoroutine(_GenrateMyPrefab());
     }
 
     private void _GenratePetPrefab()
@@ -816,7 +816,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
         if (GenratedPet == null)
         {
             //Debug.Log("   MyName  " + MyName + "  MyPrefabID  " + MyPrefabID);
-            GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
+            GameObject obj = Instantiate(RaceManagerRef.PetPrefabHolder._GetMyPrefab(MyPrefabID), transform);
             GenratedPet = obj.GetComponent<PetAnimation>();
             gameObject.GetComponent<NetworkMecanimAnimator>().Animator = GenratedPet.AnimatorRef;
             //gameObject.GetComponent<NetworkMecanimAnimator>().enabled = true;
@@ -828,22 +828,21 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             //ADD PLAYER
             _GenratedAIPlayer G = new _GenratedAIPlayer();
             G.player = this;
-            RaceManager.instance.TotalPlayers.Add(G);
-            RaceManager.instance.TotalNumberOfPlayers++;
-            RaceManager.instance.TotalRealPlayers++;
-
+            RaceManagerRef.TotalPlayers.Add(G);
+            RaceManagerRef.TotalNumberOfPlayers++;
+            RaceManagerRef.TotalRealPlayers++;
         }
         else
         {
-            Debug.Log("ALready Genrated");
+            //Debug.Log("ALready Genrated");
         }
     }
 
     private void _GenratePetPrefabOnWin()
     {
         int temp = MyWiningNumber - 1;
-        Vector3 pos = RaceManager.instance.WinPoints[temp].position;
-        GameObject obj = Instantiate(RaceManager.instance.PetPrefabHolder._GetMyPrefab(MyPrefabID), RaceManager.instance.WinPoints[temp]);
+        Vector3 pos = RaceManagerRef.WinPoints[temp].position;
+        GameObject obj = Instantiate(RaceManagerRef.PetPrefabHolder._GetMyPrefab(MyPrefabID), RaceManagerRef.WinPoints[temp]);
         PetAnimation P = obj.GetComponent<PetAnimation>();
         obj.transform.localPosition = Vector3.zero;
         obj.transform.localRotation = Quaternion.identity;

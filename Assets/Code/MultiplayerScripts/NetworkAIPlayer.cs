@@ -140,11 +140,11 @@ public class NetworkAIPlayer : NetworkBehaviour
     {
         //Debug.Log("I am Local Player");
         IsLocalPlayer = true;
-        MyName = RaceManager.instance._GetNames();
+        MyName = RaceManagerRef._GetNames();
         playerName = MyName;
-        int a = Random.Range(0, RaceManager.instance.PetPrefabHolder.PetPrefabs.Count);
+        int a = Random.Range(0, RaceManagerRef.PetPrefabHolder.PetPrefabs.Count);
         //Debug.Log("MyPrefabID   " + a);
-        MyPrefabID = RaceManager.instance.PetPrefabHolder.PetPrefabs[a].PrefabId;
+        MyPrefabID = RaceManagerRef.PetPrefabHolder.PetPrefabs[a].PrefabId;
         //MyPrefabID = "1";
         _SetName(playerName.ToString());
         gameObject.name = MyName.ToString();
@@ -181,8 +181,8 @@ public class NetworkAIPlayer : NetworkBehaviour
             switch (other.tag)
             {
                 case _Tags.WinLine:
-                    Debug.Log("WINLINE COLIDED" + other.tag + "    " + MyName);
-                    MyWiningNumber = RaceManager.instance._GetMyWinningNo();
+                    //Debug.Log("WINLINE COLIDED" + other.tag + "    " + MyName);
+                    MyWiningNumber = RaceManagerRef._GetMyWinningNo();
                     RaceComplete = true;
                     GetComponent<NavMeshAgent>().enabled = false;
                     GetComponent<Collider>().enabled = false;
@@ -257,8 +257,8 @@ public class NetworkAIPlayer : NetworkBehaviour
         rb.isKinematic = true;
         yield return new WaitForSecondsRealtime(0.2f);
         int temp = MyWiningNumber - 1;
-        pos = RaceManager.instance.WinPoints[temp].position;
-        Q = RaceManager.instance.WinPoints[temp].rotation;
+        pos = RaceManagerRef.WinPoints[temp].position;
+        Q = RaceManagerRef.WinPoints[temp].rotation;
         networkTransform.Teleport(pos, Q);
         //GenratedPet.gameObject.SetActive(false);
         //_GenratePetPrefabOnWin();
@@ -323,7 +323,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         if (IsServer)
         {
             luckchance = 0f;
-            Debug.Log(MyPathNumber);
+            //Debug.Log(MyPathNumber);
             _InitilizePath();
             m_currunt_pos = _GetNextPos(move_positions[m_currunt_index]);
             _SetDestination();
@@ -446,7 +446,7 @@ public class NetworkAIPlayer : NetworkBehaviour
     /// </summary>
     void _InitilizePath()
     {
-        Debug.Log("My Path No  " + MyPathNumber + "   " + gameObject.name);
+        //Debug.Log("My Path No  " + MyPathNumber + "   " + gameObject.name);
         move_positions = new List<Vector3>();
         move_positions = path_point.prePositions[MyPathNumber].m_positions;
     }
@@ -492,7 +492,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     void _OnRecivedRPC()
     {
-        Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
+        //Debug.Log("Recived RPC HERE  " + Runner.IsServer + "  MY ACTUAL NAME IS   " + MyName);
         MyName = playerName.ToString();
         _SetName(MyName);
         gameObject.name = MyName;
@@ -536,7 +536,7 @@ public class NetworkAIPlayer : NetworkBehaviour
 
     private async void _GenratePetPrefab()
     {
-        Debug.Log("This works on Server  only  " + Runner.IsServer);
+        //Debug.Log("This works on Server  only  " + Runner.IsServer);
         if (GenratedPet == null)
         {
             if (MyPrefabID == "")
@@ -558,8 +558,8 @@ public class NetworkAIPlayer : NetworkBehaviour
             _GenratedAIPlayer G = new _GenratedAIPlayer();
             G.aiplayer = this;
             G.AI = true;
-            RaceManager.instance.TotalPlayers.Add(G);
-            RaceManager.instance.TotalNumberOfPlayers++;
+            RaceManagerRef.TotalPlayers.Add(G);
+            RaceManagerRef.TotalNumberOfPlayers++;
         }
         else
         {

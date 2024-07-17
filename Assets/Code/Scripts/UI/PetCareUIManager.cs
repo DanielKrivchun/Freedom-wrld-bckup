@@ -222,6 +222,7 @@ public class PetCareUIManager : MonoBehaviour
     //START RACE
     public void _StartRace()
     {
+        BeamableCloudSaveManager.instance.SaveData(petDataRef.petData);
         SceneManager.LoadScene(_Strings.RaceScene);
     }
 

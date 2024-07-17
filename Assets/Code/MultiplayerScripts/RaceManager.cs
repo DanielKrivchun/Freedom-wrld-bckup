@@ -76,6 +76,7 @@ public class RaceManager : NetworkBehaviour
     public string LocalnetworkID { get; set; }
     //PUBLIC BOOLS
     public bool startgamenow;
+    public bool RaceStart;
     [Header("LISTS")]
     public _FakeUsers AINames;
     [Space]
@@ -90,15 +91,9 @@ public class RaceManager : NetworkBehaviour
     public List<_RankPlayers> RankBasedPlayers;
     [Header("PATH OBJECT")]
     public PathCreation.PathCreator Path;
-
-
-
     #endregion
 
-    public bool RaceStart;
-
     //GENERICS
-
     #region NETWORKED OBJECTS
     [Networked] public int PathNumber { get; set; }
 
@@ -153,7 +148,7 @@ public class RaceManager : NetworkBehaviour
     private void Start()
     {
 #if !UNITY_EDITOR
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 30;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #endif
         PrefabID = petdataref.petData.petPrefabID.ToString();
@@ -665,6 +660,7 @@ public class RaceManager : NetworkBehaviour
         RaceStart = false;
         CurrntWinCount = 0;
         AFKCheck = true;
+        KickedPlayersPathNumber = new List<int>();
     }
 
     /// <summary>
@@ -702,14 +698,13 @@ public class RaceManager : NetworkBehaviour
         {
             if (i > TotalRealPlayers)
             {
-
                 _GenrateAIPlayer(PathNumber);
                 PathNumber++;
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForSecondsRealtime(1f);
             }
         }
 
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSecondsRealtime(2);
         NetwrokUI.Instance.RPC_StartGame();
     }
     #endregion
@@ -933,7 +928,7 @@ public class RaceManager : NetworkBehaviour
             if (p.playerRef != null)
             {
                 //NOTIFY TO PLAYER WHICH PLAYER LEFT
-                Debug.Log(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
+                //Debug.Log(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
                 RPC_PlayerLeftNofirication(p.Player.GetComponent<NavmeshMultiplayer>().MyName);
                 int pathn = p.Player.GetComponent<NavmeshMultiplayer>().MyPathNumber;
                 Runner.Despawn(p.Player);
@@ -1029,15 +1024,14 @@ public class RaceManager : NetworkBehaviour
 
     void _PlayerLeftDetails(string s)
     {
-        Debug.Log("I am Getting  Details  " + s);
+        //Debug.Log("I am Getting  Details  " + s);
         NetworkEventManager._EventPlayerLeft(s);
 
-        Debug.Log(Runner.IsServer);
-        Debug.Log(RaceStart);
+        //Debug.Log(Runner.IsServer);
+        //Debug.Log(RaceStart);
 
         if (Runner.IsServer && !RaceStart)
         {
-            Debug.Log("run this");
             StartCoroutine(_WaitandCHeckReplayOptions());
         }
     }

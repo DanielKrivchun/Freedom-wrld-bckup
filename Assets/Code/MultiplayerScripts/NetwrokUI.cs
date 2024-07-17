@@ -382,7 +382,7 @@ public class NetwrokUI : NetworkBehaviour
     /// <param name="_name"></param>
     public void _SetMyNameOnPodium(int _no, string _name)
     {
-        Debug.Log("No " + _no);
+        //Debug.Log("No " + _no);
         WinnerNames[_no - 1].text = _name;
     }
 
@@ -448,7 +448,7 @@ public class NetwrokUI : NetworkBehaviour
         Utils._DoButtonAnimation(StartGameButton.transform);
         await Utils._Waiter(200);
         button_waiter = false;
-        Debug.Log("Start Race");
+        //Debug.Log("Start Race");
         RaceManagerRef.startgamenow = true;
         RPC_StartGame();
     }
