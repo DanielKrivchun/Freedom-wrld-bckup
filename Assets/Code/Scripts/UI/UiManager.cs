@@ -52,6 +52,8 @@ public class UiManager : MonoBehaviour
     private bool StaminaDrained;
     private bool GameStarted;
 
+    public float SteminaMul = 1f;
+
     private Vector2 m_initial_pos;
     private Vector2 m_pos;
     #endregion
@@ -59,6 +61,10 @@ public class UiManager : MonoBehaviour
     #region UNITY METHODS
     private void Start()
     {
+        SteminaDrain = 0.04f;
+        red_drain = 0.03f;
+        greem_drain = 0.09f;
+
 #if UNITY_EDITOR
         SteminaDrain = 0.005f;
         red_drain = 0.005f;
@@ -90,7 +96,9 @@ public class UiManager : MonoBehaviour
     {
         if (!GameStarted) return;
 
-        m_reset += Time.deltaTime * 0.5f;
+        Debug.Log(Time.deltaTime);
+
+        m_reset += Time.deltaTime;
         if (m_reset > m_reset_t)
         {
             m_clicking = false;

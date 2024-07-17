@@ -693,7 +693,7 @@ public class RaceManager : NetworkBehaviour
         //DE SPWAN ALL AI PLAYERS
         _DespwanAllAIplayers();
         yield return new WaitForSecondsRealtime(1);
-
+        Debug.Log("TotalRealPlayers  " + TotalRealPlayers);
         for (int i = 1; i <= 5; i++)
         {
             if (i > TotalRealPlayers)

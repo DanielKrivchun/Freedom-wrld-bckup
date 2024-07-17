@@ -111,7 +111,6 @@ public class NetwrokUI : NetworkBehaviour
         StartGameButton.onClick.AddListener(_StartRace);
         AIPlayerButton.onClick.AddListener(_GenrateAIPlayer);
         TestButton.onClick.AddListener(_TestButton);
-
     }
 
 
@@ -164,7 +163,6 @@ public class NetwrokUI : NetworkBehaviour
         {
             ReplayButton.gameObject.SetActive(true);
         }
-
     }
 
     /// <summary>
@@ -482,6 +480,7 @@ public class NetwrokUI : NetworkBehaviour
         wintext.text = "";
         Cointext.text = "";
         Xptext.text = "";
+        ReplayButton.gameObject.SetActive(false);
     }
 
     /// <summary>
