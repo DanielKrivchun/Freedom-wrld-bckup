@@ -1,3 +1,4 @@
+using Beamable.Server.Clients;
 using DG.Tweening;
 using UnityEngine;
 
@@ -7,6 +8,11 @@ public class PetCareObjectManager : MonoBehaviour
     public PetCareStateManager petStateManager;
     public PetCareInputManager petInputManager;
     public PetCareCameraViewManager cameraViewManager;
+    public ExtraPlayerDataManager extraPlayerDataManager;
+    public PetCareUIManager petCareUiManager;
+
+    [Header("Extra Player Data Reference")]
+    public ExtraPlayerDataListSO extraPlayerDataRef;
 
     [Header("Happy")]
     [SerializeField] CharacterController characterController;
@@ -23,6 +29,11 @@ public class PetCareObjectManager : MonoBehaviour
     [Header("Sleep")]
     public GameObject sleepCanvas;
     public Transform sleepPoint;
+
+    [Header("Tutorial UI")]
+    public GameObject eatTutorialPanel;
+
+    private ExtraPlayerDataServiceClient _ExtraPlayerDataServiceClient = null;
 
     #region MANAGE PET CARE OBJECTS
     public void ManagePetCareObjects(PetCareState state)
@@ -59,6 +70,8 @@ public class PetCareObjectManager : MonoBehaviour
                 characterController.enabled = false;
                 bathObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);
+
+                petCareUiManager.PlayTutorial("eatTutorial");
                 break;
 
             case PetCareState.Clean:
@@ -67,6 +80,8 @@ public class PetCareObjectManager : MonoBehaviour
                 characterController.enabled = false;
                 eatObjectHolder.SetActive(false);
                 sleepCanvas.SetActive(false);
+
+                petCareUiManager.PlayTutorial("showerTutorial");
                 break;
 
             case PetCareState.Energy:

@@ -32,6 +32,9 @@ public class PetCareUIManager : MonoBehaviour
 
     [Header("Tutorial UI")]
     public GameObject introTutorialPanel;
+    public GameObject inventoryTutorialPanel;
+    public GameObject showerTutorialPanel;
+    public GameObject eatingTutorialPanel;
 
     [Header("Pet Welcome Panel UI")]
     public Image selectedEggPet;
@@ -251,6 +254,8 @@ public class PetCareUIManager : MonoBehaviour
         {
             ShowNotificationUI("Sorry, you can't access this while your pet is training");
         }
+
+        PlayTutorial("inventoryTutorial");
     }
     #endregion
 
@@ -359,11 +364,7 @@ public class PetCareUIManager : MonoBehaviour
             setPetDetailsPanel.SetActive(false);
             petCreationPanelMain.SetActive(false);
 
-            if (extraPlayerDataRef.extraPlayerData.introTutorial == 0)
-            {
-                introTutorialPanel.SetActive(true);
-                extraPlayerDataRef.extraPlayerData.introTutorial = 1;
-            }
+            PlayTutorial("introTutorial");
         }
     }
 
@@ -479,13 +480,42 @@ public class PetCareUIManager : MonoBehaviour
 
     #region TUTORIAL UI
 
-    public async void PlayTutorial(string tutorial)
+    public void PlayTutorial(string tutorial)
     {
-        //string data = await extraPlayerDataManager.GetValueByKey(tutorial);
-        //string data = await extraPlayerDataManager.ExtraPlayerDataService();
-        Debug.Log($"Data is EQUAL TO: {await extraPlayerDataManager.ExtraPlayerDataService()}");
+        switch (tutorial)
+        {
+            case "introTutorial":
+                if (extraPlayerDataRef.extraPlayerData.introTutorial == 0)
+                {
+                    introTutorialPanel.SetActive(true);
+                    extraPlayerDataRef.extraPlayerData.introTutorial = 1;
+                }
+                break;
 
-        //Debug.Log($"Tutorial Value is EQUAL TO: {data}");
+            case "eatTutorial":
+                if (extraPlayerDataRef.extraPlayerData.eatTutorial == 0)
+                {
+                    eatingTutorialPanel.SetActive(true);
+                    extraPlayerDataRef.extraPlayerData.eatTutorial = 1;
+                }
+                break;
+
+            case "inventoryTutorial":
+                if (extraPlayerDataRef.extraPlayerData.inventoryTutorial == 0)
+                {
+                    inventoryTutorialPanel.SetActive(true);
+                    extraPlayerDataRef.extraPlayerData.inventoryTutorial = 1;
+                }
+                break;
+
+            case "showerTutorial":
+                if (extraPlayerDataRef.extraPlayerData.showerTutorial == 0)
+                {
+                    showerTutorialPanel.SetActive(true);
+                    extraPlayerDataRef.extraPlayerData.showerTutorial = 1;
+                }
+                break;
+        }
     }
 
     #endregion

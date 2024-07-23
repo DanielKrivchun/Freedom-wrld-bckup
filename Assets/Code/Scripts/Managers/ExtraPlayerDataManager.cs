@@ -37,6 +37,10 @@ public class ExtraPlayerDataManager : MonoBehaviour
         Debug.Log($"Data manager running: {extraPlayerDataListSO.extraPlayerData.playerId}");
     }
 
+    //This is a funciton that needs to be made. If pet dies and new pet is created need to reset stats like when they last took vitamins
+    //public async ResetPetData()
+    //{ }
+
 
     public async Task<List<ExtraPlayerData>> ExtraPlayerDataService()
     {
@@ -91,22 +95,6 @@ public class ExtraPlayerDataManager : MonoBehaviour
 
         return entryList;
 
-    }
-
-    private void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            Debug.Log("Saving Data on Pause...");
-            _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId(extraPlayerDataListSO.extraPlayerData.playerId, extraPlayerDataListSO.extraPlayerData.introTutorial, extraPlayerDataListSO.extraPlayerData.eatTutorial, extraPlayerDataListSO.extraPlayerData.showerTutorial, extraPlayerDataListSO.extraPlayerData.inventoryTutorial);
-        }
-        else
-        {
-            if (extraPlayerDataListSO.extraPlayerData != null)
-            {
-                //await ExtraPlayerDataService();
-            }
-        }
     }
 
     private void OnApplicationQuit()

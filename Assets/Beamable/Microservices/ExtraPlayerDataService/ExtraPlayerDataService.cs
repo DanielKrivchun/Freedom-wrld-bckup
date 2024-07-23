@@ -48,8 +48,6 @@ namespace Beamable.Microservices
                     showerTutorial = _showerTutorial,
                     inventoryTutorial = _inventoryTutorial
                 });
-
-                Debug.Log($"Added {_playerId}'s data to database, Intro Tutorial is: {_introTutorial}");
             }
             catch (Exception e)
             {
@@ -108,8 +106,6 @@ namespace Beamable.Microservices
                 {
                     Debug.LogWarning($"No document found with playerId {_playerId} to update.");
                 }
-
-                Debug.Log($"This is what the result is: {result}");
             }
             catch (Exception e)
             {
@@ -132,7 +128,7 @@ namespace Beamable.Microservices
             // Convert the entry to a JSON string
             var jsonEntry = JsonUtility.ToJson(ExtraPlayerDataEntry);
 
-            Debug.Log($"THE JSON ENTRY IS: {jsonEntry}, CAN WE SEE THE OBJECT ID");
+            Debug.Log($"THE storage ENTRY IS: {jsonEntry}");
 
             return jsonEntry;
         }
