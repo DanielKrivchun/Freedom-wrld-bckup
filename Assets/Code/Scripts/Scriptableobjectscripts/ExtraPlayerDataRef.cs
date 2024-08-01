@@ -1,4 +1,5 @@
 using Beamable.Server;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class ExtraPlayerDataListSO : ScriptableObject
 {
     public ExtraPlayerData extraPlayerData;
 
-    public void SetAllExtraPlayerData(string objectId, string playerId, int introTutorial, int eatTutorial, int showerTutorial, int inventoryTutorial)
+    public void SetAllExtraPlayerData(string objectId, string playerId, int introTutorial, int eatTutorial, int showerTutorial, int inventoryTutorial, string vitaminsAteTime)
     { 
         extraPlayerData = new ExtraPlayerData();
 
@@ -17,5 +18,6 @@ public class ExtraPlayerDataListSO : ScriptableObject
         extraPlayerData.eatTutorial = eatTutorial;
         extraPlayerData.showerTutorial = showerTutorial;
         extraPlayerData.inventoryTutorial = inventoryTutorial;
+        extraPlayerData.vitaminsAteTime = vitaminsAteTime;
     }
 }

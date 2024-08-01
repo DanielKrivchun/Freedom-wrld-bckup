@@ -26,6 +26,7 @@ public class ExtraPlayerDataManager : MonoBehaviour
         public int eatTutorial;
         public int showerTutorial;
         public int inventoryTutorial;
+        public string vitaminsAteTime;
     }
 
     // Start is called before the first frame update
@@ -41,7 +42,7 @@ public class ExtraPlayerDataManager : MonoBehaviour
     //public async ResetPetData()
     //{ }
 
-
+    #region Call to create entry if needed, which then fills the EPD Scriptable Object
     public async Task<List<ExtraPlayerData>> ExtraPlayerDataService()
     {
         var beamContext = BeamContext.Default;
@@ -59,7 +60,8 @@ public class ExtraPlayerDataManager : MonoBehaviour
                 0,
                 0,
                 0,
-                0);
+                0,
+                "");
 
             jsonEntry = await _ExtraPlayerDataServiceClient.GetEntryByPlayerId(beamContext.PlayerId.ToString());
         }
@@ -67,15 +69,16 @@ public class ExtraPlayerDataManager : MonoBehaviour
         // Parse json string to .net
         JObject parsedJson = JObject.Parse(jsonEntry);
 
-        string objectId = (string)parsedJson["Id"];
-        string playerId = (string)parsedJson["playerId"];
-        int introTutorial = (int)parsedJson["introTutorial"];
-        int eatTutorial = (int)parsedJson["eatTutorial"];
-        int showerTutorial = (int)parsedJson["showerTutorial"];
-        int inventoryTutorial = (int)parsedJson["inventoryTutorial"];
+        string objectId         = (string)parsedJson["Id"];
+        string playerId         = (string)parsedJson["playerId"];
+        int introTutorial       = (int)parsedJson["introTutorial"];
+        int eatTutorial         = (int)parsedJson["eatTutorial"];
+        int showerTutorial      = (int)parsedJson["showerTutorial"];
+        int inventoryTutorial   = (int)parsedJson["inventoryTutorial"];
+        string vitaminsAteTime  = (string)parsedJson["vitaminsAteTime"];
 
         entryList.Add(
-                new ExtraPlayerData { objectId = objectId, playerId = playerId, introTutorial = introTutorial, eatTutorial = eatTutorial, showerTutorial = showerTutorial, inventoryTutorial = inventoryTutorial }
+                new ExtraPlayerData { objectId = objectId, playerId = playerId, introTutorial = introTutorial, eatTutorial = eatTutorial, showerTutorial = showerTutorial, inventoryTutorial = inventoryTutorial, vitaminsAteTime = vitaminsAteTime }
             );
 
         
@@ -84,7 +87,7 @@ public class ExtraPlayerDataManager : MonoBehaviour
         {
             foreach (var entry in entryList)
             {
-                extraPlayerDataListSO.SetAllExtraPlayerData(entry.objectId, entry.playerId, entry.introTutorial, entry.eatTutorial, entry.showerTutorial, entry.inventoryTutorial);
+                extraPlayerDataListSO.SetAllExtraPlayerData(entry.objectId, entry.playerId, entry.introTutorial, entry.eatTutorial, entry.showerTutorial, entry.inventoryTutorial, entry.vitaminsAteTime);
             }
 
         }
@@ -97,6 +100,16 @@ public class ExtraPlayerDataManager : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Food Timings
+    public void SetVitaminsAteTime()
+    { 
+        
+    }
+    #endregion
+
+    #region Save On Quit
     private void OnApplicationQuit()
     {
         if (extraPlayerDataListSO != null && extraPlayerDataListSO.extraPlayerData != null)
@@ -105,6 +118,7 @@ public class ExtraPlayerDataManager : MonoBehaviour
             PlayerPrefs.SetInt("EatTutorial", extraPlayerDataListSO.extraPlayerData.eatTutorial);
             PlayerPrefs.SetInt("ShowerTutorial", extraPlayerDataListSO.extraPlayerData.showerTutorial);
             PlayerPrefs.SetInt("InventoryTutorial", extraPlayerDataListSO.extraPlayerData.inventoryTutorial);
+            PlayerPrefs.SetString("vitaminsAteTime", extraPlayerDataListSO.extraPlayerData.vitaminsAteTime);
             PlayerPrefs.Save();
         }
         else
@@ -122,7 +136,7 @@ public class ExtraPlayerDataManager : MonoBehaviour
             var beamContext = BeamContext.Default;
             await beamContext.OnReady;
 
-            await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId(beamContext.PlayerId.ToString(), PlayerPrefs.GetInt("IntroTutorial", 0), PlayerPrefs.GetInt("EatTutorial", 0), PlayerPrefs.GetInt("ShowerTutorial", 0), PlayerPrefs.GetInt("InventoryTutorial", 0));
+            await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId(beamContext.PlayerId.ToString(), PlayerPrefs.GetInt("IntroTutorial", 0), PlayerPrefs.GetInt("EatTutorial", 0), PlayerPrefs.GetInt("ShowerTutorial", 0), PlayerPrefs.GetInt("InventoryTutorial", 0), PlayerPrefs.GetString("vitaminsAteTime"));
             Debug.Log("Pushing data from playerprefs to ExtraPlayerData storage");
         }
         else
@@ -130,4 +144,6 @@ public class ExtraPlayerDataManager : MonoBehaviour
             Debug.LogError("extraPlayerDataListSO or extraPlayerDataListSO.extraPlayerData is null.");
         }
     }
+
+    #endregion
 }

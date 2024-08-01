@@ -13,26 +13,26 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: ksk
+    petname: Daniel
     petPrefabID: 1
-    health: 545
-    happiness: 100
-    hunger: 30
-    cleanliness: 100
-    energy: 100
-    isSick: 0
-    birthTime: 2024-06-16 7:23:21 PM
-    lastTimeHappy: 2024-06-20 3:35:58 AM
-    lastTimeFeed: 2024-06-20 3:35:58 AM
-    lastTimeClean: 2024-06-20 3:35:58 AM
-    lastTimeEnergy: 2024-06-20 3:35:58 AM
-    lastLoginTime: 2024-06-20 3:12:42 AM
-    running: 14
-    climbing: 14
-    flying: 14
-    swimming: 14
-    intelligence: 3
-    luck: 3
+    health: 165
+    happiness: 62
+    hunger: 1
+    cleanliness: 20
+    energy: 0
+    isSick: 1
+    birthTime: 2024-07-29 10:55:28 PM
+    lastTimeHappy: 2024-07-30 7:13:29 PM
+    lastTimeFeed: 2024-07-30 7:13:29 PM
+    lastTimeClean: 2024-07-30 7:13:29 PM
+    lastTimeEnergy: 2024-07-30 7:13:29 PM
+    lastLoginTime: 2024-07-29 10:55:28 PM
+    running: 50
+    climbing: 10
+    flying: 10
+    swimming: 10
+    intelligence: 15
+    luck: 5
     rank: 1
     maxStamina: 100
     xp: 0

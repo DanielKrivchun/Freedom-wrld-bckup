@@ -215,6 +215,9 @@ public static class Utils
 
             case "AntiBiotics":
                 return FoodItems.AntiBiotics;
+
+            case "Vitamins":
+                return FoodItems.Vitamins;
         }
 
         return FoodItems.None;

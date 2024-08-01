@@ -59,5 +59,6 @@ public enum FoodItems
     CosmicBerryElectrolyteDrink,
     ProteinShake,
     MiracleCognitiveSupplements,
-    AntiBiotics
+    AntiBiotics,
+    Vitamins
 }

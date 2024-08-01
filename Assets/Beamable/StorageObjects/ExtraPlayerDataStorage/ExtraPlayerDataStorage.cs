@@ -17,6 +17,7 @@ namespace Beamable.Server
         public int eatTutorial;
         public int showerTutorial;
         public int inventoryTutorial;
+		public string vitaminsAteTime;
     }
 
     public static class ExtraPlayerDataStorageExtension

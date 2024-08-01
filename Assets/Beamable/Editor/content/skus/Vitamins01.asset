@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5bfeeca7cf3246b3a89418e98719de7, type: 3}
-  m_Name: Orange01
+  m_Name: Vitamins01
   m_EditorClassIdentifier: 
   _tags: []
-  description: An orange. +10 to hunger
-  realPrice: 9
+  description: Vitamins. Use to reduce pets chance of getting sick
+  realPrice: 30
   productIds:
     itunes:
       HasValue: 0

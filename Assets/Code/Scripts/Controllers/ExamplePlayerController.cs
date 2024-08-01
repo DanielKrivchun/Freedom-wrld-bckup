@@ -25,6 +25,10 @@ public class ExamplePlayerController : MonoBehaviour
         Debug.Log("Using medicine");
         Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueId}");
 
+        if (item.itemName == "AntiBiotics")
+        {
+            Debug.Log("consuming AntiBiotics");
+        }
         PetCareStateManager.instance.UpdatePetSickToHealthy();
     }
 

@@ -13,5 +13,6 @@ public class ExtraPlayerData
     public int eatTutorial;
     public int showerTutorial;
     public int inventoryTutorial;
+    public string vitaminsAteTime;
 }
 

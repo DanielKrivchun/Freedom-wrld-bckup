@@ -20,8 +20,10 @@ namespace Beamable.Microservices
 			// This code executes on the server.
 		}
 
+        #region Create/Update Entry
+
         [ClientCallable]
-        public async void CreateEntry(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial)
+        public async void CreateEntry(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime)
         {
             try
             {
@@ -46,7 +48,8 @@ namespace Beamable.Microservices
                     introTutorial = _introTutorial,
                     eatTutorial = _eatTutorial,
                     showerTutorial = _showerTutorial,
-                    inventoryTutorial = _inventoryTutorial
+                    inventoryTutorial = _inventoryTutorial,
+                    vitaminsAteTime = _vitaminsAteTime
                 });
             }
             catch (Exception e)
@@ -79,7 +82,7 @@ namespace Beamable.Microservices
         }
 
         [ClientCallable]
-        public async Task UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial)
+        public async Task UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime)
         {
             try
             {
@@ -92,7 +95,8 @@ namespace Beamable.Microservices
                     .Set("introTutorial", _introTutorial)
                     .Set("eatTutorial", _eatTutorial)
                     .Set("showerTutorial", _showerTutorial)
-                    .Set("inventoryTutorial", _inventoryTutorial);
+                    .Set("inventoryTutorial", _inventoryTutorial)
+                    .Set("vitaminsAteTime", _vitaminsAteTime);
 
                 // Update the document in the collection
                 var result = collection.UpdateOne(filter, update);
@@ -100,7 +104,7 @@ namespace Beamable.Microservices
                 // Check if the update was acknowledged and successful
                 if (result.IsAcknowledged && result.ModifiedCount > 0)
                 {
-                    Debug.Log($"Updated entry for playerId {_playerId} in microservice storage. introTutorial: {_introTutorial}, eatTutorial: {_eatTutorial}, showerTutorial: {_showerTutorial}, inventoryTutorial: {_inventoryTutorial}");
+                    Debug.Log($"Updated entry for playerId {_playerId} in microservice storage. introTutorial: {_introTutorial}, eatTutorial: {_eatTutorial}, showerTutorial: {_showerTutorial}, inventoryTutorial: {_inventoryTutorial}, VitaminsAteTime: {_vitaminsAteTime}");
                 }
                 else
                 {
@@ -113,7 +117,9 @@ namespace Beamable.Microservices
             }
         }
 
+        #endregion
 
+        #region Get Entry
         [ClientCallable]
         public async Promise<string> GetEntryByPlayerId(string playerId)
         {
@@ -132,5 +138,7 @@ namespace Beamable.Microservices
 
             return jsonEntry;
         }
+
+        #endregion
     }
 }

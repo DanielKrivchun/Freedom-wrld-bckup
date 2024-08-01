@@ -45,19 +45,21 @@ namespace Beamable.Server.Clients
         /// Call the CreateEntry method on the ExtraPlayerDataService microservice
         /// <see cref="Beamable.Microservices.ExtraPlayerDataService.CreateEntry"/>
         /// </summary>
-        public Beamable.Common.Promise<Beamable.Common.Unit> CreateEntry(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial)
+        public Beamable.Common.Promise<Beamable.Common.Unit> CreateEntry(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime)
         {
             object raw__playerId = _playerId;
             object raw__introTutorial = _introTutorial;
             object raw__eatTutorial = _eatTutorial;
             object raw__showerTutorial = _showerTutorial;
             object raw__inventoryTutorial = _inventoryTutorial;
+            object raw__vitaminsAteTime = _vitaminsAteTime;
             System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
             serializedFields.Add("_playerId", raw__playerId);
             serializedFields.Add("_introTutorial", raw__introTutorial);
             serializedFields.Add("_eatTutorial", raw__eatTutorial);
             serializedFields.Add("_showerTutorial", raw__showerTutorial);
             serializedFields.Add("_inventoryTutorial", raw__inventoryTutorial);
+            serializedFields.Add("_vitaminsAteTime", raw__vitaminsAteTime);
             return this.Request<Beamable.Common.Unit>("ExtraPlayerDataService", "CreateEntry", serializedFields);
         }
         
@@ -79,19 +81,21 @@ namespace Beamable.Server.Clients
         /// Call the UpdateEntryByPlayerId method on the ExtraPlayerDataService microservice
         /// <see cref="Beamable.Microservices.ExtraPlayerDataService.UpdateEntryByPlayerId"/>
         /// </summary>
-        public Beamable.Common.Promise<System.Threading.Tasks.Task> UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial)
+        public Beamable.Common.Promise<System.Threading.Tasks.Task> UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime)
         {
             object raw__playerId = _playerId;
             object raw__introTutorial = _introTutorial;
             object raw__eatTutorial = _eatTutorial;
             object raw__showerTutorial = _showerTutorial;
             object raw__inventoryTutorial = _inventoryTutorial;
+            object raw__vitaminsAteTime = _vitaminsAteTime;
             System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
             serializedFields.Add("_playerId", raw__playerId);
             serializedFields.Add("_introTutorial", raw__introTutorial);
             serializedFields.Add("_eatTutorial", raw__eatTutorial);
             serializedFields.Add("_showerTutorial", raw__showerTutorial);
             serializedFields.Add("_inventoryTutorial", raw__inventoryTutorial);
+            serializedFields.Add("_vitaminsAteTime", raw__vitaminsAteTime);
             return this.Request<System.Threading.Tasks.Task>("ExtraPlayerDataService", "UpdateEntryByPlayerId", serializedFields);
         }
         
