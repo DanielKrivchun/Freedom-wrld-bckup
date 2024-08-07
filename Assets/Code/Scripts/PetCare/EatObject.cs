@@ -14,12 +14,13 @@ public class EatObject : MonoBehaviour
     public int climbingValue;
     public int flyingValue;
     public int swimmingValue;
-    public int IntelligenceValue;
+    public int intelligenceValue;
     public int luckValue;
     private DateTime serverTimeNow;
 
     [Header("Script Ref")]
     private ParticleEffectsManager particleEffectsManager;
+    private ExtraPlayerDataManager extraPlayerDataManager;
 
     [Header("Pet Data Reference")]
     public PetDataRef petDataRef;
@@ -30,52 +31,86 @@ public class EatObject : MonoBehaviour
     [HideInInspector]
     public int foodSpawnIndex;
 
-    [Space]
-    public GetServerTime getServerTime;
-
     private void Start()
     {
         particleEffectsManager = FindObjectOfType<ParticleEffectsManager>();
+        extraPlayerDataManager = FindObjectOfType<ExtraPlayerDataManager>();
     }
 
-    private async void OnMouseDown()
+    private void OnMouseDown()
     {
-        if (PetCareStateManager.instance.petDataRef.petData.hunger < 100)
+        //AntiBiotics
+        if (foodName == FoodItems.AntiBiotics) //We should not let the user use the item if:petDataRef.petData.isSick != true. But currently the item will just be stuck on the table so no point
         {
-            if (foodName == FoodItems.Fairy || foodName == FoodItems.GoldenFairy) { // Fairy effects
-                //Do particle effect
-                particleEffectsManager.PlayFairyEffect();
-            }
-            else if (foodName == FoodItems.AntiBiotics) //AntiBiotics effects
-            {
-                PetCareStateManager.instance.UpdatePetSickToHealthy(); //Make sure that this works
-            }
-            else if (foodName == FoodItems.Vitamins) { //Vitamins effects
-                //serverTimeNow = await getServerTime.GetCurrentTimeTask();
-                petCareStatDatRef.fluChance = 1;
-                PetCareUIManager.instance.ShowNotificationUI($"Vitamins Eaten. Sickness chance reduced for 3 days. Time now: {serverTimeNow}");
-            }
-
+            PetCareStateManager.instance.UpdatePetSickToHealthy(); //Make sure that this works
             PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Eating);
-            PetCareStateManager.instance.ManageHungerDataFiller(hungerValue);
-            PetCareStateManager.instance.ManageHappinessDataFiller(happinessValue);
-            PetCareStateManager.instance.ManageEnergyDataFiller(energyValue);
-            PetCareStateManager.instance.ManageCleanlinessDataFiller(cleanlinessValue);
 
-            petDataRef.petData.running += runningValue;
-            petDataRef.petData.climbing += climbingValue;
-            petDataRef.petData.flying += flyingValue;
-            petDataRef.petData.swimming += swimmingValue;
-            petDataRef.petData.intelligence += IntelligenceValue;
-            petDataRef.petData.luck += luckValue;
+            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
 
-            PetCareStateManager.instance.RemoveFoodFromTable(foodSpawnIndex);
-            gameObject.SetActive(false);
-            gameObject.transform.SetParent(null);
+            return;
+        }
+        //Vitamins
+        else if (foodName == FoodItems.Vitamins)
+        {
+            extraPlayerDataManager.SetVitaminsAteTime();
+            petCareStatDatRef.fluChance = 1;
+            PetCareUIManager.instance.ShowNotificationUI($"Vitamins Eaten. Sickness chance reduced for 3 days.");
+
+            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
+
+            return;
+        }
+        //Energy Drink
+        else if (foodName == FoodItems.EnergyDrink) //Should still be able to drink this if hunger is full. 
+        {
+            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
+
+            return;
+        }
+        //Fairies
+        else if (foodName == FoodItems.Fairy || foodName == FoodItems.GoldenFairy)
+        { // Fairy effects
+            particleEffectsManager.PlayFairyEffect();
+            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
+
+            return;
+        }
+        //All other items
+        if (PetCareStateManager.instance.petDataRef.petData.hunger < 100) //If we get down here we are eating an item that affects hunger.
+        {
+            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
         }
         else
         {
             PetCareUIManager.instance.ShowNotificationUI("Hunger is full!");
         }
+    }
+
+
+    private void EatItem(GameObject gameObject, FoodItems foodName, int hungerValue, int happinessValue, int energyValue, int cleanlinessValue, int runningValue, int climbingValue, int flyingValue, int swimmingValue, int intelligenceValue, int luckValue)
+    {
+        Debug.Log("Used eatItem function");
+
+        if (foodName != FoodItems.Fairy || foodName != FoodItems.GoldenFairy) //Doesnt seem to work, Doesnt recognize fairies
+        {
+            //Debug.Log($"FoodItem: {foodName}, and: {FoodItems.Fairy}");
+            PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Eating);
+        }
+
+        PetCareStateManager.instance.ManageHungerDataFiller(hungerValue);
+        PetCareStateManager.instance.ManageHappinessDataFiller(happinessValue);
+        PetCareStateManager.instance.ManageEnergyDataFiller(energyValue);
+        PetCareStateManager.instance.ManageCleanlinessDataFiller(cleanlinessValue);
+
+        petDataRef.petData.running += runningValue;
+        petDataRef.petData.climbing += climbingValue;
+        petDataRef.petData.flying += flyingValue;
+        petDataRef.petData.swimming += swimmingValue;
+        petDataRef.petData.intelligence += intelligenceValue;
+        petDataRef.petData.luck += luckValue;
+
+        PetCareStateManager.instance.RemoveFoodFromTable(foodSpawnIndex);
+        gameObject.SetActive(false);
+        gameObject.transform.SetParent(null);
     }
 }

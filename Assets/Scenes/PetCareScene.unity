@@ -31458,7 +31458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &756163873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69245,8 +69245,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c8194d49a68f54c8f8849de53ff236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  petCareStatDatRef: {fileID: 11400000, guid: 15cc588ed9ddbac498fe093020d80735, type: 2}
   extraPlayerDataListSO: {fileID: 11400000, guid: 26f47326f4dcd0e47bd8412b6f9cb257,
     type: 2}
+  getServerTime: {fileID: 1128614860}
 --- !u!4 &1636729314
 Transform:
   m_ObjectHideFlags: 0
