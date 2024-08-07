@@ -45,7 +45,7 @@ public class EatObject : MonoBehaviour
             PetCareStateManager.instance.UpdatePetSickToHealthy(); //Make sure that this works
             PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Eating);
 
-            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
+            EatItem();
 
             return;
         }
@@ -56,14 +56,14 @@ public class EatObject : MonoBehaviour
             petCareStatDatRef.fluChance = 1;
             PetCareUIManager.instance.ShowNotificationUI($"Vitamins Eaten. Sickness chance reduced for 3 days.");
 
-            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
+            EatItem();
 
             return;
         }
         //Energy Drink
         else if (foodName == FoodItems.EnergyDrink) //Should still be able to drink this if hunger is full. 
         {
-            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
+            EatItem();
 
             return;
         }
@@ -71,14 +71,14 @@ public class EatObject : MonoBehaviour
         else if (foodName == FoodItems.Fairy || foodName == FoodItems.GoldenFairy)
         { // Fairy effects
             particleEffectsManager.PlayFairyEffect();
-            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
+            EatItem();
 
             return;
         }
         //All other items
         if (PetCareStateManager.instance.petDataRef.petData.hunger < 100) //If we get down here we are eating an item that affects hunger.
         {
-            EatItem(gameObject, foodName, hungerValue, happinessValue, energyValue, cleanlinessValue, runningValue, climbingValue, flyingValue, swimmingValue, intelligenceValue, luckValue);
+            EatItem();
         }
         else
         {
@@ -87,13 +87,12 @@ public class EatObject : MonoBehaviour
     }
 
 
-    private void EatItem(GameObject gameObject, FoodItems foodName, int hungerValue, int happinessValue, int energyValue, int cleanlinessValue, int runningValue, int climbingValue, int flyingValue, int swimmingValue, int intelligenceValue, int luckValue)
+    private void EatItem()
     {
-        Debug.Log("Used eatItem function");
+        //Debug.Log($"Used eatItem function: {foodName}");
 
         if (foodName != FoodItems.Fairy || foodName != FoodItems.GoldenFairy) //Doesnt seem to work, Doesnt recognize fairies
         {
-            //Debug.Log($"FoodItem: {foodName}, and: {FoodItems.Fairy}");
             PetCareInputManager.instance.petAnim._ChangeAnimationState(_AnimState.Eating);
         }
 
