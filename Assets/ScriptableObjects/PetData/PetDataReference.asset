@@ -13,20 +13,20 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: Daniel
+    petname: Doug
     petPrefabID: 1
-    health: 165
-    happiness: 62
-    hunger: 1
-    cleanliness: 20
-    energy: 0
-    isSick: 1
-    birthTime: 2024-07-29 10:55:28 PM
-    lastTimeHappy: 2024-07-30 7:13:29 PM
-    lastTimeFeed: 2024-07-30 7:13:29 PM
-    lastTimeClean: 2024-07-30 7:13:29 PM
-    lastTimeEnergy: 2024-07-30 7:13:29 PM
-    lastLoginTime: 2024-07-29 10:55:28 PM
+    health: 635
+    happiness: 100
+    hunger: 90
+    cleanliness: 100
+    energy: 100
+    isSick: 0
+    birthTime: 2024-08-06 10:57:30 PM
+    lastTimeHappy: 2024-08-07 7:19:38 PM
+    lastTimeFeed: 2024-08-07 7:19:38 PM
+    lastTimeClean: 2024-08-07 7:19:38 PM
+    lastTimeEnergy: 2024-08-07 7:19:38 PM
+    lastLoginTime: 2024-08-06 10:57:30 PM
     running: 50
     climbing: 10
     flying: 10
