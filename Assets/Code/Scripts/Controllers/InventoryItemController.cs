@@ -11,7 +11,10 @@ public class InventoryItemController : MonoBehaviour
     {
         InventoryManager.Instance.Remove(item);
         Debug.Log("Item Removed");
-        Destroy(gameObject);
+        if (item.amount == 0 )
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void AddItem(Item newItem)
@@ -32,7 +35,7 @@ public class InventoryItemController : MonoBehaviour
             case Item.ItemType.Consumable:
                 if (PetCareStateManager.instance.petDataRef.petData.foodData.Count < 3)
                 {
-                    ExamplePlayerController.Instance.UseFood(item);
+                    ExamplePlayerController.Instance.UseItem(item);
                     break;
                 }
                 else

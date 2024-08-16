@@ -40,13 +40,35 @@ public class InventoryManager : MonoBehaviour
 
     public void Add(Item item)
     {
-        Items.Add(item);
+        // Check if an item with the same name already exists in the list
+        Item existingItem = Items.Find(i => i.itemName == item.itemName);
+
+        if (existingItem != null)
+        {
+            // Increase the amount of the existing item
+            existingItem.amount++;
+            existingItem.uniqueIds.Add(item.uniqueIds[0]);
+        }
+        else
+        {
+            // If the item doesn't exist, add it to the list
+            item.amount++;
+            Items.Add(item);
+        }
     }
 
-    public void Remove(Item item)
+    public void Remove(Item item) //Fix this
     {
-        DeleteOneItem("items." + item.itemName, item.uniqueId);
-        Items.Remove(item);
+        item.amount--;
+        DeleteOneItem("items." + item.itemName, item.uniqueIds[0]);
+        item.uniqueIds.Remove(item.uniqueIds[0]); //CHECK THIS THING
+
+        if (item.amount == 0) 
+        {
+            Items.Remove(item);
+        }
+
+        ListItems();
     }
 
     public async void DeleteOneItem(string ContentId, long ItemId)
@@ -71,9 +93,11 @@ public class InventoryManager : MonoBehaviour
             var itemName = obj.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
             var itemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
             var removeButton = obj.transform.Find("RemoveButton").GetComponent<Button>();
+            var amountText = obj.transform.Find("AmtPanel/ItemAmount").GetComponent<TextMeshProUGUI>();
 
             itemName.text = item.itemName;
             itemIcon.sprite = item.icon;
+            amountText.text = "x" + item.amount;
 
             if (EnableRemove.isOn)
             {

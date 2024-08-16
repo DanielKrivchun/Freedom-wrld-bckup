@@ -23,7 +23,7 @@ public class GetItems : MonoBehaviour
         var playerItems = ctx.Inventory.GetItems();
 
         await playerItems.Refresh();
-        Debug.Log($"Player items:{playerItems.Count}");
+        Debug.Log($"Player items:{playerItems}");
 
         // Clear the inventory before fetching new items so we dont duplicate them
         InventoryManager.Instance.Clear();
@@ -34,7 +34,7 @@ public class GetItems : MonoBehaviour
             Item item = ConvertToItem(playerItem);
             if (item != null)
             {
-                item.uniqueId = (int)playerItem.ItemId;
+                item.uniqueIds.Add((int)playerItem.ItemId);
                 InventoryManager.Instance.Add(item);
                 //Debug.Log($"item id=[{playerItem.ItemId}] type=[{playerItem.ContentId}]");
             }

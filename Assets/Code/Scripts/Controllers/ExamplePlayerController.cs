@@ -12,10 +12,10 @@ public class ExamplePlayerController : MonoBehaviour
         Instance = this;
     }
 
-    public void UseFood(Item item)
+    public void UseItem(Item item)
     {
         Debug.Log("Eating food");
-        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueId}");
+        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueIds[0]}");
 
         PetCareStateManager.instance.GenerateFoodItemOnTable(Utils.IdentifyMyFoodType(item.itemName));
     }
@@ -23,7 +23,7 @@ public class ExamplePlayerController : MonoBehaviour
     public void UseMedicine(Item item)
     {
         Debug.Log("Using medicine");
-        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueId}");
+        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueIds[0]}");
 
         if (item.itemName == "AntiBiotics")
         {
@@ -35,6 +35,6 @@ public class ExamplePlayerController : MonoBehaviour
     public void UseInteractable(Item item)
     {
         Debug.Log("Using Item");
-        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueId}");
+        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueIds[0]}");
     }
 }
