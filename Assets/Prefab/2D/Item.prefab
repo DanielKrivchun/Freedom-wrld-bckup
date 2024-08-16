@@ -393,7 +393,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7838223991896568417}
         m_TargetAssemblyTypeName: InventoryItemController, Assembly-CSharp
-        m_MethodName: UseItem
+        m_MethodName: OnItemSelected
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -417,6 +417,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 0}
   RemoveButton: {fileID: 0}
+  itemInfoPanelPrefab: {fileID: 2229673711133639172, guid: b22bb86706fd6f546b40f08111917c71,
+    type: 3}
+  itemIcon: {fileID: 0}
+  itemNameText: {fileID: 0}
+  itemDescriptionText: {fileID: 0}
+  itemAmountText: {fileID: 0}
+  useItemButton: {fileID: 0}
 --- !u!1 &6912113854842463997
 GameObject:
   m_ObjectHideFlags: 0

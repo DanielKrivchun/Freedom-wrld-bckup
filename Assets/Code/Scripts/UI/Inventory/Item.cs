@@ -7,7 +7,7 @@ public class Item : ScriptableObject
     public int id;
     public string itemName;
     public int amount;
-    public int value;
+    public string description;
     public Sprite icon;
     public List<long> uniqueIds = new List<long>();
     public ItemType itemType;

@@ -3,7 +3,16 @@ guid: 75a880676b72310498a0d020e4bb1226
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - item: {instanceID: 0}
+  - RemoveButton: {instanceID: 0}
+  - itemInfoPanel: {fileID: 5255648983401004434, guid: b22bb86706fd6f546b40f08111917c71,
+      type: 3}
+  - itemIcon: {instanceID: 0}
+  - itemNameText: {instanceID: 0}
+  - itemDescriptionText: {instanceID: 0}
+  - itemAmountText: {instanceID: 0}
+  - useItemButton: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
