@@ -75,7 +75,13 @@ public class EatObject : MonoBehaviour
 
             return;
         }
-        //All other items
+        else if (foodName == FoodItems.CosmicBerryElectrolyteDrink || foodName == FoodItems.ProteinShake || foodName == FoodItems.MiracleCognitiveSupplements)
+        {
+            EatItem();
+
+            return;
+        }
+        //All actual food items
         if (PetCareStateManager.instance.petDataRef.petData.hunger < 100) //If we get down here we are eating an item that affects hunger.
         {
             EatItem();
