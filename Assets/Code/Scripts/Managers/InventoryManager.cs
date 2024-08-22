@@ -90,12 +90,12 @@ public class InventoryManager : MonoBehaviour
         foreach (var item in Items)
         {
             InventoryItemController obj = Instantiate(InventoryItem, ItemContent);
-            var itemName = obj.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+            //var itemName = obj.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
             var itemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
             var removeButton = obj.transform.Find("RemoveButton").GetComponent<Button>();
             var amountText = obj.transform.Find("AmtPanel/ItemAmount").GetComponent<TextMeshProUGUI>();
 
-            itemName.text = item.itemName;
+            //itemName.text = item.itemName;
             itemIcon.sprite = item.icon;
             amountText.text = "x" + item.amount;
 

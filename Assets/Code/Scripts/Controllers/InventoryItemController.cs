@@ -17,8 +17,9 @@ public class InventoryItemController : MonoBehaviour
     public TextMeshProUGUI itemDescriptionText;
     public TextMeshProUGUI itemAmountText;
     public Button useItemButton;
+    public Button removeItemButton;
 
-    public void RemoveItem()
+    public void RemoveItem(Item item)
     {
         InventoryManager.Instance.Remove(item);
         Debug.Log("Item Removed");
@@ -58,6 +59,10 @@ public class InventoryItemController : MonoBehaviour
         itemNameText = itemInfoPanelInstance.transform.Find("ItemInfoName").GetComponent<TextMeshProUGUI>();
         itemDescriptionText = itemInfoPanelInstance.transform.Find("ItemInfoDescription").GetComponent<TextMeshProUGUI>();
         useItemButton = itemInfoPanelInstance.transform.Find("UseItemButton").GetComponent<Button>();
+        removeItemButton = itemInfoPanelInstance.transform.Find("RemoveItemPanel/YesButton").GetComponent<Button>();
+
+        // Convert item.itemName by adding spaces before each capital letter
+        //string formattedItemName = System.Text.RegularExpressions.Regex.Replace(item.itemName, "(?<!^)([A-Z])", " $1");
 
         // Update the UI elements with item data
         itemIcon.sprite = item.icon;
@@ -69,10 +74,11 @@ public class InventoryItemController : MonoBehaviour
 
         // Set up the button to use the item
         useItemButton.onClick.RemoveAllListeners();
-        useItemButton.onClick.AddListener(UseItem);
+        useItemButton.onClick.AddListener(() => UseItem(item));
+        removeItemButton.onClick.AddListener(() => RemoveItem(item));
     }
 
-    public void UseItem()
+    public void UseItem(Item item)
     {
         Destroy(itemInfoPanelInstance);
         if (item == null)
@@ -112,6 +118,6 @@ public class InventoryItemController : MonoBehaviour
                 
         }
 
-        RemoveItem();
+        RemoveItem(item);
     }
 }
