@@ -1,9 +1,11 @@
 using System;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
 using Beamable.Api.Inventory;
 using Beamable.Common.Api.Inventory;
 using Beamable.Common.Inventory;
+using TMPro;
 
 namespace Beamable.InventoryService
 {
@@ -23,6 +25,13 @@ namespace Beamable.InventoryService
 
         [Header("Currency Reference")]
         public CurrencyRef _currencyRefPrimary; // Add this reference in the Inspector
+
+        [Header("UI elements w/ required data")]
+        public TMP_Text itemNameText; // Reference to the ItemName TMP Text
+        public TMP_InputField buyQuantityInput;
+        public TMP_Text costOfItems;
+        public GameObject notEnoughMoneyPopup;
+        public GameObject confirmPurchasePopup;
 
         // Unity Methods
         private void Awake()
@@ -74,6 +83,49 @@ namespace Beamable.InventoryService
                     OnRefreshed.Invoke();
                 }
             });
+        }
+
+        public async void PurchaseItems()
+        {
+            string itemName = Regex.Replace(itemNameText.text, @"\s+([A-Z])", "$1");
+            int quantity = int.Parse(buyQuantityInput.text);
+            int cost = int.Parse(costOfItems.text);
+
+            // Acquire a context
+            var ctx = await BeamContext.Default.Instance;
+
+            // Get the current balance of the user's primary currency
+            var currencyContentPrimary = await _currencyRefPrimary.Resolve();
+            var currencyBalances = await ctx.Api.InventoryService.GetCurrent();
+
+            // Check if the user has enough currency
+            if (currencyBalances.currencies.TryGetValue(currencyContentPrimary.Id, out var userCurrencyBalance))
+            {
+                if (userCurrencyBalance >= cost)
+                {
+                    confirmPurchasePopup.SetActive(false);
+
+                    // Loop through the specified quantity
+                    for (int i = 0; i < quantity; i++)
+                    {
+                        // Add the item to the user's inventory using Beamable API
+                        await ctx.Inventory.Update(builder => builder.AddItem("items." + itemName));
+                    }
+
+                    // Deduct the cost from the user's currency
+                    AddCurrency(-cost);
+
+                    Debug.Log($"Successfully added {quantity} of {itemName} to the user's Beamable inventory. Removed {cost}$");
+                }
+                else
+                {
+                    notEnoughMoneyPopup.SetActive(true);
+                }
+            }
+            else
+            {
+                Debug.LogError("Failed to retrieve user currency balance.");
+            }
         }
 
         public void Refresh()

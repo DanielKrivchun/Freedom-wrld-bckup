@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 12
   itemName: GoldenFairy
-  value: 100
+  amount: 0
+  description: A healing golden fairy which brings all pets health stats to 100
   icon: {fileID: 21300000, guid: eec0facfca0a442239269e367daaad9c, type: 3}
-  uniqueId: 0
+  uniqueIds: 
   itemType: 0

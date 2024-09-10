@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 13
   itemName: ProteinShake
-  value: 25
+  amount: 0
+  description: Protein Shake. Grants +1 to all activity stats. Can only purchase
+    1 per day
   icon: {fileID: 21300000, guid: db2a00ff894de47e4a7451b104b04eeb, type: 3}
-  uniqueId: 0
+  uniqueIds: 
   itemType: 0

@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7
   itemName: CosmicBerryElectrolyteDrink
-  value: 1
+  amount: 0
+  description: Tasty Drink. +3 to Running, Climbing, Swimming, and Flying. Can only
+    purchase 1 per week
   icon: {fileID: 21300000, guid: 17eed5c66afc240adb201899c4537b06, type: 3}
-  uniqueId: 0
+  uniqueIds: 
   itemType: 0

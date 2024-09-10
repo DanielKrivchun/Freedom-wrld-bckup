@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 15
   itemName: Vitamins
-  value: 30
+  amount: 0
+  description: Vitamins. Reduce a pets chance of getting sick for one week
   icon: {fileID: 21300000, guid: dffc9861413334b5c9cdc5e13614b743, type: 3}
-  uniqueId: 0
+  uniqueIds: 
   itemType: 0

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   itemName: EnergyDrink
-  value: 15
+  amount: 0
+  description: Energy boosting drink. +20 to pets energy
   icon: {fileID: 21300000, guid: f27b8794232ef48a399fdfa75bcc1569, type: 3}
-  uniqueId: 0
+  uniqueIds: 
   itemType: 0

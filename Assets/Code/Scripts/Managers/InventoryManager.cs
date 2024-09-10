@@ -17,8 +17,6 @@ public class InventoryManager : MonoBehaviour
     public Transform ItemContent;
     public InventoryItemController InventoryItem;
 
-    public Toggle EnableRemove;
-
     public List<InventoryItemController> InventoryItems;
 
     private void Awake()
@@ -99,11 +97,6 @@ public class InventoryManager : MonoBehaviour
             itemIcon.sprite = item.icon;
             amountText.text = "x" + item.amount;
 
-            if (EnableRemove.isOn)
-            {
-                removeButton.gameObject.SetActive(true);
-            }
-
             InventoryItems.Add(obj);
 
         }
@@ -111,23 +104,6 @@ public class InventoryManager : MonoBehaviour
         SetInventoryItems();
     }
 
-    public void EnableItemsRemove()
-    {
-        if (EnableRemove.isOn)
-        {
-            foreach (Transform item in ItemContent)
-            {
-                item.Find("RemoveButton").gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            foreach (Transform item in ItemContent)
-            {
-                item.Find("RemoveButton").gameObject.SetActive(false);
-            }
-        }
-    }
 
     public void SetInventoryItems()
     {

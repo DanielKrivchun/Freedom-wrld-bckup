@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10
   itemName: KaleSalad
-  value: 15
+  amount: 0
+  description: Fresh Kale Salad. Restores 25 hunger. Lose 15 happiness
   icon: {fileID: 21300000, guid: ffd9c3886ceba4432871778627f9f67f, type: 3}
-  uniqueId: 0
+  uniqueIds: 
   itemType: 0
