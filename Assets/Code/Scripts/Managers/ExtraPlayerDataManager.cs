@@ -34,6 +34,9 @@ public class ExtraPlayerDataManager : MonoBehaviour
         public int showerTutorial;
         public int inventoryTutorial;
         public string vitaminsAteTime;
+        public string cosmicBerryElectrolyteBoughtTime;
+        public string miracleCognitiveBoughtTime;
+        public string proteinShakeBoughtTime;
     }
 
     // Start is called before the first frame update
@@ -69,6 +72,9 @@ public class ExtraPlayerDataManager : MonoBehaviour
                 0,
                 0,
                 0,
+                "",
+                "",
+                "",
                 "");
 
             jsonEntry = await _ExtraPlayerDataServiceClient.GetEntryByPlayerId(beamContext.PlayerId.ToString());
@@ -84,9 +90,12 @@ public class ExtraPlayerDataManager : MonoBehaviour
         int showerTutorial      = (int)parsedJson["showerTutorial"];
         int inventoryTutorial   = (int)parsedJson["inventoryTutorial"];
         string vitaminsAteTime  = (string)parsedJson["vitaminsAteTime"];
+        string cosmicBerryElectrolyteBoughtTime = (string)parsedJson["cosmicBerryElectrolyteBoughtTime"];
+        string miracleCognitiveBoughtTime = (string)parsedJson["miracleCognitiveBoughtTime"];
+        string proteinShakeBoughtTime = (string)parsedJson["proteinShakeBoughtTime"];
 
         entryList.Add(
-                new ExtraPlayerData { objectId = objectId, playerId = playerId, introTutorial = introTutorial, eatTutorial = eatTutorial, showerTutorial = showerTutorial, inventoryTutorial = inventoryTutorial, vitaminsAteTime = vitaminsAteTime }
+                new ExtraPlayerData { objectId = objectId, playerId = playerId, introTutorial = introTutorial, eatTutorial = eatTutorial, showerTutorial = showerTutorial, inventoryTutorial = inventoryTutorial, vitaminsAteTime = vitaminsAteTime, cosmicBerryElectrolyteBoughtTime = cosmicBerryElectrolyteBoughtTime, miracleCognitiveBoughtTime = miracleCognitiveBoughtTime, proteinShakeBoughtTime = proteinShakeBoughtTime }
             );
 
         
@@ -95,7 +104,7 @@ public class ExtraPlayerDataManager : MonoBehaviour
         {
             foreach (var entry in entryList)
             {
-                extraPlayerDataListSO.SetAllExtraPlayerData(entry.objectId, entry.playerId, entry.introTutorial, entry.eatTutorial, entry.showerTutorial, entry.inventoryTutorial, entry.vitaminsAteTime);
+                extraPlayerDataListSO.SetAllExtraPlayerData(entry.objectId, entry.playerId, entry.introTutorial, entry.eatTutorial, entry.showerTutorial, entry.inventoryTutorial, entry.vitaminsAteTime, entry.cosmicBerryElectrolyteBoughtTime, entry.miracleCognitiveBoughtTime, entry.proteinShakeBoughtTime);
             }
 
         }
@@ -114,7 +123,21 @@ public class ExtraPlayerDataManager : MonoBehaviour
     public void SetVitaminsAteTime()
     {
         getServerTime.GetCurrentTime(timeNow => { extraPlayerDataListSO.extraPlayerData.vitaminsAteTime = timeNow.ToString(); });
-        //Debug.Log($"Vitamins eaten: {extraPlayerDataListSO.extraPlayerData.vitaminsAteTime}");
+    }
+
+    public void SetCosmicBerryDrinkBoughtTime()
+    {
+        getServerTime.GetCurrentTime(timeNow => { extraPlayerDataListSO.extraPlayerData.cosmicBerryElectrolyteBoughtTime = timeNow.ToString(); });
+    }
+
+    public void SetMiracleCognitiveBoughtTime()
+    {
+        getServerTime.GetCurrentTime(timeNow => { extraPlayerDataListSO.extraPlayerData.miracleCognitiveBoughtTime = timeNow.ToString(); });
+    }
+
+    public void SetProteinShakeBoughtTime()
+    {
+        getServerTime.GetCurrentTime(timeNow => { extraPlayerDataListSO.extraPlayerData.proteinShakeBoughtTime = timeNow.ToString(); });
     }
 
     private async Task CheckVitaminsTime()
@@ -155,6 +178,9 @@ public class ExtraPlayerDataManager : MonoBehaviour
             PlayerPrefs.SetInt("ShowerTutorial", extraPlayerDataListSO.extraPlayerData.showerTutorial);
             PlayerPrefs.SetInt("InventoryTutorial", extraPlayerDataListSO.extraPlayerData.inventoryTutorial);
             PlayerPrefs.SetString("vitaminsAteTime", extraPlayerDataListSO.extraPlayerData.vitaminsAteTime);
+            PlayerPrefs.SetString("cosmicBerryElectrolyteBoughtTime", extraPlayerDataListSO.extraPlayerData.cosmicBerryElectrolyteBoughtTime);
+            PlayerPrefs.SetString("miracleCognitiveBoughtTime", extraPlayerDataListSO.extraPlayerData.miracleCognitiveBoughtTime);
+            PlayerPrefs.SetString("proteinShakeBoughtTime", extraPlayerDataListSO.extraPlayerData.proteinShakeBoughtTime);
             PlayerPrefs.Save();
         }
         else
@@ -172,7 +198,7 @@ public class ExtraPlayerDataManager : MonoBehaviour
             var beamContext = BeamContext.Default;
             await beamContext.OnReady;
 
-            await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId(beamContext.PlayerId.ToString(), PlayerPrefs.GetInt("IntroTutorial", 0), PlayerPrefs.GetInt("EatTutorial", 0), PlayerPrefs.GetInt("ShowerTutorial", 0), PlayerPrefs.GetInt("InventoryTutorial", 0), PlayerPrefs.GetString("vitaminsAteTime"));
+            await _ExtraPlayerDataServiceClient.UpdateEntryByPlayerId(beamContext.PlayerId.ToString(), PlayerPrefs.GetInt("IntroTutorial", 0), PlayerPrefs.GetInt("EatTutorial", 0), PlayerPrefs.GetInt("ShowerTutorial", 0), PlayerPrefs.GetInt("InventoryTutorial", 0), PlayerPrefs.GetString("vitaminsAteTime"), PlayerPrefs.GetString("cosmicBerryElectrolyteBoughtTime"), PlayerPrefs.GetString("miracleCognitiveBoughtTime"), PlayerPrefs.GetString("proteinShakeBoughtTime"));
             Debug.Log("Pushing data from playerprefs to ExtraPlayerData storage");
         }
         else

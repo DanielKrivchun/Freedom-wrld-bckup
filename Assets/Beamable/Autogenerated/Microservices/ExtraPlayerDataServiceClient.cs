@@ -45,7 +45,7 @@ namespace Beamable.Server.Clients
         /// Call the CreateEntry method on the ExtraPlayerDataService microservice
         /// <see cref="Beamable.Microservices.ExtraPlayerDataService.CreateEntry"/>
         /// </summary>
-        public Beamable.Common.Promise<Beamable.Common.Unit> CreateEntry(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime)
+        public Beamable.Common.Promise<Beamable.Common.Unit> CreateEntry(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime, string _cosmicBerryElectrolyteBoughtTime, string _miracleCognitiveBoughtTime, string _proteinShakeBoughtTime)
         {
             object raw__playerId = _playerId;
             object raw__introTutorial = _introTutorial;
@@ -53,6 +53,9 @@ namespace Beamable.Server.Clients
             object raw__showerTutorial = _showerTutorial;
             object raw__inventoryTutorial = _inventoryTutorial;
             object raw__vitaminsAteTime = _vitaminsAteTime;
+            object raw__cosmicBerryElectrolyteBoughtTime = _cosmicBerryElectrolyteBoughtTime;
+            object raw__miracleCognitiveBoughtTime = _miracleCognitiveBoughtTime;
+            object raw__proteinShakeBoughtTime = _proteinShakeBoughtTime;
             System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
             serializedFields.Add("_playerId", raw__playerId);
             serializedFields.Add("_introTutorial", raw__introTutorial);
@@ -60,6 +63,9 @@ namespace Beamable.Server.Clients
             serializedFields.Add("_showerTutorial", raw__showerTutorial);
             serializedFields.Add("_inventoryTutorial", raw__inventoryTutorial);
             serializedFields.Add("_vitaminsAteTime", raw__vitaminsAteTime);
+            serializedFields.Add("_cosmicBerryElectrolyteBoughtTime", raw__cosmicBerryElectrolyteBoughtTime);
+            serializedFields.Add("_miracleCognitiveBoughtTime", raw__miracleCognitiveBoughtTime);
+            serializedFields.Add("_proteinShakeBoughtTime", raw__proteinShakeBoughtTime);
             return this.Request<Beamable.Common.Unit>("ExtraPlayerDataService", "CreateEntry", serializedFields);
         }
         
@@ -81,7 +87,7 @@ namespace Beamable.Server.Clients
         /// Call the UpdateEntryByPlayerId method on the ExtraPlayerDataService microservice
         /// <see cref="Beamable.Microservices.ExtraPlayerDataService.UpdateEntryByPlayerId"/>
         /// </summary>
-        public Beamable.Common.Promise<System.Threading.Tasks.Task> UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime)
+        public Beamable.Common.Promise<System.Threading.Tasks.Task> UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime, string _cosmicBerryElectrolyteBoughtTime, string _miracleCognitiveBoughtTime, string _proteinShakeBoughtTime)
         {
             object raw__playerId = _playerId;
             object raw__introTutorial = _introTutorial;
@@ -89,6 +95,9 @@ namespace Beamable.Server.Clients
             object raw__showerTutorial = _showerTutorial;
             object raw__inventoryTutorial = _inventoryTutorial;
             object raw__vitaminsAteTime = _vitaminsAteTime;
+            object raw__cosmicBerryElectrolyteBoughtTime = _cosmicBerryElectrolyteBoughtTime;
+            object raw__miracleCognitiveBoughtTime = _miracleCognitiveBoughtTime;
+            object raw__proteinShakeBoughtTime = _proteinShakeBoughtTime;
             System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
             serializedFields.Add("_playerId", raw__playerId);
             serializedFields.Add("_introTutorial", raw__introTutorial);
@@ -96,6 +105,9 @@ namespace Beamable.Server.Clients
             serializedFields.Add("_showerTutorial", raw__showerTutorial);
             serializedFields.Add("_inventoryTutorial", raw__inventoryTutorial);
             serializedFields.Add("_vitaminsAteTime", raw__vitaminsAteTime);
+            serializedFields.Add("_cosmicBerryElectrolyteBoughtTime", raw__cosmicBerryElectrolyteBoughtTime);
+            serializedFields.Add("_miracleCognitiveBoughtTime", raw__miracleCognitiveBoughtTime);
+            serializedFields.Add("_proteinShakeBoughtTime", raw__proteinShakeBoughtTime);
             return this.Request<System.Threading.Tasks.Task>("ExtraPlayerDataService", "UpdateEntryByPlayerId", serializedFields);
         }
         

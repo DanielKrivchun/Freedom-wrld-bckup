@@ -26,12 +26,17 @@ namespace Beamable.InventoryService
         [Header("Currency Reference")]
         public CurrencyRef _currencyRefPrimary; // Add this reference in the Inspector
 
-        [Header("UI elements w/ required data")]
+        [Header("UI elements for store stuff")]
         public TMP_Text itemNameText; // Reference to the ItemName TMP Text
         public TMP_InputField buyQuantityInput;
         public TMP_Text costOfItems;
         public GameObject notEnoughMoneyPopup;
         public GameObject confirmPurchasePopup;
+        public GameObject itemNotRefreshedPopup;
+        public GameObject tooManyBoughtPopup;
+
+        [Header("StoreScript")]
+        public BuyQuantityManager buyQuantityManager;
 
         // Unity Methods
         private void Awake()
@@ -103,6 +108,16 @@ namespace Beamable.InventoryService
             {
                 if (userCurrencyBalance >= cost)
                 {
+                    if (itemName == "CosmicBerryElectrolyteDrink" && quantity > 1 || itemName == "MiracleCognitiveSupplements" && quantity > 1 || itemName == "ProteinShake" && quantity > 1) {
+                        tooManyBoughtPopup.SetActive(true);
+                        return;
+                    }
+
+                    if (await buyQuantityManager.IsItemPurchasable(itemName, quantity) == false) {
+                        itemNotRefreshedPopup.SetActive(true);
+                        return;
+                    }
+
                     confirmPurchasePopup.SetActive(false);
 
                     // Loop through the specified quantity

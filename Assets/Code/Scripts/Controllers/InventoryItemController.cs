@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -67,7 +68,7 @@ public class InventoryItemController : MonoBehaviour
         // Update the UI elements with item data
         itemIcon.sprite = item.icon;
         itemAmountText.text = "Qty: " + item.amount;
-        itemNameText.text = item.itemName;
+        itemNameText.text = Regex.Replace(item.itemName, "(?<!^)([A-Z])", " $1");
         itemDescriptionText.text = item.description;
 
         Debug.Log("Opened Item Info Panel");

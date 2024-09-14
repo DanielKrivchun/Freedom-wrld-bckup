@@ -23,7 +23,7 @@ namespace Beamable.Microservices
         #region Create/Update Entry
 
         [ClientCallable]
-        public async void CreateEntry(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime)
+        public async void CreateEntry(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime, string _cosmicBerryElectrolyteBoughtTime, string _miracleCognitiveBoughtTime, string _proteinShakeBoughtTime)
         {
             try
             {
@@ -49,7 +49,11 @@ namespace Beamable.Microservices
                     eatTutorial = _eatTutorial,
                     showerTutorial = _showerTutorial,
                     inventoryTutorial = _inventoryTutorial,
-                    vitaminsAteTime = _vitaminsAteTime
+                    vitaminsAteTime = _vitaminsAteTime,
+                    cosmicBerryElectrolyteBoughtTime = _cosmicBerryElectrolyteBoughtTime,
+                    miracleCognitiveBoughtTime = _miracleCognitiveBoughtTime,
+                    proteinShakeBoughtTime = _proteinShakeBoughtTime
+
                 });
             }
             catch (Exception e)
@@ -82,7 +86,7 @@ namespace Beamable.Microservices
         }
 
         [ClientCallable]
-        public async Task UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime)
+        public async Task UpdateEntryByPlayerId(string _playerId, int _introTutorial, int _eatTutorial, int _showerTutorial, int _inventoryTutorial, string _vitaminsAteTime, string _cosmicBerryElectrolyteBoughtTime, string _miracleCognitiveBoughtTime, string _proteinShakeBoughtTime)
         {
             try
             {
@@ -96,7 +100,10 @@ namespace Beamable.Microservices
                     .Set("eatTutorial", _eatTutorial)
                     .Set("showerTutorial", _showerTutorial)
                     .Set("inventoryTutorial", _inventoryTutorial)
-                    .Set("vitaminsAteTime", _vitaminsAteTime);
+                    .Set("vitaminsAteTime", _vitaminsAteTime)
+                    .Set("cosmicBerryElectrolyteBoughtTime", _cosmicBerryElectrolyteBoughtTime)
+                    .Set("miracleCognitiveBoughtTime", _miracleCognitiveBoughtTime)
+                    .Set("proteinShakeBoughtTime", _proteinShakeBoughtTime);
 
                 // Update the document in the collection
                 var result = collection.UpdateOne(filter, update);

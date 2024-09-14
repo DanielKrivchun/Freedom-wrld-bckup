@@ -8,7 +8,7 @@ public class ExtraPlayerDataListSO : ScriptableObject
 {
     public ExtraPlayerData extraPlayerData;
 
-    public void SetAllExtraPlayerData(string objectId, string playerId, int introTutorial, int eatTutorial, int showerTutorial, int inventoryTutorial, string vitaminsAteTime)
+    public void SetAllExtraPlayerData(string objectId, string playerId, int introTutorial, int eatTutorial, int showerTutorial, int inventoryTutorial, string vitaminsAteTime, string cosmicBerryElectrolyteBoughtTime, string miracleCognitiveBoughtTime, string proteinShakeBoughtTime)
     { 
         extraPlayerData = new ExtraPlayerData();
 
@@ -19,5 +19,8 @@ public class ExtraPlayerDataListSO : ScriptableObject
         extraPlayerData.showerTutorial = showerTutorial;
         extraPlayerData.inventoryTutorial = inventoryTutorial;
         extraPlayerData.vitaminsAteTime = vitaminsAteTime;
-    }
+        extraPlayerData.cosmicBerryElectrolyteBoughtTime = cosmicBerryElectrolyteBoughtTime;
+        extraPlayerData.miracleCognitiveBoughtTime = miracleCognitiveBoughtTime;
+        extraPlayerData.proteinShakeBoughtTime = proteinShakeBoughtTime;
+}
 }
