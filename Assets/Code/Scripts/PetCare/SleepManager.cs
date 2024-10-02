@@ -53,7 +53,7 @@ public class SleepManager : MonoBehaviour
             petCareStateManager.petDataRef.petData.hunger > 10)
         {
             sleepBtn.enabled = false;
-            particleEffectsManager.StartSleepEffect();
+            //particleEffectsManager.StartSleepEffect();
             PetCareInputManager.instance.SetPetToInsideHomeOnSleepStart();
 
             sleepTimer = totalSleepTime;
