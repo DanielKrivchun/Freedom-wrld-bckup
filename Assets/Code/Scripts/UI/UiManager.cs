@@ -96,7 +96,7 @@ public class UiManager : MonoBehaviour
     {
         if (!GameStarted) return;
 
-        Debug.Log(Time.deltaTime);
+        //Debug.Log(Time.deltaTime);
 
         m_reset += Time.deltaTime;
         if (m_reset > m_reset_t)

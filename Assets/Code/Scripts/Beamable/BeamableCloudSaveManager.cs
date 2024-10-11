@@ -82,13 +82,12 @@ namespace Beamable.CloudSavingService
             if (instance == null)
             {
                 instance = this;
+                DontDestroyOnLoad(gameObject);
             }
             else
             {
-                DestroyImmediate(instance);
+                Destroy(gameObject);
             }
-
-            DontDestroyOnLoad(gameObject);
         }
 
         protected void Start()
@@ -138,10 +137,7 @@ namespace Beamable.CloudSavingService
             if (LoadData() != null)
             {
                 Debug.Log("Data not null!");
-                petDataRef.petData = LoadData();
-                Refresh();
-
-                loadGameData.Raise();
+                LoadDataOnSceneRealod();
             }
             else
             {
@@ -151,6 +147,22 @@ namespace Beamable.CloudSavingService
                 petCreationEvent.Raise();
             }
         }
+
+        public void LoadDataOnSceneRealod()
+        {
+            if (_cloudSavingService == null)
+            {
+                Debug.Log("Initilization happning");
+                return;
+            }
+
+            Debug.Log("Data not null!");
+            petDataRef.petData = LoadData();
+            Refresh();
+            loadGameData.Raise();
+        }
+
+
         #endregion
 
         #region NEW PET CREATION DATA

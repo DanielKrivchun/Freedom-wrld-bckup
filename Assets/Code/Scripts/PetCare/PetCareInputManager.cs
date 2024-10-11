@@ -39,7 +39,7 @@ public class PetCareInputManager : MonoBehaviour
     public float navmeshSpawnOffset;
     public float petAutoNavigateCheckTime;
 
-    
+
 
     [HideInInspector]
     public PetAnimation petAnim;
@@ -92,9 +92,9 @@ public class PetCareInputManager : MonoBehaviour
     #region PET AUTO NAVIGATION
     void CheckForSetPetIdleOrNavigating()
     {
-        if (petCareStateManager.petDataRef.petData == null || 
-            petCareStateManager.petDataRef.petData?.sleepData.isSleeping == true || 
-            petCareStateManager.petDataRef.petData?.ongoingTrainingData.isTraining == true || 
+        if (petCareStateManager.petDataRef.petData == null ||
+            petCareStateManager.petDataRef.petData?.sleepData.isSleeping == true ||
+            petCareStateManager.petDataRef.petData?.ongoingTrainingData.isTraining == true ||
             petCareStateManager.isCareTaking)
         {
             return;
@@ -165,7 +165,7 @@ public class PetCareInputManager : MonoBehaviour
     }
     #endregion
 
-    
+
     //Checking for time, path completion, navmesh and training movement
     private void Update()
     {
@@ -337,7 +337,7 @@ public class PetCareInputManager : MonoBehaviour
             isMoving = true;
             pointIndex++;
 
-            if(pointIndex >= trainingPoints.Count)
+            if (pointIndex >= trainingPoints.Count)
             {
                 pointIndex = 0;
             }
@@ -430,7 +430,7 @@ public class PetCareInputManager : MonoBehaviour
     //Change animation state for Climbing training
     public void ChangeAnimationState(string animationName)
     {
-        switch(animationName)
+        switch (animationName)
         {
             case "Climb":
                 petAnim._ChangeAnimationState(_AnimState.Climbing);

@@ -7,6 +7,7 @@ using Beamable.CloudSavingService;
 using UnityEngine.SceneManagement;
 using Beamable.InventoryService;
 using Beamable.Server.Clients;
+using TMPro;
 
 public class PetCareUIManager : MonoBehaviour
 {
@@ -143,6 +144,8 @@ public class PetCareUIManager : MonoBehaviour
 
     [Header("Sleep UI")]
     public GameObject sleepPanel;
+    [Header("Coins UI")]
+    public TextMeshProUGUI coinText;
 
     [Header("Script Ref")]
     public PetCareStateManager petStateManager;
@@ -188,7 +191,17 @@ public class PetCareUIManager : MonoBehaviour
             PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 0);
             ShowWelcomeBackFromRaceUI();
         }
+
+        //SHOW Coins
+
     }
+
+    #region SHOW COINS
+    private void ShowCoins()
+    {
+
+    }
+    #endregion
 
     #region BUTTON CLICK EVENTS
     public void ManagePetCareBtns(bool wantToOn)

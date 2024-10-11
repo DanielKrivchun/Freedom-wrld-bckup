@@ -14,6 +14,7 @@ public class PetCareStateManager : MonoBehaviour
 
     [Space]
     public SimpleGameEvent offLoadingCanvasEvent;
+    public SimpleGameEvent sceneChangeEvent;
 
     [Header("Pet Data Reference")]
     public PetDataRef petDataRef;
@@ -80,6 +81,7 @@ public class PetCareStateManager : MonoBehaviour
     {
         foodObjectHolder.ResetFoodObjects();
         _LeaderboardServiceClient = new LeaderboardServiceClient();
+        sceneChangeEvent.Raise();
     }
 
     #region PET CARE EVENTS
@@ -162,7 +164,7 @@ public class PetCareStateManager : MonoBehaviour
     //Get empty spawn transform index
     int GetEmptySpawnIndex()
     {
-        for(int i=0; i< foodSpawnTransforms.Count; i++)
+        for (int i = 0; i < foodSpawnTransforms.Count; i++)
         {
             if (foodSpawnTransforms[i].childCount == 0)
             {

@@ -3720,6 +3720,7 @@ GameObject:
   m_Component:
   - component: {fileID: 98191226}
   - component: {fileID: 98191227}
+  - component: {fileID: 98191228}
   m_Layer: 0
   m_Name: BeamableCloudSave
   m_TagString: Untagged
@@ -3761,6 +3762,35 @@ MonoBehaviour:
   loadGameData: {fileID: 11400000, guid: 24273981e82bffb4fb57b8118cc37b6a, type: 2}
   petCreationEvent: {fileID: 11400000, guid: deecddf30aa5c714fbe8acc04a10a3f6, type: 2}
   getServerTime: {fileID: 1128614860}
+--- !u!114 &98191228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98191225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e10cd40238546048a231634c5fc79f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: f6366d00e4bde38449537b8a78ac3d2d, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 98191227}
+        m_TargetAssemblyTypeName: Beamable.CloudSavingService.BeamableCloudSaveManager,
+          Assembly-CSharp
+        m_MethodName: LoadDataOnSceneRealod
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &98953143
 GameObject:
   m_ObjectHideFlags: 0
@@ -12070,10 +12100,23 @@ MonoBehaviour:
   cameraViewManager: {fileID: 55090259}
   runSpeed: 1
   runningPath: {fileID: 946688798}
-  swimmingPoints: []
+  swimmingPoints:
+  - {fileID: 1844136603}
+  - {fileID: 1779865684}
+  - {fileID: 893583122}
+  - {fileID: 934326994}
+  - {fileID: 433313071}
+  - {fileID: 73103889}
+  - {fileID: 198407037}
   swimSpeed: 0.5
   swimRotationSpeed: 0
-  flyingPoints: []
+  flyingPoints:
+  - {fileID: 1543320919}
+  - {fileID: 1210462475}
+  - {fileID: 1799242070}
+  - {fileID: 1123456149}
+  - {fileID: 329542399}
+  - {fileID: 152174614}
   flySpeed: 0.75
   flyRotationSpeed: 0
   intelligencePoint: {fileID: 740275236}
@@ -33768,6 +33811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offLoadingCanvasEvent: {fileID: 11400000, guid: 1ebd35e78a52a6b41ab30b996263d5f2,
     type: 2}
+  sceneChangeEvent: {fileID: 11400000, guid: f6366d00e4bde38449537b8a78ac3d2d, type: 2}
   petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
   petPrefabs: {fileID: 11400000, guid: 389266f003d81b448810020effc29434, type: 2}
   player: {fileID: 281894568}
@@ -58914,10 +58958,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1334679534}
+  - component: {fileID: 1334679533}
   - component: {fileID: 1334679535}
   - component: {fileID: 1334679536}
   - component: {fileID: 1334679537}
-  - component: {fileID: 1334679533}
   m_Layer: 0
   m_Name: PetCareUIManager
   m_TagString: Untagged
@@ -59010,6 +59054,7 @@ MonoBehaviour:
   niceWorkTxt: {fileID: 538493096}
   inventoryPanel: {fileID: 1771055722}
   sleepPanel: {fileID: 487682064}
+  coinText: {fileID: 0}
   petStateManager: {fileID: 743679602}
   beamableInventoryManager: {fileID: 1456848200}
   extraPlayerDataManager: {fileID: 0}
@@ -60687,6 +60732,53 @@ RectTransform:
   m_AnchoredPosition: {x: -150, y: 120}
   m_SizeDelta: {x: 250, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1349416342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1349416343}
+  - component: {fileID: 1349416344}
+  m_Layer: 0
+  m_Name: UpdateContentOnEvent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1349416343
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349416342}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1349416344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349416342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1a58419d4ad354ea18e2bd93e97787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currencyRefPrimary:
+    Id: currency.coins
+  coinText: {fileID: 269130980}
 --- !u!1 &1352882068
 GameObject:
   m_ObjectHideFlags: 0
@@ -105226,6 +105318,7 @@ SceneRoots:
   - {fileID: 400696996}
   - {fileID: 1334679534}
   - {fileID: 1616352122}
+  - {fileID: 1349416343}
   - {fileID: 181945385}
   - {fileID: 1964643475}
   - {fileID: 756163876}
