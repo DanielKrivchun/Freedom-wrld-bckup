@@ -52,6 +52,7 @@ namespace Beamable.CurrencyHUD
 			}
 
 			while (currentAmount != targetAmount)
+
 			{
 				currentAmount += deltaStep;
 

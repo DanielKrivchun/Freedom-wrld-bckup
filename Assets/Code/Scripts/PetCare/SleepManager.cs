@@ -30,7 +30,7 @@ public class SleepManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if(isCanSleep)
+        if (isCanSleep)
         {
             sleepBtn.enabled = false;
         }
@@ -38,11 +38,13 @@ public class SleepManager : MonoBehaviour
         {
             sleepBtn.enabled = true;
         }
+
+        sleepBtn.onClick.AddListener(StartSleepingTimer);
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        sleepBtn.onClick.AddListener(()=> StartSleepingTimer());  
+        sleepBtn.onClick.RemoveAllListeners();
     }
 
     #region SET AND START SLEEPING
@@ -53,7 +55,7 @@ public class SleepManager : MonoBehaviour
             petCareStateManager.petDataRef.petData.hunger > 10)
         {
             sleepBtn.enabled = false;
-            //particleEffectsManager.StartSleepEffect();
+            particleEffectsManager.StartSleepEffect();
             PetCareInputManager.instance.SetPetToInsideHomeOnSleepStart();
 
             sleepTimer = totalSleepTime;
