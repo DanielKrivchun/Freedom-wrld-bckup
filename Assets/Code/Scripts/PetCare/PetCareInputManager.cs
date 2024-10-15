@@ -45,7 +45,8 @@ public class PetCareInputManager : MonoBehaviour
     public PetAnimation petAnim;
     [HideInInspector]
     public Animator animator;
-
+    [Space]
+    public bool inputEnable = false;
     NavMeshAgent agent;
     bool isCheckForPathCompletion = false, isTrainingPoint, isMoving, isPlayerAutoNavigatingOnMap, isRandomPoints, isRunning;
 
@@ -59,6 +60,8 @@ public class PetCareInputManager : MonoBehaviour
     float timer;
     int pointIndex = 0;
     private float distanceTravelled;
+
+
 
     private void Awake()
     {
@@ -169,6 +172,8 @@ public class PetCareInputManager : MonoBehaviour
     //Checking for time, path completion, navmesh and training movement
     private void Update()
     {
+
+        if (!inputEnable) return;
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -354,6 +359,7 @@ public class PetCareInputManager : MonoBehaviour
         Vector3 direction = (targetPos - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        Debug.Log("ROtation");
     }
 
     //This is for when user back to app and training is going on

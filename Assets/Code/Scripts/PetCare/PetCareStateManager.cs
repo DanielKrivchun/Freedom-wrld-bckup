@@ -185,7 +185,6 @@ public class PetCareStateManager : MonoBehaviour
     }
     #endregion
 
-
     #region CHECK FOR IDLE TIME
     public void StartIdleTimer()
     {
@@ -314,6 +313,7 @@ public class PetCareStateManager : MonoBehaviour
 
         pet = Instantiate(petPrefabs._GetMyPrefab(petDataRef.petData.petPrefabID.ToString()), player);
         petInputManager.petAnim = pet.GetComponent<PetAnimation>();
+        petInputManager.inputEnable = true;
     }
 
     public void DestroyPetPrefab()
@@ -551,7 +551,6 @@ public class PetCareStateManager : MonoBehaviour
     }
     #endregion
 
-
     #region RANDOM EVENTS
     //Checking if user is login on new day
     public bool IsUserLoginNewDay()
@@ -623,7 +622,6 @@ public class PetCareStateManager : MonoBehaviour
         }
     }
     #endregion
-
 
     #region XP, RANK AND MAX STAMINA
     //Increase XP with value

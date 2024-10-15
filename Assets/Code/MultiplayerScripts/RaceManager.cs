@@ -15,6 +15,7 @@ using DG.Tweening;
 using Unity.Mathematics;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using Newtonsoft.Json.Linq;
 public class RaceManager : NetworkBehaviour
 {
 
@@ -46,6 +47,8 @@ public class RaceManager : NetworkBehaviour
     public InputValue InputValue;
     public PrefabHolder PetPrefabHolder;
     public PetDataRef petdataref;
+    [Header("AI PLAYER SPEED")]
+    public AiPlayerConfigs aiPlayerConfigs;
     [Space]
     //[Space]
     //public NamesJson namesJson;
@@ -71,7 +74,8 @@ public class RaceManager : NetworkBehaviour
     public int CompletePlayerCount;
     //LOCAL PLAYER WIN NUMBER
     public int MyWinNumber;
-
+    [Space]
+    public float myPlayerSpeed;
     public string LocalPlayerNickname { get; private set; }
     public string LocalnetworkID { get; set; }
     //PUBLIC BOOLS
@@ -91,6 +95,7 @@ public class RaceManager : NetworkBehaviour
     public List<_RankPlayers> RankBasedPlayers;
     [Header("PATH OBJECT")]
     public PathCreation.PathCreator Path;
+
     #endregion
 
     //GENERICS
@@ -154,12 +159,20 @@ public class RaceManager : NetworkBehaviour
         PrefabID = petdataref.petData.petPrefabID.ToString();
         usedNames.Clear();
         NetworkEventManager.e_countdown_start += _OnCounddownStart;
+
+        float value = 1f + (1 + (petdataref.petData.running / 100f));
+
+        aiPlayerConfigs._SetSpeedValues(value);
     }
 
     private void OnDestroy()
     {
         NetworkEventManager.e_countdown_start -= _OnCounddownStart;
     }
+    #endregion
+
+    #region AI PLAYER SPEED CONFIGS BASED ON PLAYER SPEED
+
     #endregion
 
     #region EVENT CALLBACKS

@@ -150,7 +150,8 @@ public class PetCareUIManager : MonoBehaviour
     [Header("Script Ref")]
     public PetCareStateManager petStateManager;
     public BeamableInventoryManager beamableInventoryManager;
-    public ExtraPlayerDataManager extraPlayerDataManager;
+    //public ExtraPlayerDataManager extraPlayerDataManager;
+    public PetCareCameraViewManager cameraViewManager;
 
     private ExtraPlayerDataServiceClient _ExtraPlayerDataServiceClient = null;
 
@@ -218,7 +219,7 @@ public class PetCareUIManager : MonoBehaviour
         {
             wellbeingBtnImg.sprite = wellbeingBtnsOn;
             careBtnHolder.SetActive(false);
-
+            cameraViewManager.SetCameraTopView();
             //If sleeping then on the sleep ui
             if (!petDataRef.petData.sleepData.isSleeping)
             {
@@ -376,7 +377,7 @@ public class PetCareUIManager : MonoBehaviour
                                                             (int)swimmingSliderPetCreation.value, (int)intelligenceSliderPetCreation.value, (int)luckSliderPetCreation.value);
             setPetDetailsPanel.SetActive(false);
             petCreationPanelMain.SetActive(false);
-
+            ClosePetSickLabel();
             PlayTutorial("introTutorial");
         }
     }

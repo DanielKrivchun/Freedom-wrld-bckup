@@ -76,6 +76,7 @@ namespace Beamable.CloudSavingService
         }
         #endregion
 
+        #region UNITY METHODS
         //  Unity Methods  --------------------------------
         private void Awake()
         {
@@ -100,6 +101,7 @@ namespace Beamable.CloudSavingService
             _LeaderboardServiceClient = new LeaderboardServiceClient();
             _ExtraPlayerDataServiceClient = new ExtraPlayerDataServiceClient();
         }
+        #endregion
 
         #region BEAMABLE SETUP
         //  Methods  --------------------------------------

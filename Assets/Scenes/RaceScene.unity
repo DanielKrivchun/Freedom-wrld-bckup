@@ -71045,6 +71045,7 @@ MonoBehaviour:
   InputValue: {fileID: 11400000, guid: 6cad15b4b242cfc45bd6aabef128941c, type: 2}
   PetPrefabHolder: {fileID: 11400000, guid: 389266f003d81b448810020effc29434, type: 2}
   petdataref: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
+  aiPlayerConfigs: {fileID: 11400000, guid: 80d9f7d0a8895aa42b63171b5169d5fb, type: 2}
   PrefabID: 3
   CurrntWinCount: 0
   MyRank: 1000
@@ -71054,6 +71055,7 @@ MonoBehaviour:
   ResetAgrreePlayers: 0
   CompletePlayerCount: 0
   MyWinNumber: 0
+  myPlayerSpeed: 0
   startgamenow: 0
   RaceStart: 0
   AINames:
@@ -71325,6 +71327,8 @@ MonoBehaviour:
   - PathNo: 4
     MyDistance: 0
   Path: {fileID: 1967101955}
+  maxSpeed: 0
+  minSpeed: 0
   _PathNumber: 0
   KickedPlayersPathNumber: 
   _TimeLeft: 

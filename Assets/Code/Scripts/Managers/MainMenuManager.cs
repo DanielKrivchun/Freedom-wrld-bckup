@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Beamable.CloudSavingService;
+using Beamable.InventoryService;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class MainMenuScript : MonoBehaviour
     void Start()
     {
         //Button button = GetComponent<Button>();
+        RmmoveRefrenceOfObjects();
     }
 
     public void OpenGame(string scene)
@@ -30,6 +33,20 @@ public class MainMenuScript : MonoBehaviour
         // Quit the application (works in standalone builds)
         Application.Quit();
         Debug.Log("Quitting game");
+    }
+
+    void RmmoveRefrenceOfObjects()
+    {
+        if (BeamableCloudSaveManager.instance != null)
+        {
+            Destroy(BeamableCloudSaveManager.instance.gameObject);
+        }
+
+        if (BeamableInventoryManager.instance != null)
+        {
+            Destroy(BeamableInventoryManager.instance.gameObject);
+        }
+
     }
 
     public void ToggleAccountFlow()
