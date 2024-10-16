@@ -119,7 +119,6 @@ public class LeaderboardServiceTest : MonoBehaviour
         return x;
     }
 
-
     public int getPetRank()
     {
         int petRank = petDataRef.petData.rank;

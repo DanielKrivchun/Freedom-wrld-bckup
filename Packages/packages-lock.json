@@ -23,11 +23,12 @@
       },
       "url": "https://nexus.beamable.com/nexus/content/repositories/unity"
     },
-    "com.merry-yellow.code-assist": {
-      "version": "file:com.merry-yellow.code-assist",
+    "com.nethereum.unity": {
+      "version": "4.19.2",
       "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
     },
     "com.unity.2d.animation": {
       "version": "9.1.0",

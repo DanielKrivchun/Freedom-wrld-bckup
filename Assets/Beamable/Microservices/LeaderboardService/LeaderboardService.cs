@@ -18,11 +18,11 @@ namespace Beamable.Microservices
 
             try
             {
-                // Declare "LeaderboardStorage" collection
+                // Declare or target existing "LeaderboardStorage" collection
                 var db = await Storage.GetDatabase<LeaderboardStorage>();
                 var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
 
-                // create new data
+                // create new data within collection
                 collection.InsertOne(new PlayerEntry()
                 {
                     playerName = _playerName,

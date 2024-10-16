@@ -2,6 +2,7 @@
   "dependencies": {
     "com.beamable": "1.19.17",
     "com.beamable.server": "1.19.17",
+    "com.nethereum.unity": "4.19.2",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.adaptiveperformance.google.android": "1.3.1",
     "com.unity.adaptiveperformance.samsung.android": "5.0.0",
@@ -62,6 +63,13 @@
       "url": "https://nexus.beamable.com/nexus/content/repositories/unity",
       "scopes": [
         "com.beamable"
+      ]
+    },
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.nethereum.unity"
       ]
     }
   ]
