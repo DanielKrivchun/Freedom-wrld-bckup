@@ -34,6 +34,9 @@ namespace Beamable.InventoryService
         public GameObject confirmPurchasePopup;
         public GameObject itemNotRefreshedPopup;
         public GameObject tooManyBoughtPopup;
+        [Space]
+        [Header("Game Events")]
+        public SimpleGameEvent OnrefreshContent;
 
         [Header("StoreScript")]
         public BuyQuantityManager buyQuantityManager;
@@ -87,7 +90,9 @@ namespace Beamable.InventoryService
                 {
                     Debug.Log($"AddCurrency() success.");
                     OnRefreshed.Invoke();
+
                 }
+                OnrefreshContent.Raise();
             });
         }
 
@@ -172,6 +177,7 @@ namespace Beamable.InventoryService
             // Placeholder for refresh logic if needed
             Debug.Log("Inventory data refreshed.");
             OnRefreshed.Invoke();
+            OnrefreshContent.Raise();
         }
 
         // Event Handlers

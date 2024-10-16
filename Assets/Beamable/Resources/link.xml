@@ -12,6 +12,7 @@
 <assembly fullname="Beamable.JsonSerializable" preserve="all"/>
 <assembly fullname="Beamable.Microservice.ExtraPlayerDataService" preserve="all"/>
 <assembly fullname="Beamable.Microservice.LeaderboardService" preserve="all"/>
+<assembly fullname="Beamable.Microservice.walletService" preserve="all"/>
 <assembly fullname="Beamable.Platform" preserve="all"/>
 <assembly fullname="Beamable.Pooling" preserve="all"/>
 <assembly fullname="Beamable.Runtime.Input" preserve="all"/>
@@ -20,6 +21,7 @@
 <assembly fullname="Beamable.Spew" preserve="all"/>
 <assembly fullname="Beamable.Storage.ExtraPlayerDataStorage" preserve="all"/>
 <assembly fullname="Beamable.Storage.LeaderboardStorage" preserve="all"/>
+<assembly fullname="Beamable.Storage.WalletStorage" preserve="all"/>
 <assembly fullname="Beamable.UnityUIExtensions" preserve="all"/>
 <assembly fullname="Unity.Beamable" preserve="all"/>
 <assembly fullname="Unity.Beamable.Customer.Common" preserve="all"/>
