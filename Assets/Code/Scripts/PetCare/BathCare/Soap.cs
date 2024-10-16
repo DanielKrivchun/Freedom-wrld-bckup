@@ -21,11 +21,12 @@ public class Soap : MonoBehaviour
     #region SOAP CLICK EVENTS
     void OnMouseDown()
     {
-        if(bathObject.petStateManager.petDataRef.petData.cleanliness < 100)
+        if (bathObject.petStateManager.petDataRef.petData.cleanliness < 100)
         {
             isDragging = true;
             bathObject.petStateManager.StopIdleTimer();
-            bathObject.petCareUIManager.ManagePetCareBtns(false);
+            //bathObject.petCareUIManager.ManagePetCareBtns(false);
+            bathObject.petCareUIManager.ManagePetCareBtnsFromSoap(false);
         }
         else
         {
@@ -59,7 +60,7 @@ public class Soap : MonoBehaviour
             //On foam bubble particles using raycast
             if (Physics.Raycast(transform.position, Vector3.forward, out hit, 100f))
             {
-                if(hit.collider.CompareTag(_Strings.FoamBubble))
+                if (hit.collider.CompareTag(_Strings.FoamBubble))
                 {
                     particleEffectsManager.CheckAndStartFoamBubbleEffect(hit.collider.gameObject.GetComponent<ParticleSystem>());
                 }

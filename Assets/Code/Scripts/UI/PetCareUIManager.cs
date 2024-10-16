@@ -159,6 +159,8 @@ public class PetCareUIManager : MonoBehaviour
     private List<string> msgList;
     private int petPrefabId;
 
+    private bool isFourthPlayerAvailable = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -205,6 +207,19 @@ public class PetCareUIManager : MonoBehaviour
     #endregion
 
     #region BUTTON CLICK EVENTS
+
+    public void ManagePetCareBtnsFromSoap(bool wantToOn)
+    {
+        wellbeingBtnImg.sprite = wellbeingBtnsOn;
+        careBtnHolder.SetActive(false);
+        //cameraViewManager.SetCameraTopView();
+        //If sleeping then on the sleep ui
+        if (!petDataRef.petData.sleepData.isSleeping)
+        {
+            sleepPanel.SetActive(false);
+        }
+    }
+
     public void ManagePetCareBtns(bool wantToOn)
     {
         //If pet is in the training we can't access pet
@@ -314,6 +329,25 @@ public class PetCareUIManager : MonoBehaviour
         OffLoadingCanvas();
         petCreationPanelMain.SetActive(true);
         eggSelectionPanel.SetActive(true);
+    }
+
+    public void EggSelectionFourthPlayer(int index)
+    {
+        if (!isFourthPlayerAvailable)
+        {
+            //FOURTH PLAYER NOT AVAILABLE SHOW DESCRIPTION OR INSTRUCTION 
+
+            return;
+        }
+
+        //UNLOCK FOURTH PLAYER
+        eggSelectionPanel.SetActive(false);
+        welcomePanel.SetActive(true);
+
+        selectedEggPet.sprite = petImages[index - 1];
+
+        //Setting Pet prefab index for spawning pet
+        petPrefabId = index;
     }
 
     public void EggSelectedAndShowPetWelcomePanel(int index)

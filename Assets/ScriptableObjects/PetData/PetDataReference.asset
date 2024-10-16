@@ -13,37 +13,37 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: Skrop
+    petname: asas
     petPrefabID: 1
-    health: 379
-    happiness: 50
-    hunger: 87
-    cleanliness: 50
-    energy: 49
+    health: 587
+    happiness: 100
+    hunger: 58
+    cleanliness: 100
+    energy: 100
     isSick: 0
-    birthTime: 2024-08-22 2:56:43 AM
-    lastTimeHappy: 2024-08-22 3:25:52 AM
-    lastTimeFeed: 2024-08-22 3:25:52 AM
-    lastTimeClean: 2024-08-22 3:25:52 AM
-    lastTimeEnergy: 2024-08-22 3:25:52 AM
-    lastLoginTime: 2024-08-22 2:56:43 AM
-    running: 50
-    climbing: 20
-    flying: 5
-    swimming: 15
-    intelligence: 50
-    luck: 50
+    birthTime: 16-10-2024 11:02:05
+    lastTimeHappy: 16-10-2024 12:14:15
+    lastTimeFeed: 16-10-2024 12:14:16
+    lastTimeClean: 16-10-2024 12:14:56
+    lastTimeEnergy: 16-10-2024 12:16:45
+    lastLoginTime: 16-10-2024 11:02:05
+    running: 34
+    climbing: 18
+    flying: 13
+    swimming: 16
+    intelligence: 11
+    luck: 2
     rank: 1
     maxStamina: 100
-    xp: 0
+    xp: 12900
     sleepData:
       isSleeping: 0
-      sleepStartTime: 
+      sleepStartTime: 16-10-2024 12:16:15
     foodData: []
     ongoingTrainingData:
       isTraining: 0
       ongoingTraining: 0
-      ongoingTrainingName: 
-      trainingStartTime: 
+      ongoingTrainingName: None
+      trainingStartTime: 16-10-2024 12:04:07
   petLocalData:
     petID: 1
