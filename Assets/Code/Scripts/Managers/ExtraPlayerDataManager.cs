@@ -83,13 +83,13 @@ public class ExtraPlayerDataManager : MonoBehaviour
         // Parse json string to .net
         JObject parsedJson = JObject.Parse(jsonEntry);
 
-        string objectId         = (string)parsedJson["Id"];
-        string playerId         = (string)parsedJson["playerId"];
-        int introTutorial       = (int)parsedJson["introTutorial"];
-        int eatTutorial         = (int)parsedJson["eatTutorial"];
-        int showerTutorial      = (int)parsedJson["showerTutorial"];
-        int inventoryTutorial   = (int)parsedJson["inventoryTutorial"];
-        string vitaminsAteTime  = (string)parsedJson["vitaminsAteTime"];
+        string objectId = (string)parsedJson["Id"];
+        string playerId = (string)parsedJson["playerId"];
+        int introTutorial = (int)parsedJson["introTutorial"];
+        int eatTutorial = (int)parsedJson["eatTutorial"];
+        int showerTutorial = (int)parsedJson["showerTutorial"];
+        int inventoryTutorial = (int)parsedJson["inventoryTutorial"];
+        string vitaminsAteTime = (string)parsedJson["vitaminsAteTime"];
         string cosmicBerryElectrolyteBoughtTime = (string)parsedJson["cosmicBerryElectrolyteBoughtTime"];
         string miracleCognitiveBoughtTime = (string)parsedJson["miracleCognitiveBoughtTime"];
         string proteinShakeBoughtTime = (string)parsedJson["proteinShakeBoughtTime"];
@@ -98,7 +98,7 @@ public class ExtraPlayerDataManager : MonoBehaviour
                 new ExtraPlayerData { objectId = objectId, playerId = playerId, introTutorial = introTutorial, eatTutorial = eatTutorial, showerTutorial = showerTutorial, inventoryTutorial = inventoryTutorial, vitaminsAteTime = vitaminsAteTime, cosmicBerryElectrolyteBoughtTime = cosmicBerryElectrolyteBoughtTime, miracleCognitiveBoughtTime = miracleCognitiveBoughtTime, proteinShakeBoughtTime = proteinShakeBoughtTime }
             );
 
-        
+
         // Add the entries to the ScriptableObject
         if (extraPlayerDataListSO != null)
         {

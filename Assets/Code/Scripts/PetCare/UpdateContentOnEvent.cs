@@ -41,7 +41,7 @@ public class UpdateContentOnEvent : MonoBehaviour
 
     public async void GetCurruncyValue()
     {
-        Debug.Log("GetCurruncyValue");
+        //Debug.Log("GetCurruncyValue");
         var ctx = await BeamContext.Default.Instance;
 
         //var ctx = BeamContext.InParent(this);
@@ -54,7 +54,7 @@ public class UpdateContentOnEvent : MonoBehaviour
 
         if (currencyBalances.currencies.TryGetValue(currencyContentPrimary.Id, out var userCurrencyBalance))
         {
-            Debug.Log(userCurrencyBalance);
+            //Debug.Log(userCurrencyBalance);
             coinCanvas.enabled = true;
             targetAmount = userCurrencyBalance;
             ctx.CoroutineService.StartCoroutine(DisplayCurrency());

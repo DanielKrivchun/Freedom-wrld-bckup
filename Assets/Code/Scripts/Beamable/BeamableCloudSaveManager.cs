@@ -129,7 +129,7 @@ namespace Beamable.CloudSavingService
                 // Init the service, which will first download content that the server may have, that the client does not.
                 // The client will then upload any content that it has, that the server is missing
                 await _cloudSavingService.Init();
-                Debug.Log("Init()");
+                //Debug.Log("Init()");
             }
             else
             {

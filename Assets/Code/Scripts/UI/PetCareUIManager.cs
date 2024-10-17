@@ -333,12 +333,15 @@ public class PetCareUIManager : MonoBehaviour
 
     public void EggSelectionFourthPlayer(int index)
     {
+        //isFourthPlayerAvailable = true;
         if (!isFourthPlayerAvailable)
         {
             //FOURTH PLAYER NOT AVAILABLE SHOW DESCRIPTION OR INSTRUCTION 
 
             return;
         }
+
+        Debug.Log(index);
 
         //UNLOCK FOURTH PLAYER
         eggSelectionPanel.SetActive(false);
