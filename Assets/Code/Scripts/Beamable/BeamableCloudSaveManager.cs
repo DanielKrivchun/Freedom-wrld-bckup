@@ -42,7 +42,7 @@ namespace Beamable.CloudSavingService
 
         //  Fields  ---------------------------------------
         private BeamContext _beamContext;
-        private Api.CloudSaving.CloudSavingService _cloudSavingService;
+        public Api.CloudSaving.CloudSavingService _cloudSavingService;
         private readonly BeamableCloudSavingData beamableCloudSavingData = new BeamableCloudSavingData();
         private LeaderboardServiceClient _LeaderboardServiceClient = null;
         private ExtraPlayerDataServiceClient _ExtraPlayerDataServiceClient = null;
@@ -69,6 +69,10 @@ namespace Beamable.CloudSavingService
             {
                 // Suggested format
                 string fileName = "myPetCareData.json";
+
+                Debug.Log(_cloudSavingService.LocalCloudDataFullPath);
+                Debug.Log(Path.DirectorySeparatorChar);
+                Debug.Log(fileName);
 
                 // Required format
                 return $"{_cloudSavingService.LocalCloudDataFullPath}{Path.DirectorySeparatorChar}{fileName}";
@@ -248,6 +252,8 @@ namespace Beamable.CloudSavingService
         private void SaveDataInternal(PetData myPetData)
         {
             var json = JsonUtility.ToJson(myPetData);
+
+            Debug.Log(json + "   " + FilePath);
 
             if (!Directory.Exists(FilePath))
             {

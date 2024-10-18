@@ -23,6 +23,12 @@
       },
       "url": "https://nexus.beamable.com/nexus/content/repositories/unity"
     },
+    "com.merry-yellow.code-assist": {
+      "version": "file:com.merry-yellow.code-assist",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.nethereum.unity": {
       "version": "4.19.2",
       "depth": 0,

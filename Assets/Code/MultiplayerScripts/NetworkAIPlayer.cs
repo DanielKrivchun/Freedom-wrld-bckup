@@ -142,7 +142,7 @@ public class NetworkAIPlayer : NetworkBehaviour
         IsLocalPlayer = true;
         MyName = RaceManagerRef._GetNames();
         playerName = MyName;
-        int a = Random.Range(0, RaceManagerRef.PetPrefabHolder.PetPrefabs.Count);
+        int a = Random.Range(0, 3);
         //Debug.Log("MyPrefabID   " + a);
         MyPrefabID = RaceManagerRef.PetPrefabHolder.PetPrefabs[a].PrefabId;
         //MyPrefabID = "1";
@@ -211,6 +211,8 @@ public class NetworkAIPlayer : NetworkBehaviour
                     _ColidedWIthJack(2);
                     break;
             }
+            Speed = PetConfigs._GetMySpeed();
+
         }
         else
         {

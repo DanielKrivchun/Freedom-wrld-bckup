@@ -146,6 +146,8 @@ public class PetCareUIManager : MonoBehaviour
     public GameObject sleepPanel;
     [Header("Coins UI")]
     public TextMeshProUGUI coinText;
+    [Header("4th Pet")]
+    public GameObject tempImage;
 
     [Header("Script Ref")]
     public PetCareStateManager petStateManager;
@@ -267,7 +269,11 @@ public class PetCareUIManager : MonoBehaviour
     //Home button click event
     public void OnClickOfHomeBtn(string sceneName)
     {
-        BeamableCloudSaveManager.instance.SaveData(petDataRef.petData);
+        if (BeamableCloudSaveManager.instance._cloudSavingService != null)
+        {
+            BeamableCloudSaveManager.instance.SaveData(petDataRef.petData);
+        }
+
         SceneManager.LoadScene(sceneName);
     }
 
@@ -569,5 +575,13 @@ public class PetCareUIManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region 4th peth activation 
+    public void ActivateFourthPet()
+    {
+        isFourthPlayerAvailable = true;
+        tempImage.SetActive(false);
+    }
     #endregion
 }

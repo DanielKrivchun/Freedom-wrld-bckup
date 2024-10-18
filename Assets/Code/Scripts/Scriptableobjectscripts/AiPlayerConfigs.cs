@@ -34,16 +34,12 @@ public class AiPlayerConfigs : ScriptableObject
         {
             minSpeed = 1f;
         }
-
         float value = 0f;
-
         for (int i = 0; i < Configs.Count; i++)
         {
             value = Random.Range(minSpeed, maxSpeed);
             Configs[i].m_speed = value;
         }
-
-
     }
 }
 

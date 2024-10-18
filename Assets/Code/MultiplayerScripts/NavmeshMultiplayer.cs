@@ -825,6 +825,14 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             _SetName(MyName);
             gameObject.name = MyName;
 
+            //Name texpsition for pet 4 
+            switch (MyPrefabID)
+            {
+                case "4":
+                    nameText.transform.parent.transform.localPosition = new Vector3(0f, 1f, 0f);
+                    break;
+            }
+
             //ADD PLAYER
             _GenratedAIPlayer G = new _GenratedAIPlayer();
             G.player = this;

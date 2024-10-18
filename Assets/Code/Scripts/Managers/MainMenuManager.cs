@@ -25,6 +25,10 @@ public class MainMenuScript : MonoBehaviour
 
     public void OpenGame(string scene)
     {
+
+        //CHECK FOR ACOUNT SWITCH
+
+
         SceneManager.LoadScene(scene);
     }
 
@@ -46,6 +50,12 @@ public class MainMenuScript : MonoBehaviour
         {
             Destroy(BeamableInventoryManager.instance.gameObject);
         }
+
+        GameObject g = FindObjectOfType<Beamable.BeamableBehaviour>().gameObject;
+
+
+        Debug.Log(g.name);
+
 
     }
 

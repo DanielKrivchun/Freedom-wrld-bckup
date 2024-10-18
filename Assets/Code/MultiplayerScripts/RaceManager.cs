@@ -426,6 +426,9 @@ public class RaceManager : NetworkBehaviour
             selected_region = "asia";
         }
 
+        Debug.Log(selected_region);
+
+
         var appSettings = BuildCustomAppSetting(selected_region);
 
         if (networkRunnerInstance == null)
