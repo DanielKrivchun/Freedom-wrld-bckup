@@ -137,7 +137,7 @@ public class NetworkCamera : MonoBehaviour
     /// <param name="PathNo"></param>
     public void _SetUpCamera(Transform _target, int PathNo)
     {
-        Debug.Log(PathNo);
+        //Debug.Log(PathNo);
         Cam = _GetCamm("follocam");
         CameraFollower cameraFollower = Cam.GetComponent<CameraFollower>();
         cameraFollower.target_transform = _target;
@@ -145,7 +145,7 @@ public class NetworkCamera : MonoBehaviour
 
     public void _ActiveWinScene()
     {
-        Debug.Log("WIn scene activated");
+        //Debug.Log("WIn scene activated");
         NetworkEventManager._EventTextLookat(WinCam.transform);
 
         Cam = _GetCamm("follocam");

@@ -305,7 +305,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
             switch (other.tag)
             {
                 case _Tags.WinLine:
-                    Debug.Log("WINLINE COLIDED" + other.tag + "    " + MyName);
+                    //Debug.Log("WINLINE COLIDED" + other.tag + "    " + MyName);
                     m_agent.enabled = false;
                     GetComponent<Collider>().enabled = false;
                     Rigidbody rb = GetComponent<Rigidbody>();
@@ -439,7 +439,7 @@ public class NavmeshMultiplayer : NetworkBehaviour, IBeforeUpdate
 
         if (Utils.IsLocalPlayer(Object))
         {
-            Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
+            //Debug.Log("Yes Win number is allowcated  " + MyWiningNumber + "      " + MyName);
             NetworkEventManager._EventWon(MyWiningNumber);
             NetwrokUI.Instance.WinUI.SetActive(true);
             NetworkCamera.Instance._ActiveWinScene();

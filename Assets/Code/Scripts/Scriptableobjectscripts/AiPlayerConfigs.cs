@@ -26,7 +26,7 @@ public class AiPlayerConfigs : ScriptableObject
 
     public void _SetSpeedValues(float _player_speed)
     {
-        Debug.Log(_player_speed);
+        //Debug.Log(_player_speed);
         maxSpeed = _player_speed + 2f;
         minSpeed = _player_speed - 1.5f;
 

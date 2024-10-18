@@ -51,10 +51,10 @@ public class MainMenuScript : MonoBehaviour
             Destroy(BeamableInventoryManager.instance.gameObject);
         }
 
-        GameObject g = FindObjectOfType<Beamable.BeamableBehaviour>().gameObject;
+        //GameObject g = FindObjectOfType<Beamable.BeamableBehaviour>().gameObject;
 
 
-        Debug.Log(g.name);
+        //Debug.Log(g.name);
 
 
     }

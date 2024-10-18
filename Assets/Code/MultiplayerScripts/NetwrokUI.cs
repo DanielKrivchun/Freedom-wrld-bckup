@@ -361,10 +361,10 @@ public class NetwrokUI : NetworkBehaviour
     /// <param name="_s"></param>
     public void _SetupList(List<string> _s)
     {
-        foreach (var item in _s)
-        {
-            Debug.Log(item);
-        }
+        //foreach (var item in _s)
+        //{
+        //    //Debug.Log(item);
+        //}
 
         for (int i = 0; i < _s.Count; i++)
         {

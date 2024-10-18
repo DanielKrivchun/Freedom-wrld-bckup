@@ -92,7 +92,7 @@ namespace Beamable.InventoryService
             {
                 if (OnRefreshed != null)
                 {
-                    Debug.Log($"AddCurrency() success.");
+                    //Debug.Log($"AddCurrency() success.");
                     OnRefreshed.Invoke();
 
                 }

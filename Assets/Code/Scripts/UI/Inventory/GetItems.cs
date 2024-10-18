@@ -23,7 +23,7 @@ public class GetItems : MonoBehaviour
         var playerItems = ctx.Inventory.GetItems();
 
         await playerItems.Refresh();
-        Debug.Log($"Player items:{playerItems}");
+        //Debug.Log($"Player items:{playerItems}");
 
         // Clear the inventory before fetching new items so we dont duplicate them
         InventoryManager.Instance.Clear();
