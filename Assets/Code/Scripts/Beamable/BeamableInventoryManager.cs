@@ -78,6 +78,12 @@ namespace Beamable.InventoryService
                 return;
             }
 
+            while (_inventoryService == null)
+            {
+                await Utils._Waiter(50);
+            }
+
+
             var currencyContentPrimary = await _currencyRefPrimary.Resolve();
             InventoryUpdateBuilder inventoryUpdateBuilder = new InventoryUpdateBuilder();
             inventoryUpdateBuilder.CurrencyChange(currencyContentPrimary.Id, +amount);
