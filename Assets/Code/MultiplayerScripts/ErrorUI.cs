@@ -17,6 +17,8 @@ public class ErrorUI : MonoBehaviour
     [Space]
     public GameObject ReconnectingObj;
     [Space]
+    public GameObject LoadingCanvas;
+    [Space]
     public Button HomeButton;
     public Button LeaveButton;
     private bool isPaused;
@@ -32,6 +34,13 @@ public class ErrorUI : MonoBehaviour
     #endregion
 
     #region UNITY METHODS
+
+    private IEnumerator Start()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        LoadingCanvas.SetActive(false);
+    }
+
     private void OnEnable()
     {
         NetworkEventManager.e_network_errors += _NetworkError;

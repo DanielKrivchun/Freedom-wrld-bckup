@@ -270,6 +270,8 @@ public class RaceManager : NetworkBehaviour
         }
 
         //CODE FOR  CHECKING TIMER BASED RACE START
+
+
         if (networkRunnerInstance != null && networkRunnerInstance.IsServer && !RaceStart)
         {
             TotalSeconds -= Time.deltaTime;
@@ -293,6 +295,7 @@ public class RaceManager : NetworkBehaviour
                         startgamenow = true;
                         if (!RaceStart)
                         {
+                            RaceStart = true;
                             NetwrokUI.Instance._StartRace();
                         }
                     }
@@ -369,8 +372,8 @@ public class RaceManager : NetworkBehaviour
     /// <param name="typedText"></param>
     public void _SelectRegion(int typedText)
     {
-        Debug.Log(typedText);
-        Debug.Log(dropdown.options[typedText].text);
+        //Debug.Log(typedText);
+        //Debug.Log(dropdown.options[typedText].text);
         selected_region = dropdown.options[typedText].text;
     }
 
@@ -426,14 +429,14 @@ public class RaceManager : NetworkBehaviour
             selected_region = "asia";
         }
 
-        Debug.Log(selected_region);
+        //Debug.Log(selected_region);
 
 
         var appSettings = BuildCustomAppSetting(selected_region);
 
         if (networkRunnerInstance == null)
         {
-            Debug.Log("Instantiated my object  " + mode);
+            //Debug.Log("Instantiated my object  " + mode);
             networkRunnerInstance = Instantiate(NetworkRunnerPrefab);
         }
         runnerhandller = networkRunnerInstance.GetComponent<RunnerHandller>();
@@ -456,7 +459,7 @@ public class RaceManager : NetworkBehaviour
         var customProps = new Dictionary<string, SessionProperty>();
 
         customProps["RANK"] = _GetMyRank();
-        Debug.Log("MY RANK " + MyRank);
+        //Debug.Log("MY RANK " + MyRank);
 
         //THIS WILL START GAME FUSION
         await networkRunnerInstance.StartGame(new StartGameArgs
@@ -596,7 +599,7 @@ public class RaceManager : NetworkBehaviour
     {
         CompletePlayerCount++;
 
-        Debug.Log(CompletePlayerCount + "    " + TotalNumberOfPlayers);
+        //Debug.Log(CompletePlayerCount + "    " + TotalNumberOfPlayers);
 
         if (CompletePlayerCount == TotalNumberOfPlayers)
         {
@@ -1008,7 +1011,7 @@ public class RaceManager : NetworkBehaviour
         Vector3 spawnPoint = spawnPoints[pathno].transform.position;
         NetworkObject playerObject = Runner.Spawn(AIPlayer, spawnPoint, Quaternion.identity);
         playerObject.GetComponent<NetworkTransform>().transform.position = spawnPoint;
-        Debug.Log(playerObject.transform.position);
+        //Debug.Log(playerObject.transform.position);
         playerObject.GetComponent<NetworkAIPlayer>()._SetUpMyInitialData(pathno);
     }
 

@@ -70,9 +70,9 @@ namespace Beamable.CloudSavingService
                 // Suggested format
                 string fileName = "myPetCareData.json";
 
-                Debug.Log(_cloudSavingService.LocalCloudDataFullPath);
-                Debug.Log(Path.DirectorySeparatorChar);
-                Debug.Log(fileName);
+                //Debug.Log(_cloudSavingService.LocalCloudDataFullPath);
+                //Debug.Log(Path.DirectorySeparatorChar);
+                //Debug.Log(fileName);
 
                 // Required format
                 return $"{_cloudSavingService.LocalCloudDataFullPath}{Path.DirectorySeparatorChar}{fileName}";
@@ -142,12 +142,12 @@ namespace Beamable.CloudSavingService
 
             if (LoadData() != null)
             {
-                Debug.Log("Data not null!");
+                //Debug.Log("Data not null!");
                 LoadDataOnSceneRealod();
             }
             else
             {
-                Debug.Log("Data is null, create one");
+                //Debug.Log("Data is null, create one");
                 PlayerPrefs.SetInt("IsPetCreated", 0);
                 beamableCloudSavingData.DataState = DataState.Pending;
                 petCreationEvent.Raise();
@@ -158,11 +158,11 @@ namespace Beamable.CloudSavingService
         {
             if (_cloudSavingService == null)
             {
-                Debug.Log("Initilization happning");
+                //Debug.Log("Initilization happning");
                 return;
             }
 
-            Debug.Log("Data not null!");
+            //Debug.Log("Data not null!");
             petDataRef.petData = LoadData();
             Refresh();
             loadGameData.Raise();
@@ -253,7 +253,7 @@ namespace Beamable.CloudSavingService
         {
             var json = JsonUtility.ToJson(myPetData);
 
-            Debug.Log(json + "   " + FilePath);
+            //Debug.Log(json + "   " + FilePath);
 
             if (!Directory.Exists(FilePath))
             {
@@ -264,7 +264,7 @@ namespace Beamable.CloudSavingService
             File.WriteAllText(FilePath, json);
 
             beamableCloudSavingData.petDataCloud = myPetData;
-            Debug.Log("Data Saved!");
+            //Debug.Log("Data Saved!");
         }
         #endregion
 
@@ -329,14 +329,14 @@ namespace Beamable.CloudSavingService
         {
             if (pause)
             {
-                Debug.Log("Saving Data on Pause...");
+                //Debug.Log("Saving Data on Pause...");
                 SaveData(petDataRef.petData);
             }
             else
             {
                 if (beamableCloudSavingData.petDataLocal != null)
                 {
-                    Debug.Log("Fetching Local Data after Pause...");
+                    //Debug.Log("Fetching Local Data after Pause...");
                     petDataRef.petData = beamableCloudSavingData.petDataLocal;
 
                     loadGameData.Raise();
@@ -346,7 +346,7 @@ namespace Beamable.CloudSavingService
 
         private void OnApplicationQuit()
         {
-            Debug.Log("Saving Data on Quit...");
+            //Debug.Log("Saving Data on Quit...");
             SaveData(petDataRef.petData);
         }
         #endregion
