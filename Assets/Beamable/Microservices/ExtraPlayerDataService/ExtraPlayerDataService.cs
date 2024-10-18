@@ -21,58 +21,6 @@ namespace Beamable.Microservices
 			// This code executes on the server.
 		}
 
-        #region Web3/NFT Ownership
-
-        [ClientCallable]
-        public async void UpdateNftOwned(string _playerId, bool _nftOwned)
-        {
-            try
-            {
-                var db = await Storage.GetDatabase<ExtraPlayerDataStorage>();
-                var collection = db.GetCollection<ExtraPlayerData>("ExtraPlayerDataStorage");
-                var filter = Builders<ExtraPlayerData>.Filter.Eq("playerId", _playerId);
-                var update = Builders<ExtraPlayerData>.Update.Set("nftOwned", _nftOwned);
-
-                // Update nftOwned bool
-                collection.UpdateOne(filter, update);
-            }
-            catch (Exception e)
-            {
-
-                Debug.LogError(e.Message);
-            }
-
-        }
-
-        [ClientCallable]
-        public async Promise<string> GetAddress(string _playerId)
-        {
-            var filter = Builders<ExtraPlayerData>.Filter.Eq("playerId", _playerId);
-            var db = await Storage.GetDatabase<ExtraPlayerDataStorage>();
-            var collection = db.GetCollection<ExtraPlayerData>("ExtraPlayerDataStorage");
-
-            // Projection to return only the walletAddress field
-            var projection = Builders<ExtraPlayerData>.Projection.Include("walletAddress").Exclude("_id");
-
-            // Find the first document matching the filter and apply the projection
-            var result = collection
-                .Find(filter)
-                .Project(projection)
-                .FirstOrDefault();
-
-            // If no result is found, return null or an appropriate message
-            if (result == null)
-            {
-                return "no address found";  // or return "No address found";
-            }
-            var jsonResult = JsonUtility.ToJson(result);
-
-            /*var jsonResult = result.ToJson();*/
-            return jsonResult;
-        }
-
-        #endregion
-
         #region Create/Update Entry
 
         [ClientCallable]

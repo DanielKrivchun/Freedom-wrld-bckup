@@ -42,32 +42,6 @@ namespace Beamable.Server.Clients
         }
         
         /// <summary>
-        /// Call the UpdateNftOwned method on the ExtraPlayerDataService microservice
-        /// <see cref="Beamable.Microservices.ExtraPlayerDataService.UpdateNftOwned"/>
-        /// </summary>
-        public Beamable.Common.Promise<Beamable.Common.Unit> UpdateNftOwned(string _playerId, bool _nftOwned)
-        {
-            object raw__playerId = _playerId;
-            object raw__nftOwned = _nftOwned;
-            System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
-            serializedFields.Add("_playerId", raw__playerId);
-            serializedFields.Add("_nftOwned", raw__nftOwned);
-            return this.Request<Beamable.Common.Unit>("ExtraPlayerDataService", "UpdateNftOwned", serializedFields);
-        }
-        
-        /// <summary>
-        /// Call the GetAddress method on the ExtraPlayerDataService microservice
-        /// <see cref="Beamable.Microservices.ExtraPlayerDataService.GetAddress"/>
-        /// </summary>
-        public Beamable.Common.Promise<string> GetAddress(string _playerId)
-        {
-            object raw__playerId = _playerId;
-            System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
-            serializedFields.Add("_playerId", raw__playerId);
-            return this.Request<string>("ExtraPlayerDataService", "GetAddress", serializedFields);
-        }
-        
-        /// <summary>
         /// Call the CreateEntry method on the ExtraPlayerDataService microservice
         /// <see cref="Beamable.Microservices.ExtraPlayerDataService.CreateEntry"/>
         /// </summary>
@@ -155,11 +129,6 @@ namespace Beamable.Server.Clients
         
         [System.SerializableAttribute()]
         internal sealed class ParameterSystem_String : MicroserviceClientDataWrapper<string>
-        {
-        }
-        
-        [System.SerializableAttribute()]
-        internal sealed class ParameterSystem_Boolean : MicroserviceClientDataWrapper<bool>
         {
         }
         

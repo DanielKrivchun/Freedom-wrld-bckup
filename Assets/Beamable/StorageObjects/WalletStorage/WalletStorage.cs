@@ -1,4 +1,5 @@
 using Beamable.Common;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Beamable.Server
@@ -8,7 +9,15 @@ namespace Beamable.Server
 	{
 	}
 
-	public static class WalletStorageExtension
+    public class Web3Data
+    {
+        public ObjectId Id;
+        public string playerId;
+        public string walletAddress;
+        public bool nftOwned;
+    }
+
+    public static class WalletStorageExtension
 	{
 		/// <summary>
 		/// Get an authenticated MongoDB instance for WalletStorage

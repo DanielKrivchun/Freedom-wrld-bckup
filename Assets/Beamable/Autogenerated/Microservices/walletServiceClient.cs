@@ -40,10 +40,62 @@ namespace Beamable.Server.Clients
             System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
             return this.Request<Beamable.Common.Unit>("walletService", "ServerCall", serializedFields);
         }
+        
+        /// <summary>
+        /// Call the CreateEntry method on the walletService microservice
+        /// <see cref="Beamable.Microservices.walletService.CreateEntry"/>
+        /// </summary>
+        public Beamable.Common.Promise<Beamable.Common.Unit> CreateEntry(string _playerId, string _walletAddress, bool _nftOwned)
+        {
+            object raw__playerId = _playerId;
+            object raw__walletAddress = _walletAddress;
+            object raw__nftOwned = _nftOwned;
+            System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
+            serializedFields.Add("_playerId", raw__playerId);
+            serializedFields.Add("_walletAddress", raw__walletAddress);
+            serializedFields.Add("_nftOwned", raw__nftOwned);
+            return this.Request<Beamable.Common.Unit>("walletService", "CreateEntry", serializedFields);
+        }
+        
+        /// <summary>
+        /// Call the UpdateNftOwned method on the walletService microservice
+        /// <see cref="Beamable.Microservices.walletService.UpdateNftOwned"/>
+        /// </summary>
+        public Beamable.Common.Promise<Beamable.Common.Unit> UpdateNftOwned(string _playerId, bool _nftOwned)
+        {
+            object raw__playerId = _playerId;
+            object raw__nftOwned = _nftOwned;
+            System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
+            serializedFields.Add("_playerId", raw__playerId);
+            serializedFields.Add("_nftOwned", raw__nftOwned);
+            return this.Request<Beamable.Common.Unit>("walletService", "UpdateNftOwned", serializedFields);
+        }
+        
+        /// <summary>
+        /// Call the GetEntryByPlayerId method on the walletService microservice
+        /// <see cref="Beamable.Microservices.walletService.GetEntryByPlayerId"/>
+        /// </summary>
+        public Beamable.Common.Promise<string> GetEntryByPlayerId(string playerId)
+        {
+            object raw_playerId = playerId;
+            System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
+            serializedFields.Add("playerId", raw_playerId);
+            return this.Request<string>("walletService", "GetEntryByPlayerId", serializedFields);
+        }
     }
     
     internal sealed class MicroserviceParameterswalletServiceClient
     {
+        
+        [System.SerializableAttribute()]
+        internal sealed class ParameterSystem_String : MicroserviceClientDataWrapper<string>
+        {
+        }
+        
+        [System.SerializableAttribute()]
+        internal sealed class ParameterSystem_Boolean : MicroserviceClientDataWrapper<bool>
+        {
+        }
     }
     
     [BeamContextSystemAttribute()]

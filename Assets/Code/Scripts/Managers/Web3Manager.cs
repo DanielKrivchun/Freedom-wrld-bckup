@@ -4,12 +4,21 @@ using Beamable;
 using System.Threading.Tasks;
 using Beamable.Server.Clients;
 using Newtonsoft.Json.Linq;
+using Nethereum.Web3;
+using Nethereum.ABI.FunctionEncoding.Attributes;
+using Nethereum.Contracts;
+using System.Numerics;
 using UnityEngine;
+using NanoSockets;
+using System;
+using PlayFab.ServerModels;
 
 public class Web3Manager : MonoBehaviour
 {
-
-    private ExtraPlayerDataServiceClient _ExtraPlayerDataServiceClient = null;
+    string rpc = "https://eth-mainnet.g.alchemy.com/v2/8g1sURXwDAEYdIHw7q6F5prdQ77C6y-7";
+    string contractAddress = "0x616300b0f9db555cb2c645a943104035b4dbb347";
+    string deployerAddress = "0x6e7dE08F9dC987d881D84456970581d047520b99";
+    private walletServiceClient _walletServiceClient = null;
 
     private class Web3Data
     {
@@ -17,42 +26,101 @@ public class Web3Manager : MonoBehaviour
         public string walletAddress;
         public bool nftOwned;
     }
-    // Start is called before the first frame update
+
     async void Start()
     {
-        _ExtraPlayerDataServiceClient = new ExtraPlayerDataServiceClient();
+        _walletServiceClient = new walletServiceClient();
 
-        // get wallet address
-        await WalletService();
+        await CheckAccount(deployerAddress);
     }
 
-    private async Task<Web3Data> WalletService()
+    /*private async Task CreateEntry(string _address)
     {
         var beamContext = BeamContext.Default;
         await beamContext.OnReady;
         string _playerId = beamContext.PlayerId.ToString();
 
-        Debug.Log($"beamContext.PlayerId = {_playerId}");
+        var response = await _walletServiceClient.CreateEntry(_playerId, _address, false);
+        Debug.Log(response);
 
-        // Call Microservice method
-        string jsonAddress = await _ExtraPlayerDataServiceClient.GetAddress(_playerId);
 
-        // Parse json string to object
+    }*/
+
+    // return Web3Data object
+    private async Task<Web3Data> WalletService(string _playerId)
+    {
+        // Get address from microstorage as json string
+        string jsonAddress = await _walletServiceClient.GetEntryByPlayerId(_playerId);
+
+        // Parse into class object
         JObject parsedJson = JObject.Parse(jsonAddress);
 
+        // query by name
         string walletAddress = (string)parsedJson["walletAddress"];
-        string playerId = beamContext.PlayerId.ToString();
+        string playerId = (string)parsedJson["playerId"];
+        bool nftOwned = (bool)parsedJson["nftOwned"];
 
         Web3Data playerData = new Web3Data();
-
         playerData.playerId = playerId;
         playerData.walletAddress = walletAddress;
+        playerData.nftOwned = nftOwned;
 
-        Debug.Log(playerData.walletAddress.GetType());
-
-        Debug.Log(playerData.walletAddress);
-
+        //return as playerData object
         return playerData;
 
     }
+
+    // Define contract balanceOf function as a class
+    [Function("balanceOf", "uint256")]
+    public class BalanceOfFunction : FunctionMessage
+    {
+        [Parameter("address", "owner", 1)]
+        public string Owner { get; set; }
+    }
+
+    // Check NFT balance and store bool
+    public async Task CheckAccount(string _address)
+    {
+        // Initiate Beamable and playerId
+        var beamContext = BeamContext.Default;
+        await beamContext.OnReady;
+        string _playerId = beamContext.PlayerId.ToString();
+
+        try
+        {
+            // Create Web3 instance and check balance
+            var web3 = new Web3(rpc);
+            var balanceOfFunctionMessage = new BalanceOfFunction()
+            {
+                Owner = _address
+            };
+
+            var balanceHandler = web3.Eth.GetContractQueryHandler<BalanceOfFunction>();
+            var balance = await balanceHandler.QueryAsync<BigInteger>(contractAddress, balanceOfFunctionMessage);
+
+            // Convert balance to decimal and divide by 10^18
+            decimal formattedBalance = (decimal)balance / (decimal)BigInteger.Pow(10, 18);
+            int nftCount = (int)formattedBalance;  // Truncate to the nearest whole number
+
+            Debug.Log($"Formatted balance: {formattedBalance}, nftCount: {nftCount}");  // Log the balance for debugging
+
+            // Check if the wallet has more than 1 NFT
+            if (nftCount > 1)
+            {
+                Debug.Log($"The owner of {_address} owns {nftCount} NFT(s) from this contract.");
+                // call method to store bool in microstorage
+                await _walletServiceClient.UpdateNftOwned(_playerId, true);
+            }
+            else
+            {
+                Debug.Log($"The owner of {_address} owns less than 1 NFT from this contract.");
+                await _walletServiceClient.UpdateNftOwned(_playerId, false);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error fetching NFT balance: {ex.Message}");
+        }
+    }
+
 }

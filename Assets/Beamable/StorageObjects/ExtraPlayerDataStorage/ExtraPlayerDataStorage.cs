@@ -13,8 +13,6 @@ namespace Beamable.Server
     {
         public ObjectId Id;
         public string playerId;
-		public string walletAddress;
-		public bool nftOwned;
         public int introTutorial;
         public int eatTutorial;
         public int showerTutorial;
