@@ -52,8 +52,6 @@ namespace Beamable.InventoryService
             {
                 DestroyImmediate(instance);
             }
-
-            DontDestroyOnLoad(gameObject);
         }
 
         protected void Start()
