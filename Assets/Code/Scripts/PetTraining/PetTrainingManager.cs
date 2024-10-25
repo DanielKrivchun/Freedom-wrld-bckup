@@ -78,6 +78,9 @@ public class PetTrainingManager : MonoBehaviour
 
     private DateTime serverTimeNow;
     private PetTrainingData currentTrainingData;
+    private int _hours;
+    private int _minutes;
+    private int _seconds;
 
     #region BUTTON LISTENERS
     private void Start()
@@ -263,11 +266,12 @@ public class PetTrainingManager : MonoBehaviour
     {
         currentTime += 1;
 
-        float hours = Mathf.FloorToInt(currentTime / 3600);
-        float minutes = Mathf.FloorToInt(currentTime / 60);
-        float seconds = Mathf.FloorToInt(currentTime % 60);
+        _hours = TimeSpan.FromSeconds(currentTime).Hours;
+        _minutes = TimeSpan.FromSeconds(currentTime).Minutes;
+        _seconds = TimeSpan.FromSeconds(currentTime).Seconds;
 
-        ongoingTrainingTimerTxt.text = "Time Remaining:\n<b>" + string.Format("{0:0}:{1:00}:{2:00}", hours, minutes, seconds) + "</b>";
+
+        ongoingTrainingTimerTxt.text = "Time Remaining:\n<b>" + string.Format("{0:0}:{1:00}:{2:00}", _hours, _minutes, _seconds) + "</b>";
     }
     #endregion
 

@@ -27,6 +27,9 @@ public class SleepManager : MonoBehaviour
 
     [Space]
     public GameObject petCareBtnHolder;
+    private int _hours;
+    private int _minutes;
+    private int _seconds;
 
     private void OnEnable()
     {
@@ -138,11 +141,12 @@ public class SleepManager : MonoBehaviour
     {
         currentTime += 1;
 
-        float hours = Mathf.FloorToInt(currentTime / 3600);
-        float minutes = Mathf.FloorToInt(currentTime / 60);
-        float seconds = Mathf.FloorToInt(currentTime % 60);
 
-        sleepCountdownTxt.text = string.Format("{0:0}:{1:00}:{2:00}", hours, minutes, seconds);
+        _hours = TimeSpan.FromSeconds(currentTime).Hours;
+        _minutes = TimeSpan.FromSeconds(currentTime).Minutes;
+        _seconds = TimeSpan.FromSeconds(currentTime).Seconds;
+
+        sleepCountdownTxt.text = string.Format("{0:0}:{1:00}:{2:00}", _hours, _minutes, _seconds);
     }
     #endregion
 }
