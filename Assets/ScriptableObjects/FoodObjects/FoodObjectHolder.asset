@@ -49,4 +49,8 @@ MonoBehaviour:
   - foodObject: {fileID: 4925982584511589750, guid: d69267f1acb5b944e9cffad7c9c40bec,
       type: 3}
     foodType: 12
-  generatedFoodObjects: []
+  generatedFoodObjects:
+  - foodObject: {fileID: 0}
+    foodType: 1
+  - foodObject: {fileID: 0}
+    foodType: 1
