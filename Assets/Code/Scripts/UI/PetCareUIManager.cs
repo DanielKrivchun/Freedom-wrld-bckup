@@ -9,6 +9,7 @@ using Beamable.InventoryService;
 using Beamable.Server.Clients;
 using TMPro;
 using Beamable;
+using System.Threading.Tasks;
 
 public class PetCareUIManager : MonoBehaviour
 {
@@ -186,7 +187,7 @@ public class PetCareUIManager : MonoBehaviour
         sleepBtn.onClick.AddListener(() => OnClickOfPetCareStateBtn(PetCareState.Energy));
     }
 
-    private void Start()
+    private async void Start()
     {
         msgList = new List<string>();
 
@@ -199,6 +200,9 @@ public class PetCareUIManager : MonoBehaviour
             PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 0);
             ShowWelcomeBackFromRaceUI();
         }
+
+        // Check for pet access
+        await ActivateFourthPet();
 
         //SHOW Coins
 
@@ -581,28 +585,23 @@ public class PetCareUIManager : MonoBehaviour
     #endregion
 
     #region 4th peth activation 
-    public async void ActivateFourthPet()
+    public async Task ActivateFourthPet()
     {
-        // Initiate Beamable and playerId
-        var beamContext = BeamContext.Default;
-        await beamContext.OnReady;
-        string _playerId = beamContext.PlayerId.ToString();
-
         // Check playerId's address
-        bool nftOwned = await _web3Manager.CheckAccount(_playerId);
+        bool nftOwned = await _web3Manager.CheckAccount();
 
         if (nftOwned)
         {
 
             isFourthPlayerAvailable = true;
             tempImage.SetActive(true);
-            Debug.Log($"{_playerId} owns an nft:{nftOwned}");
+            Debug.Log($"you own an nft:{nftOwned}");
         }
         else
         {
             isFourthPlayerAvailable = false;
             tempImage.SetActive(false);
-            Debug.Log($"{_playerId} does not own an nft:{nftOwned}");
+            Debug.Log($"you do not own an nft:{nftOwned}");
         }
     }
     #endregion

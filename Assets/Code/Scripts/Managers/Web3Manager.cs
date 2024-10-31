@@ -17,7 +17,7 @@ public class Web3Manager : MonoBehaviour
 {
     string rpc = "https://eth-mainnet.g.alchemy.com/v2/8g1sURXwDAEYdIHw7q6F5prdQ77C6y-7";
     string contractAddress = "0x616300b0f9db555cb2c645a943104035b4dbb347";
-    string deployerAddress = "0x6e7dE08F9dC987d881D84456970581d047520b99";
+    /*string deployerAddress = "0x6e7dE08F9dC987d881D84456970581d047520b99";*/
     private walletServiceClient _walletServiceClient = null;
 
     private class Web3Data
@@ -27,11 +27,11 @@ public class Web3Manager : MonoBehaviour
         public bool nftOwned;
     }
 
-    async void Start()
+    public void Start()
     {
         _walletServiceClient = new walletServiceClient();
 
-        await CheckAccount(deployerAddress);
+        /*await CheckAccount(deployerAddress);*/
     }
 
     /*private async Task CreateEntry(string _address)
@@ -47,26 +47,15 @@ public class Web3Manager : MonoBehaviour
     }*/
 
     // return Web3Data object
-    private async Task<Web3Data> WalletService(string _playerId)
+    private async Task<string> WalletService(string _playerId)
     {
-        // Get address from microstorage as json string
+        // Get address from microstorage
         string jsonAddress = await _walletServiceClient.GetEntryByPlayerId(_playerId);
-
-        // Parse into class object
         JObject parsedJson = JObject.Parse(jsonAddress);
-
-        // query by name
-        string walletAddress = (string)parsedJson["walletAddress"];
         string playerId = (string)parsedJson["playerId"];
-        bool nftOwned = (bool)parsedJson["nftOwned"];
 
-        Web3Data playerData = new Web3Data();
-        playerData.playerId = playerId;
-        playerData.walletAddress = walletAddress;
-        playerData.nftOwned = nftOwned;
-
-        //return as playerData object
-        return playerData;
+        //return playerId wallet address
+        return playerId;
 
     }
 
@@ -79,12 +68,13 @@ public class Web3Manager : MonoBehaviour
     }
 
     // Check NFT balance and store bool
-    public async Task<bool> CheckAccount(string _address)
+    public async Task<bool> CheckAccount()
     {
         // Initiate Beamable and playerId
         var beamContext = BeamContext.Default;
         await beamContext.OnReady;
         string _playerId = beamContext.PlayerId.ToString();
+        string _address = await WalletService(_playerId);
 
         try
         {
