@@ -13,37 +13,37 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: asas
-    petPrefabID: 1
-    health: 587
-    happiness: 100
-    hunger: 58
-    cleanliness: 100
-    energy: 100
+    petname: 123
+    petPrefabID: 2
+    health: 585
+    happiness: 90
+    hunger: 90
+    cleanliness: 90
+    energy: 90
     isSick: 0
-    birthTime: 16-10-2024 11:02:05
-    lastTimeHappy: 16-10-2024 12:14:15
-    lastTimeFeed: 16-10-2024 12:14:16
-    lastTimeClean: 16-10-2024 12:14:56
-    lastTimeEnergy: 16-10-2024 12:16:45
-    lastLoginTime: 16-10-2024 11:02:05
-    running: 34
-    climbing: 18
-    flying: 13
-    swimming: 16
-    intelligence: 11
-    luck: 2
+    birthTime: 2024-10-30 6:17:31 PM
+    lastTimeHappy: 2024-10-30 7:06:01 PM
+    lastTimeFeed: 2024-10-30 7:06:01 PM
+    lastTimeClean: 2024-10-30 7:06:01 PM
+    lastTimeEnergy: 2024-10-30 7:06:01 PM
+    lastLoginTime: 2024-10-30 6:17:31 PM
+    running: 50
+    climbing: 10
+    flying: 10
+    swimming: 10
+    intelligence: 15
+    luck: 5
     rank: 1
     maxStamina: 100
-    xp: 12900
+    xp: 0
     sleepData:
       isSleeping: 0
-      sleepStartTime: 16-10-2024 12:16:15
+      sleepStartTime: 
     foodData: []
     ongoingTrainingData:
       isTraining: 0
       ongoingTraining: 0
-      ongoingTrainingName: None
-      trainingStartTime: 16-10-2024 12:04:07
+      ongoingTrainingName: 
+      trainingStartTime: 
   petLocalData:
     petID: 1
