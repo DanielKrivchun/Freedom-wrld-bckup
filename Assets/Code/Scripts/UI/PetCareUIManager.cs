@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Beamable.InventoryService;
 using Beamable.Server.Clients;
 using TMPro;
+using Beamable;
 
 public class PetCareUIManager : MonoBehaviour
 {
@@ -580,10 +581,29 @@ public class PetCareUIManager : MonoBehaviour
     #endregion
 
     #region 4th peth activation 
-    public void ActivateFourthPet()
+    public async void ActivateFourthPet()
     {
-        isFourthPlayerAvailable = true;
-        tempImage.SetActive(false);
+        // Initiate Beamable and playerId
+        var beamContext = BeamContext.Default;
+        await beamContext.OnReady;
+        string _playerId = beamContext.PlayerId.ToString();
+
+        // Check playerId's address
+        bool nftOwned = await _web3Manager.CheckAccount(_playerId);
+
+        if (nftOwned)
+        {
+
+            isFourthPlayerAvailable = true;
+            tempImage.SetActive(true);
+            Debug.Log($"{_playerId} owns an nft:{nftOwned}");
+        }
+        else
+        {
+            isFourthPlayerAvailable = false;
+            tempImage.SetActive(false);
+            Debug.Log($"{_playerId} does not own an nft:{nftOwned}");
+        }
     }
     #endregion
 }
