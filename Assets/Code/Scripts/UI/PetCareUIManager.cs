@@ -163,6 +163,8 @@ public class PetCareUIManager : MonoBehaviour
 
     private bool isFourthPlayerAvailable = false;
 
+    [SerializeField] private Web3Manager _web3Manager;
+
     private void Awake()
     {
         if (instance == null)
