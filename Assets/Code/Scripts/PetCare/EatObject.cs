@@ -70,7 +70,15 @@ public class EatObject : MonoBehaviour
         //Fairies
         else if (foodName == FoodItems.Fairy || foodName == FoodItems.GoldenFairy)
         { // Fairy effects
-            particleEffectsManager.PlayFairyEffect();
+            if (foodName == FoodItems.Fairy)
+            {
+                particleEffectsManager.PlayFairyEffect();
+            }
+            else if (foodName == FoodItems.GoldenFairy) 
+            { 
+                particleEffectsManager.PlayGoldenFairyEffect();
+            }
+
             EatItem();
 
             return;
