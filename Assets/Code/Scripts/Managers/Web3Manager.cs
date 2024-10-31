@@ -79,7 +79,7 @@ public class Web3Manager : MonoBehaviour
     }
 
     // Check NFT balance and store bool
-    public async Task CheckAccount(string _address)
+    public async Task<bool> CheckAccount(string _address)
     {
         // Initiate Beamable and playerId
         var beamContext = BeamContext.Default;
@@ -110,16 +110,19 @@ public class Web3Manager : MonoBehaviour
                 Debug.Log($"The owner of {_address} owns {nftCount} NFT(s) from this contract.");
                 // call method to store bool in microstorage
                 await _walletServiceClient.UpdateNftOwned(_playerId, true);
+                return true;
             }
             else
             {
                 Debug.Log($"The owner of {_address} owns less than 1 NFT from this contract.");
                 await _walletServiceClient.UpdateNftOwned(_playerId, false);
+                return false;
             }
         }
         catch (Exception ex)
         {
             Debug.LogError($"Error fetching NFT balance: {ex.Message}");
+            return false;
         }
     }
 

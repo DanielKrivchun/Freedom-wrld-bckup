@@ -68703,6 +68703,7 @@ MonoBehaviour:
   petStateManager: {fileID: 743679602}
   beamableInventoryManager: {fileID: 1456848200}
   cameraViewManager: {fileID: 55090259}
+  _web3Manager: {fileID: 1458680451}
 --- !u!4 &1334679534
 Transform:
   m_ObjectHideFlags: 0
@@ -75491,6 +75492,50 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 469.988, y: 260.7774, z: -2.709751}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1458680450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1458680452}
+  - component: {fileID: 1458680451}
+  m_Layer: 0
+  m_Name: Web3Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1458680451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458680450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527553cb6c3549c4ba94bcf9c894676a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1458680452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458680450}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 509, y: 240, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -121014,3 +121059,4 @@ SceneRoots:
   - {fileID: 1010321458}
   - {fileID: 1456848201}
   - {fileID: 1636729314}
+  - {fileID: 1458680452}
