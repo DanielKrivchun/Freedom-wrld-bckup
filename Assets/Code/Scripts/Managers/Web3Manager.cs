@@ -17,7 +17,7 @@ public class Web3Manager : MonoBehaviour
 {
     string rpc = "https://eth-mainnet.g.alchemy.com/v2/8g1sURXwDAEYdIHw7q6F5prdQ77C6y-7";
     string contractAddress = "0x616300b0f9db555cb2c645a943104035b4dbb347";
-    /*string deployerAddress = "0x6e7dE08F9dC987d881D84456970581d047520b99";*/
+    string deployerAddress = "0x6e7dE08F9dC987d881D84456970581d047520b99";
     private walletServiceClient _walletServiceClient = null;
 
     private class Web3Data
@@ -27,11 +27,11 @@ public class Web3Manager : MonoBehaviour
         public bool nftOwned;
     }
 
-    public void Start()
+    async void Start()
     {
         _walletServiceClient = new walletServiceClient();
 
-        /*await CheckAccount(deployerAddress);*/
+        await CheckAccount(deployerAddress);
     }
 
     /*private async Task CreateEntry(string _address)
@@ -47,15 +47,26 @@ public class Web3Manager : MonoBehaviour
     }*/
 
     // return Web3Data object
-    private async Task<string> WalletService(string _playerId)
+    private async Task<Web3Data> WalletService(string _playerId)
     {
-        // Get address from microstorage
+        // Get address from microstorage as json string
         string jsonAddress = await _walletServiceClient.GetEntryByPlayerId(_playerId);
-        JObject parsedJson = JObject.Parse(jsonAddress);
-        string playerId = (string)parsedJson["playerId"];
 
-        //return playerId wallet address
-        return playerId;
+        // Parse into class object
+        JObject parsedJson = JObject.Parse(jsonAddress);
+
+        // query by name
+        string walletAddress = (string)parsedJson["walletAddress"];
+        string playerId = (string)parsedJson["playerId"];
+        bool nftOwned = (bool)parsedJson["nftOwned"];
+
+        Web3Data playerData = new Web3Data();
+        playerData.playerId = playerId;
+        playerData.walletAddress = walletAddress;
+        playerData.nftOwned = nftOwned;
+
+        //return as playerData object
+        return playerData;
 
     }
 
@@ -74,7 +85,8 @@ public class Web3Manager : MonoBehaviour
         var beamContext = BeamContext.Default;
         await beamContext.OnReady;
         string _playerId = beamContext.PlayerId.ToString();
-        string _address = await WalletService(_playerId);
+
+        Web3Data _data = await WalletService(_playerId);
 
         try
         {
@@ -82,7 +94,7 @@ public class Web3Manager : MonoBehaviour
             var web3 = new Web3(rpc);
             var balanceOfFunctionMessage = new BalanceOfFunction()
             {
-                Owner = _address
+                Owner = _data.walletAddress
             };
 
             var balanceHandler = web3.Eth.GetContractQueryHandler<BalanceOfFunction>();
@@ -97,14 +109,14 @@ public class Web3Manager : MonoBehaviour
             // Check if the wallet has more than 1 NFT
             if (nftCount > 1)
             {
-                Debug.Log($"The owner of {_address} owns {nftCount} NFT(s) from this contract.");
+                Debug.Log($"The owner of {_data.walletAddress} owns {nftCount} NFT(s) from this contract.");
                 // call method to store bool in microstorage
                 await _walletServiceClient.UpdateNftOwned(_playerId, true);
                 return true;
             }
             else
             {
-                Debug.Log($"The owner of {_address} owns less than 1 NFT from this contract.");
+                Debug.Log($"The owner of {_data.walletAddress} owns less than 1 NFT from this contract.");
                 await _walletServiceClient.UpdateNftOwned(_playerId, false);
                 return false;
             }
