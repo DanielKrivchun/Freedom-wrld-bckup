@@ -27,14 +27,14 @@ public class Web3Manager : MonoBehaviour
         public bool nftOwned;
     }
 
-    async void Start()
+    public void Start()
     {
         _walletServiceClient = new walletServiceClient();
 
-        await CheckAccount(deployerAddress);
+        /*await CheckAccount();*/
     }
 
-    /*private async Task CreateEntry(string _address)
+    /*public async Task CreateEntry(string _address)
     {
         var beamContext = BeamContext.Default;
         await beamContext.OnReady;
@@ -72,7 +72,7 @@ public class Web3Manager : MonoBehaviour
 
     // Define contract balanceOf function as a class
     [Function("balanceOf", "uint256")]
-    public class BalanceOfFunction : FunctionMessage
+    private class BalanceOfFunction : FunctionMessage
     {
         [Parameter("address", "owner", 1)]
         public string Owner { get; set; }

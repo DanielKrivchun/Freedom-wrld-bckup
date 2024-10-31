@@ -202,7 +202,9 @@ public class PetCareUIManager : MonoBehaviour
         }
 
         // Check for pet access
-        await ActivateFourthPet();
+        /*await ActivateFourthPet();*/
+
+
 
         //SHOW Coins
 
