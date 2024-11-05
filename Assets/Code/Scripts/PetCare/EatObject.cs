@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EatObject : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class EatObject : MonoBehaviour
     [HideInInspector]
     public int foodSpawnIndex;
 
+    private PointerEventData m_eventDataCurrentPosition;
+
     private void Start()
     {
         particleEffectsManager = FindObjectOfType<ParticleEffectsManager>();
@@ -39,6 +42,13 @@ public class EatObject : MonoBehaviour
 
     private void OnMouseDown()
     {
+
+        if (_IsPointerOverUIObject())
+        {
+            Debug.Log("Over UI");
+            return;
+        }
+
         //AntiBiotics
         if (foodName == FoodItems.AntiBiotics) //We should not let the user use the item if:petDataRef.petData.isSick != true. But currently the item will just be stuck on the table so no point
         {
@@ -125,5 +135,17 @@ public class EatObject : MonoBehaviour
         PetCareStateManager.instance.RemoveFoodFromTable(foodSpawnIndex);
         gameObject.SetActive(false);
         gameObject.transform.SetParent(null);
+    }
+
+    /// <summary> Checks if the the current input is over canvas UI </summary>
+    public bool _IsPointerOverUIObject()
+    {
+
+        if (EventSystem.current == null) return false;
+        m_eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        m_eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(m_eventDataCurrentPosition, results);
+        return results.Count > 0;
     }
 }
