@@ -13,24 +13,24 @@ MonoBehaviour:
   m_Name: PetDataReference
   m_EditorClassIdentifier: 
   petData:
-    petname: 123
+    petname: Pet
     petPrefabID: 2
-    health: 585
+    health: 612
     happiness: 90
-    hunger: 90
-    cleanliness: 90
+    hunger: 95
+    cleanliness: 100
     energy: 90
     isSick: 0
-    birthTime: 2024-10-30 6:17:31 PM
-    lastTimeHappy: 2024-10-30 7:06:01 PM
-    lastTimeFeed: 2024-10-30 7:06:01 PM
-    lastTimeClean: 2024-10-30 7:06:01 PM
-    lastTimeEnergy: 2024-10-30 7:06:01 PM
-    lastLoginTime: 2024-10-30 6:17:31 PM
-    running: 50
-    climbing: 10
-    flying: 10
-    swimming: 10
+    birthTime: 2024-11-08 7:08:17 PM
+    lastTimeHappy: 2024-11-08 7:16:38 PM
+    lastTimeFeed: 2024-11-08 7:16:38 PM
+    lastTimeClean: 2024-11-08 7:16:58 PM
+    lastTimeEnergy: 2024-11-08 7:16:38 PM
+    lastLoginTime: 2024-11-08 7:08:17 PM
+    running: 25
+    climbing: 20
+    flying: 15
+    swimming: 20
     intelligence: 15
     luck: 5
     rank: 1
@@ -41,9 +41,9 @@ MonoBehaviour:
       sleepStartTime: 
     foodData: []
     ongoingTrainingData:
-      isTraining: 0
-      ongoingTraining: 0
-      ongoingTrainingName: 
-      trainingStartTime: 
+      isTraining: 1
+      ongoingTraining: 1
+      ongoingTrainingName: Running
+      trainingStartTime: 2024-11-08 7:17:15 PM
   petLocalData:
     petID: 1
