@@ -594,13 +594,13 @@ public class PetCareUIManager : MonoBehaviour
         {
 
             isFourthPlayerAvailable = true;
-            tempImage.SetActive(true);
+            tempImage.SetActive(false);
             Debug.Log($"you own an nft:{nftOwned}");
         }
         else
         {
             isFourthPlayerAvailable = false;
-            tempImage.SetActive(false);
+            tempImage.SetActive(true);
             Debug.Log($"you do not own an nft:{nftOwned}");
         }
     }

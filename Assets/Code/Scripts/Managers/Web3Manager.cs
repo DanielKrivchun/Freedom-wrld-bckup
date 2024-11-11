@@ -20,6 +20,8 @@ public class Web3Manager : MonoBehaviour
     string deployerAddress = "0x6e7dE08F9dC987d881D84456970581d047520b99";
     private walletServiceClient _walletServiceClient = null;
 
+    [SerializeField] private PetCareUIManager _PetCareUIManager;
+
     private class Web3Data
     {
         public string playerId;
@@ -109,15 +111,22 @@ public class Web3Manager : MonoBehaviour
             // Check if the wallet has more than 1 NFT
             if (nftCount > 1)
             {
-                Debug.Log($"The owner of {_data.walletAddress} owns {nftCount} NFT(s) from this contract.");
                 // call method to store bool in microstorage
+                Debug.Log($"The owner of {_data.walletAddress} owns {nftCount} NFT(s) from this contract.");
                 await _walletServiceClient.UpdateNftOwned(_playerId, true);
+
+                // Activate fourth pet if user owns nft
+                await _PetCareUIManager.ActivateFourthPet();
                 return true;
             }
             else
             {
+                // call method to store bool in microstorage
                 Debug.Log($"The owner of {_data.walletAddress} owns less than 1 NFT from this contract.");
                 await _walletServiceClient.UpdateNftOwned(_playerId, false);
+
+                // Keep fourth pet token-gated
+                await _PetCareUIManager.ActivateFourthPet();
                 return false;
             }
         }
