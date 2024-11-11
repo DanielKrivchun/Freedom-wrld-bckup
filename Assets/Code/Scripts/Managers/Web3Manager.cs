@@ -116,7 +116,7 @@ public class Web3Manager : MonoBehaviour
                 await _walletServiceClient.UpdateNftOwned(_playerId, true);
 
                 // Activate fourth pet if user owns nft
-                await _PetCareUIManager.ActivateFourthPet();
+                /*await _PetCareUIManager.ActivateFourthPet();*/
                 return true;
             }
             else
@@ -126,7 +126,7 @@ public class Web3Manager : MonoBehaviour
                 await _walletServiceClient.UpdateNftOwned(_playerId, false);
 
                 // Keep fourth pet token-gated
-                await _PetCareUIManager.ActivateFourthPet();
+                /*await _PetCareUIManager.ActivateFourthPet();*/
                 return false;
             }
         }
