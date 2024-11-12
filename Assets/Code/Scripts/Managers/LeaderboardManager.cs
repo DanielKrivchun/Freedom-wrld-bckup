@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LeaderboardServiceTest : MonoBehaviour
 {
@@ -31,8 +32,14 @@ public class LeaderboardServiceTest : MonoBehaviour
     private void Awake()
     {
         entryTemplate.gameObject.SetActive(false);
-        generateLeaderboard();
-        Debug.Log($"Start()");
+
+        // Check if the current scene is "Leaderboard"
+        if (SceneManager.GetActiveScene().name == "Leaderboard")
+        {
+            generateLeaderboard(); // Only generate the leaderboard if the scene is "Leaderboard"
+        }
+
+        Debug.Log($"Start()"); // Optionally keep this log
     }
 
     private void Start()
