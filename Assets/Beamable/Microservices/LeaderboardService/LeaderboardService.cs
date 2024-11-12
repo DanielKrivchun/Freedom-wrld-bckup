@@ -115,7 +115,7 @@ namespace Beamable.Microservices
         public async Task<string> GetEntry(string playerId)
         {
             // Create a filter to find the entry with the specific playerId
-            var filter = Builders<PlayerEntry>.Filter.Eq("playerId", playerId);
+            var filter = Builders<PlayerEntry>.Filter.Eq("playerName", playerId);
             var db = await Storage.GetDatabase<LeaderboardStorage>();
             var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
 
