@@ -36,7 +36,15 @@ public class LeaderboardServiceTest : MonoBehaviour
         // Check if the current scene is "Leaderboard"
         if (SceneManager.GetActiveScene().name == "Leaderboard")
         {
-            generateLeaderboard(); // Only generate the leaderboard if the scene is "Leaderboard"
+            // Only generate leaderboard if Entry Container and Entry Template are assigned
+            if (entryContainer != null && entryTemplate != null)
+            {
+                generateLeaderboard(); // Generate leaderboard only if container and template are provided
+            }
+            else
+            {
+                Debug.LogWarning("Entry Container or Entry Template not assigned in the scene.");
+            }
         }
 
         Debug.Log($"Start()"); // Optionally keep this log
