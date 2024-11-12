@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using Beamable;
-using UnityEngine;
 using System;
-using System.Threading.Tasks;
-using UnityEngine.UI;
 using Beamable.Server.Clients;
+using Beamable;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class LeaderboardServiceTest : MonoBehaviour
 {
@@ -32,10 +32,7 @@ public class LeaderboardServiceTest : MonoBehaviour
     {
         entryTemplate.gameObject.SetActive(false);
         generateLeaderboard();
-
         Debug.Log($"Start()");
-        /*Debug.Log($"");*/
-
     }
 
     private void Start()
@@ -59,26 +56,17 @@ public class LeaderboardServiceTest : MonoBehaviour
         // Convert JSON string to object
         foreach (string entry in jsonEntry)
         {
-            // Parse json string to .net
             JObject parsedJson = JObject.Parse(entry);
-            /*Debug.Log(parsedJson);*/
-
             string playerName = (string)parsedJson["playerName"];
             string petName = (string)parsedJson["petName"];
             int petRank = (int)parsedJson["petRank"];
             int petXp = (int)parsedJson["petXp"];
 
             // populate current leaderboard list
-            entryList.Add
-            (
-                new LeaderboardEntry { playerName = playerName, petName = petName, petRank = petRank, petXp = petXp, }
-            );
-
-
+            entryList.Add(new LeaderboardEntry { playerName = playerName, petName = petName, petRank = petRank, petXp = petXp });
         }
 
         return entryList;
-       
     }
 
     private async void generateLeaderboard()
@@ -87,22 +75,10 @@ public class LeaderboardServiceTest : MonoBehaviour
 
         leaderboardEntryList = tempEntries;
 
-        // sort leaderboard entryies by current petXp(petXp)
-        for (int i = 0; i < leaderboardEntryList.Count; i++)
-        {
-            for (int j = i + 1; j < leaderboardEntryList.Count; j++)
-            {
-                if (leaderboardEntryList[j].petXp > leaderboardEntryList[i].petXp)
-                {
-                    // Swap
-                    LeaderboardEntry temp = leaderboardEntryList[i];
-                    leaderboardEntryList[i] = leaderboardEntryList[j];
-                    leaderboardEntryList[j] = temp;
-                }
-            }
-        }
+        // sort leaderboard entries by petXp
+        leaderboardEntryList.Sort((entry1, entry2) => entry2.petXp.CompareTo(entry1.petXp));
 
-        // Instantiate container of leaderboard entries8s
+        // Instantiate leaderboard entry transforms
         leaderboardEntryTransformList = new List<Transform>();
         foreach (LeaderboardEntry leaderboardEntry in leaderboardEntryList)
         {
@@ -110,23 +86,8 @@ public class LeaderboardServiceTest : MonoBehaviour
         }
     }
 
-    // Round petXp to nearest whole number
-    public int getPetXp()
-    {
-        float petXp = petDataRef.petData.xp;
-        int x = (int)Math.Round(petXp);
-
-        return x;
-    }
-
-    public int getPetRank()
-    {
-        int petRank = petDataRef.petData.rank;
-        return petRank;
-    }
-
-    // method to create single leaderboard entry
-    private void CreateLeaderboardEntryTransform(LeaderboardEntry leaderboardEntry, Transform container, List<Transform> transformList )
+    // Method to create a single leaderboard entry
+    private void CreateLeaderboardEntryTransform(LeaderboardEntry leaderboardEntry, Transform container, List<Transform> transformList)
     {
         float templateHeight = 20f;
         Transform entryTransform = Instantiate(entryTemplate, container);
@@ -134,37 +95,52 @@ public class LeaderboardServiceTest : MonoBehaviour
         entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * transformList.Count);
         entryTransform.gameObject.SetActive(true);
 
-        // create number suffix for each entry
+        // create rank suffix
         int rank = transformList.Count + 1;
-        string rankString;
-        switch (rank)
-        {
-            default:
-                rankString = rank + "TH"; break;
+        string rankString = rank == 1 ? "1ST" : rank == 2 ? "2ND" : rank == 3 ? "3RD" : $"{rank}TH";
 
-            case 1: rankString = "1ST"; break;
-            case 2: rankString = "2ND"; break;
-            case 3: rankString = "3RD"; break;
-        }
-
-        // replace ui text with leaderboard data
         entryTransform.Find("petStanding").GetComponent<Text>().text = rankString;
-
-        /*string playerName = leaderboardEntry.playerName;
-        entryTransform.Find("playerName").GetComponent<Text>().text = playerName.ToString();*/
-
-        string petName = leaderboardEntry.petName;
-        entryTransform.Find("petName").GetComponent<Text>().text = petName.ToString();
-
-        int petRank = leaderboardEntry.petRank;
-        entryTransform.Find("petRank").GetComponent<Text>().text = petRank.ToString();
-
-        int petXp = leaderboardEntry.petXp;
-        entryTransform.Find("petXp").GetComponent<Text>().text = petXp.ToString();
+        entryTransform.Find("petName").GetComponent<Text>().text = leaderboardEntry.petName;
+        entryTransform.Find("petRank").GetComponent<Text>().text = leaderboardEntry.petRank.ToString();
+        entryTransform.Find("petXp").GetComponent<Text>().text = leaderboardEntry.petXp.ToString();
 
         transformList.Add(entryTransform);
     }
 
-   
+    // Method to check if the entry exists, and if not, create it
+    public async Task CheckAndCreateLeaderboardEntry()
+    {
+        var beamContext = BeamContext.Default;
+        await beamContext.OnReady;
 
+        string playerId = beamContext.PlayerId.ToString();
+        string existingEntry = await _LeaderboardServiceClient.GetEntry(playerId);
+
+        // If entry does not exist, create a new one
+        if (existingEntry == "null")
+        {
+            string petName = petDataRef.petData.petname;
+            int petRank = getPetRank();
+            int petXp = getPetXp();
+
+            // Create a new entry using the microservice
+            await _LeaderboardServiceClient.CreateEntry(beamContext.PlayerId.ToString(), petName, petRank, petXp);
+            Debug.Log($"Created leaderboard entry for {petName}");
+        }
+        else
+        {
+            Debug.Log("Leaderboard entry already exists.");
+        }
+    }
+
+    public int getPetXp()
+    {
+        float petXp = petDataRef.petData.xp;
+        return (int)Math.Round(petXp);
+    }
+
+    public int getPetRank()
+    {
+        return petDataRef.petData.rank;
+    }
 }

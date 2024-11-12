@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Beamable.Common;
 /*using Beamable.Serialization.SmallerJSON;*/
 using Beamable.Server;
@@ -110,8 +111,33 @@ namespace Beamable.Microservices
             return entries;
         }
 
+        [ClientCallable]
+        public async Task<string> GetEntry(string playerId)
+        {
+            // Create a filter to find the entry with the specific playerId
+            var filter = Builders<PlayerEntry>.Filter.Eq("playerId", playerId);
+            var db = await Storage.GetDatabase<LeaderboardStorage>();
+            var collection = db.GetCollection<PlayerEntry>("LeaderboardStorage");
+
+            // Find the entry that matches the playerId
+            var playerEntry = collection
+               .Find(filter)
+               .FirstOrDefault();
+
+            // Return "null" if no entry is found
+            if (playerEntry == null)
+            {
+                return "null";
+            }
+
+            // Convert the entry to a JSON string and return it
+            var jsonEntry = JsonUtility.ToJson(playerEntry);
+            return jsonEntry;
+        }
+
+
 
     }
 
-    
+
 }

@@ -86,6 +86,18 @@ namespace Beamable.Server.Clients
             System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
             return this.Request<System.Collections.Generic.List<string>>("LeaderboardService", "GetAllEntries", serializedFields);
         }
+        
+        /// <summary>
+        /// Call the GetEntry method on the LeaderboardService microservice
+        /// <see cref="Beamable.Microservices.LeaderboardService.GetEntry"/>
+        /// </summary>
+        public Beamable.Common.Promise<string> GetEntry(string playerId)
+        {
+            object raw_playerId = playerId;
+            System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
+            serializedFields.Add("playerId", raw_playerId);
+            return this.Request<string>("LeaderboardService", "GetEntry", serializedFields);
+        }
     }
     
     internal sealed class MicroserviceParametersLeaderboardServiceClient
