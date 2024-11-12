@@ -46799,6 +46799,55 @@ MonoBehaviour:
     showNormalsHelpInfo: 0
     tabIndex: 0
   initialized: 1
+--- !u!1 &950566769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 950566771}
+  - component: {fileID: 950566770}
+  m_Layer: 0
+  m_Name: LeaderboardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &950566770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950566769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6643d5fe2a4633841838647246512b74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  petDataRef: {fileID: 11400000, guid: 2987caf5b38d61243bc5b53078c03171, type: 2}
+  petLocalRef:
+    petID: 
+  entryContainer: {fileID: 0}
+  entryTemplate: {fileID: 0}
+--- !u!4 &950566771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950566769}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 609.9, y: 268.3683, z: 1860.2161}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &951586500
 GameObject:
   m_ObjectHideFlags: 0
@@ -68975,6 +69024,7 @@ MonoBehaviour:
   beamableInventoryManager: {fileID: 1456848200}
   cameraViewManager: {fileID: 55090259}
   _web3Manager: {fileID: 1458680451}
+  _LeaderboardServiceTest: {fileID: 950566770}
 --- !u!4 &1334679534
 Transform:
   m_ObjectHideFlags: 0
@@ -121455,3 +121505,4 @@ SceneRoots:
   - {fileID: 1456848201}
   - {fileID: 1636729314}
   - {fileID: 1458680452}
+  - {fileID: 950566771}

@@ -39,7 +39,7 @@ public class LeaderboardServiceTest : MonoBehaviour
             // Only generate leaderboard if Entry Container and Entry Template are assigned
             if (entryContainer != null && entryTemplate != null)
             {
-                generateLeaderboard(); // Generate leaderboard only if container and template are provided
+                generateLeaderboard();
             }
             else
             {
