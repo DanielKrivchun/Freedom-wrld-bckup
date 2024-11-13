@@ -78,7 +78,7 @@ public class BuyQuantityManager : MonoBehaviour
         {
             if (DateTime.TryParse(extraPlayerDataListSO.extraPlayerData.cosmicBerryElectrolyteBoughtTime, out DateTime cosmicBerryDrinkTime))
             {
-                TimeSpan timeSinceAte = cosmicBerryDrinkTime - currentTime;
+                TimeSpan timeSinceAte = currentTime - cosmicBerryDrinkTime;
 
                 if (timeSinceAte.Days >= 7)
                 {
@@ -100,7 +100,7 @@ public class BuyQuantityManager : MonoBehaviour
         {
             if (DateTime.TryParse(extraPlayerDataListSO.extraPlayerData.miracleCognitiveBoughtTime, out DateTime miracleCognitiveBoughtTime))
             {
-                TimeSpan timeSinceAte = miracleCognitiveBoughtTime - currentTime;
+                TimeSpan timeSinceAte = currentTime - miracleCognitiveBoughtTime;
 
                 if (timeSinceAte.Days >= 1)
                 {
@@ -122,7 +122,7 @@ public class BuyQuantityManager : MonoBehaviour
         {
             if (DateTime.TryParse(extraPlayerDataListSO.extraPlayerData.proteinShakeBoughtTime, out DateTime proteinShakeBoughtTime))
             {
-                TimeSpan timeSinceAte = proteinShakeBoughtTime - currentTime;
+                TimeSpan timeSinceAte = currentTime - proteinShakeBoughtTime;
 
                 if (timeSinceAte.Days >= 1)
                 {
