@@ -44,34 +44,34 @@ public class AudioManager : MonoBehaviour
 
     public void ChangeMasterVolume(float value)
     {
-        mainAudioMixer.SetFloat("MasterVol", value); // Apply to AudioMixer
-        PlayerPrefs.SetFloat("MasterVolume", value); // Save the AudioMixer's value
+        mainAudioMixer.SetFloat("MasterVol", value);
+        PlayerPrefs.SetFloat("MasterVolume", value);
         PlayerPrefs.Save();
     }
 
     public void ChangeMusicVolume(float value)
     {
-        mainAudioMixer.SetFloat("MusicVol", value); // Apply to AudioMixer
-        PlayerPrefs.SetFloat("MusicVolume", value); // Save the AudioMixer's value
+        mainAudioMixer.SetFloat("MusicVol", value);
+        PlayerPrefs.SetFloat("MusicVolume", value);
         PlayerPrefs.Save();
     }
 
     public void ChangeSfxVolume(float value)
     {
-        mainAudioMixer.SetFloat("SfxVol", value); // Apply to AudioMixer
-        PlayerPrefs.SetFloat("SfxVolume", value); // Save the AudioMixer's value
+        mainAudioMixer.SetFloat("SfxVol", value);
+        PlayerPrefs.SetFloat("SfxVolume", value);
         PlayerPrefs.Save();
     }
 
     public float GetMasterVolume()
     {
-        mainAudioMixer.GetFloat("MasterVol", out float value); // Fetch from AudioMixer
+        mainAudioMixer.GetFloat("MasterVol", out float value);
         return value;
     }
 
     public float GetMusicVolume()
     {
-        mainAudioMixer.GetFloat("MusicVol", out float value); // Fetch from AudioMixer
+        mainAudioMixer.GetFloat("MusicVol", out float value);
         return value;
     }
 

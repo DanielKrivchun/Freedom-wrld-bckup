@@ -268,6 +268,13 @@ public class PetCareUIManager : MonoBehaviour
     //START RACE
     public void _StartRace()
     {
+        //If pet is in the training we can't access pet
+        if (petDataRef.petData.ongoingTrainingData.isTraining)
+        {
+            ShowNotificationUI("Sorry, you can't access this while your pet is training");
+            return;
+        }
+
         BeamableCloudSaveManager.instance.SaveData(petDataRef.petData);
         SceneManager.LoadScene(_Strings.RaceScene);
     }
