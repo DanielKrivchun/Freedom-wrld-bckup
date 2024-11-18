@@ -24,7 +24,7 @@ namespace Beamable.Microservices
 
             try
             {
-                // Declare or target existing "LeaderboardStorage" collection
+                // Declare or target existing "WalletStorage" collection
                 var db = await Storage.GetDatabase<WalletStorage>();
                 var collection = db.GetCollection<Web3Data>("Web3Data");
 

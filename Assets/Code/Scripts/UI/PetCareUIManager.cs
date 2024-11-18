@@ -166,7 +166,6 @@ public class PetCareUIManager : MonoBehaviour
     private bool isFourthPlayerAvailable = false;
 
     [SerializeField] private Web3Manager _web3Manager;
-    [SerializeField] private LeaderboardServiceTest _LeaderboardServiceTest;
 
     private void Awake()
     {
@@ -201,9 +200,6 @@ public class PetCareUIManager : MonoBehaviour
             PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 0);
             ShowWelcomeBackFromRaceUI();
         }
-
-        // Add current playerId to leaderboard if not added already
-        await _LeaderboardServiceTest.CheckAndCreateLeaderboardEntry();
 
 
         // Check for pet access
