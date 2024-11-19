@@ -1,10 +1,16 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
     public AudioMixer mainAudioMixer;
+    public Slider masterSlider;
+    public Slider musicSlider;
+    public Slider sfxSlider;
 
     private void Awake()
     {
@@ -12,7 +18,6 @@ public class AudioManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeVolumes(); // Initialize the volume levels at startup
         }
         else
         {
@@ -20,64 +25,130 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // Initialize AudioMixer volumes based on saved PlayerPrefs
-    private void InitializeVolumes()
+    private void Start()
     {
-        if (PlayerPrefs.HasKey("MasterVolume"))
+        if (PlayerPrefs.HasKey("masterVolume"))
         {
-            float masterVolume = PlayerPrefs.GetFloat("MasterVolume");
-            mainAudioMixer.SetFloat("MasterVol", masterVolume);
+            LoadMasterVolume();
         }
 
-        if (PlayerPrefs.HasKey("MusicVolume"))
+        if (PlayerPrefs.HasKey("musicVolume"))
         {
-            float musicVolume = PlayerPrefs.GetFloat("MusicVolume");
-            mainAudioMixer.SetFloat("MusicVol", musicVolume);
+            LoadMusicVolume();
         }
 
-        if (PlayerPrefs.HasKey("SfxVolume"))
+        if (PlayerPrefs.HasKey("sfxVolume"))
         {
-            float sfxVolume = PlayerPrefs.GetFloat("SfxVolume");
-            mainAudioMixer.SetFloat("SfxVol", sfxVolume);
+            LoadSFXVolume();
         }
+
     }
 
-    public void ChangeMasterVolume(float value)
+    public void ChangeMasterVolume(float sliderValue)
     {
-        mainAudioMixer.SetFloat("MasterVol", value);
-        PlayerPrefs.SetFloat("MasterVolume", value);
-        PlayerPrefs.Save();
+        float minDb = -80f;
+        float maxDb = 0f;
+        float dbValue = Mathf.Lerp(minDb, maxDb, sliderValue); // Map slider to dB
+        mainAudioMixer.SetFloat("MasterVol", dbValue);
+
+        PlayerPrefs.SetFloat("masterVolume", sliderValue); // Save the slider value (not dB)
     }
 
-    public void ChangeMusicVolume(float value)
+    public void ChangeMusicVolume(float sliderValue)
     {
-        mainAudioMixer.SetFloat("MusicVol", value);
-        PlayerPrefs.SetFloat("MusicVolume", value);
-        PlayerPrefs.Save();
+        float minDb = -80f;
+        float maxDb = 0f;
+        float dbValue = Mathf.Lerp(minDb, maxDb, sliderValue); // Map slider to dB
+        mainAudioMixer.SetFloat("MusicVol", dbValue);
+
+        PlayerPrefs.SetFloat("musicVolume", sliderValue); // Save the slider value (not dB)
     }
 
-    public void ChangeSfxVolume(float value)
+    public void ChangeSfxVolume(float sliderValue)
     {
-        mainAudioMixer.SetFloat("SfxVol", value);
-        PlayerPrefs.SetFloat("SfxVolume", value);
-        PlayerPrefs.Save();
+        float minDb = -80f;
+        float maxDb = 0f;
+        float dbValue = Mathf.Lerp(minDb, maxDb, sliderValue); // Map slider to dB
+        mainAudioMixer.SetFloat("SfxVol", dbValue);
+
+        PlayerPrefs.SetFloat("sfxVolume", sliderValue); // Save the slider value (not dB)
+    }
+
+    public void LoadMasterVolume()
+    {
+        masterSlider.value = PlayerPrefs.GetFloat("masterVolume");
+        ChangeMasterVolume(masterSlider.value);
+    }
+
+    public void LoadMusicVolume()
+    {
+        musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        ChangeMusicVolume(musicSlider.value);
+    }
+
+    public void LoadSFXVolume()
+    {
+        sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+        ChangeSfxVolume(sfxSlider.value);
     }
 
     public float GetMasterVolume()
     {
-        mainAudioMixer.GetFloat("MasterVol", out float value);
-        return value;
+        if (mainAudioMixer.GetFloat("MasterVol", out float dbValue))
+        {
+            float minDb = -80f;
+            float maxDb = 0f;
+            // Map dB back to slider's 0-1 range
+            return (dbValue - minDb) / (maxDb - minDb);
+        }
+        return 0.5f; // Default to 50% if no value exists
     }
 
     public float GetMusicVolume()
     {
-        mainAudioMixer.GetFloat("MusicVol", out float value);
-        return value;
+        if (mainAudioMixer.GetFloat("MusicVol", out float dbValue))
+        {
+            float minDb = -80f;
+            float maxDb = 0f;
+            // Map dB back to slider's 0-1 range
+            return (dbValue - minDb) / (maxDb - minDb);
+        }
+        return 0.5f; // Default to 50% if no value exists
     }
 
     public float GetSFXVolume()
     {
-        mainAudioMixer.GetFloat("SfxVol", out float value); // Fetch from AudioMixer
-        return value;
+        if (mainAudioMixer.GetFloat("SfxVol", out float dbValue))
+        {
+            float minDb = -80f;
+            float maxDb = 0f;
+            // Map dB back to slider's 0-1 range
+            return (dbValue - minDb) / (maxDb - minDb);
+        }
+        return 0.5f; // Default to 50% if no value exists
+    }
+
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // When a new scene is loaded, sync settings if the sliders exist
+        SettingsUIManager settingsUI = FindObjectOfType<SettingsUIManager>();
+        if (settingsUI != null)
+        {
+            // Update sliders from current AudioManager state
+            settingsUI.masterVolumeSlider.SetValueWithoutNotify(GetMasterVolume());
+            settingsUI.musicVolumeSlider.SetValueWithoutNotify(GetMusicVolume());
+            settingsUI.sfxVolumeSlider.SetValueWithoutNotify(GetSFXVolume());
+        }
     }
 }

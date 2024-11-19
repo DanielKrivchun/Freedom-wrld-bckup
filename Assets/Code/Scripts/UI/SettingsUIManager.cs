@@ -9,14 +9,17 @@ public class SettingsUIManager : MonoBehaviour
 
     private void Start()
     {
-        // Load the saved volume levels and apply them to the sliders
-        masterVolumeSlider.value = AudioManager.Instance.GetMasterVolume();
-        musicVolumeSlider.value = AudioManager.Instance.GetMusicVolume();
-        sfxVolumeSlider.value = AudioManager.Instance.GetSFXVolume();
+        if (AudioManager.Instance != null)
+        {
+            // Sync slider values from AudioManager
+            masterVolumeSlider.SetValueWithoutNotify(AudioManager.Instance.GetMasterVolume());
+            musicVolumeSlider.SetValueWithoutNotify(AudioManager.Instance.GetMusicVolume());
+            sfxVolumeSlider.SetValueWithoutNotify(AudioManager.Instance.GetSFXVolume());
 
-        // Add listeners to call AudioManager methods when sliders change
-        masterVolumeSlider.onValueChanged.AddListener(value => AudioManager.Instance.ChangeMasterVolume(value));
-        musicVolumeSlider.onValueChanged.AddListener(value => AudioManager.Instance.ChangeMusicVolume(value));
-        sfxVolumeSlider.onValueChanged.AddListener(value => AudioManager.Instance.ChangeSfxVolume(value));
+            // Add listeners to update AudioManager when sliders are changed
+            masterVolumeSlider.onValueChanged.AddListener(value => AudioManager.Instance.ChangeMasterVolume(value));
+            musicVolumeSlider.onValueChanged.AddListener(value => AudioManager.Instance.ChangeMusicVolume(value));
+            sfxVolumeSlider.onValueChanged.AddListener(value => AudioManager.Instance.ChangeSfxVolume(value));
+        }
     }
 }
