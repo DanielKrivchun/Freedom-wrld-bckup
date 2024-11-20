@@ -46,30 +46,21 @@ public class AudioManager : MonoBehaviour
 
     public void ChangeMasterVolume(float sliderValue)
     {
-        float minDb = -80f;
-        float maxDb = 0f;
-        float dbValue = Mathf.Lerp(minDb, maxDb, sliderValue); // Map slider to dB
-        mainAudioMixer.SetFloat("MasterVol", dbValue);
+        mainAudioMixer.SetFloat("MasterVol", Mathf.Log10(sliderValue) * 20);
 
         PlayerPrefs.SetFloat("masterVolume", sliderValue); // Save the slider value (not dB)
     }
 
     public void ChangeMusicVolume(float sliderValue)
     {
-        float minDb = -80f;
-        float maxDb = 0f;
-        float dbValue = Mathf.Lerp(minDb, maxDb, sliderValue); // Map slider to dB
-        mainAudioMixer.SetFloat("MusicVol", dbValue);
+        mainAudioMixer.SetFloat("MusicVol", Mathf.Log10(sliderValue) * 20);
 
         PlayerPrefs.SetFloat("musicVolume", sliderValue); // Save the slider value (not dB)
     }
 
     public void ChangeSfxVolume(float sliderValue)
     {
-        float minDb = -80f;
-        float maxDb = 0f;
-        float dbValue = Mathf.Lerp(minDb, maxDb, sliderValue); // Map slider to dB
-        mainAudioMixer.SetFloat("SfxVol", dbValue);
+        mainAudioMixer.SetFloat("SfxVol", Mathf.Log10(sliderValue) * 20);
 
         PlayerPrefs.SetFloat("sfxVolume", sliderValue); // Save the slider value (not dB)
     }
