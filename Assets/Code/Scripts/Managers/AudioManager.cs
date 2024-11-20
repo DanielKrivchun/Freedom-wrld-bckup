@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
     public AudioMixer mainAudioMixer;
+    public AudioSource sfxAudioSource;
     public Slider masterSlider;
     public Slider musicSlider;
     public Slider sfxSlider;
@@ -42,6 +43,14 @@ public class AudioManager : MonoBehaviour
             LoadSFXVolume();
         }
 
+    }
+
+    public void PlaySFX(AudioClip clip)
+    {
+        if (clip != null && sfxAudioSource != null)
+        {
+            sfxAudioSource.PlayOneShot(clip);
+        }
     }
 
     public void ChangeMasterVolume(float sliderValue)
@@ -87,36 +96,27 @@ public class AudioManager : MonoBehaviour
     {
         if (mainAudioMixer.GetFloat("MasterVol", out float dbValue))
         {
-            float minDb = -80f;
-            float maxDb = 0f;
-            // Map dB back to slider's 0-1 range
-            return (dbValue - minDb) / (maxDb - minDb);
+            return Mathf.Pow(10, dbValue / 20f); // Convert dB back to linear 0-1 range
         }
-        return 0.5f; // Default to 50% if no value exists
+        return 1f; // Default to full volume if no value exists
     }
 
     public float GetMusicVolume()
     {
         if (mainAudioMixer.GetFloat("MusicVol", out float dbValue))
         {
-            float minDb = -80f;
-            float maxDb = 0f;
-            // Map dB back to slider's 0-1 range
-            return (dbValue - minDb) / (maxDb - minDb);
+            return Mathf.Pow(10, dbValue / 20f); // Convert dB back to linear 0-1 range
         }
-        return 0.5f; // Default to 50% if no value exists
+        return 1f;
     }
 
     public float GetSFXVolume()
     {
         if (mainAudioMixer.GetFloat("SfxVol", out float dbValue))
         {
-            float minDb = -80f;
-            float maxDb = 0f;
-            // Map dB back to slider's 0-1 range
-            return (dbValue - minDb) / (maxDb - minDb);
+            return Mathf.Pow(10, dbValue / 20f); // Convert dB back to linear 0-1 range
         }
-        return 0.5f; // Default to 50% if no value exists
+        return 1f;
     }
 
 
