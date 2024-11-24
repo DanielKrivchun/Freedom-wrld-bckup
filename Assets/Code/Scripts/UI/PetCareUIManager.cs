@@ -189,8 +189,6 @@ public class PetCareUIManager : MonoBehaviour
 
     private async void Start()
     {
-        // Check for pet access
-        await ActivateFourthPet();
 
         msgList = new List<string>();
 
@@ -203,6 +201,9 @@ public class PetCareUIManager : MonoBehaviour
             PlayerPrefs.SetInt(_Strings.DatFromRaceScene, 0);
             ShowWelcomeBackFromRaceUI();
         }
+
+        // Check for pet access
+        await ActivateFourthPet();
 
 
         //SHOW Coins
@@ -603,13 +604,11 @@ public class PetCareUIManager : MonoBehaviour
 
             isFourthPlayerAvailable = true;
             tempImage.SetActive(false);
-            Debug.Log($"you own an nft:{nftOwned}");
         }
         else
         {
             isFourthPlayerAvailable = false;
             tempImage.SetActive(true);
-            Debug.Log($"you do not own an nft:{nftOwned}");
         }
     }
     #endregion

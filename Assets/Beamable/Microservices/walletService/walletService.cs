@@ -82,7 +82,7 @@ namespace Beamable.Microservices
             // Convert the entry to a JSON string
             var jsonEntry = JsonUtility.ToJson(Web3DataEntry);
 
-            Debug.Log($"THE storage ENTRY IS: {jsonEntry}");
+            Debug.Log($"Entry: {jsonEntry}");
 
             return jsonEntry;
         }

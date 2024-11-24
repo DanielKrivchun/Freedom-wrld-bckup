@@ -27,11 +27,14 @@ public class Web3Manager : MonoBehaviour
         public bool nftOwned;
     }
 
-    public void Start()
+    public void Awake()
     {
         _walletServiceClient = new walletServiceClient();
+    }
 
-        /*await CheckAccount();*/
+    public void Start()
+    {
+
     }
 
     /*public async Task CreateEntry(string _address)
