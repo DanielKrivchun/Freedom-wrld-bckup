@@ -20,8 +20,6 @@ public class Web3Manager : MonoBehaviour
     string deployerAddress = "0x6e7dE08F9dC987d881D84456970581d047520b99";
     private walletServiceClient _walletServiceClient = null;
 
-    [SerializeField] private PetCareUIManager _PetCareUIManager;
-
     private class Web3Data
     {
         public string playerId;
@@ -88,6 +86,7 @@ public class Web3Manager : MonoBehaviour
         await beamContext.OnReady;
         string _playerId = beamContext.PlayerId.ToString();
 
+        // Get user web3 data
         Web3Data _data = await WalletService(_playerId);
 
         try
@@ -116,7 +115,6 @@ public class Web3Manager : MonoBehaviour
                 await _walletServiceClient.UpdateNftOwned(_playerId, true);
 
                 // Activate fourth pet if user owns nft
-                /*await _PetCareUIManager.ActivateFourthPet();*/
                 return true;
             }
             else
@@ -126,7 +124,6 @@ public class Web3Manager : MonoBehaviour
                 await _walletServiceClient.UpdateNftOwned(_playerId, false);
 
                 // Keep fourth pet token-gated
-                /*await _PetCareUIManager.ActivateFourthPet();*/
                 return false;
             }
         }

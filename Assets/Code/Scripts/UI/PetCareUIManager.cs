@@ -189,6 +189,9 @@ public class PetCareUIManager : MonoBehaviour
 
     private async void Start()
     {
+        // Check for pet access
+        await ActivateFourthPet();
+
         msgList = new List<string>();
 
         _ExtraPlayerDataServiceClient = new ExtraPlayerDataServiceClient();
@@ -201,9 +204,6 @@ public class PetCareUIManager : MonoBehaviour
             ShowWelcomeBackFromRaceUI();
         }
 
-
-        // Check for pet access
-        await ActivateFourthPet();
 
         //SHOW Coins
 

@@ -16,11 +16,15 @@ public class MainMenuScript : MonoBehaviour
     public TMP_Dropdown graphicsDropdown;
     public Scene scene;
 
+    [SerializeField] private Web3Manager _web3Manager;
+
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
         //Button button = GetComponent<Button>();
         RmmoveRefrenceOfObjects();
+        await _web3Manager.CheckAccount();
+
     }
 
     public void OpenGame(string scene)
