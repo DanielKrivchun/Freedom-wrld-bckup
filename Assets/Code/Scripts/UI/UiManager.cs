@@ -35,9 +35,9 @@ public class UiManager : MonoBehaviour
     public Button TapButton;
 
     #region PRIVATE VARIABLES
-    public float red_drain = 0.005f;
+    public float red_drain = 0.004f;
     public float yellow_drain = 0f;
-    public float greem_drain = 0.01f;
+    public float greem_drain = 0.007f;
     private float ypos;
     private float m_reset;
     private float m_diff;
@@ -66,9 +66,9 @@ public class UiManager : MonoBehaviour
         greem_drain = 0.09f;
 
 #if UNITY_EDITOR
-        SteminaDrain = 0.005f;
-        red_drain = 0.005f;
-        greem_drain = 0.01f;
+        SteminaDrain = 0.004f;
+        red_drain = 0.004f;
+        greem_drain = 0.006f;
 #endif
 
         m_pos = m_arrow.anchoredPosition;

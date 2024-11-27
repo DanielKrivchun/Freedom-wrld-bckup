@@ -25421,14 +25421,14 @@ MonoBehaviour:
   PetConfigs: {fileID: 11400000, guid: 2726ba940c4abc448a48f08f07cc4bb2, type: 2}
   DowngradeSpeed: 1
   UpwordSpeed: 2
-  SteminaDrain: 0.005
+  SteminaDrain: 0.001
   Incrimental: 0.3
   Decrimental: 0.1
   m_reset_t: 0.5
   TapButton: {fileID: 954603310}
-  red_drain: 0.005
+  red_drain: 0.004
   yellow_drain: 0
-  greem_drain: 0.005
+  greem_drain: 0.007
   SteminaMul: 1
 --- !u!4 &384342717
 Transform:
