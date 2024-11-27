@@ -223,3 +223,10 @@ public static class Utils
         return FoodItems.None;
     }
 }
+
+[System.Serializable]
+public class _ButtonHolder
+{
+    public string m_id;
+    public Transform m_t;
+}
