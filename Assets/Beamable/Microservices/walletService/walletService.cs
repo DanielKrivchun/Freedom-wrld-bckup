@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using Beamable.Common;
 using Beamable.Server;
 using MongoDB.Driver;
 using UnityEngine;
+using MongoDB.Bson.IO;
+using MongoDB.Bson;
 
 namespace Beamable.Microservices
 {
@@ -26,7 +29,7 @@ namespace Beamable.Microservices
             {
                 // Declare or target existing "WalletStorage" collection
                 var db = await Storage.GetDatabase<WalletStorage>();
-                var collection = db.GetCollection<Web3Data>("Web3Data");
+                var collection = db.GetCollection<Web3Data>("WalletStorage");
 
                 // create new data within collection
                 collection.InsertOne(new Web3Data()
@@ -53,7 +56,7 @@ namespace Beamable.Microservices
             try
             {
                 var db = await Storage.GetDatabase<WalletStorage>();
-                var collection = db.GetCollection<Web3Data>("Web3Data");
+                var collection = db.GetCollection<Web3Data>("WalletStorage");
                 var filter = Builders<Web3Data>.Filter.Eq("playerId", _playerId);
                 var update = Builders<Web3Data>.Update.Set("nftOwned", _nftOwned);
 
@@ -74,10 +77,12 @@ namespace Beamable.Microservices
             // Filter entry by playerId
             var filter = Builders<Web3Data>.Filter.Eq("playerId", playerId);
             var db = await Storage.GetDatabase<WalletStorage>();
-            var collection = db.GetCollection<Web3Data>("Web3Data");
-            var Web3DataEntry = await collection
+            var collection = db.GetCollection<Web3Data>("WalletStorage");
+            var Web3DataEntry = collection
                .Find(filter)
-               .FirstOrDefaultAsync();
+               .FirstOrDefault();
+
+            Debug.Log($"Web3DataEntry: {Web3DataEntry}");
 
             // Convert the entry to a JSON string
             var jsonEntry = JsonUtility.ToJson(Web3DataEntry);

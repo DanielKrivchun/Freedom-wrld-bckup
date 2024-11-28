@@ -89,6 +89,8 @@ public class Web3Manager : MonoBehaviour
         await beamContext.OnReady;
         string _playerId = beamContext.PlayerId.ToString();
 
+        Debug.Log("Current player id" + _playerId);
+
         // Get user web3 data
         Web3Data _data = await WalletService(_playerId);
 
