@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using Beamable.CloudSavingService;
 using Beamable.InventoryService;
+using System.Threading;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class MainMenuScript : MonoBehaviour
     {
         //Button button = GetComponent<Button>();
         RmmoveRefrenceOfObjects();
+        await _web3Manager.CreateEntry();
+
         await _web3Manager.CheckAccount();
 
     }

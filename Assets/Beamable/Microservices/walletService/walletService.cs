@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using Beamable.Common;
 using Beamable.Server;
 using MongoDB.Driver;
 using UnityEngine;
-using MongoDB.Bson.IO;
-using MongoDB.Bson;
 
 namespace Beamable.Microservices
 {
@@ -22,23 +19,31 @@ namespace Beamable.Microservices
         #region Web3/NFT Ownership
 
         [ClientCallable]
-        public async void CreateEntry(string _playerId, string _walletAddress, bool _nftOwned)
+        public async void CreateEntry(string _playerId, bool _nftOwned)
         {
-
             try
             {
                 // Declare or target existing "WalletStorage" collection
                 var db = await Storage.GetDatabase<WalletStorage>();
                 var collection = db.GetCollection<Web3Data>("WalletStorage");
 
+                // Check if an entry with the same playerId already exists
+                var fil = Builders<Web3Data>.Filter.Eq("playerId", _playerId);
+                var existingEntry = await collection.Find(fil).FirstOrDefaultAsync();
+
+                if (existingEntry != null)
+                {
+                    Debug.LogWarning($"Entry for playerId {_playerId} already exists. Skipping creation.");
+                    return;
+                }
+
                 // create new data within collection
                 collection.InsertOne(new Web3Data()
                 {
                     playerId = _playerId,
-                    walletAddress = _walletAddress,
                     nftOwned = _nftOwned
                 });
-                Debug.Log($"Added ID:{_playerId} data added to database");
+                Debug.Log($"Added ID:{_playerId} data to wallet database");
 
             }
             catch (Exception e)

@@ -45,14 +45,12 @@ namespace Beamable.Server.Clients
         /// Call the CreateEntry method on the walletService microservice
         /// <see cref="Beamable.Microservices.walletService.CreateEntry"/>
         /// </summary>
-        public Beamable.Common.Promise<Beamable.Common.Unit> CreateEntry(string _playerId, string _walletAddress, bool _nftOwned)
+        public Beamable.Common.Promise<Beamable.Common.Unit> CreateEntry(string _playerId, bool _nftOwned)
         {
             object raw__playerId = _playerId;
-            object raw__walletAddress = _walletAddress;
             object raw__nftOwned = _nftOwned;
             System.Collections.Generic.Dictionary<string, object> serializedFields = new System.Collections.Generic.Dictionary<string, object>();
             serializedFields.Add("_playerId", raw__playerId);
-            serializedFields.Add("_walletAddress", raw__walletAddress);
             serializedFields.Add("_nftOwned", raw__nftOwned);
             return this.Request<Beamable.Common.Unit>("walletService", "CreateEntry", serializedFields);
         }

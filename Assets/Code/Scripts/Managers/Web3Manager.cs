@@ -37,17 +37,17 @@ public class Web3Manager : MonoBehaviour
 
     }
 
-    /*public async Task CreateEntry(string _address)
+    public async Task CreateEntry()
     {
         var beamContext = BeamContext.Default;
         await beamContext.OnReady;
         string _playerId = beamContext.PlayerId.ToString();
 
-        var response = await _walletServiceClient.CreateEntry(_playerId, _address, false);
+        var response = await _walletServiceClient.CreateEntry(_playerId, false);
         Debug.Log(response);
 
 
-    }*/
+    }
 
     // return Web3Data object
     private async Task<Web3Data> WalletService(string _playerId)
