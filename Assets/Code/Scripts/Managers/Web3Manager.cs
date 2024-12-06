@@ -46,6 +46,7 @@ public class Web3Manager : MonoBehaviour
         var response = await _walletServiceClient.CreateEntry(_playerId, false);
         Debug.Log(response);
 
+        // Firebase
 
     }
 
