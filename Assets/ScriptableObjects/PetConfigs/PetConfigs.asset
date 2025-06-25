@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e5c966c61ab8314c9dcb5694fc6ac7c, type: 3}
+  m_Name: PetConfigs
+  m_EditorClassIdentifier: 
+  m_incrimental: 10
+  m_acceleration: 10
+  m_rotationspeed: 500
+  m_speed: 10
+  BaseSpeed: 1
+  Acceleration: 20
+  m_run_multiplier: 14
+  m_swim_multiplier: 14
+  m_climb_multiplier: 14
+  m_fly_multiplier: 14
+  MyCoins: 0
+  MyXp: 0
+  maxstemina: 100
+  TapMultiplier: 0.8
+  m_player_state: 0

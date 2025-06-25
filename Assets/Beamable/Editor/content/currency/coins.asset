@@ -15,9 +15,16 @@ MonoBehaviour:
   _tags:
   - base
   icon:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_AssetGUID: c6bbcfee3be922a45acb568fed3f43df
+    m_SubObjectName: Coin
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 1
   clientPermission:
     writeSelf: 1
   startingAmount: 100
+  federation:
+    HasValue: 0
+    Value:
+      Service: 
+      Namespace: 

@@ -15,16 +15,21 @@ MonoBehaviour:
   m_GroupName: Beamable Assets
   m_Data:
     m_SerializedData: []
-  m_GUID: da00d5c921e25d54d9f757c6206c7da1
+  m_GUID: fd2e6b6d24691a64698334aa0324c472
   m_SerializeEntries:
   - m_GUID: f819a6beb22c04c8d9f8222f930252b5
     m_Address: Assets/Beamable/DefaultAssets/currency/icon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e91e2b548c16af44a2450b526aedea7
+    m_Address: Assets/Art/Models/RedApple.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
-  m_Settings: {fileID: 11400000, guid: abe6f4447ce97cb4e9be2aadcbbff98b, type: 2}
+  m_Settings: {fileID: 11400000, guid: 01c91ab3e10ae4e4792af463123f5046, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 548679a433d34ad4fb4a1a4f1e1da20d, type: 2}
-    - {fileID: 11400000, guid: 8a9b64a4f58a6b344808da4e76b4ed18, type: 2}
+    - {fileID: 11400000, guid: 4556cfafa487bc049ba4d6e71b6eb2f6, type: 2}
+    - {fileID: 11400000, guid: 7561cb51089a5764f98504ed9a27d4e0, type: 2}

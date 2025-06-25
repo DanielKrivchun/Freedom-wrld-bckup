@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf92654c1981dc49be74cc23e0c4b63, type: 3}
+  m_Name: PetDataReference
+  m_EditorClassIdentifier: 
+  petData:
+    petname: Pet
+    petPrefabID: 2
+    health: 612
+    happiness: 90
+    hunger: 95
+    cleanliness: 100
+    energy: 90
+    isSick: 0
+    birthTime: 2024-11-08 7:08:17 PM
+    lastTimeHappy: 2024-11-08 7:16:38 PM
+    lastTimeFeed: 2024-11-08 7:16:38 PM
+    lastTimeClean: 2024-11-08 7:16:58 PM
+    lastTimeEnergy: 2024-11-08 7:16:38 PM
+    lastLoginTime: 2024-11-08 7:08:17 PM
+    running: 25
+    climbing: 20
+    flying: 15
+    swimming: 20
+    intelligence: 15
+    luck: 5
+    rank: 1
+    maxStamina: 100
+    xp: 0
+    sleepData:
+      isSleeping: 0
+      sleepStartTime: 
+    foodData: []
+    ongoingTrainingData:
+      isTraining: 1
+      ongoingTraining: 1
+      ongoingTrainingName: Running
+      trainingStartTime: 2024-11-08 7:17:15 PM
+  petLocalData:
+    petID: 1

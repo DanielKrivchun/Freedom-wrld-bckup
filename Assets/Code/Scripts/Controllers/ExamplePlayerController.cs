@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ExamplePlayerController : MonoBehaviour
+{
+
+    public static ExamplePlayerController Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public void UseItem(Item item)
+    {
+        Debug.Log("Eating food");
+        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueIds[0]}");
+
+        PetCareStateManager.instance.GenerateFoodItemOnTable(Utils.IdentifyMyFoodType(item.itemName));
+    }
+
+    public void UseMedicine(Item item)
+    {
+        Debug.Log("Using medicine");
+        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueIds[0]}");
+
+        if (item.itemName == "AntiBiotics")
+        {
+            Debug.Log("consuming AntiBiotics");
+        }
+        PetCareStateManager.instance.UpdatePetSickToHealthy();
+    }
+
+    public void UseInteractable(Item item)
+    {
+        Debug.Log("Using Item");
+        Debug.Log($"Name: {item.itemName}, UniqueId: {item.uniqueIds[0]}");
+    }
+}

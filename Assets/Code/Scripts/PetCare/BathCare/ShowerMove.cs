@@ -1,0 +1,119 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ShowerMove : MonoBehaviour
+{
+    [Header("Shower Line Joints")]
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private List<Transform> jointTransform;
+
+    [Header("Shower Movement")]
+    [SerializeField] private float xOffset;
+    [SerializeField] private float yOffset;
+
+    [Space]
+    public GameObject colliderDetector;
+    public ParticleSystem waterShowerEffect;
+
+    [Space]
+    public BathObject bathObject;
+    public ParticleEffectsManager particleEffectsManager;
+
+    private Vector3 posOffset;
+    private bool isDragging = false;
+
+    RaycastHit hit;
+
+    #region SHOWER LINE MOVEMENT
+    void Start()
+    {
+        // Set the initial positions for the line renderer
+        lineRenderer.positionCount = jointTransform.Count;
+
+        for (int i = 0; i < jointTransform.Count; i++)
+        {
+            lineRenderer.SetPosition(i, jointTransform[i].position);
+        }
+    }
+
+    void LateUpdate()
+    {
+        // Update the positions of the line renderer to follow the draggable object
+        for (int i = 0; i < jointTransform.Count; i++)
+        {
+            lineRenderer.SetPosition(i, jointTransform[i].position);
+        }
+    }
+    #endregion
+
+    #region SHOWER CLICK EVENTS
+    void OnMouseDown()
+    {
+        posOffset = transform.localPosition - GetMouseWorldPosition();
+        isDragging = true;
+    }
+
+    void OnMouseUp()
+    {
+        isDragging = false;
+        waterShowerEffect.Stop();
+
+        //Checking for Soap used and all foam bubble cleared or not
+        if (bathObject.isSoapUsed && !bathObject.isShowerUsed && particleEffectsManager.IsAllFoamBubblesCleared())
+        {
+            bathObject.isShowerUsed = true;
+            PetCareStateManager.instance.ManageCleanlinessDataFiller(particleEffectsManager.numOfFoamBubbles * bathObject.cleanlinessMultiplier);
+            particleEffectsManager.numOfFoamBubbles = 0;
+
+            //Reset player position
+            StartCoroutine(bathObject.ResetPlayerProperties());
+        }
+    }
+    #endregion
+
+    #region SHOWER MOVEMENT AND PARTICLES
+    void Update()
+    {
+        if (!bathObject.isSoapUsed)
+        {
+            return;
+        }
+
+        if (isDragging && !bathObject.isShowerUsed)
+        {
+            // Calculate the new position based on mouse movement
+            Vector3 newPosition = GetMouseWorldPosition() + posOffset;
+
+            // Clamp the new position to the specified range
+            newPosition.x = Mathf.Clamp(newPosition.x, -xOffset, xOffset);
+            newPosition.y = Mathf.Clamp(newPosition.y, -yOffset, 0);
+
+            // Update the object's position
+            transform.localPosition = newPosition;
+
+            //on shower collider
+            colliderDetector.SetActive(true);
+
+            //Play shower water effect
+            if (!waterShowerEffect.isPlaying)
+            {
+                waterShowerEffect.Play();
+            }
+        }
+        else
+        {
+            colliderDetector.SetActive(false);
+        }
+    }
+
+
+    //Get mouse position in world
+    Vector3 GetMouseWorldPosition()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.WorldToScreenPoint(transform.localPosition).z;
+        return Camera.main.ScreenToWorldPoint(mousePosition);
+    }
+    #endregion
+}

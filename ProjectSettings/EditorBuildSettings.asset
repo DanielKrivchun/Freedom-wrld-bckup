@@ -4,11 +4,24 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: 23da42926c8820549b77dbce15e97a23
+  - enabled: 1
+    path: Assets/Scenes/PetCareScene.unity
+    guid: 10dd1d59eef93ff46ba51c3bfa6f3292
+  - enabled: 1
+    path: Assets/Scenes/RaceScene.unity
+    guid: 580bb065096c45f4bb3edb97c3d8e992
   m_configObjects:
-    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: fb3bb4c6055bc5745b8845e27b6a4e48,
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
+      guid: 0549ab8a15d22354b84b42fcfe5c50a1, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: fd50df03c3cfe284ab547d896509cc52,
       type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000,
+      guid: 909936c1f1a19d24999ece4ba1856381, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
-      guid: aec9edb250a49d34ca80c9bf47915753, type: 2}
-    com.unity.addressableassets: {fileID: 11400000, guid: cfb7b703ea803eb44bdb892d7a6ec0f1,
+      guid: 0d37946c6d34dc145bfa9d2f4893d0d9, type: 2}
+    com.unity.addressableassets: {fileID: 11400000, guid: e17d50db45bf16e499c17224a8c7d484,
       type: 2}

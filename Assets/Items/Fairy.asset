@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1152f7abf31bbce4cb3bbd211e5583c6, type: 3}
+  m_Name: Fairy
+  m_EditorClassIdentifier: 
+  id: 11
+  itemName: Fairy
+  amount: 0
+  description: A healing fairy which restores +40 to all pet health stats
+  icon: {fileID: 21300000, guid: f7b9c8b70a04dc94fa08cda22a8485f8, type: 3}
+  uniqueIds: 
+  itemType: 0
